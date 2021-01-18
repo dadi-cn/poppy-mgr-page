@@ -102,73 +102,73 @@
 	},
 	"scripts": {
 		"py": [
-			"composer run py-mgr-page",
-			"composer run py-system",
-			"composer run py-framework",
-			"composer run py-core",
-			"composer run py-sms",
-			"composer run py-faker",
-			"composer run py-ext-wxpay",
-			"composer run py-ext-alipay",
-			"composer run py-ext-pinyin",
-			"composer run py-ext-netease",
-			"composer run py-ext-ip_store",
-			"composer run py-demo",
-			"composer run py-area",
-			"composer run py-aliyun-push",
-			"composer run py-aliyun-oss",
-			"composer run py-ad"
+			"composer run mgr-page",
+			"composer run system",
+			"composer run framework",
+			"composer run core",
+			"composer run sms",
+			"composer run faker",
+			"composer run ext-wxpay",
+			"composer run ext-alipay",
+			"composer run ext-pinyin",
+			"composer run ext-netease",
+			"composer run ext-ip_store",
+			"composer run demo",
+			"composer run area",
+			"composer run aliyun-push",
+			"composer run aliyun-oss",
+			"composer run ad"
 		],
-		"py-ad": [
-			"git push ad `git subtree split --prefix=poppy/ad feature/3.0`:3.0 --force"
+		"ad": [
+			"git push ad `git subtree split --prefix=poppy/ad 3.0`:3.0 --force"
 		],
-		"py-aliyun-oss": [
-			"git push aliyun-oss `git subtree split --prefix=poppy/aliyun-oss feature/3.0`:3.0 --force"
+		"aliyun-oss": [
+			"git push aliyun-oss `git subtree split --prefix=poppy/aliyun-oss 3.0`:3.0 --force"
 		],
-		"py-aliyun-push": [
-			"git push aliyun-push `git subtree split --prefix=poppy/aliyun-push feature/3.0`:3.0 --force"
+		"aliyun-push": [
+			"git push aliyun-push `git subtree split --prefix=poppy/aliyun-push 3.0`:3.0 --force"
 		],
-		"py-area": [
-			"git push area `git subtree split --prefix=poppy/area feature/3.0`:3.0 --force"
+		"area": [
+			"git push area `git subtree split --prefix=poppy/area 3.0`:3.0 --force"
 		],
-		"py-core": [
-			"git push core `git subtree split --prefix=poppy/core feature/3.0`:3.0 --force"
+		"core": [
+			"git push core `git subtree split --prefix=poppy/core 3.0`:3.0 --force"
 		],
-		"py-demo": [
-			"git push demo `git subtree split --prefix=poppy/demo feature/3.0`:3.0 --force"
+		"demo": [
+			"git push demo `git subtree split --prefix=poppy/demo 3.0`:3.0 --force"
 		],
-		"py-ext-alipay": [
-			"git push ext-alipay `git subtree split --prefix=poppy/ext-alipay feature/3.0`:3.0 --force"
+		"ext-alipay": [
+			"git push ext-alipay `git subtree split --prefix=poppy/ext-alipay 3.0`:3.0 --force"
 		],
-		"py-ext-ip_store": [
-			"git push ext-ip_store `git subtree split --prefix=poppy/ext-ip_store feature/3.0`:3.0 --force"
+		"ext-ip_store": [
+			"git push ext-ip_store `git subtree split --prefix=poppy/ext-ip_store 3.0`:3.0 --force"
 		],
-		"py-ext-netease": [
-			"git push ext-netease `git subtree split --prefix=poppy/ext-netease feature/3.0`:3.0 --force"
+		"ext-netease": [
+			"git push ext-netease `git subtree split --prefix=poppy/ext-netease 3.0`:3.0 --force"
 		],
-		"py-ext-pinyin": [
-			"git push ext-pinyin `git subtree split --prefix=poppy/ext-pinyin feature/3.0`:3.0 --force"
+		"ext-pinyin": [
+			"git push ext-pinyin `git subtree split --prefix=poppy/ext-pinyin 3.0`:3.0 --force"
 		],
-		"py-ext-wxpay": [
-			"git push ext-wxpay `git subtree split --prefix=poppy/ext-wxpay feature/3.0`:3.0 --force"
+		"ext-wxpay": [
+			"git push ext-wxpay `git subtree split --prefix=poppy/ext-wxpay 3.0`:3.0 --force"
 		],
-		"py-faker": [
-			"git push faker `git subtree split --prefix=poppy/faker feature/3.0`:3.0 --force"
+		"faker": [
+			"git push faker `git subtree split --prefix=poppy/faker 3.0`:3.0 --force"
 		],
-		"py-framework": [
-			"git push framework `git subtree split --prefix=poppy/framework feature/3.0`:3.0 --force"
+		"framework": [
+			"git push framework `git subtree split --prefix=poppy/framework 3.0`:3.0 --force"
 		],
-		"py-mgr-page": [
-			"git push mgr-page `git subtree split --prefix=poppy/mgr-page feature/3.0`:3.0 --force"
+		"mgr-page": [
+			"git push mgr-page `git subtree split --prefix=poppy/mgr-page 3.0`:3.0 --force"
 		],
-		"py-project": [
-			"git push project `git subtree split --prefix=poppy/project feature/3.0`:3.0 --force"
+		"project": [
+			"git push project `git subtree split --prefix=poppy/project 3.0`:3.0 --force"
 		],
-		"py-sms": [
-			"git push sms `git subtree split --prefix=poppy/sms feature/3.0`:3.0 --force"
+		"sms": [
+			"git push sms `git subtree split --prefix=poppy/sms 3.0`:3.0 --force"
 		],
-		"py-system": [
-			"git push system `git subtree split --prefix=poppy/system feature/3.0`:3.0 --force"
+		"system": [
+			"git push system `git subtree split --prefix=poppy/system 3.0`:3.0 --force"
 		],
 		"post-install-cmd": [
 			"php artisan clear-compiled",
