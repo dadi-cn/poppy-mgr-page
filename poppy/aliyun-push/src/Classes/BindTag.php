@@ -3,6 +3,7 @@
 use AlibabaCloud\Client\Exception\ClientException;
 use AlibabaCloud\Client\Exception\ServerException;
 use Poppy\AliyunPush\Classes\Sender\BaseClient;
+use Poppy\AliyunPush\Exceptions\PushException;
 
 /**
  * @url https://help.aliyun.com/document_detail/30082.html
@@ -34,6 +35,7 @@ class BindTag extends BaseClient
             $client_key = implode(',', $client_key);
         }
         try {
+            $this->initClient();
             $result = $this->rpc()
                 ->action('BindTag')
                 ->options([
@@ -49,6 +51,8 @@ class BindTag extends BaseClient
             return true;
         } catch (ClientException | ServerException $e) {
             return $this->setError($e->getErrorMessage());
+        } catch (PushException $e) {
+            return $this->setError($e->getMessage());
         }
     }
 }
