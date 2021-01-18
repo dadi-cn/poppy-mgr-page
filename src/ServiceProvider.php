@@ -44,9 +44,7 @@ class ServiceProvider extends ModuleServiceProviderBase
      */
     public function provides()
     {
-        return [
-
-        ];
+        return [];
     }
 
 

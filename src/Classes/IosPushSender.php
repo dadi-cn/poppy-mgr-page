@@ -35,12 +35,13 @@ class IosPushSender extends BaseClient
      * @return bool
      * @throws PushException
      */
-    public function sendNotice(string $title, string $body, string $broadcast_type, array $ids, $tags = '', $extra = '')
+    public function sendNotice(string $title, string $body, string $broadcast_type, array $ids, $tags = '', $extra = ''): bool
     {
 
         $targets    = $this->getTargetSetting($broadcast_type, $ids, $tags);
         $iosApnsEnv = is_production() ? 'PRODUCT' : 'DEV';
         try {
+            $this->initClient();
             $result = $this->rpc()
                 ->action('PushNoticeToiOS')
                 ->options([
@@ -77,6 +78,7 @@ class IosPushSender extends BaseClient
     {
         $targets = $this->getTargetSetting($broadcast_type, $ids, $tags);
         try {
+            $this->initClient();
             $result = $this->rpc()
                 ->action('PushMessageToiOS')
                 ->options([

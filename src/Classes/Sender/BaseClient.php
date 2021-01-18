@@ -37,16 +37,29 @@ abstract class BaseClient
 
 
     /**
+     * Aliyun Access Key
+     * @var string
+     */
+    protected $accessKey;
+
+
+    /**
+     * Aliyun Access Secret
+     * @var string
+     */
+    protected $accessSecret;
+
+
+    /**
      * SendBase constructor.
-     * @throws PushException
      */
     public function __construct()
     {
         $this->androidAppKey  = config('poppy.aliyun-push.android_app_key');
         $this->iosAppKey      = config('poppy.aliyun-push.ios_app_key');
         $this->androidChannel = config('poppy.aliyun-push.android_channel');
-
-        $this->initClient();
+        $this->accessKey      = config('poppy.aliyun-push.access_key');
+        $this->accessSecret   = config('poppy.aliyun-push.access_secret');
     }
 
     /**
@@ -86,6 +99,15 @@ abstract class BaseClient
     }
 
 
+    public function setAppConfig($ak, $sk, $android_app_id, $android_channel = '', $ios_key = '')
+    {
+        $this->accessKey      = $ak;
+        $this->accessSecret   = $sk;
+        $this->androidAppKey  = $android_app_id;
+        $this->androidChannel = $android_channel;
+        $this->iosAppKey      = $ios_key;
+    }
+
     /**
      * 获取推送RPC
      * @return RpcRequest
@@ -111,12 +133,10 @@ abstract class BaseClient
      * 初始化
      * @throws PushException
      */
-    private function initClient()
+    protected function initClient()
     {
-        $accessKeyId     = config('poppy.aliyun-push.access_key');
-        $accessKeySecret = config('poppy.aliyun-push.access_secret');
         try {
-            AlibabaCloud::accessKeyClient($accessKeyId, $accessKeySecret)
+            AlibabaCloud::accessKeyClient($this->accessKey, $this->accessSecret)
                 ->regionId('cn-hangzhou')
                 ->asDefaultClient();
         } catch (Throwable $e) {

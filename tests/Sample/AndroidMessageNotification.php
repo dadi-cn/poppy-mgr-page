@@ -29,11 +29,11 @@ class AndroidMessageNotification extends Notification implements AliPushChannelC
             'broadcast_type'   => 'device',
             'device_type'      => 'android|message',
             'title'            => 'Message.' . py_faker()->sentence,
-            'content'          => 'Content.' . py_faker()->sentences(3, true),
+            'content'          => '{"a":"b"}',
             'registration_ids' => config('poppy.aliyun-push.registration_ids'),
-            'extras'           => [
-                'key1' => '',
-                'key2' => '',
+            'extra'            => [
+                'key1' => py_faker()->sentence,
+                'key2' => py_faker()->words(3, true),
             ],
         ];
     }

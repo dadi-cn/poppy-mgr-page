@@ -38,10 +38,11 @@ class AndroidPushSender extends BaseClient
      * @return bool
      * @throws PushException
      */
-    public function sendNotice(string $title, string $body, string $broadcast_type, array $ids, string $tags = '', string $extra = '')
+    public function sendNotice(string $title, string $body, string $broadcast_type, array $ids, string $tags = '', string $extra = ''): bool
     {
         $targets = $this->getTargetSetting($broadcast_type, $ids, $tags);
         try {
+            $this->initClient();
             $result = $this->rpc()
                 ->action('Push')
                 ->options([
@@ -60,9 +61,7 @@ class AndroidPushSender extends BaseClient
                 ->request();
             $this->saveResult($result);
             return true;
-        } catch (ClientException $e) {
-            return $this->setError($e->getMessage());
-        } catch (ServerException $e) {
+        } catch (ClientException | ServerException $e) {
             return $this->setError($e->getMessage());
         }
     }
@@ -77,10 +76,11 @@ class AndroidPushSender extends BaseClient
      * @return bool
      * @throws PushException
      */
-    public function sendMessage(string $title, string $body, string $broadcast_type, array $ids, string $tags = '')
+    public function sendMessage(string $title, string $body, string $broadcast_type, array $ids, string $tags = ''): bool
     {
         $targets = $this->getTargetSetting($broadcast_type, $ids, $tags);
         try {
+            $this->initClient();
             $result = $this->rpc()
                 ->action('Push')
                 ->options([
@@ -97,9 +97,7 @@ class AndroidPushSender extends BaseClient
                 ->request();
             $this->saveResult($result);
             return true;
-        } catch (ClientException $e) {
-            return $this->setError($e->getMessage());
-        } catch (ServerException $e) {
+        } catch (ClientException | ServerException $e) {
             return $this->setError($e->getMessage());
         }
     }

@@ -31,7 +31,7 @@ class IosMessageNotification extends Notification implements AliPushChannelContr
             'title'            => 'Message.' . py_faker()->sentence,
             'content'          => 'Content.' . py_faker()->sentences(3, true),
             'registration_ids' => config('poppy.aliyun-push.registration_ids'),
-            'extras'           => [
+            'extra'           => [
                 'key1' => '',
                 'key2' => '',
             ],
