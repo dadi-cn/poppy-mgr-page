@@ -1,12 +1,10 @@
 <?php namespace Poppy\Sms;
 
-use Illuminate\Support\Str;
-use Poppy\Framework\Classes\Traits\AppTrait;
 use Poppy\Framework\Exceptions\ModuleNotFoundException;
 use Poppy\Framework\Support\PoppyServiceProvider as ModuleServiceProviderBase;
 use Poppy\Sms\Action\Sms;
 use Poppy\Sms\Classes\Contracts\SmsContract;
-use Poppy\Sms\Exceptions\SmsException;
+use Poppy\Sms\Classes\Factory;
 use Poppy\Sms\Http\RouteServiceProvider;
 
 class ServiceProvider extends ModuleServiceProviderBase
@@ -46,13 +44,7 @@ class ServiceProvider extends ModuleServiceProviderBase
         $this->mergeConfigFrom(dirname(__DIR__) . '/resources/config/sms.php', 'poppy.sms');
 
         $this->app->singleton('poppy.sms', function () {
-            $sendType = config('poppy.sms.send_type') ?: 'local';
-            $class    = 'Poppy\\Sms\\Classes\\' . Str::studly($sendType) . 'Sms';
-            if (!class_exists($class)) {
-                throw new SmsException('短信设置类型错误, 请重新设置, 当前类型为 : ' . $sendType);
-            }
-            /** @var SmsContract|AppTrait $Sms */
-            return new $class();
+            return Factory::instance();
         });
 
         $this->app->alias('poppy.sms', SmsContract::class);

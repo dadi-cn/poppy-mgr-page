@@ -18,8 +18,6 @@ class LocalTest extends SystemTestCase
     public function setUp(): void
     {
         parent::setUp();
-
-        // config
         config([
             'poppy.sms.send_type' => Sms::SCOPE_LOCAL,
         ]);
