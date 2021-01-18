@@ -191,5 +191,6 @@ return [
 
 
         'Form' => Poppy\MgrPage\Facade\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
     ],
 ];

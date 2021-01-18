@@ -1,5 +1,5 @@
 {
-	"name": "laravel/laravel",
+	"name": "wulicode/poppy",
 	"description": "The Laravel Framework.",
 	"keywords": [
 		"framework",
@@ -99,6 +99,13 @@
 	"autoload-dev": {
 		"classmap": [
 		]
+	},
+	"extra": {
+		"laravel": {
+			"dont-discover": [
+				"laravelcollective/html"
+			]
+		}
 	},
 	"scripts": {
 		"py": [
