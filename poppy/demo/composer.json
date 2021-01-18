@@ -1,0 +1,32 @@
+{
+	"name": "poppy/demo",
+	"description": "Poppy Demo Module, For Demo Output",
+	"license": "Apache-2.0",
+	"type": "poppy",
+	"authors": [
+		{
+			"name": "Mark Zhao",
+			"email": "zhaody901@126.com"
+		}
+	],
+	"require": {
+		"php": ">=7.2.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Poppy\\Demo\\": "src/",
+			"Poppy\\Demo\\Tests\\": "tests/"
+		}
+	},
+	"extra": {
+		"laravel": {
+			"providers": [
+				"Poppy\\Demo\\ServiceProvider"
+			]
+		}
+	},
+	"config": {
+		"preferred-install": "dist"
+	},
+	"minimum-stability": "dev"
+}

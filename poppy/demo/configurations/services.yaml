@@ -1,0 +1,8 @@
+poppy.demo.array_demo:
+  title: 数组服务Demo
+  type: array
+  description: 数组服务Demo
+poppy.demo.html_demo:
+  title: Html Demo
+  type: html
+  description: 数组服务Demo

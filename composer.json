@@ -1,0 +1,195 @@
+{
+	"name": "laravel/laravel",
+	"description": "The Laravel Framework.",
+	"keywords": [
+		"framework",
+		"laravel"
+	],
+	"license": "MIT",
+	"type": "project",
+	"require": {
+		"php": ">=7.2",
+		"ext-dom": "*",
+		"ext-json": "*",
+		"ext-simplexml": "*",
+		"ext-openssl": "*",
+		"ext-pdo": "*",
+		"ext-gd": "*",
+		"ext-curl": "*",
+		"ext-mbstring": "*",
+		"ext-bcmath": "*",
+		"ext-fileinfo": "*",
+		"ext-libxml": "*",
+		"ext-xml": "*",
+		"jenssegers/date": "^4.0",
+		"laravel/framework": "6.0.*",
+		"maatwebsite/excel": "^3.0",
+		"intervention/image": "2.*",
+		"laravelcollective/html": "^6.0",
+		"mews/captcha": "3.*",
+		"predis/predis": "~1.1",
+		"guzzlehttp/guzzle": "6.*",
+		"erusev/parsedown": "^1.7",
+		"sunra/php-simple-html-dom-parser": "1.5.2",
+		"aliyuncs/oss-sdk-php": "^2.3",
+		"comodojo/xmlrpc": "^1.1",
+		"symfony/yaml": "5.*",
+		"centrifugal/phpcent": "~3.0",
+		"tucker-eric/eloquentfilter": "^2",
+		"tymon/jwt-auth": "1.0.*",
+		"hieu-le/active": "4.0.*",
+		"php-curl-class/php-curl-class": "8.*",
+		"alibabacloud/client": "^1.5",
+		"alibabacloud/push": "^1.8",
+		"alibabacloud/dysmsapi": "^1.8",
+		"alibabacloud/sts": "^1.8",
+		"overtrue/pinyin": "^4.0"
+	},
+	"require-dev": {
+		"itsgoingd/clockwork": "~4.0",
+		"barryvdh/laravel-ide-helper": "~2.7",
+		"doctrine/dbal": "^2.5"
+	},
+	"autoload": {
+		"classmap": [
+		],
+		"psr-4": {
+			"Poppy\\Extension\\Alipay\\": "poppy/ext-alipay/src",
+			"Poppy\\Extension\\Alipay\\Tests\\": "poppy/ext-alipay/tests",
+			"Poppy\\Extension\\Wxpay\\": "poppy/ext-wxpay/src",
+			"Poppy\\Extension\\Wxpay\\Tests\\": "poppy/ext-wxpay/tests",
+			"Poppy\\Extension\\Netease\\": "poppy/ext-netease/src",
+			"Poppy\\Extension\\Netease\\Tests\\": "poppy/ext-netease/tests",
+			"Poppy\\Extension\\IpStore\\": "poppy/ext-ip_store/src",
+			"Poppy\\Extension\\IpStore\\Tests\\": "poppy/ext-ip_store/tests",
+			"Poppy\\Extension\\Pinyin\\": "poppy/ext-pinyin/src",
+			"Poppy\\Extension\\Pinyin\\Tests\\": "poppy/ext-pinyin/tests",
+			"Poppy\\Faker\\": "poppy/faker/src",
+			"Poppy\\Faker\\Tests\\": "poppy/faker/tests",
+			"Poppy\\Framework\\": "poppy/framework/src",
+			"Poppy\\Framework\\Tests\\": "poppy/framework/tests",
+			"Poppy\\Core\\": "poppy/core/src",
+			"Poppy\\Core\\Tests\\": "poppy/core/tests",
+			"Poppy\\Demo\\": "poppy/demo/src",
+			"Poppy\\Demo\\Tests\\": "poppy/demo/tests",
+			"Poppy\\System\\": "poppy/system/src",
+			"Poppy\\System\\Tests\\": "poppy/system/tests",
+			"Poppy\\MgrPage\\": "poppy/mgr-page/src/",
+			"Poppy\\MgrPage\\Tests\\": "poppy/mgr-page/tests/",
+			"Poppy\\Ad\\": "poppy/ad/src",
+			"Poppy\\Ad\\Tests\\": "poppy/ad/tests",
+			"Poppy\\Area\\": "poppy/area/src",
+			"Poppy\\Area\\Tests\\": "poppy/area/tests",
+			"Poppy\\Sms\\": "poppy/sms/src",
+			"Poppy\\Sms\\Tests\\": "poppy/sms/tests",
+			"Poppy\\AliyunPush\\": "poppy/aliyun-push/src",
+			"Poppy\\AliyunPush\\Tests\\": "poppy/aliyun-push/tests",
+			"Poppy\\AliyunOss\\": "poppy/aliyun-oss/src",
+			"Poppy\\AliyunOss\\Tests\\": "poppy/aliyun-oss/tests",
+			"Php\\Tests\\": "modules/php/tests",
+			"Site\\Tests\\": "modules/site/tests"
+		},
+		"files": [
+			"poppy/framework/src/Support/functions.php",
+			"poppy/system/src/Support/functions.php",
+			"poppy/core/src/Support/functions.php",
+			"poppy/ext-pinyin/src/Support/functions.php"
+		]
+	},
+	"autoload-dev": {
+		"classmap": [
+		]
+	},
+	"scripts": {
+		"py": [
+			"composer run py-mgr-page",
+			"composer run py-system",
+			"composer run py-framework",
+			"composer run py-core",
+			"composer run py-sms",
+			"composer run py-faker",
+			"composer run py-ext-wxpay",
+			"composer run py-ext-alipay",
+			"composer run py-ext-pinyin",
+			"composer run py-ext-netease",
+			"composer run py-ext-ip_store",
+			"composer run py-demo",
+			"composer run py-area",
+			"composer run py-aliyun-push",
+			"composer run py-aliyun-oss",
+			"composer run py-ad"
+		],
+		"py-ad": [
+			"git push ad `git subtree split --prefix=poppy/ad feature/3.0`:3.0 --force"
+		],
+		"py-aliyun-oss": [
+			"git push aliyun-oss `git subtree split --prefix=poppy/aliyun-oss feature/3.0`:3.0 --force"
+		],
+		"py-aliyun-push": [
+			"git push aliyun-push `git subtree split --prefix=poppy/aliyun-push feature/3.0`:3.0 --force"
+		],
+		"py-area": [
+			"git push area `git subtree split --prefix=poppy/area feature/3.0`:3.0 --force"
+		],
+		"py-core": [
+			"git push core `git subtree split --prefix=poppy/core feature/3.0`:3.0 --force"
+		],
+		"py-demo": [
+			"git push demo `git subtree split --prefix=poppy/demo feature/3.0`:3.0 --force"
+		],
+		"py-ext-alipay": [
+			"git push ext-alipay `git subtree split --prefix=poppy/ext-alipay feature/3.0`:3.0 --force"
+		],
+		"py-ext-ip_store": [
+			"git push ext-ip_store `git subtree split --prefix=poppy/ext-ip_store feature/3.0`:3.0 --force"
+		],
+		"py-ext-netease": [
+			"git push ext-netease `git subtree split --prefix=poppy/ext-netease feature/3.0`:3.0 --force"
+		],
+		"py-ext-pinyin": [
+			"git push ext-pinyin `git subtree split --prefix=poppy/ext-pinyin feature/3.0`:3.0 --force"
+		],
+		"py-ext-wxpay": [
+			"git push ext-wxpay `git subtree split --prefix=poppy/ext-wxpay feature/3.0`:3.0 --force"
+		],
+		"py-faker": [
+			"git push faker `git subtree split --prefix=poppy/faker feature/3.0`:3.0 --force"
+		],
+		"py-framework": [
+			"git push framework `git subtree split --prefix=poppy/framework feature/3.0`:3.0 --force"
+		],
+		"py-mgr-page": [
+			"git push mgr-page `git subtree split --prefix=poppy/mgr-page feature/3.0`:3.0 --force"
+		],
+		"py-project": [
+			"git push project `git subtree split --prefix=poppy/project feature/3.0`:3.0 --force"
+		],
+		"py-sms": [
+			"git push sms `git subtree split --prefix=poppy/sms feature/3.0`:3.0 --force"
+		],
+		"py-system": [
+			"git push system `git subtree split --prefix=poppy/system feature/3.0`:3.0 --force"
+		],
+		"post-install-cmd": [
+			"php artisan clear-compiled",
+			"php artisan ide-helper:generate"
+		],
+		"pre-update-cmd": [
+		],
+		"post-update-cmd": [
+			"php artisan clear-compiled",
+			"php artisan ide-helper:generate",
+			"php artisan ide-helper:meta"
+		],
+		"post-root-package-install": [
+			"php -r \"copy('.env.example', '.env');\""
+		],
+		"post-create-project-cmd": [
+			"php -r \"copy('.env.example', '.env');\"",
+			"php artisan key:generate"
+		]
+	},
+	"config": {
+		"preferred-install": "dist"
+	}
+}

@@ -1,0 +1,14 @@
+.CodeMirror-line {
+	.cm-comment {
+		font-family : 'Lucida Console', Monaco, monospace;
+		font-size   : 12px;
+	}
+}
+
+.CodeMirror .CodeMirror-code .cm-comment {
+	background : transparent;
+}
+
+.editor-toolbar a:focus {
+	outline : none;
+}

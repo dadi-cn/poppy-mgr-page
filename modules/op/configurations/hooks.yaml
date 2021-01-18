@@ -1,0 +1,4 @@
+-
+  name: 'poppy.system.settings'
+  hooks:
+    - '\Op\Services\SettingOp'

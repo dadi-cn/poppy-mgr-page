@@ -1,0 +1,8 @@
+{
+	"name": "核心Demo",
+	"slug": "demo",
+	"type": "poppy",
+	"version": "1.0",
+	"order": 1000,
+	"description": "Poppy Core Demo."
+}

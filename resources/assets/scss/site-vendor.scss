@@ -1,0 +1,21 @@
+@charset "utf-8";
+
+$border-radius: 0.125rem; // 2px
+$grid-gutter-width: 20px;
+
+$input-btn-focus-width: 0;
+$moduleDir: '../../../modules/';
+@import "../../../poppy/system/resources/libs/jquery/toastr/toastr.css";
+@import "../../../poppy/system/resources/libs/fontawesome/fontawesome.scss";
+@import "../../../poppy/system/resources/libs/fontawesome/solid";
+@import "../../../poppy/system/resources/libs/jquery/tokenize2/tokenize2.css";
+@import "../../../poppy/system/resources/libs/layer/layer.css";
+// basic layout
+@import "../../../poppy/system/resources/scss/layout";
+
+
+/* module-site
+ * ---------------------------------------- */
+@import "../../../modules/site/resources/libs/simplemde/simplemde.min.css";
+@import "../../../modules/site/resources/scss/variables";
+@import "../../../poppy/system/resources/libs/bootstrap/scss/bootstrap";

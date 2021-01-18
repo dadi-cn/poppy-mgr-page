@@ -1,0 +1,222 @@
+backend:
+  title: 核心Demo
+  groups:
+    setting:
+      title: 核心Demo注入
+      icon: fa fa-cogs
+      children:
+        -
+          title: 主页
+          icon: fa fa-home
+          url: http://www.baidu.com
+develop:
+  title: 核心开发
+  groups:
+    -
+      title: Demo文档
+      children:
+        -
+          title: Restful-前台
+          url: http://www.baidu.com
+demo:
+  title: Demo
+  groups:
+    -
+      title: Helper(帮助)
+      children:
+        -
+          title: EnvHelper
+          route: py-demo:web.helper.env
+        -
+          title: ImageHelper
+          route: py-demo:web.helper.image
+        -
+          title: TreeHelper
+          route: py-demo:web.helper.tree
+    -
+      title: 前端文档
+      children:
+        -
+          title: 提示/对话框
+          route: py-demo:web.js.fe
+    -
+      title: Form
+      children:
+        -
+          title: 表单
+          children:
+            -
+              title: Captcha
+              route: py-demo:web.form.index
+              route_param:
+                - Captcha
+            -
+              title: Checkbox
+              route: py-demo:web.form.index
+              route_param:
+                - Checkbox
+            -
+              title: Code
+              route: py-demo:web.form.index
+              route_param:
+                - Code
+            -
+              title: Color
+              route: py-demo:web.form.index
+              route_param:
+                - Color
+            -
+              title: Currency
+              route: py-demo:web.form.index
+              route_param:
+                - Currency
+            -
+              title: Date
+              route: py-demo:web.form.index
+              route_param:
+                - Date
+            -
+              title: DateRange
+              route: py-demo:web.form.index
+              route_param:
+                - DateRange
+            -
+              title: Datetime
+              route: py-demo:web.form.index
+              route_param:
+                - Datetime
+            -
+              title: DatetimeRange
+              route: py-demo:web.form.index
+              route_param:
+                - DatetimeRange
+            -
+              title: Decimal
+              route: py-demo:web.form.index
+              route_param:
+                - Decimal
+            -
+              title: Display
+              route: py-demo:web.form.index
+              route_param:
+                - Display
+            -
+              title: Divider
+              route: py-demo:web.form.index
+              route_param:
+                - Divider
+            -
+              title: Editor
+              route: py-demo:web.form.index
+              route_param:
+                - Editor
+            -
+              title: Email
+              route: py-demo:web.form.index
+              route_param:
+                - Email
+            -
+              title: Hidden
+              route: py-demo:web.form.index
+              route_param:
+                - Hidden
+            -
+              title: Html
+              route: py-demo:web.form.index
+              route_param:
+                - Html
+            -
+              title: Id
+              route: py-demo:web.form.index
+              route_param:
+                - Id
+            -
+              title: Image
+              route: py-demo:web.form.index
+              route_param:
+                - Image
+            -
+              title: Ip
+              route: py-demo:web.form.index
+              route_param:
+                - Ip
+            -
+              title: Keyword
+              route: py-demo:web.form.index
+              route_param:
+                - Keyword
+            -
+              title: Link
+              route: py-demo:web.form.index
+              route_param:
+                - Link
+            -
+              title: Mobile
+              route: py-demo:web.form.index
+              route_param:
+                - Mobile
+            -
+              title: Month
+              route: py-demo:web.form.index
+              route_param:
+                - Month
+            -
+              title: Number
+              route: py-demo:web.form.index
+              route_param:
+                - Number
+            -
+              title: Password
+              route: py-demo:web.form.index
+              route_param:
+                - Password
+            -
+              title: Radio
+              route: py-demo:web.form.index
+              route_param:
+                - Radio
+            -
+              title: Select
+              route: py-demo:web.form.index
+              route_param:
+                - Select
+            -
+              title: SwitchField
+              route: py-demo:web.form.index
+              route_param:
+                - SwitchField
+            -
+              title: Tags
+              route: py-demo:web.form.index
+              route_param:
+                - Tags
+            -
+              title: Text
+              route: py-demo:web.form.index
+              route_param:
+                - Text
+            -
+              title: Textarea
+              route: py-demo:web.form.index
+              route_param:
+                - Textarea
+            -
+              title: Time
+              route: py-demo:web.form.index
+              route_param:
+                - Time
+            -
+              title: TimeRange
+              route: py-demo:web.form.index
+              route_param:
+                - TimeRange
+            -
+              title: Url
+              route: py-demo:web.form.index
+              route_param:
+                - Url
+            -
+              title: Year
+              route: py-demo:web.form.index
+              route_param:
+                - Year

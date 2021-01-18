@@ -1,0 +1,37 @@
+{
+	"name": "poppy/ext-netease",
+	"description": "Poppy Netease Extension.",
+	"license": "MIT",
+	"type": "poppy-extension",
+	"authors": [
+		{
+			"name": "Mark Zhao",
+			"email": "zhaody901@126.com"
+		}
+	],
+	"require": {
+		"php": ">=7.2.0",
+		"ext-curl": "*",
+		"ext-json": "*"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "8.5.*"
+	},
+	"autoload": {
+		"psr-4": {
+			"Poppy\\Extension\\Netease\\": "src/",
+			"Poppy\\Extension\\Netease\\Tests\\": "tests/"
+		}
+	},
+	"extra": {
+		"laravel": {
+			"providers": [
+				"Poppy\\Extension\\Netease\\ExtensionServiceProvider"
+			]
+		}
+	},
+	"config": {
+		"preferred-install": "dist"
+	},
+	"minimum-stability": "dev"
+}
