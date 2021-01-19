@@ -1,7 +1,0 @@
-js:
-    centrifuge_v1:
-        title: Centrifuge V1
-        path: js/centrifuge/1.5.0/centrifuge.min.js
-    sockjs_v1:
-        title: Sockjs
-        path: js/sockjs/1.3.0/sockjs.min.js

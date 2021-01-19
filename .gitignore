@@ -50,6 +50,7 @@ Thumbs.db
 .sass-cache
 /storage/framework/*.php
 /public/uploads/*
+modules/op/tests/files/account.json
 /public/dev/*
 !/public/uploads/.gitkeep
 /node_modules
