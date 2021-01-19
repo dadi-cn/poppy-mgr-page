@@ -22,7 +22,7 @@ class IosJob extends BaseJob
         if (!count($this->broadcast)) {
             sys_error('poppy.aliyun-push.ios', __CLASS__, '信息不存在, 不进行发送');
         }
-        $Ios = new IosPushSender();
+        $Ios = new IosPushSender($this->config);
         if ($this->type === AliPush::TYPE_NOTICE) {
             if (!$Ios->sendNotice($this->title, $this->body, $this->broadcast['type'], $this->broadcast['ids'] ?? [], $this->tags, $this->extra)) {
                 sys_error('poppy.aliyun-push.ios-notice', __CLASS__, $Ios->getError());

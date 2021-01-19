@@ -1,5 +1,6 @@
 <?php namespace Poppy\AliyunPush\Classes;
 
+use Poppy\AliyunPush\Classes\Config\Config;
 use Poppy\AliyunPush\Exceptions\PushException;
 use Poppy\AliyunPush\Jobs\AndroidJob;
 use Poppy\AliyunPush\Jobs\IosJob;
@@ -29,6 +30,11 @@ class AliPush
      * @var int
      */
     private $cutNum = 100;
+
+    /**
+     * @var Config
+     */
+    private $config;
 
     /**
      * @var self
@@ -77,7 +83,7 @@ class AliPush
             $broadcasts = $this->toBatches($broadcastType, $iosIds);
             if (count($broadcasts)) {
                 foreach ($broadcasts as $broadcast) {
-                    dispatch(new IosJob($iosType, $broadcast, $title, $body, $tags, $extra));
+                    dispatch(new IosJob($iosType, $broadcast, $title, $body, $tags, $extra, $this->config));
                 }
             }
         }
@@ -91,11 +97,17 @@ class AliPush
 
             if (count($broadcasts)) {
                 foreach ($broadcasts as $broadcast) {
-                    dispatch(new AndroidJob($androidType, $broadcast, $title, $body, $tags, $extra));
+                    dispatch(new AndroidJob($androidType, $broadcast, $title, $body, $tags, $extra, $this->config));
                 }
             }
         }
         return true;
+    }
+
+    public function setConfig(Config $config): self
+    {
+        $this->config = $config;
+        return $this;
     }
 
     /**
@@ -109,7 +121,6 @@ class AliPush
         }
         return self::$instance;
     }
-
 
     /**
      * 返回批量处理过的通知数据

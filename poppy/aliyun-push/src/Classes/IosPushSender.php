@@ -2,6 +2,7 @@
 
 use AlibabaCloud\Client\Exception\ClientException;
 use AlibabaCloud\Client\Exception\ServerException;
+use Poppy\AliyunPush\Classes\Config\Config;
 use Poppy\AliyunPush\Classes\Sender\BaseClient;
 use Poppy\AliyunPush\Exceptions\PushException;
 
@@ -13,11 +14,12 @@ class IosPushSender extends BaseClient
 
     /**
      * SendIos 构建器.
+     * @param Config $config
      * @throws PushException
      */
-    public function __construct()
+    public function __construct(Config $config)
     {
-        parent::__construct();
+        parent::__construct($config);
         if (!$this->iosAppKey) {
             throw new PushException('IOS 应用KEY 未设置');
         }

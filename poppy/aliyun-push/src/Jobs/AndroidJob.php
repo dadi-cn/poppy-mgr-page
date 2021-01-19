@@ -21,7 +21,7 @@ class AndroidJob extends BaseJob
         if (!$this->broadcast) {
             sys_error('poppy.aliyun-push.android', __CLASS__, '信息不存在, 不进行发送');
         }
-        $Android = new AndroidPushSender();
+        $Android = new AndroidPushSender($this->config);
         if ($this->type === AliPush::TYPE_NOTICE) {
             if (!$Android->sendNotice($this->title, $this->body, $this->broadcast['type'], $this->broadcast['ids'] ?? [], $this->tags, $this->extra)) {
                 sys_error('poppy.aliyun-push.android-notice', __CLASS__, $Android->getError());
