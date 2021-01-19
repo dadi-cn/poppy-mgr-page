@@ -3,6 +3,7 @@
 use AlibabaCloud\Client\AlibabaCloud;
 use AlibabaCloud\Client\Exception\ClientException;
 use AlibabaCloud\Client\Request\RpcRequest;
+use Poppy\AliyunPush\Classes\Config\Config;
 use Poppy\AliyunPush\Exceptions\PushException;
 use Poppy\Framework\Classes\Traits\AppTrait;
 use Throwable;
@@ -52,14 +53,16 @@ abstract class BaseClient
 
     /**
      * SendBase constructor.
+     * @param Config $config
      */
-    public function __construct()
+    public function __construct(Config $config)
     {
-        $this->androidAppKey  = config('poppy.aliyun-push.android_app_key');
-        $this->iosAppKey      = config('poppy.aliyun-push.ios_app_key');
-        $this->androidChannel = config('poppy.aliyun-push.android_channel');
-        $this->accessKey      = config('poppy.aliyun-push.access_key');
-        $this->accessSecret   = config('poppy.aliyun-push.access_secret');
+        $this->androidAppKey  = $config->getAndroidAppKey();
+        $this->iosAppKey      = $config->getIosAppKey();
+        $this->androidChannel = $config->getAndroidChannel();
+        $this->accessKey      = $config->getAccessKey();
+        $this->accessSecret   = $config->getAccessSecret();
+
     }
 
     /**
