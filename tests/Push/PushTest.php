@@ -22,7 +22,7 @@ class PushTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $filePath = dirname(__DIR__) . '/config/account.json';
+        $filePath = dirname(__DIR__) . '/config/account.huowan.json';
         $config   = file_get_contents($filePath);
         $arrConf  = json_decode($config, true);
 
