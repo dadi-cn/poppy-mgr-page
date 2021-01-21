@@ -4,6 +4,7 @@
  * Copyright (C) Update For IDE
  */
 
+use Illuminate\Support\Str;
 use Poppy\Framework\Application\TestCase;
 use Poppy\Framework\Classes\RsaCrypt;
 
@@ -42,8 +43,14 @@ class RsaCryptTest extends TestCase
         $rsa = new RsaCrypt();
         $rsa->setPrivateKey($this->privateKey);
         $rsa->setPublicKey($this->pubKey);
-        $content = $rsa->publicEncrypt('abc');
+
+        // 加密有长度限制
+        $length = (1024 / 8) - 11 - 35;
+        $ori    = Str::random((1024 / 8) - 11 - 35);
+        $this->outputVariables($length);
+        $content = $rsa->publicEncrypt($ori);
         $de      = $rsa->privateDecrypt($content);
-        $this->assertEquals('abc', $de);
+        $this->outputVariables($de);
+        $this->assertEquals($ori, $de);
     }
 }
