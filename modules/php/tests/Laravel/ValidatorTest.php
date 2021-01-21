@@ -47,4 +47,23 @@ class ValidatorTest extends SystemTestCase
 			$this->assertTrue(true);
 		}
 	}
+
+	public function testHours(): void
+	{
+		$validator = Validator::make([
+			'hours' => '0.00',
+		], [
+			'chars' => [
+				Rule::string(),
+				Rule::min(4),
+				Rule::max(8),
+			],
+		]);
+		if ($validator->fails()) {
+			$this->assertTrue(false, $validator->errors());
+		}
+		else {
+			$this->assertTrue(true);
+		}
+	}
 }
