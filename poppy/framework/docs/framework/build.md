@@ -13,9 +13,11 @@
 - Remove web-helper
 - Remove PoppyServiceProvider@registerConsoleCommand
 - 更改为强类型(Strong Type)
-- remove `Http\Middlewares\CrossPreflight` : 使用 EnableCross Request 替代
+- remove `Http\Middlewares\CrossPreflight` : 使用 `EnableCrossRequest` 替代
 - Event `PoppyOptimized` move to `src\Events` folder
 - 模块支持 composer poppy 文件夹加载, poppy.xxx 为 composer 模块, module.xx 为自定义业务逻辑模块
+- Resp 内置参数 `_json`, `_location`, `_time`, `_forget`, `_time` 更改为下划线前缀
+
 
 ## 2.0
 
