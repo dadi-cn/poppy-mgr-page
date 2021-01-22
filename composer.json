@@ -126,6 +126,12 @@
 			"composer run aliyun-oss",
 			"composer run ad"
 		],
+		"py-github": [
+			"composer run gh-mgr-page",
+			"composer run gh-system",
+			"composer run gh-framework",
+			"composer run gh-core"
+		],
 		"ad": [
 			"git push ad `git subtree split --prefix=poppy/ad 3.0`:3.0 --force"
 		],
