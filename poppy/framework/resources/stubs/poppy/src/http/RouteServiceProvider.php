@@ -5,10 +5,10 @@
  */
 
 use Illuminate\Routing\Router;
-use Poppy\System\Classes\Abstracts\SysRouteServiceProvider;
+use Poppy\Framework\Application\RouteServiceProvider as PoppyFrameworkRouteServiceProvider;
 use Route;
 
-class RouteServiceProvider extends SysRouteServiceProvider
+class RouteServiceProvider extends PoppyFrameworkRouteServiceProvider
 {
     /**
      * This namespace is applied to your controller routes.
