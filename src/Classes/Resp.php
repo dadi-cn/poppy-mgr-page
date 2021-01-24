@@ -119,10 +119,11 @@ class Resp
      */
     public function getMessage(): string
     {
-        $env     = !is_production() ? '[开发]' : '';
+        $envDesc = config('app.env') ?? '开发';
+        $env     = !is_production() ? '[' . config('app.env') . ']' : '';
         $message = (is_string($this->message) ? $this->message : implode(',', $this->message));
-        if (Str::contains($message, '[开发]')) {
-            return str_replace('[开发]', '[开发].', $message);
+        if (Str::contains($message, $envDesc . $envDesc)) {
+            return str_replace($envDesc . $envDesc, $envDesc . '.', $message);
         }
 
         return $env . $message;
@@ -284,21 +285,14 @@ class Resp
         if ($time || $location === 'back' || $location === 'message' || !$location) {
             $re         = $location ?: 'back';
             $messageTpl = config('poppy.framework.message_template');
-            $view       = '';
+
+            // default message template
+            $view = 'poppy::template.message';
             if ($messageTpl) {
                 foreach ($messageTpl as $context => $tplView) {
                     if (py_container()->isRunningIn($context)) {
                         $view = $tplView;
                     }
-                }
-            }
-
-            if (!$view) {
-                if (py_container()->runningInBackend()) {
-                    $view = 'py-mgr-page::backend.tpl.inc_message';
-                }
-                else {
-                    $view = 'poppy::template.message';
                 }
             }
 

@@ -68,7 +68,7 @@
 @endsection
 @section('body-main')
     @if(isset($input))
-        {!!  Session::flashInput($input) !!}
+        <?php Session::flashInput($input) ?>
     @endif
     <div class="container">
         <div class="md">
@@ -94,15 +94,14 @@
                                         href="{!! $location !!}">点此立即跳转</a>!
                                 <script>
 								$(function() {
-									var t = {!! $time !!};//设定跳转的时间
-									setInterval(refer(), 1000); //启动1秒定时
-									function refer() {
-										if (t === 0) {
-											window.location.href = "{!! $location !!}"; //设定跳转的链接地址
-										}
-										document.getElementById('clock').innerText = Math.ceil(t / 1000);// 显示倒计时
-										t -= 1000;
-									}
+									let t = {!! $time !!};//设定跳转的时间
+									setInterval(function(){
+                                        if (t === 0) {
+                                            window.location.href = "{!! $location !!}"; //设定跳转的链接地址
+                                        }
+                                        document.getElementById('clock').innerText = Math.ceil(t / 1000);// 显示倒计时
+                                        t -= 1000;
+                                    }, 1000); //启动1秒定时
 								})
                                 </script>
                             @endif
