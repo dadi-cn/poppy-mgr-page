@@ -10,7 +10,6 @@ use stdClass;
 /**
  * Aop = Ali Open Platform
  * 文档地址: https://docs.open.alipay.com/200
- * @deprecated
  * @see AopCertClient
  */
 class AopClient
