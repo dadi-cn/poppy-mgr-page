@@ -24,13 +24,14 @@ class AliPushChannel
         if (!$notify) {
             return;
         }
-        $androidAppKey  = config('poppy.aliyun-push.android_app_key');
-        $iosAppKey      = config('poppy.aliyun-push.ios_app_key');
-        $androidChannel = config('poppy.aliyun-push.android_channel');
-        $accessKey      = config('poppy.aliyun-push.access_key');
-        $accessSecret   = config('poppy.aliyun-push.access_secret');
-        $config         = new Config($accessKey, $accessSecret, $androidAppKey, $androidChannel, $iosAppKey);
-        $Push           = AliPush::getInstance()->setConfig($config);
+        $androidAppKey   = config('poppy.aliyun-push.android_app_key');
+        $iosAppKey       = config('poppy.aliyun-push.ios_app_key');
+        $androidChannel  = config('poppy.aliyun-push.android_channel');
+        $accessKey       = config('poppy.aliyun-push.access_key');
+        $accessSecret    = config('poppy.aliyun-push.access_secret');
+        $androidActivity = config('poppy.aliyun-push.android_activity');
+        $config          = new Config($accessKey, $accessSecret, $androidAppKey, $androidChannel, $androidActivity, $iosAppKey);
+        $Push            = AliPush::getInstance()->setConfig($config);
         if (!$Push->send($notify)) {
             sys_error('poppy.aliyun-push.error', self::class, [
                 'error'  => (string) $Push->getError(),
