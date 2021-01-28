@@ -28,6 +28,7 @@ class FormSettingAliyunPush extends FormSettingBase
             Rule::nullable(),
         ]);
         $this->text('android_channel', 'Android 通道')->help('Android 8.0 之后需要');
+        $this->text('android_activity', 'Android Activity')->help('Android Activity');
         $this->switch('ios_is_open', '是否开启 iOS 推送');
         $this->text('ios_app_key', 'iOS AppKey')->rules([
             Rule::nullable(),

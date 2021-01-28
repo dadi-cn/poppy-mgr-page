@@ -44,21 +44,30 @@ class AndroidPushSender extends BaseClient
     {
         $targets = $this->getTargetSetting($broadcast_type, $ids, $tags);
         try {
+            $query = [
+
+                'AppKey'                     => $this->androidAppKey,
+                'PushType'                   => 'NOTICE',
+                'DeviceType'                 => 'ANDROID',
+                'Title'                      => $title,
+                'Body'                       => $body,
+                'Target'                     => $targets['target'],
+                'TargetValue'                => $targets['value'],
+                'AndroidExtParameters'       => $extra,
+                'AndroidNotificationChannel' => $this->androidChannel,
+
+            ];
+            if ($this->androidActivity) {
+                $query += [
+                    'AndroidOpenType' => 'activity',
+                    'AndroidActivity' => $this->androidActivity,
+                ];
+            }
             $this->initClient();
             $result = $this->rpc()
                 ->action('Push')
                 ->options([
-                    'query' => [
-                        'AppKey'                     => $this->androidAppKey,
-                        'PushType'                   => 'NOTICE',
-                        'DeviceType'                 => 'ANDROID',
-                        'Title'                      => $title,
-                        'Body'                       => $body,
-                        'Target'                     => $targets['target'],
-                        'TargetValue'                => $targets['value'],
-                        'AndroidExtParameters'       => $extra,
-                        'AndroidNotificationChannel' => $this->androidChannel,
-                    ],
+                    'query' => $query,
                 ])
                 ->request();
             $this->saveResult($result);
