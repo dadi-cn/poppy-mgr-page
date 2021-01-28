@@ -31,13 +31,20 @@ class Config
      */
     protected $accessSecret;
 
-    public function __construct($ak, $sk, $android_app_id, $android_channel = '', $ios_key = '')
+    /**
+     * 需要打开的页面
+     * @var mixed|string
+     */
+    protected $androidActivity;
+
+    public function __construct($ak, $sk, $android_app_id, $android_channel = '', $android_activity = '', $ios_key = '')
     {
-        $this->accessKey      = $ak;
-        $this->accessSecret   = $sk;
-        $this->androidAppKey  = $android_app_id;
-        $this->androidChannel = $android_channel;
-        $this->iosAppKey      = $ios_key;
+        $this->accessKey       = $ak;
+        $this->accessSecret    = $sk;
+        $this->androidAppKey   = $android_app_id;
+        $this->androidChannel  = $android_channel;
+        $this->androidActivity = $android_activity;
+        $this->iosAppKey       = $ios_key;
     }
 
     /**
@@ -54,6 +61,14 @@ class Config
     public function getAndroidChannel(): string
     {
         return $this->androidChannel;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAndroidActivity(): string
+    {
+        return $this->androidActivity;
     }
 
     /**

@@ -50,6 +50,11 @@ abstract class BaseClient
      */
     protected $accessSecret;
 
+    /**
+     * @var string
+     */
+    protected $androidActivity;
+
 
     /**
      * SendBase constructor.
@@ -57,11 +62,12 @@ abstract class BaseClient
      */
     public function __construct(Config $config)
     {
-        $this->androidAppKey  = $config->getAndroidAppKey();
-        $this->iosAppKey      = $config->getIosAppKey();
-        $this->androidChannel = $config->getAndroidChannel();
-        $this->accessKey      = $config->getAccessKey();
-        $this->accessSecret   = $config->getAccessSecret();
+        $this->androidAppKey   = $config->getAndroidAppKey();
+        $this->iosAppKey       = $config->getIosAppKey();
+        $this->androidChannel  = $config->getAndroidChannel();
+        $this->androidActivity = $config->getAndroidActivity();
+        $this->accessKey       = $config->getAccessKey();
+        $this->accessSecret    = $config->getAccessSecret();
 
     }
 
