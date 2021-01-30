@@ -1,4 +1,4 @@
-# Change Log
+# 修改记录
 
 ## 3.0
 
@@ -17,7 +17,7 @@
 - Event `PoppyOptimized` move to `src\Events` folder
 - 模块支持 composer poppy 文件夹加载, poppy.xxx 为 composer 模块, module.xx 为自定义业务逻辑模块
 - Resp 内置参数 `_json`, `_location`, `_time`, `_forget`, `_time` 更改为下划线前缀
-
+- `Rule::password()` 和 Laravel 框架的 `password` 规则冲突, 新增 `Rule::simplePwd()` 方法来进行基本的密码校验
 
 ## 2.0
 
