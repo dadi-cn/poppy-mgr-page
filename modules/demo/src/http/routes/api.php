@@ -7,7 +7,7 @@
 */
 Route::group([
     'middleware' => ['cross'],
-    'namespace'  => 'Demo\Http\Request\Api',
+    'namespace'  => 'Demo\Http\Request\Api\Web',
 ], function (Illuminate\Routing\Router $route) {
-    $route->get('/', 'DemoController@index');
+    $route->get('/apidoc/how', 'ApiDocController@how');
 });
