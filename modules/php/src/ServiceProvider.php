@@ -7,6 +7,7 @@
 use Php\Commands\ExamCommand;
 use Php\Commands\LaravelCommand;
 use Php\Events\EventRunEvent;
+use Php\Http\MiddlewareServiceProvider;
 use Php\Http\RouteServiceProvider;
 use Php\Listeners\EventRun\FirstListener;
 use Php\Listeners\EventRun\SecondListener;
@@ -45,6 +46,7 @@ class ServiceProvider extends ModuleServiceProviderBase
 	 */
 	public function register()
 	{
+		$this->app->register(MiddlewareServiceProvider::class);
 		$this->app->register(RouteServiceProvider::class);
 
 		$this->commands([

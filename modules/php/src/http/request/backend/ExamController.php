@@ -9,7 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Poppy\Framework\Classes\Resp;
-use Poppy\System\Http\Request\Backend\BackendController;
+use Poppy\MgrPage\Http\Request\Backend\BackendController;
 use View;
 
 /**
