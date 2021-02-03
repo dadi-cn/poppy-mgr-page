@@ -99,4 +99,23 @@ class ValidationTest extends TestCase
             $this->assertTrue(true);
         }
     }
+
+
+    public function testLength(): void
+    {
+        $str       = '我是中国人';
+        $validator = Validator::make([
+            'len' => $str,
+        ], [
+            'len' => [
+                Rule::max(6),
+            ],
+        ]);
+        if ($validator->fails()) {
+            $this->assertTrue(false, $validator->messages()->toJson(JSON_UNESCAPED_UNICODE));
+        }
+        else {
+            $this->assertTrue(true);
+        }
+    }
 }
