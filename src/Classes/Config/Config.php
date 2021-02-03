@@ -39,12 +39,12 @@ class Config
 
     public function __construct($ak, $sk, $android_app_id, $android_channel = '', $android_activity = '', $ios_key = '')
     {
-        $this->accessKey       = $ak;
-        $this->accessSecret    = $sk;
-        $this->androidAppKey   = $android_app_id;
-        $this->androidChannel  = $android_channel;
-        $this->androidActivity = $android_activity;
-        $this->iosAppKey       = $ios_key;
+        $this->accessKey       = (string) $ak;
+        $this->accessSecret    = (string) $sk;
+        $this->androidAppKey   = (string) $android_app_id;
+        $this->androidChannel  = (string) $android_channel;
+        $this->androidActivity = (string) $android_activity;
+        $this->iosAppKey       = (string) $ios_key;
     }
 
     /**
