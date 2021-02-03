@@ -118,8 +118,8 @@ B) 项目配置
  * @apiVersion          1.0.0
  * @apiName             HomeCheckVerification
  * @apiGroup            Home
- * @apiParam   {String} mobile       手机号
- * @apiParam   {String} captcha      验证码
+ * @apiParam   {string} mobile       手机号
+ * @apiParam   {string} captcha      验证码
  */
 public function checkVerification(){}
 ```
@@ -154,10 +154,10 @@ apiName  : HomeCheckVerification
  * @apiVersion           1.0.0
  * @apiName              HomeVersion
  * @apiGroup             Home
- * @apiParam   {String}  version        版本号
- * @apiSuccess {String}  download_url   下载地址
- * @apiSuccess {String}  description    描述
- * @apiSuccess {String}  version        版本
+ * @apiParam   {string}  version        版本号
+ * @apiSuccess {string}  download_url   下载地址
+ * @apiSuccess {string}  description    描述
+ * @apiSuccess {string}  version        版本
  * @apiSuccessExample success
  * {
  *     "download_url": "http:\/\/domain.com\/1.1.1.apk",
@@ -188,11 +188,11 @@ C). 路由命名 路由的名称和所在分组还有函数名进行匹配, 使�
  * @apiVersion          1.0.0
  * @apiName             UserBankList
  * @apiGroup            User
- * @apiSuccess {String} id                  账号ID
- * @apiSuccess {String} bank_account        账号信息
- * @apiSuccess {String} bank_true_name      真实姓名
- * @apiSuccess {String} bank_type           账号类型 : 支付宝
- * @apiSuccess {String} note                备注
+ * @apiSuccess {string} id                  账号ID
+ * @apiSuccess {string} bank_account        账号信息
+ * @apiSuccess {string} bank_true_name      真实姓名
+ * @apiSuccess {string} bank_type           账号类型 : 支付宝
+ * @apiSuccess {string} note                备注
  * @apiSuccessExample  success
  *  [
  *      {

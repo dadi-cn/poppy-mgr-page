@@ -1,0 +1,9 @@
+{
+    "name": "third",
+    "slug": "third",
+    "version": "1.0",
+    "description": "This is the description for the poppy third module.",
+    "autoload": [
+        "src/classes/functions.php"
+    ]
+}

@@ -43,7 +43,8 @@
 		"alibabacloud/push": "^1.8",
 		"alibabacloud/dysmsapi": "^1.8",
 		"alibabacloud/sts": "^1.8",
-		"overtrue/pinyin": "^4.0"
+		"overtrue/pinyin": "^4.0",
+		"overtrue/wechat": "~4.0"
 	},
 	"require-dev": {
 		"itsgoingd/clockwork": "~4.0",

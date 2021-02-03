@@ -13,31 +13,31 @@ use Poppy\Framework\Classes\Resp;
  */
 abstract class Request extends FormRequest
 {
-	/**
-	 * format errors
-	 * @param Validator $validator validator
-	 * @return array
-	 */
-	protected function formatErrors(Validator $validator)
-	{
-		$error    = [];
-		$messages = $validator->getMessageBag();
-		foreach ($messages->all('<li>:message</li>') as $message) {
-			$error[] = $message;
-		}
+    /**
+     * response
+     * @param array $errors errors
+     * @return array|JsonResponse|RedirectResponse|Response|Redirector
+     */
+    public function response(array $errors)
+    {
+        $error = implode(',', $errors);
 
-		return $error;
-	}
+        return Resp::error($error, null, $this->request->all());
+    }
 
-	/**
-	 * response
-	 * @param array $errors errors
-	 * @return array|JsonResponse|RedirectResponse|Response|Redirector
-	 */
-	public function response(array $errors)
-	{
-		$error = implode(',', $errors);
+    /**
+     * format errors
+     * @param Validator $validator validator
+     * @return array
+     */
+    protected function formatErrors(Validator $validator): array
+    {
+        $error    = [];
+        $messages = $validator->getMessageBag();
+        foreach ($messages->all('<li>:message</li>') as $message) {
+            $error[] = $message;
+        }
 
-		return Resp::error($error, null, $this->request->all());
-	}
+        return $error;
+    }
 }
