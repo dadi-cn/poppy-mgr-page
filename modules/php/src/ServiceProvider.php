@@ -4,6 +4,7 @@
  * Copyright (C) Update For IDE
  */
 
+use Php\Commands\AlwaysCommand;
 use Php\Commands\ExamCommand;
 use Php\Commands\LaravelCommand;
 use Php\Events\EventRunEvent;
@@ -52,6 +53,7 @@ class ServiceProvider extends ModuleServiceProviderBase
 		$this->commands([
 			ExamCommand::class,
 			LaravelCommand::class,
+			AlwaysCommand::class,
 		]);
 	}
 }
