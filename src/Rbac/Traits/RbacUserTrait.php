@@ -4,6 +4,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
+use Poppy\Core\Classes\PyCoreDef;
 
 /**
  * 用户 trait
@@ -19,7 +20,7 @@ trait RbacUserTrait
     {
         static $cache;
         $userPrimaryKey = $this->primaryKey;
-        $cacheKey       = 'roles.for.user.' . $this->$userPrimaryKey;
+        $cacheKey       = PyCoreDef::rbacCkUserRoles($this->$userPrimaryKey);
         if (!isset($cache[$cacheKey])) {
             $cache[$cacheKey] = sys_cache('py-core-rbac')->remember($cacheKey, config('cache.ttl'), function () {
                 return $this->roles()->get();

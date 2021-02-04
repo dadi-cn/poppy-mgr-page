@@ -7,6 +7,7 @@ use Illuminate\Routing\Route;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Poppy\Core\Classes\Inspect\CommentParser;
+use Poppy\Core\Classes\PyCoreDef;
 use Poppy\Core\Classes\Traits\CoreTrait;
 use Poppy\Framework\Classes\Traits\KeyParserTrait;
 use ReflectionClass;
@@ -785,7 +786,7 @@ class InspectCommand extends Command
 
             $models = array_merge($models, $seoDb);
         });
-        sys_cache('py-core')->forever('lang.models', $models);
+        sys_cache('py-core')->forever(PyCoreDef::ckLangModels(), $models);
         $this->info('Cached models Success!');
     }
 

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Collection;
 use Poppy\Core\Classes\Core;
+use Poppy\Core\Classes\PyCoreDef;
 use Poppy\Core\Classes\Traits\CoreTrait;
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\Framework\Support\Abstracts\Repository;
@@ -13,9 +14,6 @@ class ModulesHook extends Repository
 {
     use CoreTrait;
 
-
-    const CACHE_NAME = 'module.repo.hooks';
-
     /**
      * Initialize.
      * @param Collection $data 集合
@@ -23,8 +21,8 @@ class ModulesHook extends Repository
     public function initialize(Collection $data)
     {
         $this->items = sys_cache('py-core')->remember(
-            self::CACHE_NAME,
-            Core::MIN_HALF_DAY,
+            PyCoreDef::ckModule('hook'),
+            PyCoreDef::MIN_HALF_DAY,
             function () use ($data) {
                 $collection = collect();
                 $data->each(function ($items) use ($collection) {

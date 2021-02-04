@@ -1,6 +1,8 @@
 <?php namespace Poppy\Core\Module\Repositories;
 
 use Illuminate\Support\Collection;
+use Poppy\Core\Classes\Core;
+use Poppy\Core\Classes\PyCoreDef;
 use Poppy\Framework\Support\Abstracts\Repository;
 
 /**
@@ -9,16 +11,15 @@ use Poppy\Framework\Support\Abstracts\Repository;
 class ModulesSetting extends Repository
 {
 
-    const CACHE_NAME = 'module.repo.setting';
-
     /**
      * Initialize.
      * @param Collection $data 集合
      */
     public function initialize(Collection $data)
     {
-        $this->items = sys_cache('py-core')->rememberForever(
-            self::CACHE_NAME,
+        $this->items = sys_cache('py-core')->remember(
+            PyCoreDef::ckModule('setting'),
+            PyCoreDef::MIN_HALF_DAY,
             function () use ($data) {
                 $collection = collect();
                 $data->each(function ($items, $slug) use ($collection) {

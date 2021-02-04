@@ -3,6 +3,7 @@
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use Poppy\Core\Classes\PyCoreDef;
 use Poppy\Core\Classes\Traits\CoreTrait;
 use Poppy\Core\Events\PermissionInitEvent;
 use Poppy\Core\Module\Repositories\Modules;
@@ -114,8 +115,8 @@ class PermissionCommand extends Command
      */
     public function init()
     {
-        sys_cache('py-core')->forget(Modules::CACHE_NAME);
-        sys_cache('py-core')->forget(PermissionManager::CACHE_NAME);
+        sys_cache('py-core')->forget(PyCoreDef::ckModule('module'));
+        sys_cache('py-core')->forget(PyCoreDef::ckPermissions());
 
         // get all permission
         $permissions = $this->permission->permissions();
@@ -130,7 +131,7 @@ class PermissionCommand extends Command
         $this->info(
             sys_mark('poppy.core', self::class, 'Import permission Success! ')
         );
-        sys_cache('py-core')->forget(PermissionManager::CACHE_NAME);
+        sys_cache('py-core')->forget(PyCoreDef::ckPermissions());
     }
 
     /**
