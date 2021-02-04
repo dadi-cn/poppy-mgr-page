@@ -4,10 +4,12 @@ use DB;
 use Eloquent;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\View\View;
+// todo 赵殿有
 use phpDocumentor\Reflection\DocBlock\Tags\Property;
 use phpDocumentor\Reflection\DocBlockFactory;
 use Poppy\Core\Classes\Traits\CoreTrait;
 use Poppy\Framework\Classes\Resp;
+use Poppy\System\Classes\PySystemDef;
 use Poppy\System\Models\SysConfig;
 use ReflectionClass;
 use Throwable;
@@ -35,7 +37,7 @@ class EnvController extends DevelopController
     public function model()
     {
 
-        $items = sys_cache('py-system')->remember('controller.env.model', SysConfig::MIN_HALF_DAY, function () {
+        $items = sys_cache('py-system')->remember(PySystemDef::ckModelComment(), SysConfig::MIN_HALF_DAY, function () {
             $files   = app('files')->glob(base_path('modules/*/src/models/*.php'));
             $modules = [];
             foreach ($files as $file) {

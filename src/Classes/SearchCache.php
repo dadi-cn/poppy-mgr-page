@@ -8,7 +8,7 @@ use Poppy\Core\Redis\RdsDb;
 class SearchCache
 {
 
-    private const KEY = 'py-mgr-page:search-py';
+    private const KEY = 'tag:py-mgr-page:search-py';
 
     /**
      * @param string $text
