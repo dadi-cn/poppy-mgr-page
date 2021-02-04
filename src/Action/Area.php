@@ -2,6 +2,7 @@
 
 use Exception;
 use Illuminate\Contracts\View\Factory;
+use Poppy\Area\Classes\PyAreaDef;
 use Poppy\Area\Models\AreaContent;
 use Poppy\Framework\Classes\Traits\AppTrait;
 use Poppy\Framework\Validation\Rule;
@@ -47,15 +48,15 @@ class Area
      * @param null|int $id   地区id
      * @return bool
      */
-    public function establish($data, $id = null): bool
+    public function establish(array $data, $id = null): bool
     {
         if (!$this->checkPam()) {
             return false;
         }
 
         $initDb    = [
-            'title'     => trim((string) array_get($data, 'title', '')),
-            'parent_id' => (int) array_get($data, 'parent_id', 0),
+            'title'     => trim((string) data_get($data, 'title', '')),
+            'parent_id' => (int) data_get($data, 'parent_id', 0),
         ];
         $validator = Validator::make($initDb, [
             'title'     => [
@@ -116,7 +117,7 @@ class Area
      * @return bool|null
      * @throws Exception
      */
-    public function delete($id)
+    public function delete(int $id): bool
     {
         if ($id && !$this->initArea($id)) {
             return false;
@@ -137,7 +138,7 @@ class Area
      * @param string $type 类型
      * @return string|array
      */
-    public function parentIds($id, $type = 'string')
+    public function parentIds(int $id, $type = 'string')
     {
         $matchKv = $this->matchKv();
         $ids     = [];
@@ -181,7 +182,7 @@ class Area
      * 修复分类代码
      * @param int $id 地区id
      */
-    public function fix($id)
+    public function fix(int $id)
     {
         $children    = $this->getChildren($id);
         $topParentId = $this->topParentId($id);
@@ -223,7 +224,7 @@ class Area
         if ($this->fix['left']) {
             $left_items = AreaContent::whereRaw('id >= ?', [$this->fix['start']])
                 ->take($this->fix['section'])
-                ->orderBy('id', 'asc')
+                ->orderBy('id')
                 ->get(['id', 'title']);
 
             foreach ($left_items as $item) {
@@ -243,7 +244,7 @@ class Area
      * @param int $id 地区id
      * @return bool
      */
-    public function hasChild($id)
+    public function hasChild(int $id): bool
     {
         $parent = AreaContent::where('id', $id)->value('parent_id');
         if (AreaContent::where('id', $id)->where('top_parent_id', $id)->exists() || AreaContent::where('id', $id)->where('top_parent_id', $parent)->exists()) {
@@ -265,7 +266,7 @@ class Area
      * @param int $id 地区id
      * @return bool
      */
-    public function level($id)
+    public function level(int $id): bool
     {
         //省级
         AreaContent::where('id', $id)->where('parent_id', 0)->update([
@@ -287,7 +288,7 @@ class Area
      * @param int $id 地区Id
      * @return bool
      */
-    public function initArea($id)
+    public function initArea(int $id): bool
     {
         try {
             $this->area   = AreaContent::findOrFail($id);
@@ -295,7 +296,7 @@ class Area
 
             return true;
         } catch (Throwable $e) {
-            return $this->setError(trans('py-system::action.area.undefined_error'));
+            return $this->setError(trans('py-area::action.area.undefined_error'));
         }
     }
 
@@ -316,12 +317,11 @@ class Area
      */
     private function matchKv($clear = false)
     {
-        $cache_name = 'area.action.area.match_kv';
         if ($clear) {
-            sys_cache('area')->forget($cache_name);
+            sys_cache('py-area')->forget(PyAreaDef::ckMatchIdPid());
         }
 
-        return sys_cache('area')->remember('area.action.area.match_kv', 10, function () {
+        return sys_cache('py-area')->remember(PyAreaDef::ckMatchIdPid(), 10, function () {
             return AreaContent::pluck('parent_id', 'id')->toArray();
         });
     }
@@ -329,7 +329,7 @@ class Area
     /**
      * @param array $ids 地区id列表
      */
-    private function batchFix($ids)
+    private function batchFix(array $ids)
     {
         foreach ($ids as $id) {
             if (!$id) {
@@ -343,7 +343,7 @@ class Area
      * @param int $id 顶级id
      * @return mixed
      */
-    private function topParentId($id)
+    private function topParentId(int $id)
     {
         $parentIds = $this->parentIds($id, 'array');
         if (count($parentIds) == 1) {
