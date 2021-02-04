@@ -2,6 +2,7 @@
 
 use Auth;
 use Illuminate\Support\Collection;
+use Poppy\Core\Classes\PyCoreDef;
 use Poppy\Core\Classes\Traits\CoreTrait;
 use Poppy\Core\Module\Module;
 use Poppy\Core\Rbac\Repositories\PermissionRepository;
@@ -13,8 +14,6 @@ use Poppy\Core\Rbac\Traits\RbacUserTrait;
 class PermissionManager
 {
     use CoreTrait;
-
-    public const CACHE_NAME = 'rbac.permissions';
 
     /**
      * @var PermissionRepository
@@ -115,7 +114,7 @@ class PermissionManager
     {
         $minute = $cache ? 60 * 24 : 0;
         /** @var Collection $permissions */
-        $permissions = sys_cache('py-core')->remember(self::CACHE_NAME, $minute, function () {
+        $permissions = sys_cache('py-core')->remember(PyCoreDef::ckPermissions(), $minute, function () {
             return $this->permissions()->keys();
         });
 

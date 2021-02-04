@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Poppy\Core\Classes\PyCoreDef;
 use Poppy\Core\Rbac\Permission\Permission;
 
 /**
@@ -18,7 +19,7 @@ trait RbacRoleTrait
     {
         static $cache;
         $rolePrimaryKey = $this->primaryKey;
-        $cacheKey       = 'rbac.permissions.for.role.' . $this->$rolePrimaryKey;
+        $cacheKey       = PyCoreDef::rbacCkRolePermissions($this->$rolePrimaryKey);
         if (!isset($cache[$cacheKey])) {
             $cache[$cacheKey] = sys_cache('py-core-rbac')->remember($cacheKey, config('cache.ttl'), function () {
                 return $this->perms()->get();

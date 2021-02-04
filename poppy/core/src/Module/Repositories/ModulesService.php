@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Collection;
 use Poppy\Core\Classes\Core;
+use Poppy\Core\Classes\PyCoreDef;
 use Poppy\Framework\Support\Abstracts\Repository;
 
 /**
@@ -9,7 +10,6 @@ use Poppy\Framework\Support\Abstracts\Repository;
  */
 class ModulesService extends Repository
 {
-    const CACHE_NAME = 'module.repo.service';
 
     /**
      * Initialize.
@@ -18,8 +18,8 @@ class ModulesService extends Repository
     public function initialize(Collection $data)
     {
         $this->items = sys_cache('py-core')->remember(
-            self::CACHE_NAME,
-            Core::MIN_HALF_DAY,
+            PyCoreDef::ckModule('service'),
+            PyCoreDef::MIN_HALF_DAY,
             function () use ($data) {
                 $collection = collect();
                 $data->each(function ($items) use ($collection) {

@@ -3,6 +3,7 @@
 use Exception;
 use Illuminate\Support\Collection;
 use Poppy\Core\Classes\Core;
+use Poppy\Core\Classes\PyCoreDef;
 use Poppy\Core\Module\Module;
 use Poppy\Framework\Exceptions\LoadConfigurationException;
 use Poppy\Framework\Support\Abstracts\Repository;
@@ -13,10 +14,6 @@ use Symfony\Component\Yaml\Yaml;
  */
 class Modules extends Repository
 {
-    /**
-     * 模块缓存名称
-     */
-    const CACHE_NAME = 'module.repo.module';
 
     /**
      * @var bool
@@ -31,8 +28,8 @@ class Modules extends Repository
     {
         $files       = app('files');
         $this->items = sys_cache('py-core')->remember(
-            self::CACHE_NAME,
-            Core::MIN_HALF_DAY,
+            PyCoreDef::ckModule('module'),
+            PyCoreDef::MIN_HALF_DAY,
             function () use ($slugs, $files) {
                 // load from file
                 $this->loadFromCache = false;

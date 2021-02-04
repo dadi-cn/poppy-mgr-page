@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Collection;
 use Poppy\Core\Classes\Core;
+use Poppy\Core\Classes\PyCoreDef;
 use Poppy\Core\Exceptions\PermissionException;
 use Poppy\Core\Rbac\Contracts\RbacUserContract;
 use Poppy\Core\Rbac\Traits\RbacUserTrait;
@@ -13,8 +14,6 @@ use Poppy\Framework\Support\Abstracts\Repository;
  */
 class ModulesMenu extends Repository
 {
-
-    const CACHE_NAME = 'module.repo.menus';
 
     /**
      * @var Collection
@@ -29,8 +28,8 @@ class ModulesMenu extends Repository
     {
         // check serve setting
         $this->items = sys_cache('py-core')->remember(
-            self::CACHE_NAME,
-            Core::MIN_ONE_DAY,
+            PyCoreDef::ckModule('menu'),
+            PyCoreDef::MIN_ONE_DAY,
             function () use ($uis) {
                 $uis = $uis->map(function ($definition) {
                     // slug  - module

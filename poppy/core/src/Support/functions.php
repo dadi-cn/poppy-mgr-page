@@ -5,6 +5,7 @@ use Illuminate\Cache\TaggableStore;
 use Illuminate\Cache\TaggedCache;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernelContract;
 use Illuminate\Support\Str;
+use Poppy\Core\Classes\PyCoreDef;
 use Poppy\Core\Redis\RdsStore;
 use Poppy\Core\Services\Factory\ServiceFactory;
 use Poppy\Framework\Classes\Resp;
@@ -56,12 +57,12 @@ if (!function_exists('sys_db')) {
     {
         static $cache;
         if (!$cache) {
-            $cache = sys_cache('py-core')->get('lang.models');
+            $cache = sys_cache('py-core')->get(PyCoreDef::ckLangModels());
             if (!$cache) {
                 app(ConsoleKernelContract::class)->call('core:inspect', [
                     'type' => 'db_seo',
                 ]);
-                $cache = sys_cache('py-core')->get('lang.models');
+                $cache = sys_cache('py-core')->get(PyCoreDef::ckLangModels());
             }
         }
 
