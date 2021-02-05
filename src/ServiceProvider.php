@@ -42,13 +42,6 @@ class ServiceProvider extends PoppyServiceProvider
         $this->publishes([
             __DIR__ . '/../resources/config/sami-config.php' => storage_path('sami/config.php'),
         ], 'poppy');
-
-        $this->publishes([
-            __DIR__ . '/../README.md' => resource_path('docs/core/README.md'),
-            __DIR__ . '/../docs/'     => resource_path('docs/core'),
-        ], 'poppy-docs');
-
-
     }
 
     /**
