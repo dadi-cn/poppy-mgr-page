@@ -23,11 +23,6 @@ class FrameworkServiceProvider extends ServiceProvider
             framework_path('config/poppy.php') => config_path('poppy.php'),
         ], 'poppy');
 
-        $this->publishes([
-            dirname(__DIR__) . '/README.md' => resource_path('docs/README.md'),
-            dirname(__DIR__) . '/docs'      => resource_path('docs'),
-        ], 'poppy-docs');
-
         // framework register
         if (!self::$registered) {
             app('poppy')->register();
