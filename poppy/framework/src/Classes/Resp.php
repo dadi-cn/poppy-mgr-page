@@ -346,6 +346,8 @@ class Resp
             Session::flashInput($input);
         }
 
-        return Response::json($return, 200, [], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        $format = config('poppy.framework.json_format', 0);
+
+        return Response::json($return, 200, [], $format);
     }
 }

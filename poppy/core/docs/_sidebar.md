@@ -1,5 +1,0 @@
-* [README](core/README.md)
-* [配置(Config)](core/config.md)
-* [生成 Php Api 文档](core/sami.md)
-* [缓存约定](core/cache.md)
-* [Change Log](core/build.md)
