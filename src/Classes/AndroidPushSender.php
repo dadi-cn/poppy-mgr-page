@@ -59,8 +59,11 @@ class AndroidPushSender extends BaseClient
             ];
             if ($this->androidActivity) {
                 $query += [
-                    'AndroidOpenType' => 'ACTIVITY',
-                    'AndroidActivity' => $this->androidActivity,
+                    'AndroidOpenType'   => 'ACTIVITY',
+                    'AndroidActivity'   => $this->androidActivity,
+                    'AndroidPopupTitle' => $title,
+                    'AndroidPopupBody'  => $body,
+                    'StoreOffline'      => true,
                 ];
             }
             $this->initClient();
