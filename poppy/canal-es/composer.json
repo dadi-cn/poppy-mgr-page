@@ -1,0 +1,31 @@
+{
+	"name": "poppy/canal-es",
+	"description": "Poppy Canal Es Module",
+	"license": "Apache-2.0",
+	"authors": [
+		{
+			"name": "Mark Zhao",
+			"email": "zhaody901@126.com"
+		}
+	],
+	"require": {
+		"php": ">=7.2.0",
+		"ext-swoole": ">=4.4",
+		"symfony/console": "4.*",
+		"symfony/finder": "4.*",
+		"hyperf/utils": ">=2.0",
+		"elasticsearch/elasticsearch": "7.*",
+		"sy-records/ringphp": "^1.1",
+		"xingwenge/canal_php": "^1.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Poppy\\CanalEs\\": "src/",
+			"Poppy\\CanalEs\\Tests\\": "tests/"
+		}
+	},
+	"config": {
+		"preferred-install": "dist"
+	},
+	"minimum-stability": "dev"
+}

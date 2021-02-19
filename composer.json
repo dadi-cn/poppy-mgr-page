@@ -21,6 +21,12 @@
 		"ext-fileinfo": "*",
 		"ext-libxml": "*",
 		"ext-xml": "*",
+		"ext-swoole": ">=4.4",
+		"symfony/console": "4.*",
+		"symfony/finder": "4.*",
+		"hyperf/utils": ">=2.0",
+		"elasticsearch/elasticsearch": "7.*",
+		"sy-records/ringphp": "^1.1",
 		"jenssegers/date": "^4.0",
 		"laravel/framework": "6.0.*",
 		"maatwebsite/excel": "^3.0",
@@ -44,7 +50,8 @@
 		"alibabacloud/dysmsapi": "^1.8",
 		"alibabacloud/sts": "^1.8",
 		"overtrue/pinyin": "^4.0",
-		"overtrue/wechat": "~4.0"
+		"overtrue/wechat": "~4.0",
+		"xingwenge/canal_php": "^1.0"
 	},
 	"require-dev": {
 		"itsgoingd/clockwork": "~4.0",
@@ -87,6 +94,8 @@
 			"Poppy\\AliyunPush\\Tests\\": "poppy/aliyun-push/tests",
 			"Poppy\\AliyunOss\\": "poppy/aliyun-oss/src",
 			"Poppy\\AliyunOss\\Tests\\": "poppy/aliyun-oss/tests",
+			"Poppy\\CanalEs\\": "poppy/canal-es/src/",
+			"Poppy\\CanalEs\\Tests\\": "poppy/canal-es/tests/",
 			"Php\\Tests\\": "modules/php/tests",
 			"Site\\Tests\\": "modules/site/tests"
 		},

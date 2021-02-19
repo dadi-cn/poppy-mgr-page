@@ -1,6 +1,9 @@
 <?php
 
+use Poppy\CanalEs\Classes\Formatter\KoubeiCarFormatter;
+use Poppy\CanalEs\Classes\Formatter\OrderFormatter;
 use Poppy\System\Classes\Api\Sign\DefaultApiSignProvider;
+use xingwenge\canal_php\CanalClient;
 
 return [
 
@@ -89,6 +92,30 @@ return [
                 'type'        => 'captcha',
                 'title'       => '验证码',
                 'description' => '可用变量名称[code:验证码], 遵循 laravel translate 写法, 会显示在日志中',
+            ],
+        ],
+    ],
+
+    'canal-es' => [
+        'canal' => [
+            'client_type'     => CanalClient::TYPE_SWOOLE,
+            'host'            => env('CANAL_HOST', '127.0.0.1'),
+            'port'            => env('CANAL_PORT', 11111),
+            'client_id'       => env('CANAL_CLIENT_ID', 1001),
+            'destination'     => env('CANAL_DESTINATION', 'test'),
+            'filter'          => env('CANAL_FILTER', '.*\\..*'),
+            //    'filter'          => env('CANAL_FILTER', 'shop.user'),
+            'connect_timeout' => env('CANAL_CONNECT_TIMEOUT', 10),
+            'message_size'    => 100,
+            'mapper'          => [
+                'formatter' => [
+                    'fadan.pt_order'           => OrderFormatter::class,
+                    'canal_example.koubei_car' => KoubeiCarFormatter::class,
+                ],
+                'index'     => [
+                    // tableName => 'index_name',
+                    'order' => 'pt_order',
+                ],
             ],
         ],
     ],
