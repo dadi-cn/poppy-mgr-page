@@ -32,7 +32,7 @@ class Document
     public function __construct(string $index = '')
     {
         self::$client = ClientBuilder::create()
-            ->setHosts(config('elasticsearch.hosts'))
+            ->setHosts(config('poppy.canal-es.elasticsearch.hosts'))
             ->build();
         $this->index  = $index;
     }
@@ -46,45 +46,22 @@ class Document
 
     /**
      * @param $records
+     * @return array|callable
      */
-    public function import($records): void
+    public function import($records)
     {
-        $this->run($this->importCallback($records));
+        return self::$client->bulk([
+            'body' => $this->prepareImportDocument($records),
+        ]);
     }
 
     public function bulk($records)
     {
-        $this->run(function () use ($records) {
-            return self::$client->bulk([
-                'body' => $records,
-            ]);
-        });
+        return self::$client->bulk([
+            'body' => $records,
+        ]);
     }
 
-    /**
-     * @param $callback
-     */
-    protected function run($callback): void
-    {
-        if (!static::$runner instanceof Concurrent) {
-            static::$runner = new Concurrent($this->syncConcurrencyCount());
-        }
-
-        self::$runner->create($callback);
-    }
-
-    /**
-     * @param $records
-     * @return \Closure
-     */
-    protected function importCallback($records): callable
-    {
-        return function () use ($records) {
-            return self::$client->bulk([
-                'body' => $this->prepareImportDocument($records),
-            ]);
-        };
-    }
 
     /**
      * @param $rows
@@ -118,6 +95,6 @@ class Document
      */
     protected function syncConcurrencyCount(): int
     {
-        return (int) config('elasticsearch.concurrency', 100);
+        return (int) config('poppy.canal-es.elasticsearch.concurrency', 100);
     }
 }

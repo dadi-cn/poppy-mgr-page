@@ -15,11 +15,6 @@ class Db
     protected static $pdo;
 
     /**
-     * @var array $configs
-     */
-    private $configs;
-
-    /**
      * @return PDO
      * @throws Throwable
      */
@@ -41,22 +36,15 @@ class Db
      */
     protected function initDao(): PDO
     {
-        $this->loadConfig();
-
-        $host     = data_get($this->configs, 'host');
-        $port     = data_get($this->configs, 'port');
-        $username = data_get($this->configs, 'username');
-        $password = data_get($this->configs, 'password');
-        $database = data_get($this->configs, 'database');
-        $charset  = data_get($this->configs, 'charset');
+        $host     = config('database.connections.mysql.host');
+        $port     = config('database.connections.mysql.port', 3306);
+        $username = config('database.connections.mysql.username');
+        $password = config('database.connections.mysql.password');
+        $database = config('database.connections.mysql.database');
+        $charset  = config('database.connections.mysql.charset');
 
         $dsn = "mysql:host={$host};port={$port};dbname={$database};charset={$charset}";
 
         return new PDO($dsn, $username, $password);
-    }
-
-    protected function loadConfig(): void
-    {
-        $this->configs = config('database');
     }
 }

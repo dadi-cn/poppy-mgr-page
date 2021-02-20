@@ -21,7 +21,7 @@ class Client
     {
         if (!static::$client instanceof EsClient) {
             static::$client = ClientBuilder::create()
-                ->setHosts(config('elasticsearch.hosts'))
+                ->setHosts(config('poppy.canal-es.elasticsearch.hosts'))
                 ->build();
         }
 

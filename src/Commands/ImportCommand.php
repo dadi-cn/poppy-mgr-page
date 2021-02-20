@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace Poppy\CanalEs\Commands;
 
-use Hyperf\Utils\Arr;
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
 use Poppy\CanalEs\Classes\Es\Document;
 use Poppy\CanalEs\Classes\Formatter\Format;
 use Poppy\CanalEs\Classes\Import;
@@ -15,7 +15,7 @@ use Throwable;
 
 class ImportCommand extends Command
 {
-    protected $name = 'canal-es:import';
+    protected $name = 'ce:import';
 
     public function handle()
     {
@@ -32,16 +32,28 @@ class ImportCommand extends Command
         $end   = (int) $this->option('end');
 
         $formatter = (string) $this->option('formatter');
+        $property  = (string) $this->option('property');
+        $verbose   = (bool) $this->option('verbose');
         try {
             $import = new Import();
             $import->setTable($table);
             $import->setStart($start)->setEnd($end);
+            if ($property) {
+                $import->setProperty($property);
+            }
 
             if ($formatter) {
                 $formatter = new Format($formatter);
             }
 
-            $import->chunk($size, function ($result) use ($index, $formatter) {
+            $output = null;
+            if ($verbose) {
+                $output = function ($output) {
+                    $this->info($output);
+                };
+            }
+
+            $result = $import->chunk($size, function ($result) use ($index, $formatter) {
                 $last = Arr::last($result);
                 $this->info('Imported success! last id: ' . ($last['id'] ?? 'not found'));
                 $document = (new Document($index));
@@ -51,7 +63,11 @@ class ImportCommand extends Command
                 }
                 $document->import($result);
                 return true;
-            });
+            }, $output);
+            if (!$result) {
+                $this->error($import->getError());
+                return;
+            }
         } catch (Throwable $e) {
             $this->error($e->getMessage());
             return;
@@ -78,6 +94,7 @@ class ImportCommand extends Command
             ['start', '', InputOption::VALUE_OPTIONAL, 'The start record\'s to import sort direction'],
             ['end', '', InputOption::VALUE_OPTIONAL, 'The end record\'s to import sort direction'],
             ['formatter', 'f', InputOption::VALUE_OPTIONAL, 'The class of record need to format'],
+            ['property', 'p', InputOption::VALUE_OPTIONAL, 'The property of record need to select from database'],
         ];
     }
 }
