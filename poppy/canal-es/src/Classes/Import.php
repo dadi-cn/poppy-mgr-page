@@ -4,8 +4,14 @@ declare(strict_types = 1);
 
 namespace Poppy\CanalEs\Classes;
 
+use Illuminate\Support\Str;
+use Poppy\Framework\Classes\Traits\AppTrait;
+use Throwable;
+
 class Import
 {
+    use AppTrait;
+
     /**
      * @var Db
      */
@@ -32,13 +38,24 @@ class Import
     protected $end;
 
     /**
+     * Property Class
+     * @var string
+     */
+    private $property;
+
+    /**
+     * Exec Sql
+     * @var string
+     */
+    private $sql;
+
+    /**
      * Import constructor.
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function __construct()
     {
         $this->dao = (new Db())();
-
     }
 
     /**
@@ -50,6 +67,11 @@ class Import
         $this->table = $table;
 
         return $this;
+    }
+
+    public function setProperty($property)
+    {
+        $this->property = $property;
     }
 
     /**
@@ -74,17 +96,37 @@ class Import
     }
 
     /**
-     * @param          $size
-     * @param callable $callback
+     * @param               $size
+     * @param callable      $callback
+     * @param callable|null $output
      * @return bool
      */
-    public function chunk($size, callable $callback): bool
+    public function chunk($size, callable $callback, callable $output = null): bool
     {
         $page = 1;
 
         while (true) {
-            $statement   = $this->dao->query($this->prepareSql($page, $size));
-            $result      = $statement->fetchAll();
+            if (Str::contains($this->table, '.')) {
+                $db          = Str::before($this->table, '.');
+                $dbStatement = $this->dao->query('show databases');
+                $dbs         = collect($dbStatement->fetchAll())->pluck('Database');
+                if (!in_array($db, $dbs->toArray())) {
+                    return $this->setError('Db `' . $db . '` Not Exists!');
+                }
+            }
+
+            try {
+                $sql       = $this->prepareSql($page, $size);
+                $this->sql = $sql;
+                if ($output) {
+                    $output('Exec Sql :' . $this->sql);
+                }
+                $statement = $this->dao->query($this->sql);
+                $result    = $statement->fetchAll();
+            } catch (Throwable $e) {
+                return $this->setError("Sql May Has Error : {$e->getMessage()}");
+            }
+
             $resultCount = count($result);
             if (!$resultCount) {
                 break;
@@ -111,7 +153,15 @@ class Import
     protected function prepareSql($page, $size): string
     {
         $offset = ($page - 1) * $size;
-        return "select * from {$this->table} {$this->range()} limit $offset, $size";
+        if ($this->property) {
+            $className = $this->property;
+            $arrFields = array_keys((new $className())->properties());
+            $strFields = '`' . implode('`,`', $arrFields) . '`';
+        }
+        else {
+            $strFields = '*';
+        }
+        return "select {$strFields} from {$this->table} {$this->range()} limit $offset, $size";
     }
 
     /**

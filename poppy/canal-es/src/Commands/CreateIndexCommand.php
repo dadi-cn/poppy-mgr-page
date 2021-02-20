@@ -5,13 +5,14 @@ namespace Poppy\CanalEs\Commands;
 
 use Illuminate\Console\Command;
 use Poppy\CanalEs\Classes\Es\Index;
+use Poppy\Framework\Helper\UtilHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Throwable;
 
 class CreateIndexCommand extends Command
 {
-    protected $name = 'canal-es:index-create';
+    protected $name = 'ce:create-index';
 
     public function handle()
     {
@@ -28,7 +29,14 @@ class CreateIndexCommand extends Command
         try {
             $response = $index->create();
         } catch (Throwable $e) {
-            $this->error($e->getMessage());
+            if (UtilHelper::isJson($e->getMessage())) {
+                $msg = json_decode($e->getMessage());
+                $msg = data_get($msg, 'error.reason');
+            }
+            else {
+                $msg = $e->getMessage();
+            }
+            $this->error($msg);
             return;
         }
 

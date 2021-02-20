@@ -11,7 +11,7 @@ use Throwable;
 
 class CanalCommand extends Command
 {
-    protected $name = 'canal-es:monitor';
+    protected $name = 'ce:monitor';
 
     public function handle()
     {
