@@ -6,6 +6,7 @@ namespace Poppy\CanalEs\Classes\Canal\Message;
 
 
 use Poppy\CanalEs\Classes\Canal\Formatter\Formatter;
+use Poppy\CanalEs\Classes\IndexManager;
 
 class Prepare
 {
@@ -28,9 +29,11 @@ class Prepare
      */
     public function records()
     {
-        return array_merge($this->prepareDeleted(),
+        return array_merge(
+            $this->prepareDeleted(),
             $this->prepareUpdated(),
-            $this->prepareInserted());
+            $this->prepareInserted()
+        );
     }
 
     protected function prepareDeleted()
@@ -40,7 +43,7 @@ class Prepare
 
         $data = [];
         foreach ($records as $tableName => $tableRecords) {
-            $indexName = $this->getIndexByTableName($tableName);
+            $indexName = IndexManager::indexFormTable($tableName);
             if (!$indexName) {
                 continue;
             }
@@ -66,11 +69,11 @@ class Prepare
 
         $data = [];
         foreach ($records as $tableName => $tableRecords) {
-            $indexName = $this->getIndexByTableName($tableName);
+            $indexName = IndexManager::indexFormTable($tableName);
             if (!$indexName) {
                 continue;
             }
-            $formatter = $this->getFormatterByTableName($tableName);
+            $formatter = IndexManager::formatterFormTable($tableName);
             foreach ($tableRecords as $id => $record) {
                 $data[] = [
                     'update' => [
@@ -94,11 +97,11 @@ class Prepare
 
         $data = [];
         foreach ($records as $tableName => $tableRecords) {
-            $indexName = $this->getIndexByTableName($tableName);
+            $indexName = IndexManager::indexFormTable($tableName);
             if (!$indexName) {
                 continue;
             }
-            $formatter = $this->getFormatterByTableName($tableName);
+            $formatter = IndexManager::formatterFormTable($tableName);
             foreach ($tableRecords as $id => $record) {
                 $data[] = [
                     'create' => [
@@ -113,28 +116,4 @@ class Prepare
 
         return $data;
     }
-
-    protected function getIndexByTableName(string $tableName)
-    {
-        $indexes = config('canal.mapper.index');
-
-        return $indexes[$tableName] ?? '';
-    }
-
-    /**
-     * @param string $tableName
-     * @return Formatter|null
-     */
-    protected function getFormatterByTableName(string $tableName): ?Formatter
-    {
-        $formatters = config('canal.mapper.formatter');
-
-        $formatterClass = $formatters[$tableName] ?? '';
-        if (!$formatterClass || !class_exists($formatterClass)) {
-            return null;
-        }
-
-        return new $formatterClass;
-    }
-
 }

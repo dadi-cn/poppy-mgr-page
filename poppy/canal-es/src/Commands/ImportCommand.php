@@ -9,6 +9,7 @@ use Illuminate\Support\Arr;
 use Poppy\CanalEs\Classes\Es\Document;
 use Poppy\CanalEs\Classes\Formatter\Format;
 use Poppy\CanalEs\Classes\Import;
+use Poppy\CanalEs\Classes\IndexManager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Throwable;
@@ -19,21 +20,29 @@ class ImportCommand extends Command
 
     public function handle()
     {
-        $table = $this->argument('table');
-        $index = $this->option('index');
-        if (!$table) {
-            $this->error('Not enough arguments (missing: "table")');
+        $index = $this->argument('index');
+        $table = $this->option('table');
+        if (!$index) {
+            $this->error('Not enough arguments (missing: "index")');
             return;
         }
 
-        $index = $index ?: $table;
+        // 获取配置的Mapper
+        $instance = IndexManager::instance($index);
+
+        $table = $table ?: ($instance->table() ?: $index);
+
+
         $size  = (int) ($this->option('size') ?: 10000);
         $start = (int) ($this->option('start') ?: 0);
         $end   = (int) $this->option('end');
 
         $formatter = (string) $this->option('formatter');
-        $property  = (string) $this->option('property');
-        $verbose   = (bool) $this->option('verbose');
+        $formatter = $formatter ?: $instance->formatter();
+
+        $property = (string) $this->option('property');
+        $property = $property ?: $instance->property();
+        $verbose  = (bool) $this->option('verbose');
         try {
             $import = new Import();
             $import->setTable($table);
@@ -82,7 +91,7 @@ class ImportCommand extends Command
     protected function getArguments(): array
     {
         return [
-            ['table', InputArgument::REQUIRED, 'the table need to import'],
+            ['index', InputArgument::REQUIRED, 'the index need to import'],
         ];
     }
 
@@ -90,7 +99,7 @@ class ImportCommand extends Command
     {
         return [
             ['size', '', InputOption::VALUE_OPTIONAL, 'The number of records to import at a time'],
-            ['index', '', InputOption::VALUE_OPTIONAL, 'The index name records to imported'],
+            ['table', '', InputOption::VALUE_OPTIONAL, 'The table name need to query'],
             ['start', '', InputOption::VALUE_OPTIONAL, 'The start record\'s to import sort direction'],
             ['end', '', InputOption::VALUE_OPTIONAL, 'The end record\'s to import sort direction'],
             ['formatter', 'f', InputOption::VALUE_OPTIONAL, 'The class of record need to format'],

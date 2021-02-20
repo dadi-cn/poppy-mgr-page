@@ -15,11 +15,6 @@ class Document
     protected static $client;
 
     /**
-     * @var Concurrent $runner
-     */
-    protected static $runner;
-
-    /**
      * @var string
      */
     private $index;

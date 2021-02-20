@@ -1,7 +1,10 @@
 <?php
 
-use Poppy\CanalEs\Classes\Formatter\KoubeiCarFormatter;
-use Poppy\CanalEs\Classes\Formatter\OrderFormatter;
+use Php\Classes\EsFormatter\KoubeiCarFormatter;
+use Php\Classes\EsFormatter\OrderFormatter;
+use Php\Classes\EsProperty\CsdnUser;
+use Php\Classes\EsProperty\KoubeiCar;
+use Php\Classes\EsProperty\Order;
 use Poppy\System\Classes\Api\Sign\DefaultApiSignProvider;
 use xingwenge\canal_php\CanalClient;
 
@@ -97,25 +100,34 @@ return [
     ],
 
     'canal-es' => [
-        'canal' => [
+        'canal'  => [
             'client_type'     => CanalClient::TYPE_SWOOLE,
             'host'            => env('CANAL_HOST', '127.0.0.1'),
             'port'            => env('CANAL_PORT', 11111),
             'client_id'       => env('CANAL_CLIENT_ID', 1001),
-            'destination'     => env('CANAL_DESTINATION', 'test'),
-            'filter'          => env('CANAL_FILTER', '.*\\..*'),
-            //    'filter'          => env('CANAL_FILTER', 'shop.user'),
             'connect_timeout' => env('CANAL_CONNECT_TIMEOUT', 10),
             'message_size'    => 100,
-            'mapper'          => [
-                'formatter' => [
-                    'fadan.pt_order'           => OrderFormatter::class,
-                    'canal_example.koubei_car' => KoubeiCarFormatter::class,
-                ],
-                'index'     => [
-                    // tableName => 'index_name',
-                    'order' => 'pt_order',
-                ],
+        ],
+
+        // filter .*\\..*,shop.user
+        //
+        'mapper' => [
+            'pt_order'   => [
+                'formatter' => OrderFormatter::class,
+                'table'     => 'fadan.pt_order',
+                'property'  => Order::class,
+            ],
+            'koubei_car' => [
+                'formatter' => KoubeiCarFormatter::class,
+                'property'  => KoubeiCar::class,
+                'table'     => 'canal_example.koubei_car',
+            ],
+            'csdn_user'  => [
+                'formatter'   => '',
+                'property'    => CsdnUser::class,
+                'table'       => 'canal_example.csdn_users',
+                'destination' => 'csdn_user',
+                'filter'      => 'canal_example.csdn_users',
             ],
         ],
 

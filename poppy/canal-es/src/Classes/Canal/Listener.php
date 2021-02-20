@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace Poppy\CanalEs\Classes\Canal;
 
-
-use App\Canal\Message\Message;
+use Exception;
+use Poppy\CanalEs\Classes\Canal\Message\Message;
 
 class Listener
 {
@@ -14,26 +14,36 @@ class Listener
      */
     private $canalClient;
 
+    private $output;
+
     /**
      * Listener constructor.
-     * @throws \Exception
+     * @param $index
+     * @throws Exception
      */
-    public function __construct()
+    public function __construct($index)
     {
-        $this->canalClient = Client::createClient();
+        $this->canalClient = Client::createClient($index);
+    }
+
+    public function setOutput($output): Listener
+    {
+        $this->output = $output;
+        return $this;
     }
 
     public function monitor()
     {
         while (true) {
-            $message = $this->canalClient->get(config('canal.message_size'));
+            $message = $this->canalClient->get(config('poppy.canal-es.canal.message_size'));
 
             if (!$entries = $message->getEntries()) {
                 sleep(1);
                 continue;
             }
 
-            (new Dispatcher((new Message($entries))->format()))->dispatch();
+            (new Dispatcher((new Message($entries))->format(), $this->output))
+                ->dispatch();
         }
     }
 

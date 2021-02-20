@@ -122,6 +122,7 @@
 			"composer run core",
 			"composer run sms",
 			"composer run faker",
+			"composer run canal-es",
 			"composer run ext-wxpay",
 			"composer run ext-alipay",
 			"composer run ext-pinyin",
@@ -156,6 +157,9 @@
 		],
 		"demo": [
 			"git push demo `git subtree split --prefix=poppy/demo 3.0`:3.0 --force"
+		],
+		"canal-es": [
+			"git push canal-es `git subtree split --prefix=poppy/canal-es 3.0`:3.0 --force"
 		],
 		"ext-alipay": [
 			"git push ext-alipay `git subtree split --prefix=poppy/ext-alipay 3.0`:3.0 --force"

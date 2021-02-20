@@ -5,6 +5,7 @@ namespace Poppy\CanalEs\Commands;
 
 use Illuminate\Console\Command;
 use Poppy\CanalEs\Classes\Es\Index;
+use Poppy\CanalEs\Classes\IndexManager;
 use Poppy\Framework\Helper\UtilHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -17,12 +18,18 @@ class CreateIndexCommand extends Command
     public function handle()
     {
         $indexName    = $this->argument('index');
-        $propertyFile = (string) $this->option('property_class');
+        $propertyFile = (string) $this->option('property');
 
         if (!$indexName) {
             $this->error('Not enough arguments (missing: "index")');
             return;
         }
+
+        // 获取配置中的 property
+        // 指定的优先级高于配置优先级
+        $property = IndexManager::instance($indexName)->property();
+
+        $propertyFile = $propertyFile ?: $property;
 
         $index = new Index($indexName, $propertyFile);
 
@@ -55,7 +62,7 @@ class CreateIndexCommand extends Command
     protected function getOptions()
     {
         return [
-            ['property_class', 'p', InputOption::VALUE_OPTIONAL, 'the index properties class to create'],
+            ['property', 'p', InputOption::VALUE_OPTIONAL, 'the index properties class to create'],
         ];
     }
 
