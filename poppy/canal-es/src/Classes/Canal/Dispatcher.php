@@ -8,6 +8,7 @@ namespace Poppy\CanalEs\Classes\Canal;
 use Poppy\CanalEs\Classes\Canal\Message\Message;
 use Poppy\CanalEs\Classes\Canal\Message\Prepare;
 use Poppy\CanalEs\Classes\Es\Document;
+use Poppy\Framework\Helper\ArrayHelper;
 
 class Dispatcher
 {
@@ -44,8 +45,13 @@ class Dispatcher
     {
         $output = $this->output;
         if ($records = $this->prepare->records()) {
+            // 统计数据
+            $new  = array_reduce($records, function ($carry, $item) {
+                return array_merge($carry, array_keys($item));
+            }, []);
+            $desc = ArrayHelper::genKey(array_count_values($new));
             $this->document->bulk($records);
-            $output && $output(sys_mark('canal', __CLASS__, 'Records `' . count($records) . '` sync to Es'));
+            $output && $output(sys_mark('canal', __CLASS__, 'Records `' . $desc . '` sync to Es'));
         }
         else {
             $output && $output(sys_mark('canal', __CLASS__, 'No Records sync to Es'));
