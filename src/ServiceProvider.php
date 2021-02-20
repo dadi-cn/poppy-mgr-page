@@ -4,7 +4,7 @@
  * Copyright (C) Update For IDE
  */
 
-use Poppy\CanalEs\Commands\CanalCommand;
+use Poppy\CanalEs\Commands\MonitorCommand;
 use Poppy\CanalEs\Commands\CreateIndexCommand;
 use Poppy\CanalEs\Commands\ImportCommand;
 use Poppy\Framework\Exceptions\ModuleNotFoundException;
@@ -34,7 +34,7 @@ class ServiceProvider extends ModuleServiceProviderBase
     public function register()
     {
         $this->commands([
-            CanalCommand::class,
+            MonitorCommand::class,
             CreateIndexCommand::class,
             ImportCommand::class,
         ]);

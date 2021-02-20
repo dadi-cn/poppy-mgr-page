@@ -20,18 +20,35 @@ class Dispatcher
      */
     private $document;
 
+
+    /**
+     * 回调输出
+     * @var callable
+     */
+    private $output;
+
     /**
      * Dispatch constructor.
-     * @param Message $messages
+     * @param Message       $messages
+     * @param callable|null $output 输出
      */
-    public function __construct(Message $messages)
+    public function __construct(Message $messages, callable $output = null)
     {
         $this->prepare  = new Prepare($messages);
         $this->document = new Document();
+        $this->output   = $output;
     }
+
 
     public function dispatch()
     {
-        $this->document->bulk($this->prepare->records());
+        $output = $this->output;
+        if ($records = $this->prepare->records()) {
+            $this->document->bulk($records);
+            $output && $output(sys_mark('canal', __CLASS__, 'Records `' . count($records) . '` sync to Es'));
+        }
+        else {
+            $output && $output(sys_mark('canal', __CLASS__, 'No Records sync to Es'));
+        }
     }
 }

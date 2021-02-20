@@ -4,7 +4,8 @@ declare(strict_types = 1);
 
 namespace Poppy\CanalEs\Classes\Canal;
 
-use Hyperf\Utils\Str;
+
+use Illuminate\Support\Str;
 
 /**
  * @method getClientType()
