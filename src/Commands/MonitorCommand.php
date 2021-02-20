@@ -27,9 +27,10 @@ class MonitorCommand extends Command
         };
 
         try {
-            (new Listener($index))
-                ->setOutput($output)
-                ->monitor();
+            $Listener = (new Listener($index))->setOutput($output);
+            if (!$Listener->monitor()) {
+                $this->error(sys_mark('canal-es', __CLASS__, $Listener->getError()));
+            }
         } catch (Throwable $e) {
             $this->error($e);
         }

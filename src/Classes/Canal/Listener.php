@@ -6,9 +6,12 @@ namespace Poppy\CanalEs\Classes\Canal;
 
 use Exception;
 use Poppy\CanalEs\Classes\Canal\Message\Message;
+use Poppy\Framework\Classes\Traits\AppTrait;
+use Throwable;
 
 class Listener
 {
+    use AppTrait;
     /**
      * @var Client
      */
@@ -34,17 +37,20 @@ class Listener
 
     public function monitor()
     {
-        while (true) {
-            $message = $this->canalClient->get(config('poppy.canal-es.canal.message_size'));
+        try {
+            while (true) {
+                $message = $this->canalClient->get(config('poppy.canal-es.canal.message_size'));
 
-            if (!$entries = $message->getEntries()) {
-                sleep(1);
-                continue;
+                if (!$entries = $message->getEntries()) {
+                    sleep(1);
+                    continue;
+                }
+
+                (new Dispatcher((new Message($entries))->format(), $this->output))
+                    ->dispatch();
             }
-
-            (new Dispatcher((new Message($entries))->format(), $this->output))
-                ->dispatch();
+        } catch (Throwable $e) {
+            return $this->setError($e->getMessage());
         }
     }
-
 }
