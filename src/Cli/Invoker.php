@@ -8,6 +8,12 @@ use Symfony\Component\Finder\Finder;
 
 class Invoker
 {
+    private $path;
+
+    public function __construct($base_path)
+    {
+        $this->path = $base_path;
+    }
 
     public function __invoke(...$parameters): bool
     {
@@ -16,12 +22,11 @@ class Invoker
         if ($param !== 'clear') {
             echo 'Error Param.';
         }
-        $dirname = dirname(__DIR__, 4);
 
         $Finder = Finder::create()
             ->name('*.php')
             ->in([
-                $dirname . '/storage/framework/',
+                $this->path . '/storage/framework/',
             ])
             ->depth('== 0');
 
