@@ -3,7 +3,7 @@
 ## 安装
 
 ```
-composer require poppy/sms 3.0.x-dev 
+composer require poppy/sms 3.1.x-dev 
 ```
 
 ## 安装附加扩展
