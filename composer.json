@@ -141,58 +141,58 @@
 			"composer run gh-core"
 		],
 		"ad": [
-			"git push ad `git subtree split --prefix=poppy/ad 3.0`:3.0 --force"
+			"git push ad `git subtree split --prefix=poppy/ad 3.1`:3.1 --force"
 		],
 		"aliyun-oss": [
-			"git push aliyun-oss `git subtree split --prefix=poppy/aliyun-oss 3.0`:3.0 --force"
+			"git push aliyun-oss `git subtree split --prefix=poppy/aliyun-oss 3.1`:3.1 --force"
 		],
 		"aliyun-push": [
-			"git push aliyun-push `git subtree split --prefix=poppy/aliyun-push 3.0`:3.0 --force"
+			"git push aliyun-push `git subtree split --prefix=poppy/aliyun-push 3.1`:3.1 --force"
 		],
 		"area": [
-			"git push area `git subtree split --prefix=poppy/area 3.0`:3.0 --force"
+			"git push area `git subtree split --prefix=poppy/area 3.1`:3.1 --force"
 		],
 		"core": [
-			"git push core `git subtree split --prefix=poppy/core 3.0`:3.0 --force"
+			"git push core `git subtree split --prefix=poppy/core 3.1`:3.1 --force"
 		],
 		"demo": [
-			"git push demo `git subtree split --prefix=poppy/demo 3.0`:3.0 --force"
+			"git push demo `git subtree split --prefix=poppy/demo 3.1`:3.1 --force"
 		],
 		"canal-es": [
-			"git push canal-es `git subtree split --prefix=poppy/canal-es 3.0`:3.0 --force"
+			"git push canal-es `git subtree split --prefix=poppy/canal-es 3.1`:3.1 --force"
 		],
 		"ext-alipay": [
-			"git push ext-alipay `git subtree split --prefix=poppy/ext-alipay 3.0`:3.0 --force"
+			"git push ext-alipay `git subtree split --prefix=poppy/ext-alipay 3.1`:3.1 --force"
 		],
 		"ext-ip_store": [
-			"git push ext-ip_store `git subtree split --prefix=poppy/ext-ip_store 3.0`:3.0 --force"
+			"git push ext-ip_store `git subtree split --prefix=poppy/ext-ip_store 3.1`:3.1 --force"
 		],
 		"ext-netease": [
-			"git push ext-netease `git subtree split --prefix=poppy/ext-netease 3.0`:3.0 --force"
+			"git push ext-netease `git subtree split --prefix=poppy/ext-netease 3.1`:3.1 --force"
 		],
 		"ext-pinyin": [
-			"git push ext-pinyin `git subtree split --prefix=poppy/ext-pinyin 3.0`:3.0 --force"
+			"git push ext-pinyin `git subtree split --prefix=poppy/ext-pinyin 3.1`:3.1 --force"
 		],
 		"ext-wxpay": [
-			"git push ext-wxpay `git subtree split --prefix=poppy/ext-wxpay 3.0`:3.0 --force"
+			"git push ext-wxpay `git subtree split --prefix=poppy/ext-wxpay 3.1`:3.1 --force"
 		],
 		"faker": [
-			"git push faker `git subtree split --prefix=poppy/faker 3.0`:3.0 --force"
+			"git push faker `git subtree split --prefix=poppy/faker 3.1`:3.1 --force"
 		],
 		"framework": [
-			"git push framework `git subtree split --prefix=poppy/framework 3.0`:3.0 --force"
+			"git push framework `git subtree split --prefix=poppy/framework 3.1`:3.1 --force"
 		],
 		"mgr-page": [
-			"git push mgr-page `git subtree split --prefix=poppy/mgr-page 3.0`:3.0 --force"
+			"git push mgr-page `git subtree split --prefix=poppy/mgr-page 3.1`:3.1 --force"
 		],
 		"project": [
-			"git push project `git subtree split --prefix=poppy/project 3.0`:3.0 --force"
+			"git push project `git subtree split --prefix=poppy/project 3.1`:3.1 --force"
 		],
 		"sms": [
-			"git push sms `git subtree split --prefix=poppy/sms 3.0`:3.0 --force"
+			"git push sms `git subtree split --prefix=poppy/sms 3.1`:3.1 --force"
 		],
 		"system": [
-			"git push system `git subtree split --prefix=poppy/system 3.0`:3.0 --force"
+			"git push system `git subtree split --prefix=poppy/system 3.1`:3.1 --force"
 		],
 		"post-install-cmd": [
 			"php artisan clear-compiled",
