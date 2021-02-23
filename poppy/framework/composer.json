@@ -24,6 +24,9 @@
 			"src/Support/functions.php"
 		]
 	},
+	"bin": [
+		"bin/poppy"
+	],
 	"extra": {
 		"laravel": {
 			"providers": [

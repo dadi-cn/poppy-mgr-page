@@ -10,12 +10,9 @@
 	],
 	"require": {
 		"php": ">=7.2.0",
-		"ext-swoole": ">=4.4",
 		"symfony/console": "4.*",
 		"symfony/finder": "4.*",
-		"hyperf/utils": ">=2.0",
 		"elasticsearch/elasticsearch": "7.*",
-		"sy-records/ringphp": "^1.1",
 		"xingwenge/canal_php": "^1.0"
 	},
 	"autoload": {
