@@ -12,7 +12,7 @@ use Throwable;
 
 class MonitorCommand extends Command
 {
-    protected $name = 'ce:monitor';
+    protected $name = 'py-ce:monitor';
 
     public function handle()
     {

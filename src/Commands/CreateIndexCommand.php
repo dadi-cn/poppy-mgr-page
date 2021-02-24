@@ -13,7 +13,7 @@ use Throwable;
 
 class CreateIndexCommand extends Command
 {
-    protected $name = 'ce:create-index';
+    protected $name = 'py-ce:create-index';
 
     public function handle()
     {
