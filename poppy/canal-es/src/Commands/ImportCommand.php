@@ -16,7 +16,7 @@ use Throwable;
 
 class ImportCommand extends Command
 {
-    protected $name = 'ce:import';
+    protected $name = 'py-ce:import';
 
     public function handle()
     {
