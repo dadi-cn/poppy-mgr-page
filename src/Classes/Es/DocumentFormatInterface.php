@@ -2,9 +2,9 @@
 
 declare(strict_types = 1);
 
-namespace Poppy\CanalEs\Classes\Formatter;
+namespace Poppy\CanalEs\Classes\Es;
 
-interface FormatInterface
+interface DocumentFormatInterface
 {
     /**
      * @return array

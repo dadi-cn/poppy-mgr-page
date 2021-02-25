@@ -7,7 +7,7 @@ namespace Poppy\CanalEs\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
 use Poppy\CanalEs\Classes\Es\Document;
-use Poppy\CanalEs\Classes\Formatter\Format;
+use Poppy\CanalEs\Classes\Es\DocumentFormat;
 use Poppy\CanalEs\Classes\Import;
 use Poppy\CanalEs\Classes\IndexManager;
 use Symfony\Component\Console\Input\InputArgument;
@@ -52,7 +52,7 @@ class ImportCommand extends Command
             }
 
             if ($formatter) {
-                $formatter = new Format($formatter);
+                $formatter = new DocumentFormat($formatter);
             }
 
             $output = null;
@@ -67,7 +67,7 @@ class ImportCommand extends Command
                 $this->info('Imported success! last id: ' . ($last['id'] ?? 'not found'));
                 $document = (new Document($index));
 
-                if ($formatter instanceof Format) {
+                if ($formatter instanceof DocumentFormat) {
                     $document->setFormat($formatter);
                 }
                 $document->import($result);
