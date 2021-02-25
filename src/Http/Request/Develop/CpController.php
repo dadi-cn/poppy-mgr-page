@@ -21,7 +21,6 @@ class CpController extends DevelopController
 {
     /**
      * 开发者控制台
-     * @return View
      */
     public function index()
     {
