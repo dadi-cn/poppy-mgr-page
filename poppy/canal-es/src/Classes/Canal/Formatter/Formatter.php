@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Poppy\CanalEs\Classes\Canal\Formatter;
+namespace Poppy\CanalEs\Classes\Es\DocumentFormatter;
 
 use Com\Alibaba\Otter\Canal\Protocol\Column;
 use Google\Protobuf\Internal\RepeatedField;

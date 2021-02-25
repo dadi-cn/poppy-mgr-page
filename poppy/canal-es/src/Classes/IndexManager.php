@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace Poppy\CanalEs\Classes;
 
+use Poppy\CanalEs\Classes\Es\DocumentFormatter;
+
 /**
  * @method property() 获取属性值
  * @method table()    查询的数据表
@@ -86,7 +88,7 @@ class IndexManager
     /**
      * 获取索引
      * @param string $tableName 表名称 db.table
-     * @return int|string|null
+     * @return DocumentFormatter|null
      */
     public static function formatterFormTable(string $tableName)
     {
@@ -95,7 +97,13 @@ class IndexManager
         }
         foreach (self::$mapper as $index => $item) {
             if ($item['table'] === $tableName) {
-                return $item['formatter'] ?? '';
+                $formatter = $item['formatter'] ?? '';
+                if ($formatter && class_exists($formatter)) {
+                    return new $formatter;
+                }
+                else {
+                    return null;
+                }
             }
         }
         return null;

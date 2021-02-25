@@ -2,12 +2,12 @@
 
 declare(strict_types = 1);
 
-namespace Poppy\CanalEs\Classes\Formatter;
+namespace Poppy\CanalEs\Classes\Es;
 
-class Format
+class DocumentFormat
 {
     /**
-     * @var Formatter|string $formatter
+     * @var DocumentFormatter|string $formatter
      */
     private $formatter;
 
@@ -30,7 +30,7 @@ class Format
 
     private function initFormatter($formatter)
     {
-        if ($formatter instanceof Formatter) {
+        if ($formatter instanceof DocumentFormatter) {
             $this->formatter = $formatter;
             return;
         }

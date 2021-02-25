@@ -6,9 +6,9 @@ namespace Php\Classes\EsFormatter;
 
 use Illuminate\Support\Arr;
 use Php\Classes\EsProperty\KoubeiCar;
-use Poppy\CanalEs\Classes\Formatter\Formatter;
+use Poppy\CanalEs\Classes\Es\DocumentFormatter;
 
-class KoubeiCarFormatter extends Formatter
+class KoubeiCarDocumentFormatter extends DocumentFormatter
 {
 
     public function format(): array

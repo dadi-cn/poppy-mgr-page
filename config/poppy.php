@@ -1,7 +1,7 @@
 <?php
 
-use Php\Classes\EsFormatter\KoubeiCarFormatter;
-use Php\Classes\EsFormatter\OrderFormatter;
+use Php\Classes\EsFormatter\KoubeiCarDocumentFormatter;
+use Php\Classes\EsFormatter\OrderDocumentFormatter;
 use Php\Classes\EsProperty\CsdnUser;
 use Php\Classes\EsProperty\KoubeiCar;
 use Php\Classes\EsProperty\Order;
@@ -113,12 +113,12 @@ return [
         //
         'mapper' => [
             'pt_order'   => [
-                'formatter' => OrderFormatter::class,
+                'formatter' => OrderDocumentFormatter::class,
                 'table'     => 'fadan.pt_order',
                 'property'  => Order::class,
             ],
             'koubei_car' => [
-                'formatter' => KoubeiCarFormatter::class,
+                'formatter' => KoubeiCarDocumentFormatter::class,
                 'property'  => KoubeiCar::class,
                 'table'     => 'canal_example.koubei_car',
             ],

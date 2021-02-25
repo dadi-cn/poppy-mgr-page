@@ -4,8 +4,6 @@ declare(strict_types = 1);
 namespace Poppy\CanalEs\Classes\Es;
 
 use Elasticsearch\ClientBuilder;
-use Poppy\CanalEs\Classes\Formatter\Format;
-use Poppy\CanalEs\Classes\Utils\Concurrent;
 
 class Document
 {
@@ -20,7 +18,7 @@ class Document
     private $index;
 
     /**
-     * @var Format
+     * @var DocumentFormat
      */
     private $format;
 
@@ -32,7 +30,7 @@ class Document
         $this->index  = $index;
     }
 
-    public function setFormat(Format $format): Document
+    public function setFormat(DocumentFormat $format): Document
     {
         $this->format = $format;
 
@@ -71,7 +69,7 @@ class Document
                 '_index' => $this->index,
             ];
 
-            if ($this->format instanceof Format) {
+            if ($this->format instanceof DocumentFormat) {
                 $row = $this->format->format($row);
             }
 

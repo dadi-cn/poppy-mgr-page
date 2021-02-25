@@ -4,8 +4,7 @@ declare(strict_types = 1);
 
 namespace Poppy\CanalEs\Classes\Canal\Message;
 
-
-use Poppy\CanalEs\Classes\Canal\Formatter\Formatter;
+use Poppy\CanalEs\Classes\Es\DocumentFormatter;
 use Poppy\CanalEs\Classes\IndexManager;
 
 class Prepare
@@ -83,7 +82,7 @@ class Prepare
                 ];
 
                 $data[] = [
-                    'doc' => $formatter instanceof Formatter ? $formatter->setValues($record)->format() : $record,
+                    'doc' => $formatter instanceof DocumentFormatter ? $formatter->setValues($record)->format() : $record,
                 ];
             }
         }
@@ -110,7 +109,7 @@ class Prepare
                     ],
                 ];
                 $data[] = [
-                    'doc' => $formatter instanceof Formatter ? $formatter->setValues($record)->format() : $record,
+                    'doc' => $formatter instanceof DocumentFormatter ? $formatter->setValues($record)->format() : $record,
                 ];
             }
         }

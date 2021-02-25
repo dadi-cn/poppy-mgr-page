@@ -5,10 +5,10 @@ declare(strict_types = 1);
 namespace Php\Classes\EsFormatter;
 
 use Carbon\Carbon;
-use Poppy\CanalEs\Classes\Formatter\Formatter;
+use Poppy\CanalEs\Classes\Es\DocumentFormatter;
 use Throwable;
 
-class OrderFormatter extends Formatter
+class OrderDocumentFormatter extends DocumentFormatter
 {
     private static $formatFields = [
         'locked_at',
