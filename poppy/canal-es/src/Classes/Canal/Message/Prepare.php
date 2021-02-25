@@ -109,8 +109,9 @@ class Prepare
                         '_id'    => $id,
                     ],
                 ];
-
-                $data[] = $formatter instanceof Formatter ? $formatter->setValues($record)->format() : $record;
+                $data[] = [
+                    'doc' => $formatter instanceof Formatter ? $formatter->setValues($record)->format() : $record,
+                ];
             }
         }
 

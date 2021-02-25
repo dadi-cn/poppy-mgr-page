@@ -1,7 +1,6 @@
 <?php namespace Poppy\MgrPage\Http\Request\Develop;
 
 use Curl\Curl;
-use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
@@ -11,9 +10,11 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Poppy\Framework\Classes\Resp;
+use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\Framework\Helper\FileHelper;
 use Poppy\Framework\Helper\StrHelper;
 use Session;
+use Throwable;
 
 /**
  * Api 文档控制器
@@ -46,7 +47,6 @@ class ApiDocController extends DevelopController
     /**
      * 自动生成接口
      * @param string $type 支持的类型
-     * @return JsonResponse|RedirectResponse|Response|Redirector
      */
     public function auto($type = '')
     {
@@ -90,11 +90,10 @@ class ApiDocController extends DevelopController
             return Session::get($key);
         };
 
+        $index = input('url');
+        $version = input('version', '1.0.0');
+        $method  = input('method', 'get');
         try {
-            $index   = input('url');
-            $version = input('version', '1.0.0');
-            $method  = input('method', 'get');
-
             $data      = $this->apiData($type, $index, $method, $version);
             $variables = [];
             if (isset($data['current_params'])) {
@@ -142,8 +141,8 @@ class ApiDocController extends DevelopController
                 'front'      => $front,
                 'api_url'    => config('app.url'),
             ]);
-        } catch (Exception $e) {
-            return Resp::error($e->getMessage());
+        } catch (Throwable $e) {
+            return Resp::error('Url : `' . $index . '` 存在错误 : ' . $e->getMessage());
         }
     }
 
@@ -222,7 +221,6 @@ class ApiDocController extends DevelopController
 
                         if (isset($data['current']->parameter)) {
                             $data['current_params'] = $data['current']->parameter->fields->Parameter;
-                            // $data['params']         = $this->params($data['current']);
                         }
                     }
                     if ($val->type === $method && $valUrl === $url) {
@@ -257,6 +255,9 @@ class ApiDocController extends DevelopController
         "size": "2..5"
         "description": "<p>设备ID, 设备唯一的序列号</p> "
          */
+        if (!isset($param->type)) {
+            throw new ApplicationException('参数 `' . data_get($param, 'field') . '` 未配置类型, 例如: {string}');
+        }
         $type          = strtolower(strip_tags(trim($param->type)));
         $allowedValues = $param->allowedValues ?? [];
         $size          = $param->size ?? '';
@@ -278,10 +279,8 @@ class ApiDocController extends DevelopController
                 }
 
                 return '';
-                break;
             case 'boolean':
                 return rand(0, 1);
-                break;
             case 'number':
                 if (strpos($size, '-') !== false) {
                     [$start, $end] = explode('-', $size);
@@ -307,7 +306,6 @@ class ApiDocController extends DevelopController
                 }
 
                 return rand(0, 99999999);
-                break;
         }
 
         return '';
