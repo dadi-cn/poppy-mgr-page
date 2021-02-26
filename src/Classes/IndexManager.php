@@ -101,9 +101,31 @@ class IndexManager
                 if ($formatter && class_exists($formatter)) {
                     return new $formatter;
                 }
-                else {
-                    return null;
+
+                return null;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 获取过滤字段
+     * @param string $tableName
+     * @return mixed|null
+     */
+    public static function propertyFormTable(string $tableName)
+    {
+        if (!self::$mapper) {
+            self::$mapper = config('poppy.canal-es.mapper');
+        }
+        foreach (self::$mapper as $index => $item) {
+            if ($item['table'] === $tableName) {
+                $property = $item['property'] ?? '';
+                if ($property && class_exists($property)) {
+                    return new $property;
                 }
+
+                return null;
             }
         }
         return null;

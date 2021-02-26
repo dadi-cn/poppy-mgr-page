@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Poppy\CanalEs\Classes\Canal\Message;
 
@@ -80,7 +80,7 @@ class Prepare
                         '_id'    => $id,
                     ],
                 ];
-
+                $record = $this->propertyFields($tableName, $record);
                 $data[] = [
                     'doc' => $formatter instanceof DocumentFormatter ? $formatter->setValues($record)->format() : $record,
                 ];
@@ -108,6 +108,7 @@ class Prepare
                         '_id'    => $id,
                     ],
                 ];
+                $record = $this->propertyFields($tableName, $record);
                 $data[] = [
                     'doc' => $formatter instanceof DocumentFormatter ? $formatter->setValues($record)->format() : $record,
                 ];
@@ -115,5 +116,25 @@ class Prepare
         }
 
         return $data;
+    }
+
+    /**
+     * 保留指定字段
+     * @param $tableName
+     * @param $data
+     * @return array
+     */
+    private function propertyFields(string $tableName, array $data)
+    {
+        $property = IndexManager::propertyFormTable($tableName);
+        if (!$property) {
+            return $data;
+        }
+        $fields = array_keys($property->properties());
+        $result = [];
+        foreach ($fields as $field) {
+            $result[$field] = $data[$field];
+        }
+        return $result;
     }
 }
