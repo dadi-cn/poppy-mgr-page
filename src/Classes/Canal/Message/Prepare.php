@@ -82,7 +82,8 @@ class Prepare
                 ];
                 $record = $this->propertyFields($tableName, $record);
                 $data[] = [
-                    'doc' => $formatter instanceof DocumentFormatter ? $formatter->setValues($record)->format() : $record,
+                    'doc'           => $formatter instanceof DocumentFormatter ? $formatter->setValues($record)->format() : $record,
+                    'doc_as_upsert' => true,
                 ];
             }
         }
@@ -109,9 +110,7 @@ class Prepare
                     ],
                 ];
                 $record = $this->propertyFields($tableName, $record);
-                $data[] = [
-                    'doc' => $formatter instanceof DocumentFormatter ? $formatter->setValues($record)->format() : $record,
-                ];
+                $data[] = $formatter instanceof DocumentFormatter ? $formatter->setValues($record)->format() : $record;
             }
         }
 
