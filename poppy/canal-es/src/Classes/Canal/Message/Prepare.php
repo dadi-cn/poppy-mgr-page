@@ -133,7 +133,7 @@ class Prepare
         $enums  = $property->enumFields() ?? [];
         $result = [];
         foreach ($fields as $field) {
-            if ($enums && array_key_exists($field, $enums)) {
+            if ($enums && array_key_exists($field, $enums) && isset($enums[$field][$data[$field]])) {
                 $result[$field] = $enums[$field][$data[$field]];
             }
             else {
