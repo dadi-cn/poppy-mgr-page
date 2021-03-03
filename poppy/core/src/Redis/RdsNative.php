@@ -366,7 +366,18 @@ class RdsNative
     {
         return (array) $this->redis->sscan($this->taggedItemKey($key), $cursor, $options);
     }
+    
+    /**
+     * 获取集合的所有成员
+     * @param $key
+     * @return array
+     */
+    public function smembers($key)
+    {
+        return (array) $this->redis->smembers($this->taggedItemKey($key));
+    }
 
+    /**
     /**
      * @param       $key
      * @param array $members

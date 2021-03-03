@@ -179,9 +179,9 @@ class StrHelper
     /**
      * 去除空格, 换行
      * @param string $string string
-     * @return mixed
+     * @return string
      */
-    public static function trimSpace(string $string)
+    public static function trimSpace(string $string): string
     {
         $string = str_replace([chr(13), chr(10), "\n", "\r", "\t", '  '], '', $string);
 
