@@ -142,13 +142,13 @@ class UtilHelper
     public static function isChId(string $id_card): bool
     {
         if (strlen($id_card) === 18) {
-            return self::idcardChecksum18($id_card);
+            return self::chidChecksum18($id_card);
         }
 
         if (strlen($id_card) === 15) {
-            $id = self::idcard15to18($id_card);
+            $id = self::chid15to18($id_card);
 
-            return self::idcardChecksum18($id);
+            return self::chidChecksum18($id);
         }
 
         return false;
@@ -234,13 +234,13 @@ class UtilHelper
      * @param string $idcard 18 位身份证号码
      * @return bool
      */
-    public static function idcardChecksum18(string $idcard)
+    public static function chidChecksum18(string $idcard)
     {
         if (strlen($idcard) !== 18) {
             return false;
         }
         $idcard_base = substr($idcard, 0, 17);
-        return !(self::idcardVerify($idcard_base) !== strtoupper(substr($idcard, 17, 1)));
+        return !(self::chidVerify($idcard_base) !== strtoupper(substr($idcard, 17, 1)));
     }
 
     /**
@@ -560,12 +560,15 @@ class UtilHelper
 
     /**
      * 计算身份证校验码，根据国家标准GB 11643-1999
-     * @param string $idcard_base idcard_base
+     * @param string $id_base chid base
      * @return string
      */
-    private static function idcardVerify(string $idcard_base): string
+    private static function chidVerify(string $id_base): string
     {
-        if (strlen($idcard_base) !== 17) {
+        if (!is_numeric($id_base)) {
+            return false;
+        }
+        if (strlen($id_base) !== 17) {
             return false;
         }
         //加权因子
@@ -573,8 +576,8 @@ class UtilHelper
         //校验码对应值
         $verify_number_list = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'];
         $checksum           = 0;
-        for ($i = 0, $iMax = strlen($idcard_base); $i < $iMax; $i++) {
-            $checksum += (int) substr($idcard_base, $i, 1) * $factor[$i];
+        for ($i = 0, $iMax = strlen($id_base); $i < $iMax; $i++) {
+            $checksum += (int) substr($id_base, $i, 1) * $factor[$i];
         }
         $mod = $checksum % 11;
         return $verify_number_list[$mod];
@@ -582,26 +585,26 @@ class UtilHelper
 
     /**
      * 将15位身份证升级到18位
-     * @param string $idcard idcard
+     * @param string $chid 身份证号
      * @return bool|string
      */
-    private static function idcard15to18(string $idcard)
+    private static function chid15to18(string $chid)
     {
-        if (strlen($idcard) !== 15) {
+        if (strlen($chid) !== 15) {
             return false;
         }
 
         // 如果身份证顺序码是996 997 998 999，这些是为百岁以上老人的特殊编码
-        if (array_search(substr($idcard, 12, 3), ['996', '997', '998', '999']) !== false) {
-            $idcard = substr($idcard, 0, 6) . '18' . substr($idcard, 6, 9);
+        if (array_search(substr($chid, 12, 3), ['996', '997', '998', '999']) !== false) {
+            $chid = substr($chid, 0, 6) . '18' . substr($chid, 6, 9);
         }
         else {
-            $idcard = substr($idcard, 0, 6) . '19' . substr($idcard, 6, 9);
+            $chid = substr($chid, 0, 6) . '19' . substr($chid, 6, 9);
         }
 
-        $idcard .= self::idcardVerify($idcard);
+        $chid .= self::chidVerify($chid);
 
-        return $idcard;
+        return $chid;
     }
 
     /**

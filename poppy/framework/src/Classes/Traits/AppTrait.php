@@ -44,11 +44,15 @@ trait AppTrait
             $this->error = $error;
         }
         elseif ($error instanceof Exception) {
-            if (!$error->getCode()) {
-                $code = Resp::ERROR;
+            if ($error->getCode()) {
+                $code = $error->getCode();
+                // Fix Error : ["HY000", "SQLSTATE ..."]
+                if (!is_int($code)) {
+                    $code = Resp::ERROR;
+                }
             }
             else {
-                $code = $error->getCode();
+                $code = Resp::ERROR;
             }
             $this->error = new Resp($code, $error->getMessage());
         }

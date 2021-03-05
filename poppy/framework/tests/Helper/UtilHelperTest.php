@@ -22,6 +22,10 @@ class UtilHelperTest extends TestCase
     {
         $format = UtilHelper::isChId('110101190001011009');
         $this->assertEquals(true, $format);
+
+        // fix 1dailian 身份认证
+        $isChid = UtilHelper::isChId('110101190,,1011009');
+        $this->assertEquals(false, $isChid);
     }
 
     public function testIsUrl(): void
@@ -111,7 +115,7 @@ class UtilHelperTest extends TestCase
     public function testIdCardChecksum18(): void
     {
         // todo li 验证 真实身份证号是否符合规范
-        $str = UtilHelper::idcardChecksum18('130428200104282123');
+        $str = UtilHelper::chidChecksum18('130428200104282123');
         $this->assertEquals(true, $str);
     }
 
