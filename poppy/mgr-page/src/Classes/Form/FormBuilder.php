@@ -1,10 +1,12 @@
 <?php namespace Poppy\MgrPage\Classes\Form;
 
+use Carbon\Carbon;
 use Collective\Html\FormBuilder as CollectiveFormBuilder;
 use Illuminate\Support\Str;
 use Poppy\Core\Classes\Traits\CoreTrait;
 use Poppy\Framework\Helper\FileHelper;
 use Poppy\Framework\Helper\TreeHelper;
+use Poppy\System\Classes\Contracts\ApiSignContract;
 
 /**
  * 表单生成
@@ -275,6 +277,13 @@ TIP;
         $display_str = $value ? 'form_thumb-success' : '';
         $sizeClass   = $options['sizeClass'] ?? 'form_thumb-normal';
         $uploadUrl   = route('py-system:api_v1.upload.image');
+        $timestamp = Carbon::now()->timestamp;
+        /** @var ApiSignContract $Sign */
+        $Sign = app(ApiSignContract::class);
+        $sign = $Sign->sign([
+            'token' => $token,
+            'timestamp' => $timestamp
+        ]);
         $parseStr    = /** @lang text */
             <<<CONTENT
 <div class="layui-form-thumb {$display_str} {$sizeClass}" id="{$id}_wrap">
@@ -295,7 +304,9 @@ layui.upload.render({
 	field : 'image',
 	size : 100000,
 	data : {
-	    token: '{$token}'
+	    token: '{$token}',
+	    timestamp: '{$timestamp}',
+	    sign: '{$sign}',
 	},
 	done: function(response){
 		//上传完毕回调

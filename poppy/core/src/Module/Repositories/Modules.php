@@ -2,7 +2,6 @@
 
 use Exception;
 use Illuminate\Support\Collection;
-use Poppy\Core\Classes\Core;
 use Poppy\Core\Classes\PyCoreDef;
 use Poppy\Core\Module\Module;
 use Poppy\Framework\Exceptions\LoadConfigurationException;

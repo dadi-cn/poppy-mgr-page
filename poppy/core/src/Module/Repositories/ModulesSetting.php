@@ -1,7 +1,6 @@
 <?php namespace Poppy\Core\Module\Repositories;
 
 use Illuminate\Support\Collection;
-use Poppy\Core\Classes\Core;
 use Poppy\Core\Classes\PyCoreDef;
 use Poppy\Framework\Support\Abstracts\Repository;
 
