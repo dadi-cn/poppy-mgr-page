@@ -26,7 +26,7 @@ class ModulesPage extends Repository
                 $collection = collect();
                 $slugs->each(function ($items, $slug) use ($collection) {
                     if ($items) {
-                        $collection->put('module.' . $slug, $items);
+                        $collection->put($slug, $items);
                     }
                 });
                 $collection->transform(function ($definition) {
