@@ -16,6 +16,13 @@ Route::group([
 });
 
 Route::group([
+    'middleware' => ['cross'],
+    'namespace'  => 'Php\Http\Request\Web',
+], function (Illuminate\Routing\Router $route) {
+    $route->get('intervention_image/jpg', 'InterventionImageController@jpg');
+});
+
+Route::group([
     'middleware' => ['php.test'],
     'namespace'  => 'Php\Http\Request\Web',
 ], function (Illuminate\Routing\Router $route) {
