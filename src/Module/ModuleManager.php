@@ -26,6 +26,7 @@ class ModuleManager
 
     /**
      * @var ModulesPage
+     * @deprecated
      */
     protected $pageRepository;
 
@@ -121,6 +122,25 @@ class ModuleManager
         }
 
         return $this->menuRepository;
+    }
+
+
+    /**
+     * 为了兼容而存在
+     * @deprecated
+     */
+    public function pages(): ModulesPage
+    {
+        if (!$this->pageRepository instanceof ModulesPage) {
+            $collection = collect();
+            $this->repository()->enabled()->each(function (Module $module) use ($collection) {
+                $collection->put($module->slug(), $module->get('pages', []));
+            });
+            $this->pageRepository = new ModulesPage();
+            $this->pageRepository->initialize($collection);
+        }
+
+        return $this->pageRepository;
     }
 
     /**

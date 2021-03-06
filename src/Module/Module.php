@@ -60,7 +60,9 @@ class Module implements Arrayable, ArrayAccess, JsonSerializable
     }
 
     /**
+     * 为了兼容存在
      * @return Collection
+     * @deprecated
      */
     public function pages(): Collection
     {
