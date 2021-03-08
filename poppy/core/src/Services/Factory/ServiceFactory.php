@@ -3,6 +3,7 @@
 use Illuminate\Support\Str;
 use Poppy\Core\Classes\Traits\CoreTrait;
 use Poppy\Core\Services\Contracts\ServiceArray;
+use Poppy\Core\Services\Contracts\ServiceForm;
 use Poppy\Core\Services\Contracts\ServiceHtml;
 use Poppy\Framework\Exceptions\ApplicationException;
 
@@ -82,5 +83,23 @@ class ServiceFactory
         });
 
         return $collect;
+    }
+
+    /**
+     * 分析表单
+     * @param string $builder 构建器
+     * @param array  $params  参数
+     * @return \Illuminate\Support\HtmlString|mixed
+     */
+    protected function parseForm($builder, $params)
+    {
+        if (class_exists($builder)) {
+            $obj = new $builder();
+            if ($obj instanceof ServiceForm) {
+                return $obj->builder($params);
+            }
+        }
+
+        return \Form::text($params['name'], $params['value'], $params['options'] + ['class' => 'layui-input']);
     }
 }
