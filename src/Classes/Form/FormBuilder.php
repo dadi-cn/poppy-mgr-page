@@ -277,14 +277,14 @@ TIP;
         $display_str = $value ? 'form_thumb-success' : '';
         $sizeClass   = $options['sizeClass'] ?? 'form_thumb-normal';
         $uploadUrl   = route('py-system:api_v1.upload.image');
-        $timestamp = Carbon::now()->timestamp;
+        $timestamp   = Carbon::now()->timestamp;
         /** @var ApiSignContract $Sign */
-        $Sign = app(ApiSignContract::class);
-        $sign = $Sign->sign([
-            'token' => $token,
-            'timestamp' => $timestamp
+        $Sign     = app(ApiSignContract::class);
+        $sign     = $Sign->sign([
+            'token'     => $token,
+            'timestamp' => $timestamp,
         ]);
-        $parseStr    = /** @lang text */
+        $parseStr = /** @lang text */
             <<<CONTENT
 <div class="layui-form-thumb {$display_str} {$sizeClass}" id="{$id}_wrap">
 	<button id="{$id}" class="layui-btn form_thumb-upload" type="button">
@@ -687,29 +687,12 @@ MULTI;
      * @param string $value   值
      * @param array  $options 选项
      * @return string
-     * @deprecated
      */
-    public function timePicker($name, $value = '', $options = []): string
+    public function timePicker(string $name, $value = '', $options = []): string
     {
-        $options['id'] = $this->getIdAttribute($name, $options) ?: 'time_picker_' . Str::random(4);
-        $value         = (string) $this->getValueAttribute($name, $value);
-
-        $options['class'] = 'layui-input ' . ($options['class'] ?? '');
-        $attr             = $this->html->attributes($options);
-
-        $html = <<<HTML
-<input type="text" name="{$name}" value="{$value}" {$attr}>
-<script>
-	$(function(){
-		layui.laydate.render({
-			elem : '#{$options['id']}', 
-			type : 'time'
-		});
-	});
-</script>
-HTML;
-
-        return $html;
+        return $this->datePicker($name, $value, array_merge($options, [
+            'layui-type' => 'time',
+        ]));
     }
 
     /**
@@ -718,29 +701,12 @@ HTML;
      * @param string $value   值
      * @param array  $options 选项
      * @return string
-     * @deprecated
      */
-    public function datetimePicker($name, $value = '', $options = []): string
+    public function datetimePicker(string $name, $value = '', $options = []): string
     {
-        $options['id'] = $this->getIdAttribute($name, $options) ?: 'datetime_picker_' . Str::random(4);
-        $value         = (string) $this->getValueAttribute($name, $value);
-
-        $options['class'] = 'layui-input ' . ($options['class'] ?? '');
-        $attr             = $this->html->attributes($options);
-
-        $html = <<<HTML
-<input type="text" name="{$name}" value="{$value}" {$attr}>
-<script>
-	$(function(){
-		layui.laydate.render({
-			elem : '#{$options['id']}', 
-			type : 'datetime'
-		});
-	});
-</script>
-HTML;
-
-        return $html;
+        return $this->datePicker($name, $value, array_merge($options, [
+            'layui-type' => 'datetime',
+        ]));
     }
 
     /**
@@ -749,91 +715,58 @@ HTML;
      * @param string $value   值
      * @param array  $options 选项
      * @return string
-     * @deprecated 使用组件化的内容
      */
-    public function datePicker($name, $value = '', array $options = []): string
+    public function datePicker(string $name, $value = '', array $options = []): string
     {
-        $options['id'] = $this->getIdAttribute($name, $options) ?: 'date_picker_' . Str::random(4);
-        $value         = (string) $this->getValueAttribute($name, $value);
-
+        $options['id']    = $this->getIdAttribute($name, $options) ?: 'date_picker_' . Str::random(4);
         $options['class'] = 'layui-input ' . ($options['class'] ?? '');
-        $attr             = $this->html->attributes($options);
 
-        $html = <<<HTML
-<input type="text" name="{$name}" value="{$value}" {$attr}>
-<script>
-	$(function(){
-		layui.laydate.render({
-			elem: '#{$options['id']}'
-		});
-	});
-</script>
-HTML;
+        $value = (string) $this->getValueAttribute($name, $value);
+        $type  = $options['layui-type'] ?? 'date';
+        $range = isset($options['layui-range']) && $options['layui-range'] ? 'true' : 'false';
+        $attr  = $this->html->attributes($options);
 
-        return $html;
-    }
-
-
-    /**
-     * 生成日期选择器
-     * @param string $name    名字
-     * @param string $value   值
-     * @param array  $options 选项
-     * @return string
-     * @deprecated
-     */
-    public function yearPicker($name, $value = '', array $options = []): string
-    {
-        $options['id'] = $this->getIdAttribute($name, $options) ?: 'year_picker_' . Str::random(4);
-        $value         = (string) $this->getValueAttribute($name, $value);
-
-        $options['class'] = 'layui-input ' . ($options['class'] ?? '');
-        $attr             = $this->html->attributes($options);
-
-        $html = <<<HTML
+        return <<<HTML
 <input type="text" name="{$name}" value="{$value}" {$attr}>
 <script>
 	$(function(){
 		layui.laydate.render({
 			elem: '#{$options['id']}',
-			type: 'year'
-		});
+			type : '{$type}',
+			range : {$range},
+		})
 	});
 </script>
 HTML;
-
-        return $html;
     }
 
 
     /**
+     * 生成日期选择器
      * @param string $name    名字
      * @param string $value   值
      * @param array  $options 选项
      * @return string
-     * @deprecated
      */
-    public function dateRangePicker($name, $value = '', $options = []): string
+    public function yearPicker(string $name, $value = '', array $options = []): string
     {
-        $options['id'] = $this->getIdAttribute($name, $options) ?: 'daterange_picker_' . Str::random(4);
-        $value         = (string) $this->getValueAttribute($name, $value);
+        return $this->datePicker($name, $value, array_merge($options, [
+            'layui-type' => 'year',
+        ]));
+    }
 
-        $options['class'] = 'layui-input ' . ($options['class'] ?? '');
-        $attr             = $this->html->attributes($options);
 
-        $html = <<<HTML
-<input type="text" name="{$name}" value="{$value}" {$attr}>
-<script>
-	$(function(){
-		layui.laydate.render({
-			elem  : '#{$options['id']}',
-			range : true
-		});
-	});
-</script>
-HTML;
-
-        return $html;
+    /**
+     * @param string $name    名字
+     * @param string $value   值
+     * @param array  $options 选项
+     * @return string
+     */
+    public function dateRangePicker(string $name, $value = '', $options = []): string
+    {
+        return $this->datePicker($name, $value, array_merge($options, [
+            'layui-range' => true,
+        ]));
     }
 
     /**
@@ -841,29 +774,12 @@ HTML;
      * @param string $value   值
      * @param array  $options 选项
      * @return string
-     * @deprecated
      */
     public function monthPicker($name, $value = '', $options = []): string
     {
-        $options['id'] = $this->getIdAttribute($name, $options) ?: 'month_picker_' . Str::random(4);
-        $value         = (string) $this->getValueAttribute($name, $value);
-
-        $options['class'] = 'layui-input ' . ($options['class'] ?? '');
-        $attr             = $this->html->attributes($options);
-
-        $html = <<<HTML
-<input type="text" name="{$name}" value="{$value}" {$attr}>
-<script>
-	$(function(){
-		layui.laydate.render({
-			elem  : '#{$options['id']}',
-			type : 'month'
-		});
-	});
-</script>
-HTML;
-
-        return $html;
+        return $this->datePicker($name, $value, array_merge($options, [
+            'layui-type' => 'month',
+        ]));
     }
 
     /**
