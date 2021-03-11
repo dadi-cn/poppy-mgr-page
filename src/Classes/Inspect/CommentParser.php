@@ -10,7 +10,7 @@ class CommentParser
      * @param string $data phpdoc 文档
      * @return array
      */
-    public function parseContent($data): array
+    public function parseContent(string $data): array
     {
         $result = [];
 
@@ -28,11 +28,11 @@ class CommentParser
      * @param string $doc php doc 文档
      * @return array
      */
-    public function parseMethod($doc): array
+    public function parseMethod(string $doc): array
     {
         $result = ['description' => '', 'params' => []];
 
-        $result['description'] = trim(preg_replace('/(?:[ \t]*\*[ \t]*@(.*?)\n|[ \t]*\*[ \t]*)/si', '', $doc));
+        $result['description'] = trim(preg_replace('/(?:[ \t]*\*[ \t]*@(.*?)\n|[ \t]*\*[ \t]*)/si', '', $doc), '/ ' . PHP_EOL);
 
         preg_match_all('/@([a-z0-9_-]+)\s*(.*?)\n/si', $doc, $matches, PREG_SET_ORDER);
 
@@ -71,7 +71,7 @@ class CommentParser
      * @param string $str 单行注释
      * @return string
      */
-    private function parseVarType($str): string
+    private function parseVarType(string $str): string
     {
         if (preg_match('/@[a-z]+\s+([\\a-zA-Z|]+)\s+\$/i', $str, $match)) {
             return trim($match[1]);
@@ -85,9 +85,9 @@ class CommentParser
      * @param string $str 单行注释
      * @return string
      */
-    private function parseVarName($str): string
+    private function parseVarName(string $str): string
     {
-        if (preg_match('/\s+(\$[a-zA-z0-9]+)\s{0,}/i', $str, $match)) {
+        if (preg_match('/\s+(\$[a-zA-z0-9]+)\s*/i', $str, $match)) {
             return $match[1];
         }
 
@@ -99,7 +99,7 @@ class CommentParser
      * @param string $str 单行注释
      * @return string
      */
-    private function parseVarDesc($str): string
+    private function parseVarDesc(string $str): string
     {
         if (preg_match('/\s+\$[a-zA-z0-9]+\s(.*+)/i', $str, $match)) {
             return trim($match[1]);
