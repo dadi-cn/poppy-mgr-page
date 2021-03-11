@@ -27,7 +27,7 @@ class FormCaptcha extends FormBaseWidget
         // 添加 code 代码
         $code = <<<CODE
 \$this->captcha('test', 'xxx')->rules([
-	Rule::required(),
+    Rule::required(),
 ])->help('内容必填');
 CODE;
         $this->code('test-code', 'Code@xxx')->default($code);
@@ -39,7 +39,7 @@ CODE;
         // 添加 code 代码
         $code = <<<CODE
 \$this->captcha('test_v_2', 'xxxx')->rules([
-	'captcha',
+    'captcha',
 ])->help('输入内容需正确');
 CODE;
         $this->code('test_v_2-code', 'Code@xxxx')->default($code);

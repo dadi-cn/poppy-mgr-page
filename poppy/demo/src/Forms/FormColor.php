@@ -23,7 +23,7 @@ class FormColor extends FormBaseWidget
         // 添加 code 代码
         $code = <<<CODE
 \$this->color('test_v_1', 'Test1')->default('#ff0022')->rules([
-	Rule::required(),
+    Rule::required(),
 ])->help('颜色选择库');
 CODE;
         $this->code('test_v_1-code', 'Code@Test1')->default($code);

@@ -1,12 +1,12 @@
 <?php namespace Poppy\Demo\Http\Forms\Helpers;
 
+use Poppy\Core\Classes\Inspect\CommentParser;
 use Poppy\Framework\Helper\EnvHelper;
 use Poppy\System\Classes\Widgets\FormWidget;
 use ReflectionClass;
 
 class FormEnvHelper extends FormWidget
 {
-
 
     /**
      * 表单标题
@@ -25,7 +25,15 @@ class FormEnvHelper extends FormWidget
         foreach ($methods as $method) {
             if ($method->isPublic()) {
                 $methodName = $method->getName();
-                $result     = EnvHelper::$methodName();
+                $comment = $method->getDocComment();
+                $DocParser = new CommentParser();
+                $docs = $DocParser->parseMethod($comment);
+                if (in_array($methodName, [
+                    'isInternalIp',
+                ])) {
+                    continue;
+                }
+                $result = EnvHelper::$methodName();
                 if (is_bool($result)) {
                     if ($result) {
                         $result = 'true';
@@ -34,7 +42,7 @@ class FormEnvHelper extends FormWidget
                         $result = 'false';
                     }
                 }
-                $this->display($methodName, ucfirst($methodName))->default($result)->help(ucfirst($methodName));
+                $this->display($methodName, ucfirst($methodName))->default($result)->help($docs['description']);
             }
         }
     }

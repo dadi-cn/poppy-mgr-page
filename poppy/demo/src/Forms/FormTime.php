@@ -24,7 +24,7 @@ class FormTime extends FormBaseWidget
         // 添加 code 代码
         $code = <<<CODE
 \$this->time('time', 'Time')->rules([
-	Rule::required(),
+    Rule::required(),
 ])->help('时间必填');
 CODE;
         $this->code('time-code', 'Code@Time')->default($code);

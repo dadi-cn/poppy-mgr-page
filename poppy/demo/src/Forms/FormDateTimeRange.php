@@ -32,7 +32,7 @@ CODE;
         // 添加 code 代码
         $code = <<<CODE
 \$this->datetimeRange('datetime_range_required', 'Date Range Required')->rules([
-	Rule::required(),
+    Rule::required(),
 ])->help('日期范围输入框必填');
 CODE;
         $this->code('datetime_range_required-code', 'Code@Date Range Required')->default($code);

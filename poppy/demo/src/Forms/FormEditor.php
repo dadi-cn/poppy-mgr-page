@@ -32,7 +32,7 @@ CODE;
         // 添加 code 代码
         $code = <<<CODE
 \$this->editor('editor-required', '编辑器')->rules([
-	Rule::required(),
+    Rule::required(),
 ]);
 CODE;
         $this->code('editor-required-code', 'Code@编辑器')->default($code);

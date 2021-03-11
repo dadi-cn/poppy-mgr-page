@@ -22,7 +22,7 @@ class FormFieldSet extends FormBaseWidget
         // 添加 code 代码
         $code = <<<CODE
 \$this->fieldset('用户信息', static function () {
-	return 'user_info';
+    return 'user_info';
 })->end();
 CODE;
         $this->code('user-code', 'Code@用户信息')->default($code);
@@ -34,7 +34,7 @@ CODE;
         // 添加 code 代码
         $code = <<<CODE
 \$this->fieldset('info', static function () {
-	return 'zh';
+    return 'zh';
 })->start('test');
 CODE;
         $this->code('info-code', 'Code@info')->default($code);

@@ -32,7 +32,7 @@ CODE;
         // 添加 code 代码
         $code = <<<CODE
 \$this->textarea('content_required', 'Content Required')->rules([
-	Rule::required(),
+    Rule::required(),
 ])->help('文本内容必须填写');
 CODE;
         $this->code('content_required-code', 'Code@Content Required')->default($code);

@@ -19,44 +19,35 @@ class HelperController extends WebController
      * 主页
      * @return Content
      */
-    public function env()
+    public function env(): Content
     {
         return (new Content())->body(new FormEnvHelper());
     }
 
-    public function image()
+    public function image(): Content
     {
         return (new Content())->body(new FormImageHelper());
     }
 
-    public function tree()
+    public function tree(): Content
     {
         return (new Content())->body(new FormTreeHelper());
     }
 
     public function imgStr()
     {
-        ob_clean();
         ImgHelper::buildStr('Qianqian Li');
-        $content = ob_get_clean();
-        return Response::make($content, 200, [
-            'Content-Type'  => 'image/png',
-            'Cache-Control' => 'no-cache, must-revalidate',
-        ]);
     }
 
     public function imgBmp()
     {
-        $gd = ImgHelper::imageCreateFromBmp(poppy_path('poppy.demo', 'tests/files/bear.bmp'));
-        ob_clean();
+        $gd = imagecreatefrombmp(poppy_path('poppy.demo', 'tests/files/bear.bmp'));
         header("Content-type:image/jpg");
         imagepng($gd);
         imagedestroy($gd);
-        $content = ob_get_clean();
-        return Response::make($content);
     }
 
-    public function form()
+    public function form(): Content
     {
         $content = new Content();
         $content->title('表单示例')

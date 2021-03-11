@@ -32,7 +32,7 @@ CODE;
         // 添加 code 代码
         $code = <<<CODE
 \$this->month('month_require', 'Require')->rules([
-	Rule::required(),
+    Rule::required(),
 ])->help('月份输入框必填');
 CODE;
         $this->code('month_require-code', 'Code@Require')->default($code);

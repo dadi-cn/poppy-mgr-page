@@ -23,7 +23,7 @@ class FormCurrency extends FormBaseWidget
         // 添加 code 代码
         $code = <<<CODE
 \$this->currency('amount', 'Amount')->rules([
-	Rule::required(),
+    Rule::required(),
 ])->help('输入框必填');
 CODE;
         $this->code('amount-code', 'Code@Amount')->default($code);

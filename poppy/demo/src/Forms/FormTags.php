@@ -33,9 +33,9 @@ class FormTags extends FormBaseWidget
         // 添加 code 代码
         $code = <<<CODE
 \$this->tags('tags', 'Tags')
-	->options(PamRole::getLinear('backend', 'id'))
-	->rules([
-		Rule::required(),
+    ->options(PamRole::getLinear('backend', 'id'))
+    ->rules([
+    	Rule::required(),
 	])->help('标签必选且最多选择4项');
 CODE;
         $this->code('tags-code', 'Code@Tags')->default($code);

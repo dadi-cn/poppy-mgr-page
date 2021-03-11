@@ -22,9 +22,9 @@ class FormRadio extends FormBaseWidget
             'table_tennis' => '乒乓球',
         ])
             ->help('
-			因为是必选框, 在Layui 下无法进行渲染 required, 所以这里无法提交, 
-			报 An invalid form control with name=\'radio_ball\' is not 
-			focusable.所以 Ajax 在这里使用服务器验证'
+            因为是必选框, 在Layui 下无法进行渲染 required, 所以这里无法提交, 
+            报 An invalid form control with name=\'radio_ball\' is not 
+            focusable.所以 Ajax 在这里使用服务器验证'
             )
             ->rules([
                 Rule::required(),
@@ -34,13 +34,13 @@ class FormRadio extends FormBaseWidget
         // 添加 code 代码
         $code = <<<CODE
 \$this->radio('radio_ball', '球类')->options([
-	'football'     => '足球',
-	'basketball'   => '篮球',
-	'table_tennis' => '乒乓球',
+    'football'     => '足球',
+    'basketball'   => '篮球',
+    'table_tennis' => '乒乓球',
 ])
-	->help('
-	因为是必选框, 在Layui 下无法进行渲染 required, 所以这里无法提交, 
-	报 An invalid form control with name=\'radio_ball\' is not 
+    ->help('
+    因为是必选框, 在Layui 下无法进行渲染 required, 所以这里无法提交, 
+    报 An invalid form control with name=\'radio_ball\' is not 
 	focusable.所以 Ajax 在这里使用服务器验证'
 	)
 	->rules([

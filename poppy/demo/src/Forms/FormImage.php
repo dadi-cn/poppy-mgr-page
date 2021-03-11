@@ -37,7 +37,7 @@ class FormImage extends FormBaseWidget
         $code = <<<CODE
 \$token = app('tymon.jwt.auth')->fromUser(PamAccount::first());
 \$this->image('image', '图片, 默认, 可上传')->rules([
-	Rule::required(),
+    Rule::required(),
 ])->token($token);
 CODE;
         $this->code('image-code', 'Code@图片, 默认, 可上传')->default($code);
@@ -50,8 +50,8 @@ CODE;
         // 添加 code 代码
         $code = <<<CODE
 \$this->image('image_rec_r', '图片小组件')
-	->size('small')
-	->help('未设置Token, 无法上传; 默认竖向图片比较宽, 图片展示组件是小型 : small');
+    ->size('small')
+    ->help('未设置Token, 无法上传; 默认竖向图片比较宽, 图片展示组件是小型 : small');
 CODE;
         $this->code('image_rec_r-code', 'Code@图片小组件')->default($code);
         $this->divider();
@@ -61,7 +61,7 @@ CODE;
         // 添加 code 代码
         $code = <<<CODE
 \$this->image('image_square', '图片标准组件')
-	->help('未设置Token, 无法上传; 默认方形图片, 图片展示组件是标准大小 : normal');
+    ->help('未设置Token, 无法上传; 默认方形图片, 图片展示组件是标准大小 : normal');
 CODE;
         $this->code('image_square-code', 'Code@图片标准组件')->default($code);
         $this->divider();
@@ -72,8 +72,8 @@ CODE;
         // 添加 code 代码
         $code = <<<CODE
 \$this->image('image_rec', '图片大组件')
-	->size('large')
-	->help('未设置Token, 无法上传; 默认横向图片比较宽, 图片展示组件是大型 : large');
+    ->size('large')
+    ->help('未设置Token, 无法上传; 默认横向图片比较宽, 图片展示组件是大型 : large');
 CODE;
         $this->code('image_rec-code', 'Code@图片大组件')->default($code);
         $this->divider();
@@ -83,7 +83,7 @@ CODE;
         // 添加 code 代码
         $code = <<<CODE
 \$this->image('image_max_width', '超宽图')
-	->help('超宽图预览');
+    ->help('超宽图预览');
 CODE;
         $this->code('image_max_width-code', 'Code@超宽图')->default($code);
         $this->divider();
@@ -93,7 +93,7 @@ CODE;
         // 添加 code 代码
         $code = <<<CODE
 \$this->image('image_max_height', '超高图')
-	->help('超高图预览');
+    ->help('超高图预览');
 CODE;
         $this->code('image_max_height-code', 'Code@超高图')->default($code);
 

@@ -24,7 +24,7 @@ class FormDecimal extends FormBaseWidget
         // 添加 code 代码
         $code = <<<CODE
 \$this->decimal('decimal', 'Decimal')->rules([
-	Rule::required(),
+    Rule::required(),
 ])->default('1')->help('数字输入框必填');
 CODE;
         $this->code('decimal-code', 'Code@Decimal')->default($code);

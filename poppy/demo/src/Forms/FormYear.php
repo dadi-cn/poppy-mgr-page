@@ -23,7 +23,7 @@ class FormYear extends FormBaseWidget
         // 添加 code 代码
         $code = <<<CODE
 \$this->year('year', 'Year')->rules([
-	Rule::required(),
+    Rule::required(),
 ])->help('年份必选');
 CODE;
         $this->code('year-code', 'Code@Year')->default($code);

@@ -65,7 +65,7 @@ CODE;
         // 添加 code 代码
         $code = <<<CODE
 \$this->text('text_max_or_min', '长度')->rules([
-	'min:2', 'max:4', 'nullable',
+    'min:2', 'max:4', 'nullable',
 ])->help('文本长度需符合最少2位且最多4位条件');
 CODE;
         $this->code('text_max_or_min-code', 'Code@长度')->default($code);
@@ -78,8 +78,8 @@ CODE;
         // 添加 code 代码
         $code = <<<CODE
 \$this->text('text_preg', '正则')->rules([
-	Rule::nullable(),
-	'regex:/^[a-z]{2,}$/',
+    Rule::nullable(),
+    'regex:/^[a-z]{2,}$/',
 ])->help('文本内容需符合 a-z 至少2位');
 CODE;
         $this->code('text_preg-code', 'Code@正则')->default($code);
@@ -91,8 +91,8 @@ CODE;
         // 添加 code 代码
         $code = <<<CODE
 \$this->text('text_no_icon', '文本(无Icon)')
-	->prepend('')
-	->append('xxx')->help('文本(无图标显示)');
+    ->prepend('')
+    ->append('xxx')->help('文本(无图标显示)');
 CODE;
         $this->code('text_no_icon-code', 'Code@文本(无Icon)')->default($code);
         $this->divider();
@@ -103,7 +103,7 @@ CODE;
         // 添加 code 代码
         $code = <<<CODE
 \$this->text('text_required', '必填文本')->rules([
-	Rule::required(),
+    Rule::required(),
 ])->help('文本内容必须填写');
 CODE;
         $this->code('text_required-code', 'Code@必填文本')->default($code);
@@ -117,9 +117,9 @@ CODE;
         // 添加 code 代码
         $code = <<<CODE
 \$this->text('text_with_datalist', '有 Data List 的输入框')->rules([
-	Rule::required(),
+    Rule::required(),
 ])->datalist([
-	'Db1', 'Db2', 'Db3',
+    'Db1', 'Db2', 'Db3',
 ])->placeholder('有 Data List 的输入框')->help('有 Data List 的输入框');
 CODE;
         $this->code('text_with_datalist-code', 'Code@有 Data List 的输入框')->default($code);
@@ -132,8 +132,8 @@ CODE;
         // 添加 code 代码
         $code = <<<CODE
 \$this->text('alpha', '字母')->rules([
-	Rule::alpha(),
-	Rule::nullable(),
+    Rule::alpha(),
+    Rule::nullable(),
 ])->help('文本内容必须完全由字母组成');
 CODE;
         $this->code('alpha-code', 'Code@字母')->default($code);
@@ -146,8 +146,8 @@ CODE;
         // 添加 code 代码
         $code = <<<CODE
 \$this->text('dash', 'Dash')->rules([
-	Rule::alphaDash(),
-	Rule::nullable(),
+    Rule::alphaDash(),
+    Rule::nullable(),
 ])->help('文本内容可以包含字母 数字以及破折号和下划线组成');
 CODE;
         $this->code('dash-code', 'Code@Dash')->default($code);

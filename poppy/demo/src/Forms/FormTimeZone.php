@@ -24,7 +24,7 @@ class FormTimeZone extends FormBaseWidget
         // 添加 code 代码
         $code = <<<CODE
 \$this->timezone('timezone', 'Timezone')->rules([
-	Rule::required(),
+    Rule::required(),
 ])->help('时区选择项');
 CODE;
         $this->code('timezone-code', 'Code@Timezone')->default($code);

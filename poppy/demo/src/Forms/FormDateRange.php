@@ -38,7 +38,7 @@ CODE;
         // 添加 code 代码
         $code = <<<CODE
 \$this->dateRange('daterange_required', 'Date Range Required')->rules([
-	Rule::required(),
+    Rule::required(),
 ])->help('输入框必填');
 CODE;
         $this->code('daterange_required-code', 'Code@Date Range Required')->default($code);

@@ -24,7 +24,7 @@ class FormUrl extends FormBaseWidget
         // 添加 code 代码
         $code = <<<CODE
 \$this->url('url', 'Url')->rules([
-	Rule::required(),
+    Rule::required(),
 ])->help('URL输入框');
 CODE;
         $this->code('url-code', 'Code@Url')->default($code);
@@ -36,7 +36,7 @@ CODE;
         // 添加 code 代码
         $code = <<<CODE
 \$this->url('nullable', 'Nullable')->rules([
-	Rule::nullable(),
+    Rule::nullable(),
 ])->help('URL输入框可为空');
 CODE;
         $this->code('nullable-code', 'Code@Nullable')->default($code);

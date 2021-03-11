@@ -23,7 +23,7 @@ class FormNumber extends FormBaseWidget
         // 添加 code 代码
         $code = <<<CODE
 \$this->number('number', 'Number')->rules([
-	Rule::nullable(),
+    Rule::nullable(),
 ])->help('数字输入框');
 CODE;
         $this->code('number-code', 'Code@Number')->default($code);
@@ -37,10 +37,10 @@ CODE;
         // 添加 code 代码
         $code = <<<CODE
 \$this->number('number_min_district', '数字(非必选[最小值2])')
-	->rules([
-		'min:2',
-		Rule::nullable(),
-	])->help('数字输入框最小值为2');
+    ->rules([
+        'min:2',
+        Rule::nullable(),
+    ])->help('数字输入框最小值为2');
 CODE;
         $this->code('number_min_district-code', 'Code@数字(非必选[最小值2])')->default($code);
         $this->divider();
@@ -54,8 +54,8 @@ CODE;
         // 添加 code 代码
         $code = <<<CODE
 \$this->number('number_max_district', '数字(必选[3-100])')
-	->rules([
-		'min:3',
+    ->rules([
+        'min:3',
 		'max:100',
 		Rule::required(),
 	])->help('输入值条件 最小是3最大是100');

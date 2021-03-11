@@ -24,7 +24,7 @@ class FormFile extends FormBaseWidget
         // 添加 code 代码
         $code = <<<CODE
 \$this->file('file', 'File')->rules([
-	Rule::file(),
+    Rule::file(),
 ])->help('文件上传');
 CODE;
         $this->code('file-code', 'Code@File')->default($code);

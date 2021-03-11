@@ -24,7 +24,7 @@ class FormMobile extends FormBaseWidget
         // 添加 code 代码
         $code = <<<CODE
 \$this->mobile('phone', 'Phone')->rules([
-	Rule::nullable(),
+    Rule::nullable(),
 ])->help('手机号输入框可不填');
 CODE;
         $this->code('phone-code', 'Code@Phone')->default($code);
@@ -36,7 +36,7 @@ CODE;
         // 添加 code 代码
         $code = <<<CODE
 \$this->mobile('mobile', 'Mobile')->rules([
-	Rule::required(),
+    Rule::required(),
 ])->help('手机号输入框必填');
 CODE;
         $this->code('mobile-code', 'Code@Mobile')->default($code);

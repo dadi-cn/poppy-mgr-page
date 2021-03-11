@@ -1,7 +1,6 @@
 <?php namespace Poppy\Core\Classes\Inspect;
 
 use Curl\Curl;
-use ErrorException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Poppy\Framework\Classes\Traits\AppTrait;
 use Poppy\Framework\Exceptions\ApplicationException;
@@ -90,9 +89,8 @@ class ApiParser
      * @param string $url  请求地址
      * @throws ApplicationException
      * @throws FileNotFoundException
-     * @throws ErrorException
      */
-    public function __construct($type, $url = '')
+    public function __construct(string $type, $url = '')
     {
         $this->type    = $type;
         $this->baseUrl = $url ?: config('app.url');

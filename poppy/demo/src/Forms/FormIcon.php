@@ -23,7 +23,7 @@ class FormIcon extends FormBaseWidget
         // 添加 code 代码
         $code = <<<CODE
 \$this->icon('icon', 'Icon')->rules([
-	Rule::required(),
+    Rule::required(),
 ])->default('xx')->autofocus()->help('图标选择库必填');
 CODE;
         $this->code('icon-code', 'Code@Icon')->default($code);

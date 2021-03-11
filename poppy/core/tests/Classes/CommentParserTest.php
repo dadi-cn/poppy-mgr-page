@@ -1,4 +1,6 @@
-<?php namespace Poppy\Core\Tests\Classes\Inspect;
+<?php
+
+namespace Poppy\Core\Tests\Classes;
 
 /**
  * Copyright (C) Update For IDE
@@ -41,5 +43,24 @@ class CommentParserTest extends TestCase
         $this->assertEquals('$value', $x['foo']['params'][0]['var_name']);
         $this->assertEquals('param', $x['foo']['params'][0]['type']);
         $this->assertEquals('ApplicationException', $x['foo']['throws']);
+    }
+
+    public function testMethod()
+    {
+        $method = '
+        /**
+		 * Short description about class
+		 *
+		 * @param PamAccount $value 描述
+		 * @param \DomNode   $node  Node 描述
+		 * @param value2
+		 * @param Complex Value !@#$%^&*()_+-= Foo!
+		 * @throws ApplicationException
+		 */';
+
+        $p = new CommentParser();
+        $x = $p->parseMethod($method);
+
+        $this->assertEquals('Short description about class', $x['description']);
     }
 }

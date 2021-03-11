@@ -24,11 +24,11 @@ class FormSelect extends FormBaseWidget
         // 添加 code 代码
         $code = <<<CODE
 \$this->select('select', 'Select')
-	->options([
-		'a' => 'apple',
-		'b' => 'pear',
-		'orange',
-	])->help('选择一项');
+    ->options([
+        'a' => 'apple',
+        'b' => 'pear',
+        'orange',
+    ])->help('选择一项');
 CODE;
         $this->code('select-code', 'Code@Select')->default($code);
     }

@@ -32,7 +32,7 @@ class FormDate extends FormBaseWidget
         // 添加 code 代码
         $code = <<<CODE
 \$this->date('date', '日期输入')->placeholder('输入正确日期格式')->rules([
-	Rule::dateFormat('Y-m-d'),
+    Rule::dateFormat('Y-m-d'),
 ])->help('日期输入框');
 CODE;
         $this->code('date-code', 'Code@日期输入')->default($code);
@@ -53,8 +53,8 @@ CODE;
         // 添加 code 代码
         $code = <<<CODE
 \$this->date('date_format')->placeholder('日期输入')->rules([
-	Rule::required(),
-	Rule::date(),
+    Rule::required(),
+    Rule::date(),
 ])->help('输入日期正确格式');
 CODE;
         $this->code('date_format-code', 'Code@date_format')->default($code);

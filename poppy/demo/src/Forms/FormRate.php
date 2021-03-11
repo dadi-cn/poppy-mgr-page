@@ -25,8 +25,8 @@ class FormRate extends FormBaseWidget
         // 添加 code 代码
         $code = <<<CODE
 \$this->rate('rate', 'Rate')->rules([
-	Rule::required(),
-	'regex:/^(\d{0,2}(\.\d{1,2})?|100(\.00?)?)$/',
+    Rule::required(),
+    'regex:/^(\d{0,2}(\.\d{1,2})?|100(\.00?)?)$/',
 ])->help('比例输入框必填');
 CODE;
         $this->code('rate-code', 'Code@Rate')->default($code);

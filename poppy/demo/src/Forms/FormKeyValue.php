@@ -24,7 +24,7 @@ class FormKeyValue extends FormBaseWidget
         // 添加 code 代码
         $code = <<<CODE
 \$this->keyValue('xx', 'Xx')->rules([
-	Rule::required(),
+    Rule::required(),
 ])->help('KeyValue输入框');
 CODE;
         $this->code('ip-code', 'Code@Ip')->default($code);

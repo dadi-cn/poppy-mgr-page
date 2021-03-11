@@ -24,7 +24,7 @@ class FormTimeRange extends FormBaseWidget
         // 添加 code 代码
         $code = <<<CODE
 \$this->timeRange('time_range', '2021-1-19')->rules([
-	Rule::required(),
+    Rule::required(),
 ])->help('时间范围必填');
 CODE;
         $this->code('time_range-code', 'Code@2021-1-19')->default($code);
