@@ -118,11 +118,11 @@ class FormBuilder extends CollectiveFormBuilder
 {$hidden}
 <pre id="{$options['id']}" style="min-height: 100px;border:1px solid #ccc;">{$value}</pre>
 <script>
-	$(function(){
-		var {$options['id']} = ace.edit("{$options['id']}");
-		{$options['id']}.session.on('change', function() {
-			$('#{$hiddenId}').val({$options['id']}.getValue())
-		});
+    $(function(){
+        var {$options['id']} = ace.edit("{$options['id']}");
+        {$options['id']}.session.on('change', function() {
+            $('#{$hiddenId}').val({$options['id']}.getValue())
+        });
     });
 </script>
 HTML;
@@ -153,45 +153,45 @@ HTML;
 
         $data = /** @lang text */
             <<<Editor
-	<textarea class="hidden" name="{$name}" id="{$contentId}">{$value}</textarea>
-		<script>
-		$(function () {
-			new Simditor({
-				textarea: $('#{$contentId}'),
-				defaultImage : '{$defaultImage}',
-			    upload : {
-					url : '{$uploadUrl}',
-					params : {
-						token : '{$token}',
-					},
-					fileKey : 'image',
-					leaveConfirm: '上传进行中, 确认中断?'
-			    },
-			    toolbar: [
-				  'title',
-				  'bold',
-				  'italic',
-				  'underline',
-				  'strikethrough',
-				  'fontScale',
-				  'color',
-				  'ol',
-				  'ul',
-				  'blockquote',
-				  'code',
-				  'table',
-				  'link',
-				  'image',
-				  'hr',
-				  'indent',
-				  'outdent',
-				  'alignment',
-				],
-			    pasteImage: true,
-			    cleanPaste : true
-			});
-		})
-		</script>
+    <textarea class="hidden" name="{$name}" id="{$contentId}">{$value}</textarea>
+        <script>
+        $(function () {
+            new Simditor({
+                textarea: $('#{$contentId}'),
+                defaultImage : '{$defaultImage}',
+                upload : {
+                    url : '{$uploadUrl}',
+                    params : {
+                        token : '{$token}',
+                    },
+                    fileKey : 'image',
+                    leaveConfirm: '上传进行中, 确认中断?'
+                },
+                toolbar: [
+                  'title',
+                  'bold',
+                  'italic',
+                  'underline',
+                  'strikethrough',
+                  'fontScale',
+                  'color',
+                  'ol',
+                  'ul',
+                  'blockquote',
+                  'code',
+                  'table',
+                  'link',
+                  'image',
+                  'hr',
+                  'indent',
+                  'outdent',
+                  'alignment',
+                ],
+                pasteImage: true,
+                cleanPaste : true
+            });
+        })
+        </script>
 Editor;
         return $data;
     }
@@ -231,8 +231,8 @@ Editor;
         $dp = $pjax ? 'data-pjax' : '';
 
         return '
-			<a href="' . $link . '" ' . $dp . '>' . $icon . '</a>
-		';
+            <a href="' . $link . '" ' . $dp . '>' . $icon . '</a>
+        ';
     }
 
     /**
@@ -253,7 +253,7 @@ Editor;
 
         return <<<TIP
 <a title="{$trim_description}" class="J_dialog J_tooltip text-info" data-title="信息提示" data-tip="{$trim_description}">
-	{$icon}
+    {$icon}
 </a>
 TIP;
     }
@@ -287,46 +287,46 @@ TIP;
         $parseStr = /** @lang text */
             <<<CONTENT
 <div class="layui-form-thumb {$display_str} {$sizeClass}" id="{$id}_wrap">
-	<button id="{$id}" class="layui-btn form_thumb-upload" type="button">
-		<i class="fa fa-upload"></i>
-	</button>
-	<div class="form_thumb-ctr" id="{$id}_ctr">
-		<input type="hidden" name="{$name}" value="{$value}" id="{$id}_url"/>
-		<img id="{$id}_preview" class="J_image_preview J_tooltip" title="点击预览" src="{$value}"/>
-		<i id="{$id}_del" class="fa fa-times-circle"></i>
-	</div>
+    <button id="{$id}" class="layui-btn form_thumb-upload" type="button">
+        <i class="fa fa-upload"></i>
+    </button>
+    <div class="form_thumb-ctr" id="{$id}_ctr">
+        <input type="hidden" name="{$name}" value="{$value}" id="{$id}_url"/>
+        <img id="{$id}_preview" class="J_image_preview J_tooltip" title="点击预览" src="{$value}"/>
+        <i id="{$id}_del" class="fa fa-times-circle"></i>
+    </div>
 </div>
 <script>
 layui.upload.render({
-	elem: '#{$id}',
-	url: '{$uploadUrl}',
-	accept : 'images',
-	field : 'image',
-	size : 100000,
-	data : {
-	    token: '{$token}',
-	    timestamp: '{$timestamp}',
-	    sign: '{$sign}',
-	},
-	done: function(response){
-		//上传完毕回调
-		var obj_resp = Util.toJson(response);
-		if (obj_resp.status !== 0) {
-		    Util.splash(obj_resp);
-		} else {
-			$('#{$id}_wrap').addClass('form_thumb-success');
-			$('#{$id}_url').val(obj_resp.data.url[0]);
-			$('#{$id}_preview').attr('src', obj_resp.data.url[0]);
-		}
-	},
-	error: function(){
-	  //请求异常回调
-	}
+    elem: '#{$id}',
+    url: '{$uploadUrl}',
+    accept : 'images',
+    field : 'image',
+    size : 100000,
+    data : {
+        token: '{$token}',
+        timestamp: '{$timestamp}',
+        sign: '{$sign}',
+    },
+    done: function(response){
+        //上传完毕回调
+        var obj_resp = Util.toJson(response);
+        if (obj_resp.status !== 0) {
+            Util.splash(obj_resp);
+        } else {
+            $('#{$id}_wrap').addClass('form_thumb-success');
+            $('#{$id}_url').val(obj_resp.data.url[0]);
+            $('#{$id}_preview').attr('src', obj_resp.data.url[0]);
+        }
+    },
+    error: function(){
+      //请求异常回调
+    }
 });
-	$("#{$id}_del").click(function () {
-		$("#{$id}_wrap").removeClass('form_thumb-success');
-		$("input[name={$name}]").val('');
-	});
+    $("#{$id}_del").click(function () {
+        $("#{$id}_wrap").removeClass('form_thumb-success');
+        $("input[name={$name}]").val('');
+    });
 </script>
 CONTENT;
 
@@ -358,27 +358,27 @@ CONTENT;
                 case 'images':
                 default:
                     $template = '<!--图片-->
-					<a data-fancybox="system.upload" href="___VALUE___">
-						<img style="position: relative;top: 2px;" alt="" height="30" src="___VALUE___">
-					</a>';
+                    <a href="___VALUE___">
+                        <img style="position: relative;top: 2px;" alt="" height="30" src="___VALUE___">
+                    </a>';
                     break;
                 case 'audio':
                     $template = '<!--音频-->
-						<audio style="height: 30px;position: relative;top: 11px;" controls>
-							<source src="___VALUE___" type="audio/mp3">
-						</audio>';
+                        <audio style="height: 30px;position: relative;top: 11px;" controls>
+                            <source src="___VALUE___" type="audio/mp3">
+                        </audio>';
                     break;
                 case 'video':
                     $template = '<!--视频-->
-					<a data-fancybox="system.upload" href="___VALUE___">
-						<i class="fa fa-video"></i>
-					</a>';
+                    <a href="___VALUE___">
+                        <i class="fa fa-video"></i>
+                    </a>';
                     break;
                 case 'file':
                     $template = '<!--视频-->
-					<a target="_blank" href="___VALUE___">
-						<i class="fa fa-file"></i>
-					</a>';
+                    <a target="_blank" href="___VALUE___">
+                        <i class="fa fa-file"></i>
+                    </a>';
                     break;
             }
         }
@@ -393,51 +393,50 @@ CONTENT;
         $parseStr    = /** @lang text */
             <<<CONTENT
 <div class="layui-form-upload">
-	<button id="{$id}" class="layui-btn layui-btn-sm" type="button">上传</button>
-	<div class="form_thumb-ctr" id="{$id}_ctr">
-		<input type="hidden" name="{$name}" value="{$value}" id="{$id}_url"/>
-		<span id="{$id}_preview_ctr" {$display_str}>
-			<span id="{$id}_content">
-				{$content}
-			</span>
-			<span id="{$id}_del" class="fa fa-times"></span>
-		</span>
-	</div>
+    <button id="{$id}" class="layui-btn layui-btn-sm" type="button">上传</button>
+    <div class="form_thumb-ctr" id="{$id}_ctr">
+        <input type="hidden" name="{$name}" value="{$value}" id="{$id}_url"/>
+        <span id="{$id}_preview_ctr" {$display_str}>
+            <span id="{$id}_content">
+                {$content}
+            </span>
+            <span id="{$id}_del" class="fa fa-times"></span>
+        </span>
+    </div>
 </div>
 <script>
 var {$id}_tpl = '{$template}';
 layui.upload.render({
-	elem: '#{$id}',
-	url: '{$uploadUrl}',
-	accept : '{$type}',
-	field : 'file',
-	size : 100000,
-	data : {
-	    token: '{$token}',
-	    type: '{$type}',
-	},
-	done: function(response){
-		//上传完毕回调
-		var obj_resp = Util.toJson(response);
-		if (obj_resp.status !== 0) {
-		    Util.splash(obj_resp);
-		} else {
-			$('#{$id}_url').val(obj_resp.data.url[0]);
-			$('#{$id}_preview_ctr').removeClass('hidden');
-			{$id}_tpl = {$id}_tpl.replace(/___VALUE___/g, obj_resp.data.url[0])
-			$('#{$id}_content').html({$id}_tpl);
-		}
-		$("#{$id}_preview_ctr").show();
-	},
-	error: function(){
-	  //请求异常回调
-	}
+    elem: '#{$id}',
+    url: '{$uploadUrl}',
+    accept : '{$type}',
+    field : 'file',
+    size : 100000,
+    data : {
+        token: '{$token}',
+        type: '{$type}',
+    },
+    done: function(response){
+        //上传完毕回调
+        var obj_resp = Util.toJson(response);
+        if (obj_resp.status !== 0) {
+            Util.splash(obj_resp);
+        } else {
+            $('#{$id}_url').val(obj_resp.data.url[0]);
+            $('#{$id}_preview_ctr').removeClass('hidden');
+            {$id}_tpl = {$id}_tpl.replace(/___VALUE___/g, obj_resp.data.url[0])
+            $('#{$id}_content').html({$id}_tpl);
+        }
+        $("#{$id}_preview_ctr").show();
+    },
+    error: function(){
+      //请求异常回调
+    }
 });
-	$("#{$id}_del").click(function () {
-		$("#{$id}_preview_ctr").hide();
-		$("input[name={$name}]").val('');
-	});
-	$('[data-fancybox="system.upload"]').fancybox({});
+    $("#{$id}_del").click(function () {
+        $("#{$id}_preview_ctr").hide();
+        $("input[name={$name}]").val('');
+    });
 </script>
 CONTENT;
 
@@ -475,20 +474,20 @@ CONTENT;
         if (count($value)) {
             $data      = json_encode($value);
             $renderStr = <<<HAHA
-			//将预览html 追加
-			var values = {$data};
-			for(var item in values) {
-				var data = {
-					index : item,
-					name  : item,
-					type  : (values[item].indexOf('.mp4') !== -1) ? 'video' : 'image',
-					result : values[item],
-					classname : 'multi-uploaded',
-				}
-				layui.laytpl({$id}_template.innerHTML).render(data, function (html) {
-					$('#{$id}_container').append(html);
-				});
-			}
+            //将预览html 追加
+            var values = {$data};
+            for(var item in values) {
+                var data = {
+                    index : item,
+                    name  : item,
+                    type  : (values[item].indexOf('.mp4') !== -1) ? 'video' : 'image',
+                    result : values[item],
+                    classname : 'multi-uploaded',
+                }
+                layui.laytpl({$id}_template.innerHTML).render(data, function (html) {
+                    $('#{$id}_container').append(html);
+                });
+            }
 HAHA;
         }
         $sequenceStr = '';
@@ -517,107 +516,107 @@ HAHA;
         <input type="checkbox" name="________mark" lay-ignore>
         <input type="checkbox" class="j_img_value" checked name="{$name}" value="{{  d.result }}" lay-ignore>
         {{#  if(d.type === 'image'){ }}
-	    <img src="{{  d.result }}" alt="{{ d.name }}" class="layui-upload-img J_image_preview" data-width="{{ $pop_size }}px" data-height="{{ $pop_size }}px">
+        <img src="{{  d.result }}" alt="{{ d.name }}" class="layui-upload-img J_image_preview" data-width="{{ $pop_size }}px" data-height="{{ $pop_size }}px">
         {{# } else { }}
         <video controls class="layui-upload-img">
             <source src="{{  d.result }}" type="video/mp4">
         </video>
         {{#  } }} 
-	    {$sequenceStr}
+        {$sequenceStr}
     </div>
 </script>
 <script>
 $(function(){
-	var {$id}_files = [];
-	
-	{$renderStr}
-	
-	 //绑定单击事件
-	$('body').on('click', '#{$id}_container>div',  function () {
-		var isChecked = $(this).find("input[name=________mark]").prop("checked");
-		$(this).find("input[name=________mark]").prop("checked", !isChecked);
-		if (isChecked) {
-			$(this).removeClass('multi-checked');
-		} else {
-			$(this).addClass('multi-checked')
-		}
-		return false;
-	});
-	var {$id}_uploader = layui.upload.render({
-	    elem:'#{$id}_select',   //开始
-	    url: '{$uploadUrl}' ,
-	    multiple: true,
-	    number : {$number},
-	    auto: {$autoEnable},
-	    bindAction: '#{$id}_upload',
-	    accept : 'file',
-		field : 'image',
-		exts : '{$ext}',
-	    size : 100000,
-		data : {
-		    token : '{$token}'
-		},
-	    choose: function (obj) {  //选择图片后事件
-			var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+    var {$id}_files = [];
+    
+    {$renderStr}
+    
+     //绑定单击事件
+    $('body').on('click', '#{$id}_container>div',  function () {
+        var isChecked = $(this).find("input[name=________mark]").prop("checked");
+        $(this).find("input[name=________mark]").prop("checked", !isChecked);
+        if (isChecked) {
+            $(this).removeClass('multi-checked');
+        } else {
+            $(this).addClass('multi-checked')
+        }
+        return false;
+    });
+    var {$id}_uploader = layui.upload.render({
+        elem:'#{$id}_select',   //开始
+        url: '{$uploadUrl}' ,
+        multiple: true,
+        number : {$number},
+        auto: {$autoEnable},
+        bindAction: '#{$id}_upload',
+        accept : 'file',
+        field : 'image',
+        exts : '{$ext}',
+        size : 100000,
+        data : {
+            token : '{$token}'
+        },
+        choose: function (obj) {  //选择图片后事件
+            var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
             {$id}_files = files;
-	        $('#{$id}_upload').prop('disabled',false);
-	        //预读本地文件示例，不支持ie8
-	        obj.preview(function (index, file, result) {
-	            var data = {
-	                index: index,
-	                name: file.name,
-	                type: (file.name.indexOf('.mp4') !== -1) ? 'video' : 'image',
-	                result: result,
-	                classname : ''
-	            };
-	            var length = $('#{$id}_container div').length;
-	            if (length>={$number}){
-	            	delete {$id}_files[index];
-	            	top.layer.msg('添加的图片不能多于 {$number} 张');
-	            	return;
-	            }
-	            if ($('#{$id}_container').html()=== '请选择图片') {
-	            	$('#{$id}_container').html('');
-	            }
-	            //将预览html 追加
-	            layui.laytpl({$id}_template.innerHTML).render(data, function (html) {
-	                $('#{$id}_container').append(html);
-	            });
-	        });
-	     }, 
-	    before: function (obj) { //上传前回函数
-			if (!{$id}_files.length){
-			     top.layer.msg("无可以上传文件, 请选择文件！");
-			     return;
-			}
-	        layer.load(); //上传loading
-	    },
-	    done: function (res,index,upload) {    //上传完毕后事件
-	        var ctr = $('#{$id}_container').find('[filename='+index+']');
-	        
-	        ctr.find('img').attr('src', res.data.url[0]);
-	        ctr.find('.j_img_value').attr('value', res.data.url[0]);
-	        ctr.addClass('multi-uploaded');
-	        layer.closeAll('loading'); //关闭loading
-	        top.layer.msg("上传成功！");
-	        return delete {$id}_files[index]; // 删除文件队列已经上传成功的文件
-	    }, 
-	    error: function (index, upload) {
-	        layer.closeAll('loading'); //关闭loading
-	        top.layer.msg("上传失败！");
-	    }
-	})
-	//批量删除 单击事件
-	$('#{$id}_delete').click(function () {
-	    $('#{$id}_container').find('input[name=________mark]:checked').each(function (index, value) {
-	        var filename = $(this).parent().attr("filename");
-	        delete {$id}_files[filename];
-	        $(this).parent().remove();
-	        if (!$.trim($('#{$id}_container').html())){
-	            $('#{$id}_container').text('请选择图片');
-	        }
-	    });
-	});
+            $('#{$id}_upload').prop('disabled',false);
+            //预读本地文件示例，不支持ie8
+            obj.preview(function (index, file, result) {
+                var data = {
+                    index: index,
+                    name: file.name,
+                    type: (file.name.indexOf('.mp4') !== -1) ? 'video' : 'image',
+                    result: result,
+                    classname : ''
+                };
+                var length = $('#{$id}_container div').length;
+                if (length>={$number}){
+                    delete {$id}_files[index];
+                    top.layer.msg('添加的图片不能多于 {$number} 张');
+                    return;
+                }
+                if ($('#{$id}_container').html()=== '请选择图片') {
+                    $('#{$id}_container').html('');
+                }
+                //将预览html 追加
+                layui.laytpl({$id}_template.innerHTML).render(data, function (html) {
+                    $('#{$id}_container').append(html);
+                });
+            });
+         }, 
+        before: function (obj) { //上传前回函数
+            if (!{$id}_files.length){
+                 top.layer.msg("无可以上传文件, 请选择文件！");
+                 return;
+            }
+            layer.load(); //上传loading
+        },
+        done: function (res,index,upload) {    //上传完毕后事件
+            var ctr = $('#{$id}_container').find('[filename='+index+']');
+            
+            ctr.find('img').attr('src', res.data.url[0]);
+            ctr.find('.j_img_value').attr('value', res.data.url[0]);
+            ctr.addClass('multi-uploaded');
+            layer.closeAll('loading'); //关闭loading
+            top.layer.msg("上传成功！");
+            return delete {$id}_files[index]; // 删除文件队列已经上传成功的文件
+        }, 
+        error: function (index, upload) {
+            layer.closeAll('loading'); //关闭loading
+            top.layer.msg("上传失败！");
+        }
+    })
+    //批量删除 单击事件
+    $('#{$id}_delete').click(function () {
+        $('#{$id}_container').find('input[name=________mark]:checked').each(function (index, value) {
+            var filename = $(this).parent().attr("filename");
+            delete {$id}_files[filename];
+            $(this).parent().remove();
+            if (!$.trim($('#{$id}_container').html())){
+                $('#{$id}_container').text('请选择图片');
+            }
+        });
+    });
 })
 </script>
 MULTI;
@@ -657,7 +656,7 @@ MULTI;
 
 
             $parse_str = '<img class="J_image_preview" data-width="' . $pop_size . 'px" data-height="' . $pop_size . 'px" src="' . $url . '" ' . $strOptions . '
-		 style="' . $style . '">';
+         style="' . $style . '">';
             return $parse_str;
         }
 
@@ -667,8 +666,8 @@ MULTI;
             $parse_str .= '<div class="multi-img" style="' . $style . '">';
             if ($ext === 'mp4') {
                 $parse_str .= '<video controls class="layui-upload-img" style="' . $style . '">
-		            <source src="' . $_url . '" type="video/mp4">
-		        </video>';
+                    <source src="' . $_url . '" type="video/mp4">
+                </video>';
 
             }
             else {
@@ -729,13 +728,13 @@ MULTI;
         return <<<HTML
 <input type="text" name="{$name}" value="{$value}" {$attr}>
 <script>
-	$(function(){
-		layui.laydate.render({
-			elem: '#{$options['id']}',
-			type : '{$type}',
-			range : {$range},
-		})
-	});
+    $(function(){
+        layui.laydate.render({
+            elem: '#{$options['id']}',
+            type : '{$type}',
+            range : {$range},
+        })
+    });
 </script>
 HTML;
     }
@@ -795,11 +794,11 @@ HTML;
         $options['class'] = 'layui-input ' . ($options['class'] ?? '');
         $attr             = $this->html->attributes($options);
         $html             = <<<HTML
-	<input type="text" id="input_{$options['id']}" name="{$name}" readonly value="{$value}" placeholder="请选择颜色" {$attr}>
-	<div id="{$options['id']}"></div>
+    <input type="text" id="input_{$options['id']}" name="{$name}" readonly value="{$value}" placeholder="请选择颜色" {$attr}>
+    <div id="{$options['id']}"></div>
 <script>
-	$(function(){
-		layui.colorpicker.render({
+    $(function(){
+        layui.colorpicker.render({
             elem  : '#{$options['id']}',
             color : '{$value}',
             done  : function(color){
