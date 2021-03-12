@@ -26,7 +26,7 @@ class FormBuilder extends CollectiveFormBuilder
      * @param string $pid      PID KEY
      * @return string
      */
-    public function tree($name, $tree, $selected = '', $options = [], $id = 'id', $title = 'title', $pid = 'pid'): string
+    public function tree(string $name, array $tree, $selected = '', $options = [], $id = 'id', $title = 'title', $pid = 'pid'): string
     {
         $formatTree = [];
         foreach ($tree as $tr) {
@@ -47,7 +47,7 @@ class FormBuilder extends CollectiveFormBuilder
      * @param array       $options 选项
      * @return string
      */
-    public function radios($name, $lists = [], $value = null, $options = []): string
+    public function radios(string $name, $lists = [], $value = null, $options = []): string
     {
         $str   = '';
         $value = (string) $this->getValueAttribute($name, $value);
@@ -70,7 +70,7 @@ class FormBuilder extends CollectiveFormBuilder
      * @param array  $options 选项
      * @return string
      */
-    public function checkboxes($name, $lists = [], $value = null, $options = []): string
+    public function checkboxes(string $name, $lists = [], $value = null, $options = []): string
     {
         $str       = '';
         $arrValues = [];
@@ -102,32 +102,16 @@ class FormBuilder extends CollectiveFormBuilder
      * 代码编辑器
      * @param string $name    名字
      * @param string $value   值
-     * @param array  $options 选项
      * @return string
      */
-    public function code($name, $value = '', $options = []): string
+    public function code(string $name, $value = ''): string
     {
-        $options['id'] = $this->getIdAttribute($name, $options) ?: 'code_' . Str::random(5);
-        $hiddenId      = $options['id'] . '_hidden';
-        $hidden        = $this->hidden($name, $value, [
-            'id' => $hiddenId,
-        ]);
         $value         = htmlentities($value);
-        $html          = /** @lang text */
-            <<<HTML
-{$hidden}
-<pre id="{$options['id']}" style="min-height: 100px;border:1px solid #ccc;">{$value}</pre>
-<script>
-    $(function(){
-        var {$options['id']} = ace.edit("{$options['id']}");
-        {$options['id']}.session.on('change', function() {
-            $('#{$hiddenId}').val({$options['id']}.getValue())
-        });
-    });
-</script>
-HTML;
-
-        return $html;
+        return $this->textarea($name, $value, [
+            'class' => 'layui-textarea layui-textarea-code',
+            'style' => 'font-family: monospace;',
+            'rows'  => 6,
+        ]);
     }
 
     /**
@@ -654,10 +638,8 @@ MULTI;
         if (is_string($url) || is_null($url)) {
             $url = $url ?: '/assets/images/default/nopic.gif';
 
-
-            $parse_str = '<img class="J_image_preview" data-width="' . $pop_size . 'px" data-height="' . $pop_size . 'px" src="' . $url . '" ' . $strOptions . '
+            return '<img class="J_image_preview" data-width="' . $pop_size . 'px" data-height="' . $pop_size . 'px" src="' . $url . '" ' . $strOptions . '
          style="' . $style . '">';
-            return $parse_str;
         }
 
         $parse_str = '<div class="clearfix layui-upload upload--multi">';
@@ -774,7 +756,7 @@ HTML;
      * @param array  $options 选项
      * @return string
      */
-    public function monthPicker($name, $value = '', $options = []): string
+    public function monthPicker(string $name, $value = '', $options = []): string
     {
         return $this->datePicker($name, $value, array_merge($options, [
             'layui-type' => 'month',
@@ -787,15 +769,19 @@ HTML;
      * @param array  $options 选项
      * @return string
      */
-    public function colorPicker($name, $value = '', $options = []): string
+    public function colorPicker(string $name, $value = '', $options = []): string
     {
-        $options['id']    = $this->getIdAttribute($name, $options) ?: 'colorpicker_' . Str::random(5);
+        $options['id']    = $this->getIdAttribute($name, $options) ?: 'color_picker_' . Str::random(5);
         $value            = (string) $this->getValueAttribute($name, $value);
         $options['class'] = 'layui-input ' . ($options['class'] ?? '');
         $attr             = $this->html->attributes($options);
-        $html             = <<<HTML
+        return <<<HTML
+<div class="layui-inline">
     <input type="text" id="input_{$options['id']}" name="{$name}" readonly value="{$value}" placeholder="请选择颜色" {$attr}>
-    <div id="{$options['id']}"></div>
+</div>
+<div class="layui-inline">
+    <div style="display: inline-block;" id="{$options['id']}"></div>
+</div>
 <script>
     $(function(){
         layui.colorpicker.render({
@@ -808,8 +794,6 @@ HTML;
     });
 </script>
 HTML;
-
-        return $html;
     }
 
 
@@ -817,6 +801,7 @@ HTML;
      * 下拉框
      * @param string $label
      * @param array  $scopes
+     * @param string $selected
      * @return string
      */
     public function scopes(string $label, array $scopes, $selected = ''): string
@@ -829,7 +814,7 @@ HTML;
 <li><a href="?_scope_={$key}">{$scope}</a></li>
 HTML;
         }
-        $html = <<<HTML
+        return <<<HTML
     <div class="dropdown-menu">
         <button class="layui-btn icon-btn layui-btn-sm">
             &nbsp;{$label} <i class="layui-icon layui-icon-drop"></i>
@@ -842,7 +827,5 @@ HTML;
     layui.use(['dropdown']);
     </script>
 HTML;
-
-        return $html;
     }
 }
