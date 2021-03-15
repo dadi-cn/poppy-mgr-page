@@ -13,7 +13,7 @@ class HandleController extends BackendController
     /**
      * @param Request $request
      *
-     * @return $this|mixed
+     * @return mixed
      * @throws Exception
      */
     public function form(Request $request)

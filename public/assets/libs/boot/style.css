@@ -13885,7 +13885,7 @@ readers do not read off random characters that represent icons */
 }
 .search-main .main-list .search a {
   line-height: 24px !important;
-  padding: 5px 0 5px 10px !important;
+  padding: 5px 0 !important;
   border-bottom: 1px solid #efefef;
   display: block;
   color: #666666;
