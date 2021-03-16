@@ -43,8 +43,6 @@ class PamController extends BackendController
         $grid->setTitle('用户账号');
         $grid->setLists(ListPamAccount::class, input('_field', 'id'), input('_order', 'desc'));
 
-        $grid->disableExport(true);
-
         $grid->expandFilter();
 
         if (input('_query')) {
@@ -113,7 +111,6 @@ class PamController extends BackendController
         $grid = new Grid(new PamLog());
         $grid->setTitle('登录日志');
         $grid->setLists(ListPamLog::class, input('_field', 'id'), input('_order', 'desc'));
-        $grid->disableExport(true);
         $grid->expandFilter();
         if (input('_query')) {
             return $grid->inquire($this->pagesize);

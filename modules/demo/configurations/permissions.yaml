@@ -1,5 +1,5 @@
 -
-  slug: backend:py-demo
+  slug: backend:demo
   title: 核心Demo(Backend)
   description: 核心 Demo Backend 权限
   groups:
@@ -21,8 +21,8 @@
           description: 账号管理
 -
   slug: develop:demo
-  title: ModuleDemo(Develop)
-  description: Module Demo Develop 权限
+  title: PyDemo(Develop)
+  description: 核心 Demo Develop 权限
   groups:
     -
       slug: global

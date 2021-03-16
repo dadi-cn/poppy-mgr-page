@@ -1,11 +1,18 @@
 <?php namespace Demo\Http\Request\Web;
 
-use Poppy\Framework\Application\Controller;
+use Poppy\System\Classes\Layout\Demo;
+use Poppy\System\Http\Request\Web\WebController;
 
-class DemoController extends Controller
+/**
+ * 内容生成器
+ */
+class DemoController extends WebController
 {
+    /**
+     * Demo
+     */
     public function index()
     {
-        return 'Demo Web Request Success';
+        return (new Demo());
     }
 }

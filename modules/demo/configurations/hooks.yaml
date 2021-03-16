@@ -1,0 +1,8 @@
+-
+  name: 'demo.array_demo'
+  hooks:
+    - '\Demo\Hooks\PoppyDemoArrayDemo\Service'
+-
+  name: 'demo.html_demo'
+  hooks:
+    - '\Demo\Hooks\PoppyDemoHtmlDemo\Service'
