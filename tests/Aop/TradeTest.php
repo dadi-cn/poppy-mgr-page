@@ -1,4 +1,6 @@
-<?php namespace Poppy\Extension\Alipay\Tests\Aop;
+<?php
+
+namespace Poppy\Extension\Alipay\Tests\Aop;
 
 use Poppy\Extension\Alipay\Aop\Request\AlipayTradeAppPayRequest;
 use Poppy\Extension\Alipay\Aop\Request\AlipayTradeQueryRequest;

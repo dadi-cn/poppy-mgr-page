@@ -1,4 +1,6 @@
-<?php namespace Poppy\Extension\Alipay;
+<?php
+
+namespace Poppy\Extension\Alipay;
 
 use Illuminate\Support\ServiceProvider;
 
