@@ -1,4 +1,6 @@
-<?php namespace Poppy\AliyunPush\Tests\Sample;
+<?php
+
+namespace Poppy\AliyunPush\Tests\Sample;
 
 use Illuminate\Notifications\Notification;
 use Poppy\AliyunPush\Channels\AliPushChannel;

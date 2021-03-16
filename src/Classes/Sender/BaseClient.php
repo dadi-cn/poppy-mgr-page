@@ -1,4 +1,6 @@
-<?php namespace Poppy\AliyunPush\Classes\Sender;
+<?php
+
+namespace Poppy\AliyunPush\Classes\Sender;
 
 use AlibabaCloud\Client\AlibabaCloud;
 use AlibabaCloud\Client\Exception\ClientException;
