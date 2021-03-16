@@ -1,4 +1,6 @@
-<?php namespace Poppy\CanalEs;
+<?php
+
+namespace Poppy\CanalEs;
 
 /**
  * Copyright (C) Update For IDE
