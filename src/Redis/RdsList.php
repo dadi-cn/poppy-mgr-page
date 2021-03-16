@@ -1,4 +1,6 @@
-<?php namespace Poppy\Core\Redis;
+<?php
+
+namespace Poppy\Core\Redis;
 
 class RdsList
 {

@@ -1,4 +1,6 @@
-<?php namespace Poppy\Core\Rbac\Contracts;
+<?php
+
+namespace Poppy\Core\Rbac\Contracts;
 
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use InvalidArgumentException;

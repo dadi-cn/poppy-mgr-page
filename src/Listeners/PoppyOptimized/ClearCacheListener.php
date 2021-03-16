@@ -1,4 +1,6 @@
-<?php namespace Poppy\Core\Listeners\PoppyOptimized;
+<?php
+
+namespace Poppy\Core\Listeners\PoppyOptimized;
 
 use Poppy\Framework\Events\PoppyOptimized;
 use Storage;

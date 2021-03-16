@@ -1,4 +1,6 @@
-<?php namespace Poppy\Core\Module\Repositories;
+<?php
+
+namespace Poppy\Core\Module\Repositories;
 
 use Exception;
 use Illuminate\Support\Collection;

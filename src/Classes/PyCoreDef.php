@@ -1,4 +1,6 @@
-<?php namespace Poppy\Core\Classes;
+<?php
+
+namespace Poppy\Core\Classes;
 
 
 class PyCoreDef

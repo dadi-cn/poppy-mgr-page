@@ -1,4 +1,6 @@
-<?php namespace Poppy\Core\Rbac\Traits;
+<?php
+
+namespace Poppy\Core\Rbac\Traits;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;

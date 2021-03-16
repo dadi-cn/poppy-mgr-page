@@ -1,4 +1,6 @@
-<?php namespace Poppy\Core\Rbac\Middlewares;
+<?php
+
+namespace Poppy\Core\Rbac\Middlewares;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;

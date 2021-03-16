@@ -1,4 +1,6 @@
-<?php namespace Poppy\Core\Classes\Inspect;
+<?php
+
+namespace Poppy\Core\Classes\Inspect;
 
 use Curl\Curl;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;

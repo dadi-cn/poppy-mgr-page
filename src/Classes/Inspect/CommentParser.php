@@ -1,4 +1,6 @@
-<?php namespace Poppy\Core\Classes\Inspect;
+<?php
+
+namespace Poppy\Core\Classes\Inspect;
 
 /**
  * Php document comment parser

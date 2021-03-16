@@ -1,4 +1,6 @@
-<?php namespace Poppy\Core\Tests\Module;
+<?php
+
+namespace Poppy\Core\Tests\Module;
 
 use Poppy\Core\Classes\Traits\CoreTrait;
 use Poppy\Core\Module\Module;

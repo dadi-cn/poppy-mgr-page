@@ -1,4 +1,6 @@
-<?php namespace Poppy\Core\Rbac\Repositories;
+<?php
+
+namespace Poppy\Core\Rbac\Repositories;
 
 use Illuminate\Support\Collection;
 use Poppy\Framework\Support\Abstracts\Repository;
