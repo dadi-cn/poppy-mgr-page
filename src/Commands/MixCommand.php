@@ -1,4 +1,6 @@
-<?php namespace Poppy\MgrPage\Commands;
+<?php
+
+namespace Poppy\MgrPage\Commands;
 
 use Illuminate\Console\Command;
 

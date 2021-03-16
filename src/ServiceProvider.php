@@ -1,4 +1,6 @@
-<?php namespace Poppy\MgrPage;
+<?php
+
+namespace Poppy\MgrPage;
 
 /**
  * Copyright (C) Update For IDE
