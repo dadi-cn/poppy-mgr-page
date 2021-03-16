@@ -102,13 +102,13 @@ class FormBuilder extends CollectiveFormBuilder
 
     /**
      * 代码编辑器
-     * @param string $name    名字
-     * @param string $value   值
+     * @param string $name  名字
+     * @param string $value 值
      * @return string
      */
     public function code(string $name, $value = ''): string
     {
-        $value         = htmlentities($value);
+        $value = htmlentities($value);
         return $this->textarea($name, $value, [
             'class' => 'layui-textarea layui-textarea-code',
             'style' => 'font-family: monospace;',
@@ -800,34 +800,30 @@ HTML;
 
 
     /**
-     * 下拉框
-     * @param string $label
+     * Tab
      * @param array  $scopes
      * @param string $selected
      * @return string
      */
-    public function scopes(string $label, array $scopes, $selected = ''): string
+    public function scopes(array $scopes, $selected = ''): string
     {
-        $label   = $label ?: '选择';
         $content = '';
-        $label   = $scopes[$selected] ?? $label;
         foreach ($scopes as $key => $scope) {
+            if ($selected === $key) {
+                $class = 'layui-this';
+            }
+            else {
+                $class = '';
+            }
             $content .= <<<HTML
-<li><a href="?_scope_={$key}">{$scope}</a></li>
+<li class="{$class}"><a href="?_scope_={$key}">{$scope}</a></li>
 HTML;
         }
         return <<<HTML
-    <div class="dropdown-menu">
-        <button class="layui-btn icon-btn layui-btn-sm">
-            &nbsp;{$label} <i class="layui-icon layui-icon-drop"></i>
-        </button>
-        <ul class="dropdown-menu-nav">
-            {$content}
-        </ul>
-    </div>
-    <script>
-    layui.use(['dropdown']);
-    </script>
+    <div class="layui-tab">
+    <ul class="layui-tab-title">
+    {$content}
+</ul>
 HTML;
     }
 }

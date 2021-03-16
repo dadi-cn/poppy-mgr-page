@@ -21,7 +21,6 @@ class TableController extends WebController
     {
         // 第一列显示id字段，并将这一列设置为可排序列
         $grid = new Grid(new PoppyDemo());
-        $grid->column('id', 'ID')->sortable();
         return (new Content())->body($grid->render());
     }
 
@@ -57,20 +56,7 @@ class TableController extends WebController
 
         $table = new TableWidget($headers, $rows);
 
-        echo $table->render();
-
-        // table 2
-        $headers = ['Keys', 'Values'];
-        $rows    = [
-            'name'   => 'Joe',
-            'age'    => 25,
-            'gender' => 'Male',
-            'birth'  => '1989-12-05',
-        ];
-
-        $table = new TableWidget($headers, $rows);
-
-        echo $table->render();
+        return (new Content())->body($table->render());
     }
 
     public function demo()
@@ -134,7 +120,6 @@ class TableController extends WebController
         // });
 
         // $grid->fixColumns(0, -1);
-        $grid->showPagination();
         // $grid->desciption()->popover('left');
 
 
@@ -178,10 +163,6 @@ class TableController extends WebController
         });
 
         $grid->expandFilter();
-        $grid->filter(function (Grid\Filter $filter) {
-            // 去掉默认的id过滤器
-            $filter->disableIdFilter();
-        });
 
         // $grid->quickCreate(function (Grid\Tools\QuickCreate $create) {
         // 	$create->text('name', '名称');
@@ -194,15 +175,6 @@ class TableController extends WebController
 
         // $grid->table();
 
-        $grid->filter(function (Grid\Filter $filter) {
-
-
-            // 去掉默认的id过滤器
-            // $filter->disableIdFilter();
-
-            // 在这里添加字段过滤器
-
-        });
 
         // $grid->columns('a', 'b', 'c');
 

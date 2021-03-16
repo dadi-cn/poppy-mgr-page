@@ -2,9 +2,6 @@
 @section('backend-main')
     <div class="layui-card-header">
         短信模板
-        <span class="pl8">
-            {!! app('poppy.mgr-page.form')->scopes('选择', \Poppy\Sms\Action\Sms::kvPlatform(), $scope) !!}
-        </span>
         <div class="pull-right">
             <a href="{{route_url('py-sms:backend.sms.establish', null, ['_scope_'=> $scope])}}" class="layui-btn layui-btn-sm J_iframe">
                 创建模板
@@ -12,6 +9,7 @@
         </div>
     </div>
     <div class="layui-card-body">
+        {!! app('poppy.mgr-page.form')->scopes(\Poppy\Sms\Action\Sms::kvPlatform(), $scope) !!}
         <table class="layui-table">
             <tr>
                 <th class="w108">平台</th>
