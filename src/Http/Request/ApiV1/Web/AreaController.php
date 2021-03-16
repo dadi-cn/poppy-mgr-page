@@ -1,4 +1,6 @@
-<?php namespace Poppy\Area\Http\Request\ApiV1\Web;
+<?php
+
+namespace Poppy\Area\Http\Request\ApiV1\Web;
 
 use Poppy\Area\Models\AreaContent;
 use Poppy\Framework\Classes\Resp;

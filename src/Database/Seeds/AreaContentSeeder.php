@@ -1,4 +1,6 @@
-<?php namespace Poppy\Area\Database\Seeds;
+<?php
+
+namespace Poppy\Area\Database\Seeds;
 
 use Illuminate\Database\Seeder;
 use Poppy\Area\Models\AreaContent;

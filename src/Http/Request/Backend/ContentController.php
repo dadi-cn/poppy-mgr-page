@@ -1,4 +1,6 @@
-<?php namespace Poppy\Area\Http\Request\Backend;
+<?php
+
+namespace Poppy\Area\Http\Request\Backend;
 
 use Poppy\Area\Action\Area;
 use Poppy\Area\Models\AreaContent;

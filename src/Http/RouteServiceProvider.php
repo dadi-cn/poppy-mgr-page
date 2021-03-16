@@ -1,4 +1,6 @@
-<?php namespace Poppy\Area\Http;
+<?php
+
+namespace Poppy\Area\Http;
 
 /**
  * Copyright (C) Update For IDE
