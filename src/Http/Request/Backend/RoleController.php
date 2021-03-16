@@ -8,7 +8,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
-use Illuminate\View\View;
 use Poppy\Framework\Classes\Resp;
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\System\Action\Role;
@@ -89,7 +88,7 @@ class RoleController extends BackendController
     {
         $role = PamRole::find($id);
         if (is_post()) {
-            $perms = (array) \Request::input('permission_id');
+            $perms = (array) input('permission_id');
             $Role  = $this->action();
             if (!$Role->savePermission($id, $perms)) {
                 return Resp::success($Role->getError());
