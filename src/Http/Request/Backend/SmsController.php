@@ -95,7 +95,7 @@ class SmsController extends BackendController
      * 短信配置
      * @return Content
      */
-    public function store()
+    public function store(): Content
     {
         return (new Content())->body(new FormSettingSms());
     }
