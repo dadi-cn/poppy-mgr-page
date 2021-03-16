@@ -1,4 +1,6 @@
-<?php namespace Poppy\Extension\Wxpay\Lib;
+<?php
+
+namespace Poppy\Extension\Wxpay\Lib;
 
 /**
  * 短链转换输入对象

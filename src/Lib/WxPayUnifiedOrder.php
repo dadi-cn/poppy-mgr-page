@@ -1,4 +1,6 @@
-<?php namespace Poppy\Extension\Wxpay\Lib;
+<?php
+
+namespace Poppy\Extension\Wxpay\Lib;
 
 /**
  * 统一下单输入对象

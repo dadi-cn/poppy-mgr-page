@@ -1,4 +1,6 @@
-<?php namespace Poppy\Extension\Wxpay\Lib;
+<?php
+
+namespace Poppy\Extension\Wxpay\Lib;
 
 /**
  * 关闭订单输入对象

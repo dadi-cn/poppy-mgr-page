@@ -1,4 +1,6 @@
-<?php namespace Poppy\Extension\Wxpay\Lib;
+<?php
+
+namespace Poppy\Extension\Wxpay\Lib;
 
 /**
  * 提交退款输入对象

@@ -1,4 +1,6 @@
-<?php namespace Poppy\Extension\Wxpay\Lib;
+<?php
+
+namespace Poppy\Extension\Wxpay\Lib;
 
 /**
  * 扫码支付模式一生成二维码参数
