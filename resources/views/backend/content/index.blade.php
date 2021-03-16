@@ -45,7 +45,7 @@
 		@else
 			<tr>
 				<td colspan="23">
-					@include('py-mgr-page::backend.tpl.inc_empty')
+					@include('py-mgr-page::backend.tpl._empty')
 				</td>
 			</tr>
 		@endif
