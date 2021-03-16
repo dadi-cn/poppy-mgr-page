@@ -1,10 +1,4 @@
 <?php
-/*
- * This is NOT a Free software.
- * When you have some Question or Advice can contact Me.
- * @author     Duoli <zhaody901@126.com>
- * @copyright  Copyright (c) 2013-2021 Poppy Team
- */
 
 namespace Demo\Classes\Layout;
 
@@ -13,6 +7,8 @@ use Illuminate\Contracts\Support\Renderable;
 use Poppy\Framework\Exceptions\PoppyException;
 use Poppy\Framework\Helper\EnvHelper;
 use Poppy\Framework\Helper\StrHelper;
+use Poppy\System\Classes\Layout\Content;
+use Poppy\System\Classes\Layout\Row;
 use Throwable;
 
 class Demo implements Renderable
@@ -171,7 +167,7 @@ class Demo implements Renderable
 
         // 这里的显示依赖于 py-mgr-page
         // 因为只是后台, 所以提取一个给后边用
-        return view('py-mgr-page::backend.tpl.demo', $variables)->render();
+        return view('demo::backend.tpl.demo', $variables)->render();
     }
 
     /**

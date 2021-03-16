@@ -56,7 +56,7 @@
         @else
             <tr>
                 <td colspan="11">
-                    @include('system::backend.tpl.inc_empty')
+                    @include('system::backend.tpl._empty')
                 </td>
             </tr>
         @endif

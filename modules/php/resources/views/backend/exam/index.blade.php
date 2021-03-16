@@ -55,7 +55,7 @@
             @else
                 <tr>
                     <td colspan="7">
-                        @include('poppy-mgr-page::backend.tpl.inc_empty')
+                        @include('poppy-mgr-page::backend.tpl._empty')
                     </td>
                 </tr>
             @endif
