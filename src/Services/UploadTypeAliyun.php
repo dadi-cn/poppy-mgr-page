@@ -1,4 +1,6 @@
-<?php namespace Poppy\AliyunOss\Services;
+<?php
+
+namespace Poppy\AliyunOss\Services;
 
 use Poppy\AliyunOss\Action\OssDefaultUploadProvider;
 use Poppy\AliyunOss\Http\Forms\Settings\FormSettingAliyunOss;

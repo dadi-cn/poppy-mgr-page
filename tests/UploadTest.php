@@ -1,4 +1,6 @@
-<?php namespace Poppy\AliyunOss\Tests;
+<?php
+
+namespace Poppy\AliyunOss\Tests;
 
 use Poppy\AliyunOss\Action\OssDefaultUploadProvider;
 use Poppy\Framework\Application\TestCase;

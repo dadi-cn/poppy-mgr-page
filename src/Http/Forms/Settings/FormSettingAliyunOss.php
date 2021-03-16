@@ -1,4 +1,6 @@
-<?php namespace Poppy\AliyunOss\Http\Forms\Settings;
+<?php
+
+namespace Poppy\AliyunOss\Http\Forms\Settings;
 
 use Poppy\Framework\Validation\Rule;
 use Poppy\System\Exceptions\FormException;
