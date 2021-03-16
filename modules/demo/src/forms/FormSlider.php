@@ -1,4 +1,6 @@
-<?php namespace Demo\Forms;
+<?php
+
+namespace Demo\Forms;
 
 class FormSlider extends FormBaseWidget
 {

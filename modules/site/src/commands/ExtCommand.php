@@ -1,4 +1,6 @@
-<?php namespace Site\Commands;
+<?php
+
+namespace Site\Commands;
 
 use Illuminate\Console\Command;
 
@@ -43,7 +45,9 @@ class ExtCommand extends Command
 					'<?php',
 					'class ' . $basename,
 				], [
-					'<?php namespace Poppy\Extension\Alipay\OpenApi\\' . $folder . ";\n\n" .
+					'<?php
+
+namespace Poppy\Extension\Alipay\OpenApi\\' . $folder . ";\n\n" .
 					'use Poppy\Extension\Alipay\OpenApi\Request;' . "\n",
 					'class ' . $newClassName . ' extends Request',
 				], $content);

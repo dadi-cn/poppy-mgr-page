@@ -1,4 +1,6 @@
-<?php namespace Site\Tests\Excel\Exports;
+<?php
+
+namespace Site\Tests\Excel\Exports;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

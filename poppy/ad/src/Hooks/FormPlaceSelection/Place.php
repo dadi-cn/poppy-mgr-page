@@ -1,4 +1,6 @@
-<?php namespace Poppy\Ad\Hooks\FormPlaceSelection;
+<?php
+
+namespace Poppy\Ad\Hooks\FormPlaceSelection;
 
 use Illuminate\Support\HtmlString;
 use Poppy\Ad\Models\AdPlace;

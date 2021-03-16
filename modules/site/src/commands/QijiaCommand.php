@@ -1,4 +1,6 @@
-<?php namespace Site\Commands;
+<?php
+
+namespace Site\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;

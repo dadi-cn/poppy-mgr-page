@@ -1,4 +1,6 @@
-<?php namespace Php\Action;
+<?php
+
+namespace Php\Action;
 
 use Php\Models\ExamContent;
 use Exception;

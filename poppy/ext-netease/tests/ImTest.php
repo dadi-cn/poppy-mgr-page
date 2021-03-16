@@ -1,4 +1,6 @@
-<?php namespace Poppy\Extension\Netease\Tests;
+<?php
+
+namespace Poppy\Extension\Netease\Tests;
 
 use Poppy\Extension\Netease\Im\ImClient;
 use Poppy\Framework\Application\TestCase;

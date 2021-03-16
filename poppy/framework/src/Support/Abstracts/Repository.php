@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Support\Abstracts;
+<?php
+
+namespace Poppy\Framework\Support\Abstracts;
 
 use Illuminate\Support\Collection;
 

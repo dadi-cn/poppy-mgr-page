@@ -1,4 +1,6 @@
-<?php namespace Essay\Models;
+<?php
+
+namespace Essay\Models;
 
 /**
  * @mixin \Eloquent

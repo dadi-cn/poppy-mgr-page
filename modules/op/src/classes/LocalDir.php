@@ -1,4 +1,6 @@
-<?php namespace Op\Classes;
+<?php
+
+namespace Op\Classes;
 
 /**
  * 本地 Dir 映射

@@ -1,4 +1,6 @@
-<?php namespace Poppy\AliyunOss\Action;
+<?php
+
+namespace Poppy\AliyunOss\Action;
 
 use Exception;
 use OSS\OssClient;

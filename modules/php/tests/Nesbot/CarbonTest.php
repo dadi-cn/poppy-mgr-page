@@ -1,4 +1,6 @@
-<?php namespace Php\Tests\Nesbot;
+<?php
+
+namespace Php\Tests\Nesbot;
 
 /**
  * Copyright (C) Update For IDE

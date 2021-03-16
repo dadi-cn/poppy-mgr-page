@@ -1,4 +1,6 @@
-<?php namespace Poppy\Sms\Classes;
+<?php
+
+namespace Poppy\Sms\Classes;
 
 use AlibabaCloud\Client\AlibabaCloud;
 use AlibabaCloud\Client\Exception\ClientException;

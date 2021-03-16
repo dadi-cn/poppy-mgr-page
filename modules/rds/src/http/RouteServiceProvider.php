@@ -1,4 +1,6 @@
-<?php namespace Rds\Http;
+<?php
+
+namespace Rds\Http;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Route;

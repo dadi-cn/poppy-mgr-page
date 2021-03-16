@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Classes\Traits;
+<?php
+
+namespace Poppy\Framework\Classes\Traits;
 
 /**
  * Key 解析器

@@ -1,4 +1,6 @@
-<?php namespace Poppy\Extension\Alipay\Aop;
+<?php
+
+namespace Poppy\Extension\Alipay\Aop;
 
 class SignData
 {

@@ -1,4 +1,6 @@
-<?php namespace Poppy\Area\Action;
+<?php
+
+namespace Poppy\Area\Action;
 
 use Exception;
 use Illuminate\Contracts\View\Factory;

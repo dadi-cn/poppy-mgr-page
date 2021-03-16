@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Classes;
+<?php
+
+namespace Poppy\Framework\Classes;
 
 use Exception;
 use Illuminate\Contracts\Support\Arrayable;

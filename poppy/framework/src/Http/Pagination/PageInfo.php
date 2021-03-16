@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Http\Pagination;
+<?php
+
+namespace Poppy\Framework\Http\Pagination;
 
 /**
  * 分页信息

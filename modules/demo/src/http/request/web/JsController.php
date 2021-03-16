@@ -1,4 +1,6 @@
-<?php namespace Demo\Http\Request\Web;
+<?php
+
+namespace Demo\Http\Request\Web;
 
 use Exception;
 use Illuminate\Contracts\View\Factory;

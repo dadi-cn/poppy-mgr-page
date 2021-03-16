@@ -1,4 +1,6 @@
-<?php namespace Php\Http\Request\Web;
+<?php
+
+namespace Php\Http\Request\Web;
 
 use Image;
 use Poppy\System\Http\Request\Web\WebController;

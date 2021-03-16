@@ -1,4 +1,6 @@
-<?php namespace Poppy\Extension\Netease\Im;
+<?php
+
+namespace Poppy\Extension\Netease\Im;
 
 /**
  * 网易客户端

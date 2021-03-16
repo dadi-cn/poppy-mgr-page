@@ -1,4 +1,6 @@
-<?php namespace Demo\Forms;
+<?php
+
+namespace Demo\Forms;
 
 use Poppy\Framework\Validation\Rule;
 use Poppy\System\Models\PamRole;

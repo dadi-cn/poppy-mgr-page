@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Tests\Validation;
+<?php
+
+namespace Poppy\Framework\Tests\Validation;
 
 use Poppy\Framework\Application\TestCase;
 use Poppy\Framework\Validation\Rule;

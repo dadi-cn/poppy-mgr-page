@@ -1,4 +1,6 @@
-<?php namespace Poppy\AliyunPush\Jobs;
+<?php
+
+namespace Poppy\AliyunPush\Jobs;
 
 use Poppy\AliyunPush\Classes\AliPush;
 use Poppy\AliyunPush\Classes\IosPushSender;

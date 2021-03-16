@@ -1,4 +1,6 @@
-<?php namespace Site\Models;
+<?php
+
+namespace Site\Models;
 
 use Eloquent;
 

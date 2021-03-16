@@ -1,4 +1,6 @@
-<?php namespace Poppy\Sms;
+<?php
+
+namespace Poppy\Sms;
 
 use Poppy\Framework\Exceptions\ModuleNotFoundException;
 use Poppy\Framework\Support\PoppyServiceProvider as ModuleServiceProviderBase;

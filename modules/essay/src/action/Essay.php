@@ -1,4 +1,6 @@
-<?php namespace Essay\Action;
+<?php
+
+namespace Essay\Action;
 
 use Essay\Models\EssayContent;
 use Poppy\Framework\Classes\Traits\AppTrait;

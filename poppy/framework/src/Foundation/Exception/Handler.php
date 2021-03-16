@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Foundation\Exception;
+<?php
+
+namespace Poppy\Framework\Foundation\Exception;
 
 use Closure;
 use Event;

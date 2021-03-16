@@ -1,4 +1,6 @@
-<?php namespace Poppy\MgrPage\Classes\Form;
+<?php
+
+namespace Poppy\MgrPage\Classes\Form;
 
 use Carbon\Carbon;
 use Collective\Html\FormBuilder as CollectiveFormBuilder;

@@ -1,4 +1,6 @@
-<?php namespace Poppy\Extension\Alipay\Tests\Aop;
+<?php
+
+namespace Poppy\Extension\Alipay\Tests\Aop;
 
 use Poppy\Extension\Alipay\Aop\Request\AlipayFundTransUniTransferRequest;
 use Poppy\Extension\Alipay\Tests\AlipayBaseTest;

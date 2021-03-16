@@ -1,4 +1,6 @@
-<?php namespace Demo\Http\Request\Web;
+<?php
+
+namespace Demo\Http\Request\Web;
 
 use Demo\Forms\FormEntrance;
 use Demo\Http\Forms\Helpers\FormEnvHelper;

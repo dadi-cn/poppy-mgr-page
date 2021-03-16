@@ -1,4 +1,6 @@
-<?php namespace Essay\Classes\Md;
+<?php
+
+namespace Essay\Classes\Md;
 
 use Parsedown;
 

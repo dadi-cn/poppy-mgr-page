@@ -1,4 +1,6 @@
-<?php namespace Php\Listeners\EventRun;
+<?php
+
+namespace Php\Listeners\EventRun;
 
 use Log;
 use Php\Events\EventRunEvent;

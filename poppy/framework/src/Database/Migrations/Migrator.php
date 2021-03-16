@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Database\Migrations;
+<?php
+
+namespace Poppy\Framework\Database\Migrations;
 
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
 use Illuminate\Database\Migrations\MigrationRepositoryInterface;

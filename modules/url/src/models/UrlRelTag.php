@@ -1,4 +1,6 @@
-<?php namespace Url\Models;
+<?php
+
+namespace Url\Models;
 
 use Carbon\Carbon;
 use Site\Models\SiteTag;

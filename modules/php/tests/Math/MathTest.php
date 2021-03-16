@@ -1,4 +1,6 @@
-<?php namespace Php\Tests\Math;
+<?php
+
+namespace Php\Tests\Math;
 
 /**
  * Copyright (C) Update For IDE

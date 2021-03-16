@@ -1,4 +1,5 @@
-<?php namespace Poppy\MgrPage\Http\Request\Backend;
+<?php
+ namespace Poppy\MgrPage\Http\Request\Backend;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;

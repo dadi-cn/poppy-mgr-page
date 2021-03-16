@@ -1,4 +1,6 @@
-<?php namespace Poppy\AliyunPush\Services;
+<?php
+
+namespace Poppy\AliyunPush\Services;
 
 use Poppy\AliyunPush\Forms\Settings\FormSettingAliyunPush;
 use Poppy\Core\Services\Contracts\ServiceArray;

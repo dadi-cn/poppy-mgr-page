@@ -1,4 +1,6 @@
-<?php namespace Url\Models\Filters;
+<?php
+
+namespace Url\Models\Filters;
 
 use EloquentFilter\ModelFilter;
 

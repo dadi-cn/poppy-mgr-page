@@ -1,4 +1,6 @@
-<?php namespace Poppy\Sms\Action;
+<?php
+
+namespace Poppy\Sms\Action;
 
 use Poppy\Framework\Classes\Traits\AppTrait;
 use Poppy\Framework\Validation\Rule;

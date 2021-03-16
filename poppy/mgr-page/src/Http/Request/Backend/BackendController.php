@@ -1,4 +1,6 @@
-<?php namespace Poppy\MgrPage\Http\Request\Backend;
+<?php
+
+namespace Poppy\MgrPage\Http\Request\Backend;
 
 use Auth;
 use Illuminate\Contracts\Auth\Authenticatable;

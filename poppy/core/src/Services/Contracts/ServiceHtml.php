@@ -1,4 +1,6 @@
-<?php namespace Poppy\Core\Services\Contracts;
+<?php
+
+namespace Poppy\Core\Services\Contracts;
 
 /**
  * 返回 Html数据

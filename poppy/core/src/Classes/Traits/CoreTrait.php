@@ -1,4 +1,6 @@
-<?php namespace Poppy\Core\Classes\Traits;
+<?php
+
+namespace Poppy\Core\Classes\Traits;
 
 use Poppy\Core\Module\ModuleManager;
 use Poppy\Core\Rbac\Permission\PermissionManager;

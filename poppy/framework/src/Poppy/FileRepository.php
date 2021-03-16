@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Poppy;
+<?php
+
+namespace Poppy\Framework\Poppy;
 
 use Exception;
 use Illuminate\Support\Collection;

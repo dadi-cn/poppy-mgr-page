@@ -1,4 +1,6 @@
-<?php namespace Poppy\Core\Tests\Commands;
+<?php
+
+namespace Poppy\Core\Tests\Commands;
 
 use Poppy\Core\Rbac\Helper\RbacHelper;
 use Poppy\Framework\Application\TestCase;

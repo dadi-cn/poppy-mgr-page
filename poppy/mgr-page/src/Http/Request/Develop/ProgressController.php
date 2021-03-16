@@ -1,4 +1,6 @@
-<?php namespace Poppy\MgrPage\Http\Request\Develop;
+<?php
+
+namespace Poppy\MgrPage\Http\Request\Develop;
 
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;

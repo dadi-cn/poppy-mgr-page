@@ -1,4 +1,6 @@
-<?php namespace Rds;
+<?php
+
+namespace Rds;
 
 use Poppy\Framework\Exceptions\ModuleNotFoundException;
 use Poppy\Framework\Support\PoppyServiceProvider as ModuleServiceProviderBase;

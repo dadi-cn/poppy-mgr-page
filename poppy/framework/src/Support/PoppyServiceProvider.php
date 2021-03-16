@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Support;
+<?php
+
+namespace Poppy\Framework\Support;
 
 use Carbon\Carbon;
 use Event;

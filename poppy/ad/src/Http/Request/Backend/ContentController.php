@@ -1,4 +1,6 @@
-<?php namespace Poppy\Ad\Http\Request\Backend;
+<?php
+
+namespace Poppy\Ad\Http\Request\Backend;
 
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;

@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Console;
+<?php
+
+namespace Poppy\Framework\Console;
 
 use Illuminate\Console\GeneratorCommand as LaravelGeneratorCommand;
 use Illuminate\Support\Str;

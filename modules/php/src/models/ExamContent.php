@@ -1,4 +1,6 @@
-<?php namespace Php\Models;
+<?php
+
+namespace Php\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;

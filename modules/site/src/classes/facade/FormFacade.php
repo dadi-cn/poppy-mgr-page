@@ -1,4 +1,6 @@
-<?php namespace Site\Classes\Facade;
+<?php
+
+namespace Site\Classes\Facade;
 
 use Illuminate\Support\Facades\Facade as IlluminateFacade;
 

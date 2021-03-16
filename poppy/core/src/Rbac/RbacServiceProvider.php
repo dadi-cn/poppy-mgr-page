@@ -1,4 +1,6 @@
-<?php namespace Poppy\Core\Rbac;
+<?php
+
+namespace Poppy\Core\Rbac;
 
 /**
  * Copyright (C) Update For IDE

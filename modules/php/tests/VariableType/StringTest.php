@@ -1,4 +1,6 @@
-<?php namespace Php\Tests\VariableType;
+<?php
+
+namespace Php\Tests\VariableType;
 
 /**
  * Copyright (C) Update For IDE

@@ -1,4 +1,6 @@
-<?php namespace Php\Mail;
+<?php
+
+namespace Php\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;

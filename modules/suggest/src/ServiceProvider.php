@@ -1,4 +1,6 @@
-<?php namespace Suggest;
+<?php
+
+namespace Suggest;
 
 /**
  * Copyright (C) Update For IDE

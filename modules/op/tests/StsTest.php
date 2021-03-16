@@ -1,4 +1,6 @@
-<?php namespace Op\Tests;
+<?php
+
+namespace Op\Tests;
 
 use Op\Action\StsAction;
 use Poppy\System\Tests\Base\SystemTestCase;

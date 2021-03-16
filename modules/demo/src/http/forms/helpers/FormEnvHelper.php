@@ -1,4 +1,6 @@
-<?php namespace Demo\Http\Forms\Helpers;
+<?php
+
+namespace Demo\Http\Forms\Helpers;
 
 use Poppy\Core\Classes\Inspect\CommentParser;
 use Poppy\Framework\Helper\EnvHelper;

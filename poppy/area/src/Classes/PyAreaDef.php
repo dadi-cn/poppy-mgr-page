@@ -1,4 +1,6 @@
-<?php namespace Poppy\Area\Classes;
+<?php
+
+namespace Poppy\Area\Classes;
 
 
 class PyAreaDef

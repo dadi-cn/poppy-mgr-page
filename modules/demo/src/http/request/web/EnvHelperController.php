@@ -1,4 +1,6 @@
-<?php namespace Demo\Http\Request\Web;
+<?php
+
+namespace Demo\Http\Request\Web;
 
 use Poppy\Framework\Helper\EnvHelper;
 use Poppy\System\Http\Request\Web\WebController;

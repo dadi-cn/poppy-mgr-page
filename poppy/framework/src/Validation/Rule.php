@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Validation;
+<?php
+
+namespace Poppy\Framework\Validation;
 
 use Illuminate\Validation\Rule as IlluminateRule;
 

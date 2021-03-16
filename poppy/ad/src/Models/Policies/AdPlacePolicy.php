@@ -1,4 +1,6 @@
-<?php namespace Poppy\Ad\Models\Policies;
+<?php
+
+namespace Poppy\Ad\Models\Policies;
 
 use Poppy\System\Classes\Traits\PolicyTrait;
 use Poppy\System\Models\PamAccount;

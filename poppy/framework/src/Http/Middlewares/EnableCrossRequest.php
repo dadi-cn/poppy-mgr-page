@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Http\Middlewares;
+<?php
+
+namespace Poppy\Framework\Http\Middlewares;
 
 use Closure;
 use Illuminate\Contracts\Routing\ResponseFactory;

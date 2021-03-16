@@ -1,4 +1,6 @@
-<?php namespace Essay\Models;
+<?php
+
+namespace Essay\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Poppy\Framework\Http\Pagination\PageInfo;

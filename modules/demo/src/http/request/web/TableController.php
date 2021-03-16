@@ -1,5 +1,8 @@
-<?php namespace Demo\Http\Request\Web;
+<?php
 
+namespace Demo\Http\Request\Web;
+
+use Demo\Http\Lists\ListPoppyDemo;
 use Demo\Models\PoppyDemo;
 use Poppy\Framework\Classes\Resp;
 use Poppy\System\Classes\Grid;
@@ -74,15 +77,8 @@ class TableController extends WebController
     {
         // 第一列显示id字段，并将这一列设置为可排序列
         $grid = new Grid(new PoppyDemo());
-        $grid->column('id', 'ID')->sortable()->style('color:red;');
-        $grid->column('is_open', 'Is_open');
-        // $grid->column('desc')->using(['1' => 'ha', '2' => 'xi']);
-        $grid->column('desc')->replace(['ha' => '-']);
-        // $grid->column('desc')->display(function ($desc) {
-        // 	return $desc ? '是' : '否';
-        // });
-        $grid->column('created_at')->width(300)->color('#9b44cd')->sortable();
-        $grid->column('updated_at')->hide();
+        $grid->setTitle('Title');
+        $grid->setLists(ListPoppyDemo::class);
 
         // $grid->disableCreateButton();
 
@@ -103,22 +99,7 @@ class TableController extends WebController
         // 设置单页的条目数
         $grid->perPages([15, 20, 30, 50, 100]);
 
-        $grid->column('haha')->display(function ($email) {
-            return "mailto:$email";
-        });
 
-        $grid->column('email', '头像')->gravatar(45);
-
-        $grid->column('file')->downloadable();
-
-        // $grid->column('status')->filter([
-        // 	0 => '未知',
-        // 	1 => '已下单',
-        // 	2 => '已付款',
-        // 	3 => '已取消',
-        // ]);
-
-        $grid->column('title')->limit(10)->ucfirst()->substr(1, 10)->link();
 
         // 错误
         // $grid->column('radio')->radio([
@@ -140,15 +121,7 @@ class TableController extends WebController
         // $grid->model()->take(1);
         // $grid->paginate(1);
 
-        // 不存的字段列
-        $grid->column('full_name')->display(function () {
-            return $this->is_open . ' ' . $this->desc;
-        });
 
-        // 添加不存在的字段
-        $grid->column('column_not_in_table')->display(function () {
-            return 'blablabla....';
-        });
 
 
         // 错误
@@ -164,18 +137,7 @@ class TableController extends WebController
         $grid->showPagination();
         // $grid->desciption()->popover('left');
 
-        $grid->column('first_name')->display(function ($first_name, $column) {
-            if ($this->first_name === 'L') {
-                return $first_name;
 
-            }
-
-            return $column->editable();
-        });
-
-        // $grid->column('desc')->view('content');
-
-        $grid->column('link')->image('', 40, 60);
 
         // $grid->column('status')->icon([
         // 	1 => 'toggle-off',
@@ -196,8 +158,7 @@ class TableController extends WebController
 
         // $grid->column('link')->link();
 
-        $grid->column('progress')->loading([20], [50 => '完成']);
-        $grid->column('last_name')->using(['N' => 'this is N', 'G' => 'this is G', 'H' => 'this is H']);
+
         // $grid->column('status')->bool(['1' => true, '2' => false]);
         // $states = [
         // 	'on'  => ['value' => 1, 'text' => '打开', 'color' => 'primary'],
@@ -234,26 +195,7 @@ class TableController extends WebController
         // $grid->table();
 
         $grid->filter(function (Grid\Filter $filter) {
-            $filter->column(1 / 12, function (Grid\Filter $filter) {
-                $filter->like('username', 'username');
-            });
-            $filter->column(1 / 12, function (Grid\Filter $filter) {
-                $filter->equal('status')->integer();
-                $filter->startsWith('title');
-                $filter->lt('progress')->integer();
-                $filter->gt('progress')->integer();
-                $filter->day('day');
-                $filter->date('date');
-                $filter->year('year');
-                $filter->month('month');
-                $filter->group('group', 'Group', function () {
-                    return [
-                        'id'       => 'ID',
-                        'username' => '用户名',
-                    ];
-                });
-                $filter->notEqual('created_at')->day();
-            });
+
 
             // 去掉默认的id过滤器
             // $filter->disableIdFilter();
@@ -264,17 +206,11 @@ class TableController extends WebController
 
         // $grid->columns('a', 'b', 'c');
 
-        $grid->column('trashed', '数量')->totalRow();
 
         // $grid->quickSearch('username');
 
-        $grid->model()->whereYear('created_at', '2020');
+        // $grid->model()->whereYear('created_at', '2020');
 
-        $grid->enableHotKeys();
-
-        $grid->column('a')->label('danger');
-
-        $grid->column('c')->progress();
 
         // table() 无法验证   字段为二维数组
 

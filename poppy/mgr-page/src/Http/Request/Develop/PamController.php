@@ -1,4 +1,6 @@
-<?php namespace Poppy\MgrPage\Http\Request\Develop;
+<?php
+
+namespace Poppy\MgrPage\Http\Request\Develop;
 
 use Auth;
 use Poppy\Framework\Classes\Resp;

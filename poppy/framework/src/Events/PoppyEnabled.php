@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Events;
+<?php
+
+namespace Poppy\Framework\Events;
 
 use Illuminate\Support\Collection;
 use Poppy\Framework\Application\Event;

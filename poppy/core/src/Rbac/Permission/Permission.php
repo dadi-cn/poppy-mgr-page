@@ -1,4 +1,6 @@
-<?php namespace Poppy\Core\Rbac\Permission;
+<?php
+
+namespace Poppy\Core\Rbac\Permission;
 
 use Poppy\Core\Rbac\Repositories\PermissionRepository;
 

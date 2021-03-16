@@ -1,4 +1,6 @@
-<?php namespace Site\Http\Request\ApiV1\Web;
+<?php
+
+namespace Site\Http\Request\ApiV1\Web;
 
 use Poppy\Framework\Application\ApiController;
 use Poppy\Framework\Classes\Resp;

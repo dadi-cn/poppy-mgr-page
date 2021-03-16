@@ -1,4 +1,6 @@
-<?php namespace Third;
+<?php
+
+namespace Third;
 
 /**
  * Copyright (C) Update For IDE

@@ -1,4 +1,6 @@
-<?php namespace Poppy\AliyunPush\Exceptions;
+<?php
+
+namespace Poppy\AliyunPush\Exceptions;
 
 use Exception;
 

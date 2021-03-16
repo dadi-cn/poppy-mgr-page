@@ -1,4 +1,6 @@
-<?php namespace Poppy\Area\Models;
+<?php
+
+namespace Poppy\Area\Models;
 
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;

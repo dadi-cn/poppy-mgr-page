@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Application;
+<?php
+
+namespace Poppy\Framework\Application;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;

@@ -1,4 +1,6 @@
-<?php namespace Essay\Models\Filters;
+<?php
+
+namespace Essay\Models\Filters;
 
 use EloquentFilter\ModelFilter;
 

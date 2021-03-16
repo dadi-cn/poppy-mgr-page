@@ -1,4 +1,6 @@
-<?php namespace Demo\Models;
+<?php
+
+namespace Demo\Models;
 
 use Eloquent;
 use Illuminate\Database\Eloquent\Model;

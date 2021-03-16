@@ -1,4 +1,6 @@
-<?php namespace Poppy\System\Tests\Action;
+<?php
+
+namespace Poppy\System\Tests\Action;
 
 use EasyWeChat\Factory;
 use Poppy\System\Tests\Base\SystemTestCase;

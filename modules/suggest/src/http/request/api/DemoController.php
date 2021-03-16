@@ -1,4 +1,6 @@
-<?php namespace Suggest\Http\Request\Api;
+<?php
+
+namespace Suggest\Http\Request\Api;
 
 use Poppy\Framework\Application\ApiController;
 

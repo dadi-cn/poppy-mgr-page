@@ -1,4 +1,6 @@
-<?php namespace Op\Http\Request\ApiV1\Maintain;
+<?php
+
+namespace Op\Http\Request\ApiV1\Maintain;
 
 use Op\Action\MaintainAction;
 use Poppy\Framework\Application\ApiController;

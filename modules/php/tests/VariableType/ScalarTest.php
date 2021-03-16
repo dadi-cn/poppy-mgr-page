@@ -1,4 +1,6 @@
-<?php namespace Php\Tests\Ability\Core;
+<?php
+
+namespace Php\Tests\Ability\Core;
 
 /**
  * Copyright (C) Update For IDE

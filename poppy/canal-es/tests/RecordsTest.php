@@ -1,4 +1,6 @@
-<?php namespace Poppy\CanalEs\Tests;
+<?php
+
+namespace Poppy\CanalEs\Tests;
 
 use Poppy\Framework\Application\TestCase;
 

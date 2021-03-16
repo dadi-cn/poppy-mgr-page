@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Helper;
+<?php
+
+namespace Poppy\Framework\Helper;
 
 use Carbon\Carbon;
 use DateTime as PhpDateTime;

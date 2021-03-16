@@ -1,4 +1,6 @@
-<?php namespace Poppy\MgrPage\Http\Middlewares;
+<?php
+
+namespace Poppy\MgrPage\Http\Middlewares;
 
 use Poppy\Core\Classes\Traits\CoreTrait;
 use Poppy\Core\Rbac\Middlewares\RbacPermission as CoreRbacPermission;

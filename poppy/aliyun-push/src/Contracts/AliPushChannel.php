@@ -1,4 +1,6 @@
-<?php namespace Poppy\AliyunPush\Contracts;
+<?php
+
+namespace Poppy\AliyunPush\Contracts;
 
 interface AliPushChannel
 {

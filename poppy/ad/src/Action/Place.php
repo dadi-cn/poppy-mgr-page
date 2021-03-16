@@ -1,4 +1,6 @@
-<?php namespace Poppy\Ad\Action;
+<?php
+
+namespace Poppy\Ad\Action;
 
 use Poppy\Ad\Models\AdContent;
 use Poppy\Ad\Models\AdPlace;

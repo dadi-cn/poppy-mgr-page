@@ -1,4 +1,6 @@
-<?php namespace Poppy\Extension\Alipay\Tests;
+<?php
+
+namespace Poppy\Extension\Alipay\Tests;
 
 use Carbon\Carbon;
 use Poppy\Extension\Alipay\Aop\AopCertClient;

@@ -34,6 +34,15 @@ demo:
           title: TreeHelper
           route: demo:web.helper.tree
     -
+      title: Table
+      children:
+        -
+          title: Content
+          route: demo:web.content.index
+        -
+          title: Grid Demo
+          route: demo:web.table.grid_demo
+    -
       title: 前端文档
       children:
         -

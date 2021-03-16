@@ -1,4 +1,6 @@
-<?php namespace Essay;
+<?php
+
+namespace Essay;
 
 /**
  * Copyright (C) Update For IDE

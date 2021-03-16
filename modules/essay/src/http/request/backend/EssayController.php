@@ -1,4 +1,6 @@
-<?php namespace Essay\Http\Request\Backend;
+<?php
+
+namespace Essay\Http\Request\Backend;
 
 use Essay\Action\Essay;
 use Essay\Models\EssayContent;

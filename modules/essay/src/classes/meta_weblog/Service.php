@@ -1,4 +1,6 @@
-<?php namespace Essay\Classes\MetaWeblog;
+<?php
+
+namespace Essay\Classes\MetaWeblog;
 
 class Service
 {

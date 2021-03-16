@@ -1,4 +1,6 @@
-<?php namespace Op\Action;
+<?php
+
+namespace Op\Action;
 
 use AlibabaCloud\Client\AlibabaCloud;
 use AlibabaCloud\Client\Exception\ClientException;

@@ -1,4 +1,6 @@
-<?php namespace Php\Commands;
+<?php
+
+namespace Php\Commands;
 
 use Illuminate\Console\Command;
 use xingwenge\canal_php\CanalClient;

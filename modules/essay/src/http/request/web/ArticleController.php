@@ -1,4 +1,6 @@
-<?php namespace Essay\Http\Request\Web;
+<?php
+
+namespace Essay\Http\Request\Web;
 
 use Essay\Action\Article;
 use Essay\Models\ArticleContent;

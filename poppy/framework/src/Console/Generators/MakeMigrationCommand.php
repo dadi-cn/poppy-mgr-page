@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Console\Generators;
+<?php
+
+namespace Poppy\Framework\Console\Generators;
 
 use Illuminate\Console\Command;
 use Poppy\Framework\Classes\Traits\MigrationTrait;

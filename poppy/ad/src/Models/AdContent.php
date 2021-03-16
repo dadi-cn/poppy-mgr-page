@@ -1,4 +1,6 @@
-<?php namespace Poppy\Ad\Models;
+<?php
+
+namespace Poppy\Ad\Models;
 
 use Carbon\Carbon;
 use Eloquent;

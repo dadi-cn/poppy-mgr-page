@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Parse;
+<?php
+
+namespace Poppy\Framework\Parse;
 
 /*
 	[UCenter] (C)2001-2099 Comsenz Inc.

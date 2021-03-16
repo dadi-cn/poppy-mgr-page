@@ -1,4 +1,6 @@
-<?php namespace Poppy\Core\Rbac;
+<?php
+
+namespace Poppy\Core\Rbac;
 
 use Illuminate\Foundation\Application;
 use Poppy\Core\Rbac\Contracts\RbacUserContract;

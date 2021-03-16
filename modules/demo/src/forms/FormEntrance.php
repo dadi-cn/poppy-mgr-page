@@ -1,4 +1,6 @@
-<?php namespace Demo\Forms;
+<?php
+
+namespace Demo\Forms;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

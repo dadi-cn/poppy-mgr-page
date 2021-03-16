@@ -1,4 +1,6 @@
-<?php namespace Rds\Models;
+<?php
+
+namespace Rds\Models;
 
 use Carbon\Carbon;
 

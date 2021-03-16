@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Translation;
+<?php
+
+namespace Poppy\Framework\Translation;
 
 use Illuminate\Contracts\Translation\Loader;
 use Illuminate\Filesystem\Filesystem;

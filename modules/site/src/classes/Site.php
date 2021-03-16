@@ -1,4 +1,6 @@
-<?php namespace Site\Classes;
+<?php
+
+namespace Site\Classes;
 
 use Html;
 use Illuminate\Support\HtmlString;

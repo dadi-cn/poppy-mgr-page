@@ -1,4 +1,6 @@
-<?php namespace Php\Models\Filters;
+<?php
+
+namespace Php\Models\Filters;
 
 use EloquentFilter\ModelFilter;
 use Poppy\Framework\Helper\TimeHelper;

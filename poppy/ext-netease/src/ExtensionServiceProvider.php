@@ -1,4 +1,6 @@
-<?php namespace Poppy\Extension\Netease;
+<?php
+
+namespace Poppy\Extension\Netease;
 
 use Illuminate\Support\ServiceProvider;
 

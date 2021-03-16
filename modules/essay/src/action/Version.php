@@ -1,4 +1,6 @@
-<?php namespace Essay\Action;
+<?php
+
+namespace Essay\Action;
 
 use Essay\Models\ArticleContent;
 use Essay\Models\ArticleVersion;

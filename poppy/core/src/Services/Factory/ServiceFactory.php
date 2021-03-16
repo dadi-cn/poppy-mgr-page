@@ -1,4 +1,6 @@
-<?php namespace Poppy\Core\Services\Factory;
+<?php
+
+namespace Poppy\Core\Services\Factory;
 
 use Illuminate\Support\Str;
 use Poppy\Core\Classes\Traits\CoreTrait;

@@ -1,4 +1,6 @@
-<?php namespace Essay\Http\Request\Api;
+<?php
+
+namespace Essay\Http\Request\Api;
 
 use Carbon\Carbon;
 use Comodojo\Exception\XmlrpcException;

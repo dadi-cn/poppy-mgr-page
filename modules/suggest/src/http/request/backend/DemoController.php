@@ -1,4 +1,6 @@
-<?php namespace Suggest\Http\Request\Backend;
+<?php
+
+namespace Suggest\Http\Request\Backend;
 
 use Poppy\System\Http\Request\Backend\BackendController;
 

@@ -1,4 +1,6 @@
-<?php namespace Poppy\AliyunPush\Tests\Push;
+<?php
+
+namespace Poppy\AliyunPush\Tests\Push;
 
 
 use Notification;

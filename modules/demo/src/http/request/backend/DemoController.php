@@ -1,4 +1,6 @@
-<?php namespace Demo\Http\Request\Backend;
+<?php
+
+namespace Demo\Http\Request\Backend;
 
 use Poppy\MgrPage\Http\Request\Backend\BackendController;
 

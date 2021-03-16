@@ -1,4 +1,6 @@
-<?php namespace Url;
+<?php
+
+namespace Url;
 
 use Poppy\Framework\Exceptions\ModuleNotFoundException;
 use Poppy\Framework\Support\PoppyServiceProvider as ModuleServiceProviderBase;

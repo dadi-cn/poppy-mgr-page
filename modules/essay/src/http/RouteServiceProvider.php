@@ -1,4 +1,6 @@
-<?php namespace Essay\Http;
+<?php
+
+namespace Essay\Http;
 
 /**
  * Copyright (C) Update For IDE

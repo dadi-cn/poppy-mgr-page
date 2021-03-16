@@ -1,4 +1,6 @@
-<?php namespace Poppy\Area;
+<?php
+
+namespace Poppy\Area;
 
 /**
  * Copyright (C) Update For IDE

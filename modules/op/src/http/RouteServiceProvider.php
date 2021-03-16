@@ -1,4 +1,6 @@
-<?php namespace Op\Http;
+<?php
+
+namespace Op\Http;
 
 /**
  * Copyright (C) Update For IDE

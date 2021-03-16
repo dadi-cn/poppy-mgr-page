@@ -1,4 +1,6 @@
-<?php namespace Demo\Http\Forms\Helpers;
+<?php
+
+namespace Demo\Http\Forms\Helpers;
 
 use Poppy\Framework\Helper\TreeHelper;
 use Poppy\System\Classes\Widgets\FormWidget;

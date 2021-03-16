@@ -1,4 +1,6 @@
-<?php namespace DummyNamespace\Http\Request\Web;
+<?php
+
+namespace DummyNamespace\Http\Request\Web;
 
 use Poppy\Framework\Application\Controller;
 

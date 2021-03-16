@@ -17,7 +17,7 @@
 	<div id="LAY_app">
 		<div class="layui-layout layui-layout-admin">
 			<div class="layui-header">
-				<div class="layui-logo" lay-href="{!! route('py-demo:web.demo.index') !!}">
+				<div class="layui-logo" lay-href="{!! route('demo:web.demo.index') !!}">
 					Poppy Demos
 				</div>
 				<ul class="layui-nav layui-layout-left">
@@ -71,7 +71,7 @@
 
 			// 默认加载主页
 			layui.index.loadHome({
-				menuPath : '{!! route('py-demo:web.helper.env') !!}',
+				menuPath : '{!! route('demo:web.helper.env') !!}',
 				menuName : '<i class="layui-icon layui-icon-about"></i>'
 			});
 		});

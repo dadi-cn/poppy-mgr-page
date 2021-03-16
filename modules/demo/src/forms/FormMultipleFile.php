@@ -1,4 +1,6 @@
-<?php namespace Demo\Forms;
+<?php
+
+namespace Demo\Forms;
 
 class FormMultipleFile extends FormBaseWidget
 {

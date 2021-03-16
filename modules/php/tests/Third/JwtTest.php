@@ -1,4 +1,6 @@
-<?php namespace Php\Tests\Third;
+<?php
+
+namespace Php\Tests\Third;
 
 /**
  * Copyright (C) Update For IDE

@@ -1,4 +1,6 @@
-<?php namespace Site\Classes;
+<?php
+
+namespace Site\Classes;
 
 use Poppy\Framework\Helper\StrHelper;
 

@@ -1,4 +1,6 @@
-<?php namespace Poppy\AliyunPush\Classes\Config;
+<?php
+
+namespace Poppy\AliyunPush\Classes\Config;
 
 class Config
 {

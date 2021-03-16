@@ -1,4 +1,6 @@
-<?php namespace Poppy\Sms\Exceptions;
+<?php
+
+namespace Poppy\Sms\Exceptions;
 
 use Exception;
 

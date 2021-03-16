@@ -1,4 +1,6 @@
-<?php namespace Poppy\Extension\Alipay\Aop\Request;
+<?php
+
+namespace Poppy\Extension\Alipay\Aop\Request;
 /**
  * ALIPAY API: alipay.trade.app.pay request
  *

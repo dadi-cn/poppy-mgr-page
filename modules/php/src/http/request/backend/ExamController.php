@@ -1,4 +1,6 @@
-<?php namespace Php\Http\Request\Backend;
+<?php
+
+namespace Php\Http\Request\Backend;
 
 use Php\Action\Exam;
 use Php\Models\ExamContent;

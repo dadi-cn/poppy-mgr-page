@@ -1,4 +1,6 @@
-<?php namespace Op\Http\Request\ApiV1\Maintain;
+<?php
+
+namespace Op\Http\Request\ApiV1\Maintain;
 
 use Poppy\Extension\IpStore\Classes\Contracts\IpContract;
 use Poppy\Framework\Application\ApiController;

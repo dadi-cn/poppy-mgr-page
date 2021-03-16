@@ -1,4 +1,6 @@
-<?php namespace Poppy\AliyunPush\Classes;
+<?php
+
+namespace Poppy\AliyunPush\Classes;
 
 use Poppy\AliyunPush\Classes\Config\Config;
 use Poppy\AliyunPush\Exceptions\PushException;

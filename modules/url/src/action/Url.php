@@ -1,4 +1,6 @@
-<?php namespace Url\Action;
+<?php
+
+namespace Url\Action;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;

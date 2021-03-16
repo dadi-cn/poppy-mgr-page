@@ -1,4 +1,6 @@
-<?php namespace Op\Commands;
+<?php
+
+namespace Op\Commands;
 
 use Illuminate\Console\Command;
 use Storage;

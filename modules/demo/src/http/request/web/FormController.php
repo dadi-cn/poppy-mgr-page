@@ -1,4 +1,6 @@
-<?php namespace Demo\Http\Request\Web;
+<?php
+
+namespace Demo\Http\Request\Web;
 
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\System\Classes\Layout\Content;

@@ -1,4 +1,6 @@
-<?php namespace Rds\Tests;
+<?php
+
+namespace Rds\Tests;
 
 use Poppy\Framework\Application\TestCase;
 

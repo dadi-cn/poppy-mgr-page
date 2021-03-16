@@ -1,4 +1,6 @@
-<?php namespace Poppy\Core\Rbac\Helper;
+<?php
+
+namespace Poppy\Core\Rbac\Helper;
 
 use Illuminate\Database\Eloquent\Collection;
 

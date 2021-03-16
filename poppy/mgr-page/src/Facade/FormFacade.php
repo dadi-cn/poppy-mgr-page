@@ -1,4 +1,6 @@
-<?php namespace Poppy\MgrPage\Facade;
+<?php
+
+namespace Poppy\MgrPage\Facade;
 
 use Illuminate\Support\Facades\Facade as IlluminateFacade;
 

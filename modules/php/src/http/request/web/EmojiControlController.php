@@ -1,4 +1,6 @@
-<?php namespace Php\Http\Request\Web;
+<?php
+
+namespace Php\Http\Request\Web;
 
 use Illuminate\Support\Str;
 use Php\Classes\Emoji;

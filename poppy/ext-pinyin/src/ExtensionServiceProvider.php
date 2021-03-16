@@ -1,4 +1,6 @@
-<?php namespace Poppy\Extension\Pinyin;
+<?php
+
+namespace Poppy\Extension\Pinyin;
 
 /*
  * This file is part of the overtrue/laravel-pinyin.

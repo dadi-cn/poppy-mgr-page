@@ -1,4 +1,6 @@
-<?php namespace Essay\Models\Policies;
+<?php
+
+namespace Essay\Models\Policies;
 
 use Essay\Models\ArticleContent;
 use Poppy\System\Models\PamAccount;

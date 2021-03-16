@@ -1,4 +1,6 @@
-<?php namespace Php\Events;
+<?php
+
+namespace Php\Events;
 
 use Poppy\Framework\Application\Event;
 

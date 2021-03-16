@@ -1,4 +1,6 @@
-<?php namespace Site\Models;
+<?php
+
+namespace Site\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;

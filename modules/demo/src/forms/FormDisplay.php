@@ -1,4 +1,6 @@
-<?php namespace Demo\Forms;
+<?php
+
+namespace Demo\Forms;
 
 class FormDisplay extends FormBaseWidget
 {
@@ -11,7 +13,7 @@ class FormDisplay extends FormBaseWidget
     public $title = '显示框';
 
 
-    public function data():array
+    public function data(): array
     {
         return [
             'display' => '默认显示的内容',

@@ -1,4 +1,6 @@
-<?php namespace Php\Tests\Laravel;
+<?php
+
+namespace Php\Tests\Laravel;
 
 /**
  * Copyright (C) Update For IDE

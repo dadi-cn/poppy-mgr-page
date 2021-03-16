@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Foundation\Http;
+<?php
+
+namespace Poppy\Framework\Foundation\Http;
 
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;

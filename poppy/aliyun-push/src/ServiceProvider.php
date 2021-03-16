@@ -1,4 +1,6 @@
-<?php namespace Poppy\AliyunPush;
+<?php
+
+namespace Poppy\AliyunPush;
 
 use Poppy\Framework\Exceptions\ModuleNotFoundException;
 use Poppy\Framework\Support\PoppyServiceProvider as ModuleServiceProviderBase;

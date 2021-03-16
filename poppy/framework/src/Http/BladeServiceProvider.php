@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Http;
+<?php
+
+namespace Poppy\Framework\Http;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;

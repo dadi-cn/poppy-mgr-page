@@ -1,4 +1,6 @@
-<?php namespace Rds\Request\Web;
+<?php
+
+namespace Rds\Request\Web;
 
 use Parsedown;
 use Poppy\Framework\Classes\Resp;

@@ -1,4 +1,6 @@
-<?php namespace Poppy\Core\Module\Repositories;
+<?php
+
+namespace Poppy\Core\Module\Repositories;
 
 use Illuminate\Support\Collection;
 use Poppy\Core\Classes\PyCoreDef;

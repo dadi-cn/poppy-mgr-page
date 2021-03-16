@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Tests\Helper;
+<?php
+
+namespace Poppy\Framework\Tests\Helper;
 
 use Poppy\Framework\Application\TestCase;
 use Poppy\Framework\Helper\TreeHelper;

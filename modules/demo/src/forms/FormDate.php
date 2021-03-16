@@ -1,4 +1,6 @@
-<?php namespace Demo\Forms;
+<?php
+
+namespace Demo\Forms;
 
 use Carbon\Carbon;
 use Poppy\Framework\Validation\Rule;

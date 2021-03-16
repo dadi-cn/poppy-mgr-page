@@ -1,4 +1,6 @@
-<?php namespace Site\Http\Request\Web;
+<?php
+
+namespace Site\Http\Request\Web;
 
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;

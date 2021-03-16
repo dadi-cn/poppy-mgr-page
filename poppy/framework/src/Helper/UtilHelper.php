@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Helper;
+<?php
+
+namespace Poppy\Framework\Helper;
 
 /**
  * 功能函数类

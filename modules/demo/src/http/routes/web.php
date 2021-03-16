@@ -25,7 +25,7 @@ Route::group([
     $router->any('table/grid/data', 'TableController@gridData')
         ->name('demo:web.table.grid_data');
     $router->any('table/grid/demo', 'TableController@demo')
-        ->name('demo:web.table.grid_data');
+        ->name('demo:web.table.grid_demo');
 
     // EnvHelper
     $router->any('helper/env', 'HelperController@env')

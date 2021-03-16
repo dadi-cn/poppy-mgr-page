@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Foundation;
+<?php
+
+namespace Poppy\Framework\Foundation;
 
 use Closure;
 use Illuminate\Foundation\Application as ApplicationBase;

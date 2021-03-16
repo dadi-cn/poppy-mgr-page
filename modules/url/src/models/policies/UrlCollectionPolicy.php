@@ -1,4 +1,6 @@
-<?php namespace Url\Models\Policies;
+<?php
+
+namespace Url\Models\Policies;
 
 use Poppy\System\Models\PamAccount;
 use Url\Models\UrlCollection;

@@ -1,4 +1,6 @@
-<?php namespace Third\Http\Request\Web;
+<?php
+
+namespace Third\Http\Request\Web;
 
 use Poppy\Framework\Application\Controller;
 

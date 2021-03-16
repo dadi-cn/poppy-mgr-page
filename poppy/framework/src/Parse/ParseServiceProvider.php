@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Parse;
+<?php
+
+namespace Poppy\Framework\Parse;
 
 use Illuminate\Support\ServiceProvider;
 

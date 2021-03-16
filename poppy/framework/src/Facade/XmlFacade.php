@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Facade;
+<?php
+
+namespace Poppy\Framework\Facade;
 
 use Illuminate\Support\Facades\Facade;
 

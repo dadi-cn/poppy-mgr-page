@@ -1,4 +1,6 @@
-<?php namespace Poppy\Core\Commands;
+<?php
+
+namespace Poppy\Core\Commands;
 
 use Illuminate\Console\Command;
 use Mail;

@@ -1,4 +1,6 @@
-<?php namespace Poppy\AliyunOss;
+<?php
+
+namespace Poppy\AliyunOss;
 
 use Poppy\AliyunOss\Http\RouteServiceProvider;
 use Poppy\Framework\Exceptions\ModuleNotFoundException;

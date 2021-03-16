@@ -1,4 +1,6 @@
-<?php namespace Site\Tests\Excel\Exports;
+<?php
+
+namespace Site\Tests\Excel\Exports;
 
 use Illuminate\Contracts\Support\Responsable;
 use Maatwebsite\Excel\Concerns\Exportable;

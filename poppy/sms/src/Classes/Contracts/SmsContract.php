@@ -1,4 +1,6 @@
-<?php namespace Poppy\Sms\Classes\Contracts;
+<?php
+
+namespace Poppy\Sms\Classes\Contracts;
 
 /**
  * 短信实现

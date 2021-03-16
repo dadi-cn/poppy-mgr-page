@@ -1,4 +1,6 @@
-<?php namespace Php\Classes;
+<?php
+
+namespace Php\Classes;
 
 use Artisan;
 use Illuminate\Support\Str;

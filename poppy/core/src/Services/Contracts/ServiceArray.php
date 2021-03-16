@@ -1,4 +1,6 @@
-<?php namespace Poppy\Core\Services\Contracts;
+<?php
+
+namespace Poppy\Core\Services\Contracts;
 
 /**
  * 数组

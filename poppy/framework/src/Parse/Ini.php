@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Parse;
+<?php
+
+namespace Poppy\Framework\Parse;
 
 /**
  * Initialization (INI) configuration parser that uses "October flavoured INI",

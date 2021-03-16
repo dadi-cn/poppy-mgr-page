@@ -1,4 +1,6 @@
-<?php namespace Poppy\Extension\Pinyin\Tests;
+<?php
+
+namespace Poppy\Extension\Pinyin\Tests;
 
 use Exception;
 use Overtrue\Pinyin\Pinyin;

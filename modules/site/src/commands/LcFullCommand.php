@@ -1,4 +1,6 @@
-<?php namespace Site\Commands;
+<?php
+
+namespace Site\Commands;
 
 use Cache;
 use Illuminate\Console\Command;

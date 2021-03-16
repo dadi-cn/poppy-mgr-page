@@ -1,4 +1,6 @@
-<?php namespace Demo\Hooks\PoppyDemoHtmlDemo;
+<?php
+
+namespace Demo\Hooks\HtmlDemo;
 
 use Poppy\Core\Services\Contracts\ServiceHtml;
 

@@ -1,4 +1,6 @@
-<?php namespace Essay\Classes\Contracts;
+<?php
+
+namespace Essay\Classes\Contracts;
 
 use Illuminate\Http\Request;
 

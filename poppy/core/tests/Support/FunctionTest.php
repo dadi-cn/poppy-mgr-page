@@ -1,4 +1,6 @@
-<?php namespace Poppy\Core\Tests\Support;
+<?php
+
+namespace Poppy\Core\Tests\Support;
 
 /**
  * Copyright (C) Update For IDE

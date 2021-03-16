@@ -1,4 +1,6 @@
-<?php namespace Demo\Hooks\PoppyDemoArrayDemo;
+<?php
+
+namespace Demo\Hooks\ArrayDemo;
 
 use Poppy\Core\Services\Contracts\ServiceArray;
 

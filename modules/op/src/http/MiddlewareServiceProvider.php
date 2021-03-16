@@ -1,4 +1,6 @@
-<?php namespace Op\Http;
+<?php
+
+namespace Op\Http;
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;

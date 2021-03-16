@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Foundation\Console;
+<?php
+
+namespace Poppy\Framework\Foundation\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Bootstrap\BootProviders;

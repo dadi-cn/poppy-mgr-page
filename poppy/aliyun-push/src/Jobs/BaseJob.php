@@ -1,4 +1,6 @@
-<?php namespace Poppy\AliyunPush\Jobs;
+<?php
+
+namespace Poppy\AliyunPush\Jobs;
 
 use Poppy\AliyunPush\Classes\Config\Config;
 use Poppy\Framework\Application\Job;

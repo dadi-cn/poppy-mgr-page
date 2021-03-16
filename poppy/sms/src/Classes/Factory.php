@@ -1,4 +1,6 @@
-<?php namespace Poppy\Sms\Classes;
+<?php
+
+namespace Poppy\Sms\Classes;
 
 use Illuminate\Support\Str;
 use Poppy\Framework\Classes\Traits\AppTrait;

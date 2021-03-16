@@ -1,4 +1,6 @@
-<?php namespace Poppy\Area\Models\Resources;
+<?php
+
+namespace Poppy\Area\Models\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\Resource;

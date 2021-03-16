@@ -1,4 +1,6 @@
-<?php namespace Poppy\MgrPage\Classes;
+<?php
+
+namespace Poppy\MgrPage\Classes;
 
 use Poppy\Core\Redis\RdsDb;
 

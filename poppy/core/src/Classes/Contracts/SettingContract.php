@@ -1,4 +1,6 @@
-<?php namespace Poppy\Core\Classes\Contracts;
+<?php
+
+namespace Poppy\Core\Classes\Contracts;
 
 /**
  * Interface SettingsRepository.

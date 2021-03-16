@@ -1,4 +1,6 @@
-<?php namespace Url\Http\Request\Web;
+<?php
+
+namespace Url\Http\Request\Web;
 
 use Curl\Curl;
 use Exception;
