@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Helper;
+<?php
+
+namespace Poppy\Framework\Helper;
 
 /**
  * 图像相关操作

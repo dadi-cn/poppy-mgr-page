@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Tests\Poppy;
+<?php
+
+namespace Poppy\Framework\Tests\Poppy;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;

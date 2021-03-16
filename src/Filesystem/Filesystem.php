@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Filesystem;
+<?php
+
+namespace Poppy\Framework\Filesystem;
 
 use FilesystemIterator;
 use Illuminate\Filesystem\Filesystem as FilesystemBase;

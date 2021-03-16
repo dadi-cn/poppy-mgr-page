@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Application;
+<?php
+
+namespace Poppy\Framework\Application;
 
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Console\Kernel;

@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework;
+<?php
+
+namespace Poppy\Framework;
 
 use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;

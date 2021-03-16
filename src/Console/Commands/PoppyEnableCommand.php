@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Console\Commands;
+<?php
+
+namespace Poppy\Framework\Console\Commands;
 
 use Illuminate\Console\Command;
 use Poppy\Framework\Events\PoppyEnabled;

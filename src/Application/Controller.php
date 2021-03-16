@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Application;
+<?php
+
+namespace Poppy\Framework\Application;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Bus\DispatchesJobs;

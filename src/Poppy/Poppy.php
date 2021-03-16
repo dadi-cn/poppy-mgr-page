@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Poppy;
+<?php
+
+namespace Poppy\Framework\Poppy;
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;

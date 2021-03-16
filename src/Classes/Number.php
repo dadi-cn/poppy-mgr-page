@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Classes;
+<?php
+
+namespace Poppy\Framework\Classes;
 
 /**
  * This file is part of the Moontoast\Math library

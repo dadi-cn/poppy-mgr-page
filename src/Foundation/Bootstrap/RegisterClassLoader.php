@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Foundation\Bootstrap;
+<?php
+
+namespace Poppy\Framework\Foundation\Bootstrap;
 
 use Poppy\Framework\Classes\ClassLoader;
 use Poppy\Framework\Filesystem\Filesystem;

@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Poppy\Contracts;
+<?php
+
+namespace Poppy\Framework\Poppy\Contracts;
 
 use Illuminate\Support\Collection;
 

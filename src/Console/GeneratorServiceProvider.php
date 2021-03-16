@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Console;
+<?php
+
+namespace Poppy\Framework\Console;
 
 use Illuminate\Support\ServiceProvider;
 use Poppy\Framework\Console\Generators\MakeCommandCommand;

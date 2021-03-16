@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Tests\Helper;
+<?php
+
+namespace Poppy\Framework\Tests\Helper;
 
 use Carbon\Carbon;
 use Poppy\Framework\Application\TestCase;

@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Poppy;
+<?php
+
+namespace Poppy\Framework\Poppy;
 
 use Illuminate\Support\ServiceProvider;
 use Poppy\Framework\Poppy\Contracts\Repository;

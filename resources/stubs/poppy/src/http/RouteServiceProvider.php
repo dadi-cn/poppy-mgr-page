@@ -1,4 +1,6 @@
-<?php namespace DummyNamespace\Http;
+<?php
+
+namespace DummyNamespace\Http;
 
 /**
  * Copyright (C) Update For IDE

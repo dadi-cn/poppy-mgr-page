@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Poppy\Abstracts;
+<?php
+
+namespace Poppy\Framework\Poppy\Abstracts;
 
 use Exception;
 use Illuminate\Config\Repository as Config;

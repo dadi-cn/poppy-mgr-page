@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Parse;
+<?php
+
+namespace Poppy\Framework\Parse;
 
 use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Yaml\Parser;

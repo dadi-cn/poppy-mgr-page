@@ -1,4 +1,6 @@
-<?php namespace Poppy\Framework\Exceptions;
+<?php
+
+namespace Poppy\Framework\Exceptions;
 
 use Exception;
 use Illuminate\Support\Str;
