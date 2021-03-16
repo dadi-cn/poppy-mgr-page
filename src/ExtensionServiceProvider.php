@@ -1,4 +1,6 @@
-<?php namespace Poppy\Extension\IpStore;
+<?php
+
+namespace Poppy\Extension\IpStore;
 
 use Illuminate\Support\ServiceProvider;
 use Poppy\Extension\IpStore\Classes\Contracts\IpContract;

@@ -1,4 +1,6 @@
-<?php namespace Poppy\Extension\IpStore\Repositories;
+<?php
+
+namespace Poppy\Extension\IpStore\Repositories;
 
 use Poppy\Extension\IpStore\Classes\Contracts\IpContract;
 use Poppy\Extension\IpStore\Classes\Traits\ExtIpStoreTrait;

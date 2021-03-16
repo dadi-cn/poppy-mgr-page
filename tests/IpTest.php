@@ -1,4 +1,6 @@
-<?php namespace Poppy\Extension\IpStore\Tests;
+<?php
+
+namespace Poppy\Extension\IpStore\Tests;
 
 use Exception;
 use Poppy\Extension\IpStore\Classes\Contracts\IpContract;

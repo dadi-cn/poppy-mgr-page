@@ -1,4 +1,6 @@
-<?php namespace Poppy\Extension\IpStore\Support;
+<?php
+
+namespace Poppy\Extension\IpStore\Support;
 
 use Illuminate\Support\Facades\Facade as IlluminateFacade;
 

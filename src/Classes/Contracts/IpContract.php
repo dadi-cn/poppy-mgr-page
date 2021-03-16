@@ -1,4 +1,6 @@
-<?php namespace Poppy\Extension\IpStore\Classes\Contracts;
+<?php
+
+namespace Poppy\Extension\IpStore\Classes\Contracts;
 
 interface IpContract
 {
