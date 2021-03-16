@@ -1,4 +1,6 @@
-<?php namespace Poppy\Sms\Tests;
+<?php
+
+namespace Poppy\Sms\Tests;
 
 /**
  * Copyright (C) Update For IDE

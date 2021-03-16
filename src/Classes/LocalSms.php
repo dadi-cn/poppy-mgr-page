@@ -1,4 +1,6 @@
-<?php namespace Poppy\Sms\Classes;
+<?php
+
+namespace Poppy\Sms\Classes;
 
 use Log;
 use Poppy\Sms\Classes\Contracts\SmsContract;

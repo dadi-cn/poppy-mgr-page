@@ -1,4 +1,6 @@
-<?php namespace Poppy\Sms\Http\Request\Backend;
+<?php
+
+namespace Poppy\Sms\Http\Request\Backend;
 
 use Auth;
 use Illuminate\Contracts\View\Factory;
