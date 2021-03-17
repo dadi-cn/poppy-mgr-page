@@ -5,17 +5,19 @@ namespace Poppy\MgrPage\Http\Request\Backend;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Poppy\Framework\Classes\Resp;
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\System\Action\Role;
+use Poppy\System\Classes\Grid;
 use Poppy\System\Classes\Layout\Content;
 use Poppy\System\Http\Forms\Backend\FormRoleEstablish;
-use Poppy\System\Models\Filters\PamRoleFilter;
+use Poppy\System\Http\Lists\Backend\ListPamRole;
 use Poppy\System\Models\PamAccount;
 use Poppy\System\Models\PamRole;
+use Throwable;
+use View;
 
 /**
  * 角色管理控制器
@@ -27,7 +29,7 @@ class RoleController extends BackendController
     {
         parent::__construct();
         $types = PamAccount::kvType();
-        \View::share(compact('types'));
+        View::share(compact('types'));
 
         self::$permission = [
             'global' => 'backend:py-system.role.manage',
@@ -38,17 +40,14 @@ class RoleController extends BackendController
 
     /**
      * Display a listing of the resource.
-     * @param Request $request request
-     * @return \Response
+     * @throws ApplicationException
+     * @throws Throwable
      */
-    public function index(Request $request)
+    public function index()
     {
-        $input         = $request->all();
-        $type          = $input['type'] ?? PamAccount::TYPE_BACKEND;
-        $input['type'] = $type;
-        $items         = PamRole::filter($input, PamRoleFilter::class)->paginateFilter();
-
-        return view('py-mgr-page::backend.role.index', compact('items', 'type'));
+        $grid = new Grid(new PamRole());
+        $grid->setLists(ListPamRole::class);
+        return (new Content())->body($grid->render());
     }
 
     /**

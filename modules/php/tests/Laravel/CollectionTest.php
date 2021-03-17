@@ -42,4 +42,10 @@ class CollectionTest extends SystemTestCase
 		$colStd = collect([$std, $std, $std]);
 		$this->assertIsObject($colStd->toArray()[0]);
 	}
+
+    public function testEach(): void
+    {
+        $accountIds = [1, 2, 3, 4, 5];
+        $accountIds = collect($accountIds)->each->toArray();
+    }
 }

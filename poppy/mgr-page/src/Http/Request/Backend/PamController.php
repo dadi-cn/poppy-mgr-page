@@ -42,14 +42,7 @@ class PamController extends BackendController
     public function index()
     {
         $grid = new Grid(new PamAccount());
-        $grid->setTitle('用户账号');
-        $grid->setLists(ListPamAccount::class, input('_field', 'id'), input('_order', 'desc'));
-
-        $grid->expandFilter();
-
-        if (input('_query')) {
-            return $grid->inquire($this->pagesize);
-        }
+        $grid->setLists(ListPamAccount::class);
         return (new Content())->body($grid->render());
     }
 
@@ -111,12 +104,7 @@ class PamController extends BackendController
     public function log()
     {
         $grid = new Grid(new PamLog());
-        $grid->setTitle('登录日志');
-        $grid->setLists(ListPamLog::class, input('_field', 'id'), input('_order', 'desc'));
-        $grid->expandFilter();
-        if (input('_query')) {
-            return $grid->inquire($this->pagesize);
-        }
+        $grid->setLists(ListPamLog::class);
         return (new Content())->body($grid->render());
     }
 }

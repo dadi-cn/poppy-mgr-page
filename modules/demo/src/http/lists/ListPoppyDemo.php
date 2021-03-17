@@ -82,7 +82,7 @@ class ListPoppyDemo extends ListBase
      * @inheritDoc
      * @return Closure
      */
-    public function seek(): Closure
+    public function filter(): Closure
     {
         return function (Filter $filter) {
             $filter->column(1 / 12, function (Filter $filter) {

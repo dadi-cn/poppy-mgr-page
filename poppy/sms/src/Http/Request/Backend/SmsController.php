@@ -37,8 +37,8 @@ class SmsController extends BackendController
     public function index()
     {
         $scope = config('poppy.sms.send_type');
-        if (input('_scope_')) {
-            $scope = input('_scope_');
+        if (input('_scope')) {
+            $scope = input('_scope');
         }
         $templates = collect($this->action()->getTemplates());
         return view('py-sms::backend.sms.index', [
@@ -69,7 +69,7 @@ class SmsController extends BackendController
         }
         else {
             view()->share([
-                'scope' => input('_scope_'),
+                'scope' => input('_scope'),
             ]);
         }
         return view('py-sms::backend.sms.establish');

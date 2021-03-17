@@ -33,12 +33,14 @@ backend:
             -
               title: 角色管理
               route: py-mgr-page:backend.role.index
+              param:
+                _scope: 'user'
               permission: backend:py-system.role.manage
             -
               title: 账号管理
               route: py-mgr-page:backend.pam.index
               param:
-                _scope_: 'user'
+                _scope: 'user'
               permission: backend:py-system.pam.manage
             -
               title: 登录日志

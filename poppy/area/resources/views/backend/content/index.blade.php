@@ -18,7 +18,7 @@
 			<div class="layui-input-inline">
 				{!! Form::select('id', $top, null, ['placeholder' => '选择父级']) !!}
 			</div>
-			@include('py-mgr-page::backend.tpl.inc_search')
+			@include('py-mgr-page::backend.tpl._search')
 		</div>
 		{!! Form::close() !!}
 

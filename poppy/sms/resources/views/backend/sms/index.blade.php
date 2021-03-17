@@ -3,7 +3,7 @@
     <div class="layui-card-header">
         短信模板
         <div class="pull-right">
-            <a href="{{route_url('py-sms:backend.sms.establish', null, ['_scope_'=> $scope])}}" class="layui-btn layui-btn-sm J_iframe">
+            <a href="{{route_url('py-sms:backend.sms.establish', null, ['_scope'=> $scope])}}" class="layui-btn layui-btn-sm J_iframe">
                 创建模板
             </a>
         </div>

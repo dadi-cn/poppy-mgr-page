@@ -815,15 +815,14 @@ HTML;
             else {
                 $class = '';
             }
-            $content .= <<<HTML
-<li class="{$class}"><a href="?_scope_={$key}">{$scope}</a></li>
-HTML;
+            $content .= "<li class=\"{$class}\"><a href=\"?_scope={$key}\">{$scope}</a></li>";
         }
         return <<<HTML
-    <div class="layui-tab">
+<div class="layui-tab">
     <ul class="layui-tab-title">
-    {$content}
-</ul>
+        {$content}
+    </ul>
+</div>
 HTML;
     }
 }

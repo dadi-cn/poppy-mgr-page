@@ -18,7 +18,7 @@
             <div class="layui-input-inline w84">
                 {!! Form::select('type',\Php\Models\ExamContent::kvType(), null, ['placeholder' => '类型', 'class' => 'layui-input']) !!}
             </div>
-            @include('poppy-mgr-page::backend.tpl.inc_search')
+            @include('poppy-mgr-page::backend.tpl._search')
         </div>
         {!! Form::close() !!}
         <table class="layui-table">

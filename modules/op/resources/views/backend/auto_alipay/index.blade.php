@@ -17,7 +17,7 @@
     <div class="layui-input-inline w108">
         {!! Form::select('status', \Auto\Models\AutoAlipayTrade::kvStatus(), null, ['placeholder' => '全部']) !!}
     </div>
-    @include('system::backend.tpl.inc_search')
+    @include('system::backend.tpl._search')
     {!! Form::close() !!}
 
     <table class="layui-table">

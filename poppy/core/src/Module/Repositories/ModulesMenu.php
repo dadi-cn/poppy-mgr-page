@@ -299,7 +299,6 @@ class ModulesMenu extends Repository
         $param        = $group['param'] ?? '';
         $url          = $route ? route_url($route, $routeParam, $param) : '#';
         $group['url'] = $url;
-        unset($group['param'], $group['route_param']);
         $group['key'] = UtilHelper::md5($group);
         return $group;
     }
