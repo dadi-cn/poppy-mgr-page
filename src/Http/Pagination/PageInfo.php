@@ -23,7 +23,7 @@ class PageInfo
      */
     public function __construct(array $page_info)
     {
-        $sizeConfig = abs(config('poppy.framework.page_size')) ?: 20;
+        $sizeConfig = abs(config('poppy.framework.page_size')) ?: 15;
         $page       = abs($page_info['page'] ?? 1);
         $size       = abs($page_info['size'] ?? $sizeConfig);
         $this->page = $page ?: 1;
@@ -46,5 +46,24 @@ class PageInfo
     public function page(): int
     {
         return $this->page;
+    }
+
+    /**
+     * 返回分页的大小
+     * @return int
+     */
+    public static function pagesize(): int
+    {
+        // pagesize
+        $size        = config('poppy.framework.page_size', 15);
+        $maxPagesize = config('poppy.framework.page_max');
+        if (input('pagesize')) {
+            $pagesize = abs((int) input('pagesize'));
+            $pagesize = ($pagesize <= $maxPagesize) ? $pagesize : $maxPagesize;
+            if ($pagesize > 0) {
+                $size = $pagesize;
+            }
+        }
+        return $size;
     }
 }
