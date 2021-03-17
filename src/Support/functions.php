@@ -59,7 +59,7 @@ if (!function_exists('sys_db')) {
         if (!$cache) {
             $cache = sys_cache('py-core')->get(PyCoreDef::ckLangModels());
             if (!$cache) {
-                app(ConsoleKernelContract::class)->call('core:inspect', [
+                app(ConsoleKernelContract::class)->call('py-core:inspect', [
                     'type' => 'db_seo',
                 ]);
                 $cache = sys_cache('py-core')->get(PyCoreDef::ckLangModels());
