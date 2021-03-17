@@ -51,7 +51,7 @@ class PyCoreDef
      */
     public static function ckCacher(string $key): string
     {
-        return 'cacher-'.$key;
+        return 'cacher-' . $key;
     }
 
     /**

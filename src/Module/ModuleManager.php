@@ -9,6 +9,7 @@ use Poppy\Core\Module\Repositories\ModulesMenu;
 use Poppy\Core\Module\Repositories\ModulesPage;
 use Poppy\Core\Module\Repositories\ModulesService;
 use Poppy\Core\Module\Repositories\ModulesSetting;
+use Poppy\Core\Module\Repositories\ModulesUi;
 
 /**
  * Class ModuleManager.
@@ -46,6 +47,11 @@ class ModuleManager
      * @var ModulesService
      */
     protected $serviceRepo;
+
+    /**
+     * @var ModulesUi
+     */
+    protected $uiRepository;
 
     /**
      * @var Modules
@@ -143,6 +149,25 @@ class ModuleManager
         }
 
         return $this->pageRepository;
+    }
+
+
+    /**
+     * @return ModulesUi
+     * @deprecated
+     */
+    public function uis(): ModulesUi
+    {
+        if (!$this->uiRepository instanceof ModulesUi) {
+            $collection = collect();
+            $this->repository()->enabled()->each(function (Module $module) use ($collection) {
+                $collection->put($module->slug(), $module->get('ui', []));
+            });
+            $this->uiRepository = new ModulesUi();
+            $this->uiRepository->initialize($collection);
+        }
+
+        return $this->uiRepository;
     }
 
     /**
