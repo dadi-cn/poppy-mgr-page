@@ -15,7 +15,7 @@
 		{!! Form::model(input(),['method' => 'get', 'class'=> 'layui-form', 'data-pjax', 'pjax-ctr'=> '#main']) !!}
 		<div class="layui-form-item">
 			{!! Form::text('title', null, ['placeholder' => '广告位名称', 'class' => 'layui-input layui-input-inline']) !!}
-			@include('py-mgr-page::backend.tpl.inc_search')
+			@include('py-mgr-page::backend.tpl._search')
 		</div>
 		{!! Form::close() !!}
 
