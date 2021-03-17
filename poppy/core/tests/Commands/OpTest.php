@@ -14,7 +14,7 @@ class OpTest extends TestCase
 
     public function testMail()
     {
-        $result = py_console()->call('core:op', [
+        $result = py_console()->call('py-core:op', [
             'do' => 'mail',
         ]);
         $this->assertEquals(0, $result);
