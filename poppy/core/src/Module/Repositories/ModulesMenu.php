@@ -295,6 +295,11 @@ class ModulesMenu extends Repository
         if (in_array($route, $routeHide, false)) {
             return null;
         }
+        $routeParam   = $group['route_param'] ?? '';
+        $param        = $group['param'] ?? '';
+        $url          = $route ? route_url($route, $routeParam, $param) : '#';
+        $group['url'] = $url;
+        unset($group['param'], $group['route_param']);
         $group['key'] = UtilHelper::md5($group);
         return $group;
     }
