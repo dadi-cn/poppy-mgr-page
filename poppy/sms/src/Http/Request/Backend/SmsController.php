@@ -41,6 +41,7 @@ class SmsController extends BackendController
             $scope = input('_scope');
         }
         $templates = collect($this->action()->getTemplates());
+
         return view('py-sms::backend.sms.index', [
             'scope' => $scope,
             'items' => array_values($templates->where('scope', $scope)->toArray()),
