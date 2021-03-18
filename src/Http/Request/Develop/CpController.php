@@ -72,7 +72,7 @@ class CpController extends DevelopController
     {
         $type = input('type');
         if (is_post()) {
-            $access = route('py-system:pam.auth.token', [$type]);
+            $access = route_url('py-system:pam.auth.login', null, ['guard' => $type]);
             try {
                 $Curl = new Curl();
             } catch (Throwable $e) {
