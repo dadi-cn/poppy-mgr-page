@@ -30,6 +30,12 @@ class ModulesHook extends Repository
                     $items = collect($items);
                     $items->each(function ($item) use ($collection) {
                         $service = $this->coreModule()->services()->get($item['name']);
+
+                        /* 2021-03-18: 当服务为空的时候, 不进行服务追加
+                         * ---------------------------------------- */
+                        if (empty($service)) {
+                            return;
+                        }
                         if ($service['type'] === 'array') {
                             $data = (array) $collection->get($item['name']);
                             if (!isset($item['hooks'])) {
