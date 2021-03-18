@@ -18,11 +18,9 @@ class OssDefaultUploadProvider extends DefaultUploadProvider
     private $deleteLocal = true;
 
     /**
-     * 保存文件输入
-     * @param UploadedFile $file 文件
-     * @return bool|mixed
+     * @inheritDoc
      */
-    public function saveFile($file):bool
+    public function saveFile(UploadedFile $file):bool
     {
         if (!parent::saveFile($file)) {
             return false;

@@ -53,10 +53,10 @@ class ExamController extends BackendController
 		if (is_post()) {
 			$Exam = $this->action();
 			if (!$Exam->establish(input(), $id)) {
-				return Resp::web(Resp::ERROR, $Exam->getError());
+				return Resp::error($Exam->getError());
 			}
 
-			return Resp::web(Resp::SUCCESS, '修改成功', 'pjax|1');
+			return Resp::success('修改成功', 'pjax|1');
 		}
 		if ($id) {
 			/** @var ExamContent $item */
@@ -89,10 +89,10 @@ class ExamController extends BackendController
 	{
 		$Version = $this->action();
 		if ($Version->delete($id)) {
-			return Resp::web(Resp::SUCCESS, '删除成功', 'pjax|1');
+			return Resp::success('删除成功', 'pjax|1');
 		}
 
-		return Resp::web(Resp::ERROR, $Version->getError());
+		return Resp::error($Version->getError());
 	}
 
 	/**

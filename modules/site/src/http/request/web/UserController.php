@@ -61,14 +61,14 @@ class UserController extends WebController
 					$forward = 'location|' . $url;
 				}
 
-				return Resp::web(Resp::SUCCESS, '登录成功', $forward);
+				return Resp::success('登录成功', $forward);
 			}
 
-			return Resp::web(Resp::ERROR, $Pam->getError());
+			return Resp::error($Pam->getError());
 		}
 
 		if ($guard->user()) {
-			return Resp::web(Resp::SUCCESS, '您已登录', [
+			return Resp::success('您已登录', [
 				'location' => route('slt:user.profile'),
 			]);
 		}
@@ -90,7 +90,7 @@ class UserController extends WebController
 	{
 		$guard = Auth::guard(PamAccount::GUARD_WEB);
 		if (!PamAccount::kvRegType($type, true)) {
-			return Resp::web(Resp::ERROR, '注册类型不正确');
+			return Resp::error('注册类型不正确');
 		}
 		if (is_post()) {
 			$validator = Validator::make(input(), [
@@ -110,15 +110,15 @@ class UserController extends WebController
 
 			$Pam = new Pam();
 			if (!$Pam->register($account, $password)) {
-				return Resp::web(Resp::ERROR, $Pam->getError(), '', $request->only([$type]));
+				return Resp::error($Pam->getError(), '', $request->only([$type]));
 			}
 			$pam = $Pam->getPam();
 
 			if ($guard->loginUsingId($pam->id)) {
-				return Resp::web(Resp::SUCCESS, '注册成功, 登录用户系统', 'reload|1');
+				return Resp::success('注册成功, 登录用户系统', 'reload|1');
 			}
 
-			return Resp::web(Resp::ERROR, '系统异常');
+			return Resp::error('系统异常');
 		}
 
 		return view('site::user.register', [
@@ -153,7 +153,7 @@ class UserController extends WebController
 	{
 		Auth::guard(PamAccount::GUARD_WEB)->logout();
 
-		return Resp::web(Resp::SUCCESS, '退出登录', 'location|' . route('site:user.login'));
+		return Resp::success('退出登录', 'location|' . route('site:user.login'));
 	}
 
 	public function getAuthLogout()

@@ -30,7 +30,7 @@ class ToolController extends WebController
 	public function format($type = 'xml')
 	{
 		if (!in_array($type, ['xml', 'json', 'css', 'sql'])) {
-			return Resp::web(Resp::ERROR, '格式化类型不正确');
+			return Resp::error('格式化类型不正确');
 		}
 
 		return view('site::web.tool.format', [
@@ -64,7 +64,7 @@ class ToolController extends WebController
 				$transContent = ltrim(implode(PHP_EOL, $lines), PHP_EOL);
 			}
 
-			return Resp::web(Resp::SUCCESS, '转化成功', [
+			return Resp::success('转化成功', [
 				'content'        => $transContent,
 				'content_origin' => $content,
 			]);
@@ -82,7 +82,7 @@ class ToolController extends WebController
 		if (is_post()) {
 			$content = input('content');
 
-			return Resp::web(Resp::SUCCESS, '转化成功', [
+			return Resp::success('转化成功', [
 				'content'        => htmlentities($content),
 				'content_origin' => $content,
 			]);
@@ -116,7 +116,7 @@ class ToolController extends WebController
 				$splits[] = $end;
 				$convert  = implode(PHP_EOL, $splits);
 			}
-			return Resp::web(Resp::SUCCESS, '转化成功', [
+			return Resp::success('转化成功', [
 				'content'        => $convert,
 				'content_origin' => $content,
 			]);

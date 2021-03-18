@@ -88,6 +88,6 @@ class AreaController extends WebApiController
             $return[$province_key] = $new_province_value;
         }
 
-        return Resp::web(Resp::SUCCESS, '获取数据成功', $return);
+        return Resp::success('获取数据成功', $return);
     }
 }

@@ -122,7 +122,7 @@ class CollectionController extends WebController
 	public function delete($id = null)
 	{
 		if (!$id) {
-			return Resp::web(Resp::ERROR, '请选中要删除的信息');
+			return Resp::error('请选中要删除的信息');
 		}
 		$Collection = (new Url())->setPam($this->pam());
 		if ($Collection->delete($id)) {
@@ -140,7 +140,7 @@ class CollectionController extends WebController
 	{
 		$url = input('url');
 		if (!$url) {
-			return Resp::web(Resp::ERROR, '请填写url地址!');
+			return Resp::error('请填写url地址!');
 		}
 
 		try {

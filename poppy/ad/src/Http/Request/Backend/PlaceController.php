@@ -51,10 +51,10 @@ class PlaceController extends BackendController
         $Place = $this->action();
         if (is_post()) {
             if ($Place->establish(input(), $id)) {
-                return Resp::web(Resp::SUCCESS, '添加广告位成功', 'reload_opener|1');
+                return Resp::success('添加广告位成功', 'reload_opener|1');
             }
 
-            return Resp::web(Resp::ERROR, $Place->getError());
+            return Resp::error($Place->getError());
         }
 
         $id && $Place->init($id) && $Place->share();
@@ -71,10 +71,10 @@ class PlaceController extends BackendController
     {
         $Place = $this->action();
         if ($Place->delete($id)) {
-            return Resp::web(Resp::SUCCESS, '删除广告位成功', '_reload|1');
+            return Resp::success('删除广告位成功', '_reload|1');
         }
 
-        return Resp::web(Resp::ERROR, $Place->getError());
+        return Resp::error($Place->getError());
     }
 
     /**

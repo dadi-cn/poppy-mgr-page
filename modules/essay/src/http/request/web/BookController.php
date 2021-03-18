@@ -39,10 +39,10 @@ class BookController extends WebController
 		$Book = (new Book())->setPam($this->pam());
 		if (is_post()) {
 			if ($Book->establish(input(), $id)) {
-				return Resp::web(Resp::SUCCESS, '创建文库成功', 'top_reload|1');
+				return Resp::success('创建文库成功', 'top_reload|1');
 			}
 
-			return Resp::web(Resp::ERROR, $Book->getError());
+			return Resp::error($Book->getError());
 		}
 		if ($id) {
 			if ($Book->init($id)) {

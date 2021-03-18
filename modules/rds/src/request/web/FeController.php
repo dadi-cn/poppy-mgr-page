@@ -155,7 +155,7 @@ HTML;
 	private function jsPost($plugin)
 	{
 		if ($plugin === 'simplemde') {
-			return Resp::web(Resp::SUCCESS, '图片上传成功', [
+			return Resp::success('图片上传成功', [
 				'json'        => true,
 				'success'     => true,
 				'url'         => [

@@ -34,10 +34,10 @@ class ArticleController extends WebController
 			if ($Article->establishPopup(input(), $id)) {
 				$prd = $Article->getArticle();
 
-				return Resp::web(Resp::SUCCESS, '创建文档成功', 'top_location|' . route('essay:book.show', [$prd->book_id]));
+				return Resp::success('创建文档成功', 'top_location|' . route('essay:book.show', [$prd->book_id]));
 			}
 
-			return Resp::web(Resp::ERROR, $Article->getError());
+			return Resp::error($Article->getError());
 		}
 		$book_id = input('book_id');
 		if ($id) {
@@ -46,7 +46,7 @@ class ArticleController extends WebController
 			View::share('item', $item);
 		}
 		if (!$book_id) {
-			return Resp::web(Resp::ERROR, '不正确的数据');
+			return Resp::error('不正确的数据');
 		}
 		$articles = ArticleContent::where('book_id', $book_id)->get();
 		$items    = [];
@@ -71,10 +71,10 @@ class ArticleController extends WebController
 		if (is_post()) {
 			$Prd = (new Article())->setPam($this->pam());
 			if ($Prd->establish(input(), $id)) {
-				return Resp::web(Resp::SUCCESS, '编辑成功!');
+				return Resp::success('编辑成功!');
 			}
 
-			return Resp::web(Resp::ERROR, $Prd->getError());
+			return Resp::error($Prd->getError());
 		}
 		/** @type ArticleContent $item */
 		$item = ArticleContent::find($id);

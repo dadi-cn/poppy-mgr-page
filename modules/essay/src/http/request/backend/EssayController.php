@@ -55,14 +55,14 @@ class EssayController extends BackendController
 		if (is_post()) {
 			$input = input();
 			if (!$Essay->establish($input, $id)) {
-				return Resp::web(Resp::ERROR, $Essay->getError());
+				return Resp::error($Essay->getError());
 			}
 
-			return Resp::web(Resp::SUCCESS, '操作成功');
+			return Resp::success('操作成功');
 		}
 
 		if ($id && !$item = EssayContent::find($id)) {
-			return Resp::web(Resp::ERROR, '条目不存在');
+			return Resp::error('条目不存在');
 		}
 
 		return view('essay::backend.content.establish', [
@@ -80,9 +80,9 @@ class EssayController extends BackendController
 	{
 		$Essay = $this->action();
 		if ($Essay->delete($id)) {
-			return Resp::web(Resp::SUCCESS, '删除广告成功', 'pjax|1');
+			return Resp::success('删除广告成功', 'pjax|1');
 		}
 
-		return Resp::web(Resp::ERROR, $Essay->getError());
+		return Resp::error($Essay->getError());
 	}
 }
