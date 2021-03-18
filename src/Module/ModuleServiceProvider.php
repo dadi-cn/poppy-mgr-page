@@ -19,7 +19,7 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('poppy.core.module', function ($app) {
+        $this->app->singleton('poppy.core.module', function () {
             return new ModuleManager();
         });
     }

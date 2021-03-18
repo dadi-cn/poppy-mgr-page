@@ -32,7 +32,7 @@ class Module implements Arrayable, ArrayAccess, JsonSerializable
     /**
      * @return string
      */
-    public function directory()
+    public function directory(): string
     {
         return $this->get('directory');
     }
@@ -40,7 +40,7 @@ class Module implements Arrayable, ArrayAccess, JsonSerializable
     /**
      * @return string
      */
-    public function namespace()
+    public function namespace(): string
     {
         return $this->get('namespace');
     }

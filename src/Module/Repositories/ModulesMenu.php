@@ -200,7 +200,7 @@ class ModulesMenu extends Repository
      * @param array  $perms perms
      * @return Collection
      */
-    public function withType($type, $perms): Collection
+    public function withType(string $type, array $perms): Collection
     {
         $menus = $this->where('type', $type);
         $menu  = collect();
@@ -268,9 +268,9 @@ class ModulesMenu extends Repository
     /**
      * 解析链接
      * @param array $group 数据数组
-     * @return mixed
+     * @return array
      */
-    private function parseLink($group)
+    private function parseLink(array $group): ?array
     {
         if (isset($group['children']) && is_array($group['children'])) {
             // parse children
