@@ -22,7 +22,7 @@ class OssDefaultUploadProvider extends DefaultUploadProvider
      * @param UploadedFile $file 文件
      * @return bool|mixed
      */
-    public function saveFile($file)
+    public function saveFile($file):bool
     {
         if (!parent::saveFile($file)) {
             return false;
@@ -31,9 +31,7 @@ class OssDefaultUploadProvider extends DefaultUploadProvider
     }
 
     /**
-     * 保存流输入
-     * @param string $content 文件内容
-     * @return bool
+     * @inheritDoc
      */
     public function saveInput($content): bool
     {
@@ -49,7 +47,7 @@ class OssDefaultUploadProvider extends DefaultUploadProvider
      * @param bool $delete_local 是否删除本地文件
      * @return bool
      */
-    private function saveAli($delete_local = true)
+    private function saveAli($delete_local = true): bool
     {
         // 设置返回地址
         $returnUrl = config('poppy.aliyun-oss.url');
