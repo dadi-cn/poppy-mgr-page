@@ -18,8 +18,8 @@
 		"sass-loader": "~10"
 	},
 	"apidoc": {
-		"title": "接口文档",
-		"url": "http://{domain}/",
+		"title": "Poppy 接口文档",
+		"url": "{{domain}}/",
 		"version": "1.0.0"
 	}
 }
