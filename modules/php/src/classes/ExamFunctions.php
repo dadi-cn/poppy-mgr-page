@@ -5,7 +5,6 @@ namespace Php\Classes;
 use Artisan;
 use Illuminate\Support\Str;
 use Op\Classes\LocalDir;
-use phpDocumentor\Reflection\DocBlock\Type\Collection;
 use ReflectionClass;
 use ReflectionMethod;
 use Storage;
