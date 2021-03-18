@@ -19,7 +19,7 @@ if (!function_exists('route_url')) {
      * @param bool       $absolute 是否绝对路径
      * @return string
      */
-    function route_url($route = '', $route_params = [], $params = null, $absolute = true)
+    function route_url($route = '', $route_params = [], $params = null, $absolute = true): string
     {
         if (is_null($route_params)) {
             $route_params = [];
@@ -68,7 +68,7 @@ if (!function_exists('command_exist')) {
      * @param $cmd
      * @return bool
      */
-    function command_exist($cmd)
+    function command_exist($cmd): bool
     {
         try {
             $returnVal = shell_exec("which $cmd");
@@ -126,7 +126,15 @@ if (!function_exists('input')) {
          */
         $name = implode('.', HtmlHelper::nameToArray($name));
 
-        return Request::get($name, $default);
+        $result = Request::get($name, $default);
+
+        // 字串移除空格
+        if (is_string($result)) {
+            return trim($result);
+        }
+
+        // 数组直接返回
+        return $result;
     }
 }
 
@@ -135,7 +143,7 @@ if (!function_exists('is_post')) {
      * 当前访问方法是否是post请求
      * @return bool
      */
-    function is_post()
+    function is_post(): bool
     {
         return Request::method() === 'POST';
     }
@@ -147,6 +155,8 @@ if (!function_exists('post')) {
      * @param null $name
      * @param null $default
      * @return mixed
+     * @deprecated
+     * @removed 4.0
      */
     function post($name = null, $default = null)
     {
@@ -169,6 +179,8 @@ if (!function_exists('get')) {
      * @param null $name
      * @param null $default
      * @return mixed
+     * @deprecated
+     * @removed 4.0
      */
     function get($name = null, $default = null)
     {
