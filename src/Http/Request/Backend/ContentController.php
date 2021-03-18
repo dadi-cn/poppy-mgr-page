@@ -62,14 +62,14 @@ class ContentController extends BackendController
 
         if (is_post()) {
             if ($Ad->establish($input, $id)) {
-                return Resp::web(Resp::SUCCESS, '添加广告成功', '_location|'
+                return Resp::success('添加广告成功', '_location|'
                     . route_url(
                         'ad:backend.content.index',
                         ['place_id' => $place_id]
                     ));
             }
 
-            return Resp::web(Resp::ERROR, $Ad->getError());
+            return Resp::error($Ad->getError());
         }
 
         $id && $Ad->init($id) && $Ad->share();
@@ -89,10 +89,10 @@ class ContentController extends BackendController
     {
         $Place = $this->action();
         if ($Place->delete($id)) {
-            return Resp::web(Resp::SUCCESS, '删除广告成功', '_reload|1');
+            return Resp::success('删除广告成功', '_reload|1');
         }
 
-        return Resp::web(Resp::ERROR, $Place->getError());
+        return Resp::error($Place->getError());
     }
 
     /**
@@ -104,10 +104,10 @@ class ContentController extends BackendController
     {
         $Ad = $this->action();
         if ($Ad->toggle($id)) {
-            return Resp::web(Resp::SUCCESS, '操作成功', '_reload|1');
+            return Resp::success('操作成功', '_reload|1');
         }
 
-        return Resp::web(Resp::ERROR, $Ad->getError());
+        return Resp::error($Ad->getError());
     }
 
     /**
