@@ -2,10 +2,12 @@
 
 namespace Poppy\Core\Redis;
 
+use Closure;
 use Illuminate\Contracts\Support\Arrayable;
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\Framework\Helper\UtilHelper;
 use Predis\Client;
+use Predis\Pipeline\Pipeline;
 use stdClass;
 use Throwable;
 
@@ -30,7 +32,7 @@ class RdsNative
      * @param array  $config   配置
      * @param string $cacheTag 缓存标签
      */
-    public function __construct($config, $cacheTag = '')
+    public function __construct(array $config, $cacheTag = '')
     {
         $this->redis = new Client($config);
 
@@ -368,7 +370,7 @@ class RdsNative
     {
         return (array) $this->redis->sscan($this->taggedItemKey($key), $cursor, $options);
     }
-    
+
     /**
      * 获取集合的所有成员
      * @param $key
@@ -380,7 +382,7 @@ class RdsNative
     }
 
     /**
-    /**
+     * /**
      * @param       $key
      * @param array $members
      * @return int
@@ -699,6 +701,49 @@ class RdsNative
     public function scan($cursor, array $options = [])
     {
         return (array) $this->redis->scan($cursor, $options);
+    }
+
+
+    /**
+     * @param Closure $closure
+     * @return array|Pipeline
+     */
+    public function pipeline(Closure $closure)
+    {
+        return $this->redis->pipeline($closure);
+    }
+
+    /**
+     * 设置位图
+     * @param string $key    key
+     * @param int    $offset 偏移量
+     * @param int    $value  值
+     * @return int
+     */
+    public function setbit(string $key, int $offset, int $value): int
+    {
+        return (int) $this->redis->setbit($this->taggedItemKey($key), $offset, $value);
+    }
+
+    /**
+     * 获取位图上偏移量的位
+     * @param string $key
+     * @param int    $offset
+     * @return int
+     */
+    public function getbit(string $key, int $offset): int
+    {
+        return (int) $this->redis->getbit($this->taggedItemKey($key), $offset);
+    }
+
+    /**
+     * 当 key 不存在时，返回 -2 .当 key 存在但没有设置剩余生存时间时，返回 -1 。 否则，以秒为单位，返回 key 的剩余生存时间
+     * @param string $key
+     * @return int
+     */
+    public function ttl(string $key): int
+    {
+        return (int) $this->redis->ttl($this->taggedItemKey($key));
     }
 
     /**

@@ -69,7 +69,7 @@ class ModuleManager
     /**
      * @return Collection
      */
-    public function enabled()
+    public function enabled(): Collection
     {
         return $this->repository()->enabled();
     }
