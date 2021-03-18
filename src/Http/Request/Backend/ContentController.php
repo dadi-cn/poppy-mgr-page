@@ -54,10 +54,10 @@ class ContentController extends BackendController
         $Area = $this->action();
         if (is_post()) {
             if ($Area->establish(input(), $id)) {
-                return Resp::web(Resp::SUCCESS, '添加版本成功', '_reload|1');
+                return Resp::success('添加版本成功', '_reload|1');
             }
 
-            return Resp::web(Resp::ERROR, $Area->getError());
+            return Resp::error($Area->getError());
         }
 
         $top  = [];
@@ -92,10 +92,10 @@ class ContentController extends BackendController
     {
         $Area = $this->action();
         if ($Area->delete($id)) {
-            return Resp::web(Resp::SUCCESS, '删除成功', '_reload|1');
+            return Resp::success('删除成功', '_reload|1');
         }
 
-        return Resp::web(Resp::ERROR, $Area->getError());
+        return Resp::error($Area->getError());
     }
 
     /**
