@@ -59,10 +59,10 @@ class SmsController extends BackendController
         $Sms = $this->action();
         if (is_post()) {
             if (!$Sms->establish(input(), $id)) {
-                return Resp::web(Resp::ERROR, $Sms->getError());
+                return Resp::error($Sms->getError());
             }
 
-            return Resp::web(Resp::SUCCESS, '操作成功!~', '_reload_opener|1');
+            return Resp::success('操作成功!~', '_reload_opener|1');
         }
 
         if ($id) {
@@ -85,10 +85,10 @@ class SmsController extends BackendController
     {
         $Sms = $this->action();
         if (!$Sms->destroy($id)) {
-            return Resp::web(Resp::ERROR, $Sms->getError());
+            return Resp::error($Sms->getError());
         }
 
-        return Resp::web(Resp::SUCCESS, '操作成功', '_reload|1');
+        return Resp::success('操作成功', '_reload|1');
     }
 
 
