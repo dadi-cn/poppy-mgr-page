@@ -31,8 +31,7 @@ class PoppySeedCommand extends Command
     protected $poppy;
 
     /**
-     * Create a new command instance.
-     * @param Poppy $poppy
+     * @inheritDoc
      */
     public function __construct(Poppy $poppy)
     {
@@ -78,10 +77,9 @@ class PoppySeedCommand extends Command
 
     /**
      * Seed the specific module.
-     * todo seed may not exec
      * @param string $slug slug
      */
-    protected function seed($slug)
+    protected function seed(string $slug)
     {
         $module        = $this->poppy->where('slug', $slug);
         $params        = [];
@@ -113,19 +111,17 @@ class PoppySeedCommand extends Command
     }
 
     /**
-     * Get the console command arguments.
-     * @return array
+     * @inheritDoc
      */
-    protected function getArguments()
+    protected function getArguments(): array
     {
         return [['slug', InputArgument::OPTIONAL, 'Module slug.']];
     }
 
     /**
-     * Get the console command options.
-     * @return array
+     * @inheritDoc
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [
             ['class', null, InputOption::VALUE_OPTIONAL, 'The class name of the module\'s root seeder.'],
