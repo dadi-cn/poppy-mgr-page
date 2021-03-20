@@ -32,7 +32,11 @@ class ModulesPage extends Repository
                 $collection->transform(function ($definition) {
                     data_set($definition, 'tabs', collect($definition['tabs'])->map(function ($definition) {
                         data_set($definition, 'fields', collect($definition['fields'])->map(function ($definition) {
-                            $setting = sys_setting($definition['key'], '');
+                            // 兼容函数不存在情况
+                            $setting = '';
+                            if (function_exists('sys_setting')){
+                                $setting = sys_setting($definition['key'], '');
+                            }
                             if (isset($definition['format'])) {
                                 switch ($definition['format']) {
                                     case 'boolean':
