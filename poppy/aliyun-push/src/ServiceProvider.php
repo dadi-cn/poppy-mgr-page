@@ -53,7 +53,7 @@ class ServiceProvider extends ModuleServiceProviderBase
     private function bootConfig()
     {
         // 注册配置
-        if (sys_setting('py-aliyun-push:push.access_key')) {
+        if (function_exists('sys_setting') && sys_setting('py-aliyun-push:push.access_key')) {
             // config 注入
             config([
                 'poppy.aliyun-push.access_key'       => sys_setting('py-aliyun-push::push.access_key'),
