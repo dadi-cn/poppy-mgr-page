@@ -443,6 +443,7 @@ CONTENT;
         $pop_size = $options['pop_size'] ?? '300';
         $type     = $options['type'] ?? 'image';
         $sequence = $options['sequence'] ?? false;
+        $pam      = $options['pam'] ?? false;
         $ext      = 'jpg|png|gif|jpeg|webp';
         if ($type === 'video') {
             $ext = 'mp4';
@@ -454,6 +455,20 @@ CONTENT;
         if (strpos($name, '[]') === false) {
             $name .= '[]';
         }
+
+        $token = $pam ? app('tymon.jwt.auth')->fromUser($pam) : '';
+        if (!$token) {
+            $token = $options['token'] ?? '';
+        }
+
+        /** @var ApiSignContract $Sign */
+        $Sign = app(ApiSignContract::class);
+        $timestamp   = Carbon::now()->timestamp;
+        $sign = $Sign->sign([
+            'token'     => $token,
+            'timestamp' => $timestamp,
+        ]);
+
         $auto       = (bool) ($options['auto'] ?? false);
         $autoEnable = $auto ? 'true' : 'false';
         $renderStr  = '';
@@ -480,8 +495,6 @@ HAHA;
         if ($sequence) {
             $sequenceStr = '<input type="text" name="_multi_sequence[]" class="layui-input w36">';
         }
-        $pam        = $options['pam'] ?? [];
-        $token      = $pam ? app('tymon.jwt.auth')->fromUser($pam) : '';
         $uploadUrl  = route('py-system:api_v1.upload.image');
         $autoUpload = $auto ? '' : '<button type="button" class="layui-btn layui-btn-sm" id="' . $id . '_upload" disabled>开始上传</button>';
         $data       = /** @lang text */
@@ -500,7 +513,7 @@ HAHA;
     <div class="multi-img {{ d.classname }}" filename="{{ d.index }}">
         <i class="fa fa-check" style="display:none;"></i>
         <input type="checkbox" name="________mark" lay-ignore>
-        <input type="checkbox" class="j_img_value" checked name="{$name}" value="{{  d.result }}" lay-ignore>
+        <input type="checkbox" class="j_img_value" checked name="{$name}" style="display:none" value="{{  d.result }}" lay-ignore>
         {{#  if(d.type === 'image'){ }}
         <img src="{{  d.result }}" alt="{{ d.name }}" class="layui-upload-img J_image_preview" data-width="{{ $pop_size }}px" data-height="{{ $pop_size }}px">
         {{# } else { }}
@@ -540,7 +553,9 @@ $(function(){
         exts : '{$ext}',
         size : 100000,
         data : {
-            token : '{$token}'
+            token : '{$token}',
+            sign : '{$sign}',
+            timestamp : '{$timestamp}',
         },
         choose: function (obj) {  //选择图片后事件
             var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
@@ -571,13 +586,18 @@ $(function(){
             });
          }, 
         before: function (obj) { //上传前回函数
-            if (!{$id}_files.length){
+            if (!Object.keys({$id}_files).length){
                  top.layer.msg("无可以上传文件, 请选择文件！");
                  return;
             }
             layer.load(); //上传loading
         },
         done: function (res,index,upload) {    //上传完毕后事件
+            if (res.status) {
+                top.layer.msg(res.message);
+                top.layer.closeAll('loading'); //关闭loading
+                return;
+            }
             var ctr = $('#{$id}_container').find('[filename='+index+']');
             
             ctr.find('img').attr('src', res.data.url[0]);
