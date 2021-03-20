@@ -270,16 +270,6 @@ class RdsNative
     }
 
     /**
-     * @param $key
-     * @return mixed
-     */
-    public function blpop($key)
-    {
-        return ($this->redis->blpop($this->taggedItemKey($key), 1)[1] ?? '');
-    }
-
-
-    /**
      * @param              $key
      * @param string|array $elements
      * @return int
@@ -288,6 +278,16 @@ class RdsNative
     {
         $elements = (array) $elements;
         return $this->redis->pfadd($this->taggedItemKey($key), $elements);
+    }
+
+    /**
+     * @param     $key
+     * @param int $timeout
+     * @return array|null
+     */
+    public function blpop($key, $timeout = 2)
+    {
+        return $this->redis->blpop($this->taggedItemKey($key), $timeout);
     }
 
     public function pfcount($key)
