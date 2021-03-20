@@ -271,11 +271,32 @@ class RdsNative
 
     /**
      * @param $key
-     * @return string
+     * @return mixed
      */
     public function blpop($key)
     {
-        return (string) ($this->redis->blpop($this->taggedItemKey($key), 1)[1] ?? '');
+        return ($this->redis->blpop($this->taggedItemKey($key), 1)[1] ?? '');
+    }
+
+
+    /**
+     * @param              $key
+     * @param string|array $elements
+     * @return int
+     */
+    public function pfadd($key, $elements)
+    {
+        $elements = (array) $elements;
+        return $this->redis->pfadd($this->taggedItemKey($key), $elements);
+    }
+
+    public function pfcount($key)
+    {
+        $keys = (array) $key;
+
+        return $this->redis->pfcount(array_map(function ($key) {
+            return $this->taggedItemKey($key);
+        }, $keys));
     }
 
     /**
