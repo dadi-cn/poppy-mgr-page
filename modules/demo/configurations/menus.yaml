@@ -145,6 +145,11 @@ demo:
               route_param:
                 - Image
             -
+              title: MultiImage
+              route: demo:web.form.index
+              route_param:
+                - MultiImage
+            -
               title: Ip
               route: demo:web.form.index
               route_param:

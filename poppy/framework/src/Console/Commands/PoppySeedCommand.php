@@ -87,8 +87,8 @@ class PoppySeedCommand extends Command
         $params        = [];
         $namespacePath = poppy_class($slug);
 
-        $rootSeeder = ucfirst(Str::camel($module['basename'])) . 'DatabaseSeeder';
-        $fullPath   = ucfirst(Str::camel($namespacePath)) . '\\' . ucfirst(Str::camel($module['basename'])) . '\Database\Seeds\\' . $rootSeeder;
+        $rootSeeder = ucfirst(Str::camel($module['name'])) . 'DatabaseSeeder';
+        $fullPath   = ucfirst(Str::camel($namespacePath)) . '\Database\Seeds\\' . $rootSeeder;
 
         if (class_exists($fullPath)) {
             if ($this->option('class')) {
@@ -108,7 +108,7 @@ class PoppySeedCommand extends Command
 
             $this->call('db:seed', $params);
 
-            event($slug . '.module.seeded', [$module, $this->option()]);
+            event($slug . '.seeded', [$module, $this->option()]);
         }
     }
 
