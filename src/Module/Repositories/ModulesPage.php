@@ -34,8 +34,11 @@ class ModulesPage extends Repository
                         data_set($definition, 'fields', collect($definition['fields'])->map(function ($definition) {
                             // 兼容函数不存在情况
                             $setting = '';
-                            if (function_exists('sys_setting')){
+                            if (function_exists('sys_setting')) {
                                 $setting = sys_setting($definition['key'], '');
+                            }
+                            elseif (function_exists('ydl_setting')) {
+                                $setting = ydl_setting($definition['key'], '');
                             }
                             if (isset($definition['format'])) {
                                 switch ($definition['format']) {
