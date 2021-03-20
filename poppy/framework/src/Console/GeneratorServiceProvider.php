@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Poppy\Framework\Console\Generators\MakeCommandCommand;
 use Poppy\Framework\Console\Generators\MakeControllerCommand;
 use Poppy\Framework\Console\Generators\MakeEventCommand;
+use Poppy\Framework\Console\Generators\MakeFactoryCommand;
 use Poppy\Framework\Console\Generators\MakeListenerCommand;
 use Poppy\Framework\Console\Generators\MakeMiddlewareCommand;
 use Poppy\Framework\Console\Generators\MakeMigrationCommand;
@@ -39,6 +40,7 @@ class GeneratorServiceProvider extends ServiceProvider
             MakeCommandCommand::class,
             MakeEventCommand::class,
             MakeListenerCommand::class,
+            MakeFactoryCommand::class,
         ]);
     }
 }
