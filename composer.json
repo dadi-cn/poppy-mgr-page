@@ -56,8 +56,6 @@
         "doctrine/dbal": "^2.5"
     },
     "autoload": {
-        "classmap": [
-        ],
         "psr-4": {
             "Poppy\\Extension\\Alipay\\": "poppy/ext-alipay/src",
             "Poppy\\Extension\\Alipay\\Tests\\": "poppy/ext-alipay/tests",
@@ -100,10 +98,6 @@
             "poppy/system/src/Support/functions.php",
             "poppy/core/src/Support/functions.php",
             "poppy/ext-pinyin/src/Support/functions.php"
-        ]
-    },
-    "autoload-dev": {
-        "classmap": [
         ]
     },
     "extra": {
