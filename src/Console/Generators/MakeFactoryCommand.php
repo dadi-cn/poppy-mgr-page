@@ -1,4 +1,10 @@
 <?php
+/*
+ * This is NOT a Free software.
+ * When you have some Question or Advice can contact Me.
+ * @author     Duoli <zhaody901@126.com>
+ * @copyright  Copyright (c) 2013-2021 Poppy Team
+ */
 
 namespace Poppy\Framework\Console\Generators;
 
@@ -58,11 +64,10 @@ class MakeFactoryCommand extends GeneratorCommand
         return __DIR__ . '/stubs/factory.stub';
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function getDefaultNamespace($rootNamespace): string
+
+    protected function getPath($name): string
     {
-        return poppy_class($this->argument('slug'), 'Database\\Factories');
+        $name = class_basename($name);
+        return $this->laravel->databasePath('factories') . DIRECTORY_SEPARATOR . $name . '.php';
     }
 }
