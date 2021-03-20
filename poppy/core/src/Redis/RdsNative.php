@@ -278,7 +278,6 @@ class RdsNative
         return ($this->redis->blpop($this->taggedItemKey($key), 1)[1] ?? '');
     }
 
-
     /**
      * @param              $key
      * @param string|array $elements
