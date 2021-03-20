@@ -130,7 +130,7 @@ class Application extends ApplicationBase
      */
     public function databasePath($path = ''): string
     {
-        return ($this->databasePath ?: $this->resourcePath('database'.($path ? DIRECTORY_SEPARATOR . $path : $path)));
+        return $this->resourcePath('database'.($path ? DIRECTORY_SEPARATOR . $path : $path));
     }
 
     /*
