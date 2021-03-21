@@ -168,6 +168,9 @@
         "faker": [
             "git push faker `git subtree split --prefix=poppy/faker 3.1`:3.1 --force"
         ],
+        "gh-faker": [
+            "git push faker `git subtree split --prefix=poppy/faker 3.1`:master --force"
+        ],
         "framework": [
             "git push framework `git subtree split --prefix=poppy/framework 3.1`:3.1 --force"
         ],

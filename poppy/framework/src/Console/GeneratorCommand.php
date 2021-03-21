@@ -45,10 +45,7 @@ abstract class GeneratorCommand extends LaravelGeneratorCommand
     }
 
     /**
-     * Get the destination class path.
-     * @param string $name full class name
-     * @return string
-     * @throws ModuleNotFoundException
+     * @inheritDoc
      */
     protected function getPath($name)
     {
