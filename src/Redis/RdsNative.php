@@ -339,6 +339,12 @@ class RdsNative
         return (bool) $this->redis->sadd($this->taggedItemKey($key), $this->arrayedFields($members));
     }
 
+
+    public function sdiff($keys)
+    {
+        return $this->redis->sdiff($this->taggedItemKey($keys));
+    }
+
     /**
      * 返回集合的数量
      * @param string $key key
@@ -804,10 +810,19 @@ class RdsNative
 
     /**
      * @param $cache_key
-     * @return string
+     * @return mixed 可以返回数组或者字串
      */
-    private function taggedItemKey($cache_key): string
+    private function taggedItemKey($cache_key)
     {
+
+        if (is_array($cache_key)) {
+            $keys = [];
+            foreach ($cache_key as $_key) {
+                $keys[] = $this->taggedItemKey($_key);
+            }
+            return $keys;
+        }
+
         $prefix = config('cache.prefix');
         $key    = $prefix;
 
