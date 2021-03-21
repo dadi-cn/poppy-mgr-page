@@ -121,11 +121,10 @@ class Resp
      */
     public function getMessage(): string
     {
-        $envDesc = config('app.env') ?? '开发';
         $env     = !is_production() ? '[' . config('app.env') . ']' : '';
         $message = (is_string($this->message) ? $this->message : implode(',', $this->message));
-        if (Str::contains($message, $envDesc . $envDesc)) {
-            return str_replace($envDesc . $envDesc, $envDesc . '.', $message);
+        if (Str::contains($message, $env)) {
+            $message = str_replace($env, '.', $message);
         }
 
         return $env . $message;
@@ -172,11 +171,11 @@ class Resp
      */
     public static function web(int $type, $msg, $append = null, $input = null)
     {
-        if (!($msg instanceof self)) {
-            $resp = new self($type, $msg);
-        }
-        elseif ($msg instanceof Exception) {
+        if ($msg instanceof Exception) {
             $resp = new self($msg->getCode(), $msg->getMessage());
+        }
+        elseif (!($msg instanceof self)) {
+            $resp = new self($type, $msg);
         }
         else {
             $resp = $msg;

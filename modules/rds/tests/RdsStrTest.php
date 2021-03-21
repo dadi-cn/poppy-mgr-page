@@ -2,15 +2,8 @@
 
 namespace Rds\Tests;
 
-use Poppy\Framework\Application\TestCase;
-
-class RdsStrTest extends TestCase
+class RdsStrTest extends RedisBaseTest
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
-
 
     public function fnSet()
     {

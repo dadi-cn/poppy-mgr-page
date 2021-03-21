@@ -91,7 +91,8 @@
             "Poppy\\CanalEs\\": "poppy/canal-es/src/",
             "Poppy\\CanalEs\\Tests\\": "poppy/canal-es/tests/",
             "Php\\Tests\\": "modules/php/tests",
-            "Site\\Tests\\": "modules/site/tests"
+            "Site\\Tests\\": "modules/site/tests",
+            "Rds\\Tests\\": "modules/rds/tests"
         },
         "files": [
             "poppy/framework/src/Support/functions.php",
