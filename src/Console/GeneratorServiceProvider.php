@@ -40,7 +40,6 @@ class GeneratorServiceProvider extends ServiceProvider
             MakeCommandCommand::class,
             MakeEventCommand::class,
             MakeListenerCommand::class,
-            MakeFactoryCommand::class,
         ]);
     }
 }
