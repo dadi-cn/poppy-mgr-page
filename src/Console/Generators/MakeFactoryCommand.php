@@ -20,7 +20,6 @@ class MakeFactoryCommand extends GeneratorCommand
      * @var string
      */
     protected $signature = 'poppy:factory
-    	{slug : The slug of the module}
     	{name : The name of the factory class}
     	{--model= : Generate a model factory class}';
 
@@ -38,7 +37,7 @@ class MakeFactoryCommand extends GeneratorCommand
             $namespaceModel = $model;
         }
         else {
-            $namespaceModel = poppy_class($this->argument('slug'), 'Models') . '\\' . class_basename($model);
+            $namespaceModel = $model;
         }
 
         $model = class_basename($namespaceModel);
@@ -63,7 +62,6 @@ class MakeFactoryCommand extends GeneratorCommand
     {
         return __DIR__ . '/stubs/factory.stub';
     }
-
 
     protected function getPath($name): string
     {
