@@ -63,7 +63,7 @@ class ProgressController extends DevelopController
         $this->fix['method'] = $method;
 
         if ($this->fix['left'] === 0) {
-            app('setting')->set('system::progress.' . Str::snake($class_name), $class_name);
+            app('poppy.system.setting')->set('system::progress.' . Str::snake($class_name), $class_name);
         }
 
         return $this->fixView();
