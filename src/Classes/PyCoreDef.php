@@ -74,4 +74,12 @@ class PyCoreDef
         return 'roles-user-' . $id;
     }
 
+    /**
+     * 过期的KEY/Field
+     * @return string
+     */
+    public static function ckRdsKeyFieldExpired(): string
+    {
+        return 'rds-key-field-expired';
+    }
 }
