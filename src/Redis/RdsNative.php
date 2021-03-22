@@ -75,6 +75,15 @@ class RdsNative
     }
 
     /**
+     * @param $key
+     * @return bool
+     */
+    public function exists($key): bool
+    {
+        return (bool) $this->redis->exists($this->taggedItemKey($key));
+    }
+
+    /**
      * @param $keys
      * @return array
      */
@@ -358,7 +367,7 @@ class RdsNative
      */
     public function sdiffstore($destination, $keys)
     {
-        return $this->redis->sdiffstore($destination, $this->taggedItemKey($keys));
+        return $this->redis->sdiffstore($this->taggedItemKey($destination), $this->taggedItemKey($keys));
     }
 
     /**
