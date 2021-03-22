@@ -4,7 +4,7 @@ namespace Poppy\Framework\Application;
 
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Console\Kernel;
-use Poppy\Faker\Generator;
+use Faker\Generator;
 use Poppy\Framework\Exceptions\FakerException;
 use Poppy\Framework\Foundation\Application;
 

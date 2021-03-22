@@ -311,12 +311,12 @@ if (!function_exists('py_console')) {
 if (!function_exists('py_faker')) {
     /**
      * Get Console Container.
-     * @return \Poppy\Faker\Generator
+     * @return Faker\Generator
      * @throws FakerException
      */
-    function py_faker(): \Poppy\Faker\Generator
+    function py_faker(): Faker\Generator
     {
-        if (class_exists('\Poppy\Faker\Factory')) {
+        if (class_exists('\Faker\Factory')) {
             return Factory::create('zh_CN');
         }
         else {
