@@ -340,9 +340,25 @@ class RdsNative
     }
 
 
+    /**
+     * 对比多个 key
+     * @params array $keys
+     * @return array
+     */
     public function sdiff($keys)
     {
         return $this->redis->sdiff($this->taggedItemKey($keys));
+    }
+
+    /**
+     * 这个命令的作用和 SDIFF key [key …] 类似，但它将结果保存到 destination 集合，而不是简单地返回结果集。
+     * @param $destination
+     * @param $keys
+     * @return int
+     */
+    public function sdiffstore($destination, $keys)
+    {
+        return $this->redis->sdiffstore($destination, $this->taggedItemKey($keys));
     }
 
     /**
