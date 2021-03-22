@@ -2,10 +2,9 @@
 
 namespace Poppy\Framework\Application;
 
+use Faker\Generator;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Console\Kernel;
-use Faker\Generator;
-use Poppy\Framework\Exceptions\FakerException;
 use Poppy\Framework\Foundation\Application;
 
 /**
@@ -72,11 +71,9 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         }
     }
 
-    /**
-     * @throws FakerException
-     */
-    protected function pyFaker(): Generator
+
+    protected function faker(): Generator
     {
-        return py_faker();
+        return app(Generator::class);
     }
 }
