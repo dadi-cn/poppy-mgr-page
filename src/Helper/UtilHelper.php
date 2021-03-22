@@ -362,63 +362,18 @@ class UtilHelper
     }
 
     /**
-     * check bom
-     * @param string     $basedir basedir
-     * @param bool|false $remove  remove
-     * @deprecated  这个函数可以去掉了. 现在基本不存在有 bom 的情况了
+     * Kv 转化成Id/Title 类型
+     * @param array $kv
+     * @return array
      */
-    public static function checkBom(string $basedir, $remove = false)
+    public static function kvToIdTitle(array $kv): array
     {
-        set_time_limit(0);
-        if (!file_exists($basedir)) {
-            die('No director "' . $basedir . '"');
-        }
-        if ($dh = opendir($basedir)) {
-            while (($file = readdir($dh)) !== false) {
-                if ($file !== '.' && $file !== '..' && $file !== '.git' && $file !== '.htaccess' && $file !== '.idea') {
-                    if (!is_dir($basedir . '/' . $file)) {
-                        $ext = FileHelper::ext($file);
-                        if (!in_array($ext, ['jpg', 'gif', 'png'])) {
-                            echo "filename: {$basedir}/{$file} &nbsp; " . self::checkFileBom("$basedir/$file", $remove) . ' <br>';
-                            ob_flush();
-                            flush();
-                        }
-                    }
-                    else {
-                        $dirname = $basedir . '/' . $file;
-                        self::checkBom($dirname, $remove);
-                    }
-                }
-            }
-            closedir($dh);
-        }
-    }
-
-    /**
-     * 检测目录文件 utf8 状态
-     * @param string $basedir basedir
-     */
-    public static function checkUtf8(string $basedir)
-    {
-        if ($dh = opendir($basedir)) {
-            while (($file = readdir($dh)) !== false) {
-                if ($file !== '.' && $file !== '..' && $file !== '.git' && $file !== '.htaccess' && $file !== '.idea') {
-                    if (!is_dir($basedir . '/' . $file)) {
-                        $ext = FileHelper::ext($file);
-                        if (!in_array($ext, ['jpg', 'gif', 'png', 'psd', 'ttf', 'ico', 'swf', 'csv', 'xdb', 'dat', 'fla', 'db', 'cur', 'phar', 'bat'])) {
-                            echo "filename: {$basedir}/{$file} &nbsp; " . self::isUtf8("$basedir/$file") . ' <br>';
-                            ob_flush();
-                            flush();
-                        }
-                    }
-                    else {
-                        $dirname = $basedir . '/' . $file;
-                        self::checkUtf8($dirname);
-                    }
-                }
-            }
-            closedir($dh);
-        }
+        return collect($kv)->map(function ($v, $k) {
+            return [
+                'id'    => $k,
+                'title' => $v,
+            ];
+        })->values()->toArray();
     }
 
     /**
@@ -607,48 +562,5 @@ class UtilHelper
         $chid .= self::chidVerify($chid);
 
         return $chid;
-    }
-
-    /**
-     * check if Utf8
-     * @param string $filename filename
-     * @return string
-     */
-    private static function isUtf8(string $filename): string
-    {
-        $info     = '<span style="color:red;">NOT UTF8 file</span>';
-        $contents = file_get_contents($filename);
-        if ($contents === mb_convert_encoding(mb_convert_encoding($contents, 'UTF-32', 'UTF-8'), 'UTF-8', 'UTF-32')) {
-            $info = '<span>IS UTF8 file</span>';
-        }
-
-        return $info;
-    }
-
-    /**
-     * _checkFileBom
-     * @param string $file_name  文件名称
-     * @param bool   $remove_bom 是否移除
-     * @return string
-     */
-    private static function checkFileBom(string $file_name, $remove_bom = false): string
-    {
-        $info       = '<span>BOM Not Found</span>';
-        $contents   = file_get_contents($file_name);
-        $charset[1] = $contents[0];
-        $charset[2] = $contents[1];
-        $charset[3] = $contents[2];
-        if (ord($charset[1]) === 239 && ord($charset[2]) === 187 && ord($charset[3]) === 191) {
-            if ($remove_bom) {
-                $rest = substr($contents, 3);
-                file_put_contents($file_name, $rest);
-                $info = '<span style="color:red;">BOM found, automatically removed..</span>';
-            }
-            else {
-                $info = '<span style="color:red;">BOM found.</span>';
-            }
-        }
-
-        return $info;
     }
 }
