@@ -1,10 +1,6 @@
 <?php
 
-namespace Poppy\Core\Tests\Classes;
-
-/**
- * Copyright (C) Update For IDE
- */
+namespace Poppy\Core\Tests\Redis;
 
 use Poppy\Core\Redis\RdsStore;
 use Poppy\Framework\Application\TestCase;
