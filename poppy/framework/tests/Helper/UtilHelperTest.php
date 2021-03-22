@@ -233,4 +233,23 @@ class UtilHelperTest extends TestCase
         $str = UtilHelper::isComma('1,23');
         $this->assertEquals(true, $str);
     }
+
+
+    public function testKvToIdTitle()
+    {
+        $kv       = [
+            'a' => 'b',
+        ];
+        $kvReturn = UtilHelper::kvToIdTitle($kv);
+        $this->assertEquals([
+            [
+                'id'    => 'a',
+                'title' => 'b',
+            ],
+        ], $kvReturn);
+
+        $kvEmpty  = [];
+        $kvReturn = UtilHelper::kvToIdTitle($kvEmpty);
+        $this->assertEquals($kvEmpty, $kvReturn);
+    }
 }
