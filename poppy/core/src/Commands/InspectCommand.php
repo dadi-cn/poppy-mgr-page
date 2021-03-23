@@ -751,10 +751,10 @@ class InspectCommand extends Command
         $modules->each(function ($item) use (&$models) {
             $slug = $item['slug'];
             if (Str::startsWith($slug, 'poppy')) {
-                $path = poppy_path($slug, '/src/models/*.php');
+                $path = poppy_path($slug, '/src/Models/*.php');
             }
             else {
-                $path = poppy_path($slug, '/src/Models/*.php');
+                $path = poppy_path($slug, '/src/models/*.php');
             }
 
             $files = glob($path);
