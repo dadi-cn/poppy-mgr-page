@@ -31,8 +31,8 @@ class RdsPersistTest extends TestCase
                 'parent_id'    => 0,
                 'account_type' => 'user',
                 'type'         => 'success',
-                'ip'           => $this->pyFaker()->ipv4,
-                'area_text'    => $this->pyFaker()->word(),
+                'ip'           => $this->faker()->ipv4,
+                'area_text'    => $this->faker()->word(),
                 'created_at'   => Carbon::now()->toDateTimeString(),
                 'updated_at'   => Carbon::now()->toDateTimeString(),
             ];
