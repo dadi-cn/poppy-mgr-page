@@ -156,6 +156,7 @@ if (!function_exists('post')) {
      * @param null $default
      * @return mixed
      * @deprecated
+     * @see     input()
      * @removed 4.0
      */
     function post($name = null, $default = null)
@@ -180,6 +181,7 @@ if (!function_exists('get')) {
      * @param null $default
      * @return mixed
      * @deprecated
+     * @see     input
      * @removed 4.0
      */
     function get($name = null, $default = null)
@@ -204,7 +206,7 @@ if (!function_exists('poppy_path')) {
      * @param string      $file
      * @return string
      */
-    function poppy_path($slug = null, $file = '')
+    function poppy_path($slug = null, $file = ''): string
     {
         if (Str::contains($slug, 'poppy.')) {
             $modulesPath = app('path.poppy');
@@ -228,7 +230,7 @@ if (!function_exists('poppy_class')) {
      * @param string $class
      * @return string
      */
-    function poppy_class(string $slug, $class = '')
+    function poppy_class(string $slug, $class = ''): string
     {
         $module = app('poppy')->where('slug', $slug);
 
@@ -264,7 +266,7 @@ if (!function_exists('home_path')) {
      * @param string $path
      * @return string
      */
-    function home_path($path = '')
+    function home_path($path = ''): string
     {
         return app('path.poppy') . ($path ? DIRECTORY_SEPARATOR . $path : '');
     }
@@ -276,7 +278,7 @@ if (!function_exists('framework_path')) {
      * @param string $path
      * @return string
      */
-    function framework_path($path = '')
+    function framework_path($path = ''): string
     {
         /** @var Application $container */
         $container = Container::getInstance();
@@ -333,15 +335,15 @@ if (!function_exists('parse_seo')) {
      * @param mixed ...$args
      * @return array
      */
-    function parse_seo(...$args)
+    function parse_seo(...$args): array
     {
         $title       = '';
         $description = '';
         if (func_num_args() === 1) {
             $arg = func_get_arg(0);
             if (is_array($arg)) {
-                $title       = $arg['title'] ?? '';
-                $description = $arg['description'] ?? '';
+                $title       = $arg['title'] ?? ($arg[0] ?? '');
+                $description = $arg['description'] ?? ($arg[1] ?? '');
             }
             if (is_string(func_get_arg(0))) {
                 $title       = $arg;

@@ -77,11 +77,14 @@ abstract class Controller extends BaseController
 
         // 自动计算seo
         // 根据路由名称来转换 seo key
-        // slt:nav.index  => slt::seo.nav_index
+        // system:web.user.index  => system::web_nav_index
         $seoKey = str_replace([':', '.'], ['::', '_'], $this->route);
         if ($seoKey) {
             $seoKey = str_replace('::', '::seo.', $seoKey);
             $this->seo(trans($seoKey));
+        }
+        else {
+            $this->seo();
         }
     }
 
@@ -92,11 +95,11 @@ abstract class Controller extends BaseController
     protected function seo(...$args)
     {
         [$title, $description] = parse_seo($args);
-
         $title       = $title ? $title . '-' . config('poppy.framework.title') : config('poppy.framework.title');
         $description = $description ?: config('poppy.framework.description');
 
         $this->title = $title;
+
         View::share([
             '_title'       => $title,
             '_description' => $description,
