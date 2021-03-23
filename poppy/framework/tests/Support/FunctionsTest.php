@@ -46,4 +46,26 @@ class FunctionsTest extends TestCase
             $this->assertEquals('', $moduleSiteModal);
         }
     }
+
+
+    public function testParseSeo()
+    {
+        $seo = parse_seo();
+        $this->assertEquals(['', ''], $seo);
+
+        $seo = parse_seo('title');
+        $this->assertEquals(['title', ''], $seo);
+
+        $seo = parse_seo('title', 'description');
+        $this->assertEquals(['title', 'description'], $seo);
+
+        $seo = parse_seo(['title']);
+        $this->assertEquals(['title', ''], $seo);
+
+        $seo = parse_seo([
+            'title'       => 'title-t',
+            'description' => 'description-d',
+        ]);
+        $this->assertEquals(['title-t', 'description-d'], $seo);
+    }
 }
