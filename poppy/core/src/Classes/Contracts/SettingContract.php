@@ -23,8 +23,8 @@ interface SettingContract
 
     /**
      * Set a setting value from key and value.
-     * @param string $key   获取设置key
-     * @param mixed  $value 需要设置的值
+     * @param string|array $key   获取设置key
+     * @param mixed        $value 需要设置的值
      */
     public function set(string $key, $value = '');
 }
