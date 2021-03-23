@@ -48,6 +48,12 @@ class RdsPersist
         $this->redis = new RdsDb();
     }
 
+
+    private static function rdsInstance()
+    {
+
+    }
+
     /**
      * 往队列中插入一条数据
      * @param string $table  数据表名称

@@ -109,7 +109,7 @@ if (!function_exists('sys_mark')) {
      * @param bool          $with_time
      * @return string
      */
-    function sys_mark($object, string $class, $append = '', $with_time = false)
+    function sys_mark($object, string $class, $append = '', $with_time = false): string
     {
         $suffix = static function ($string) {
             return trim(substr(strrchr($string, '\\'), 1));
@@ -173,5 +173,19 @@ if (!function_exists('sys_success')) {
         if (!is_production() && config('app.debug')) {
             app('log')->info(sys_mark($object, $class, $append, true));
         }
+    }
+}
+
+
+if (!function_exists('sys_info')) {
+    /**
+     * 永远记录错误信息
+     * @param mixed  $object
+     * @param string $class
+     * @param string $append
+     */
+    function sys_info($object, string $class, $append = '')
+    {
+        app('log')->info(sys_mark($object, $class, $append, true));
     }
 }
