@@ -1,7 +1,7 @@
 <div id="nav" class="api--nav">
-    <ul class="layui-nav">
+    <ul class="layui-nav" style="padding-right: 175px;">
         <li class="layui-nav-item">
-            <a class="layui-nav-item fa fa-home" href="/develop">
+            <a class="layui-nav-item fa fa-home" href="{!! route('py-mgr-page:develop.cp.cp') !!}">
                 <small> {!! $guard !!}</small>
             </a>
         </li>
@@ -63,29 +63,29 @@
 <script>
 
 $(function() {
-	Util.holmes({
-		input       : '#search',
-		find        : '#quick_search .interface',
-		placeholder : '<h5> No Search Result!</h5>'
-	});
-	layui.element.init();
+    Util.holmes({
+        input : '#search',
+        find : '#quick_search .interface',
+        placeholder : '<h5> No Search Result!</h5>'
+    });
+    layui.element.init();
 });
 
 new Vue({
-	el      : '#nav',
-	data    : {
-		show : 'none'
-	},
-	methods : {
-		switchQuick : function() {
-			var display = $('#quick_search').css('display');
-			if (display === 'none') {
-				$('#quick_search').css('display', 'block');
-			} else {
-				$('#quick_search').css('display', 'none');
-			}
-			$('#search').focus();
-		}
-	}
+    el : '#nav',
+    data : {
+        show : 'none'
+    },
+    methods : {
+        switchQuick : function() {
+            var display = $('#quick_search').css('display');
+            if (display === 'none') {
+                $('#quick_search').css('display', 'block');
+            } else {
+                $('#quick_search').css('display', 'none');
+            }
+            $('#search').focus();
+        }
+    }
 });
 </script>
