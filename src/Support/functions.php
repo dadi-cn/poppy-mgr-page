@@ -86,20 +86,6 @@ if (!function_exists('sys_hook')) {
 }
 
 
-if (!function_exists('sys_error')) {
-    /**
-     * alias for \Log::error()
-     * @param mixed  $object
-     * @param string $class
-     * @param string $append
-     */
-    function sys_error($object, string $class, $append = '')
-    {
-        app('log')->error(sys_mark($object, $class, $append, true));
-    }
-}
-
-
 if (!function_exists('sys_mark')) {
     /**
      * 系统 Debug 标识符, 方便快速进行定位
@@ -156,10 +142,24 @@ if (!function_exists('sys_mark')) {
             $content = $append->getMessage();
         }
 
-        return ($with_time ? Carbon::now()->format('m-d h:i:s') . ' ' : '') . '[' . $doName . '.' . $className . '] ' . $content;
+        $time = Carbon::now()->format('Y-m-d h:i:s');
+        $env  = config('app.env');
+        return ($with_time ? "[$time] {$env}.INFO:" : '') . '(' . $doName . '.' . $className . ') ' . $content;
     }
 }
 
+if (!function_exists('sys_error')) {
+    /**
+     * alias for \Log::error()
+     * @param mixed  $object
+     * @param string $class
+     * @param string $append
+     */
+    function sys_error($object, string $class, $append = '')
+    {
+        app('log')->error(sys_mark($object, $class, $append));
+    }
+}
 
 if (!function_exists('sys_success')) {
     /**
@@ -167,11 +167,27 @@ if (!function_exists('sys_success')) {
      * @param mixed  $object
      * @param string $class
      * @param string $append
+     * @deprecated 3.1
+     * @removed    4.0
      */
     function sys_success($object, string $class, $append = '')
     {
+        sys_debug($object, $class, $append);
+    }
+}
+
+if (!function_exists('sys_debug')) {
+    /**
+     * 开发环境下记录成功信息, 便于错误调试
+     * @param mixed  $object
+     * @param string $class
+     * @param string $append
+     * @since 3.1
+     */
+    function sys_debug($object, string $class, $append = '')
+    {
         if (!is_production() && config('app.debug')) {
-            app('log')->info(sys_mark($object, $class, $append, true));
+            app('log')->debug(sys_mark($object, $class, $append));
         }
     }
 }
@@ -186,6 +202,6 @@ if (!function_exists('sys_info')) {
      */
     function sys_info($object, string $class, $append = '')
     {
-        app('log')->info(sys_mark($object, $class, $append, true));
+        app('log')->info(sys_mark($object, $class, $append));
     }
 }

@@ -53,4 +53,13 @@ class FunctionTest extends SystemTestCase
         $this->assertEquals(null, sys_cache('py-core')->get('test.sys_cache'));
     }
 
+
+    public function testSysInfos()
+    {
+        sys_debug('testing', self::class, 'debug@' . $this->faker()->words('20', true));
+        sys_info('testing', self::class, 'info@' . $this->faker()->words('20', true));
+        sys_error('testing', self::class, 'error@' . $this->faker()->words('20', true));
+        $this->assertTrue(true);
+    }
+
 }
