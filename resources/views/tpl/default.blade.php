@@ -9,6 +9,7 @@
     @yield('head-meta')
     @yield('head-css')
     @yield('head-script')
+    @yield('head-content')
 </head>
 <body class="@yield('body-class')" style="@yield('body-style')">
 

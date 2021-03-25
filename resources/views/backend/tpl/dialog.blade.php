@@ -1,11 +1,10 @@
 @extends('py-mgr-page::tpl.default')
 @section('title', $_title ?? '')
 @section('description', $_description ?? '')
-@section('head-css')
-    @include('py-mgr-page::backend.tpl._style')
-@endsection
-@section('head-script')
-    @include('py-mgr-page::backend.tpl._script')
+@section('head-content')
+    @include('py-mgr-page::tpl._js_css', [
+        '_type' => ['layui', 'easy-web']
+    ])
 @endsection
 @section('body-main')
     @include('py-mgr-page::tpl._toastr')
