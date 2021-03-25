@@ -8,7 +8,7 @@
     </div>
     <div class="layui-form-item">
         {!! Form::label('type', '类型:', ['class' => 'validation']) !!}
-        {!! Form::select('type', \Poppy\Sms\Action\Sms::kvType(), null, ['placeholder'=>'选择类型']) !!}
+        {!! Form::select('type', \Poppy\Sms\Action\Sms::kvType(), null, ['placeholder'=>'选择类型', 'lay-ignore'=>1]) !!}
     </div>
     <div class="layui-form-item">
         {!! Form::label('code', 'SmsCode:', ['class' => 'validation']) !!}
