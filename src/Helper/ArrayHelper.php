@@ -103,13 +103,35 @@ class ArrayHelper
      * @param string|array $value
      * @return array
      */
-    public static function delete(array $array, $value)
+    public static function delete(array $array, $value): array
     {
         $value = Arr::wrap($value);
 
         $return = [];
         foreach ($array as $index => $item) {
             if (!in_array($item, $value)) {
+                $return[$index] = $item;
+            }
+        }
+        return $return;
+    }
+
+    /**
+     * 映射 Null 到 Empty
+     * @param array $arr
+     * @return array
+     */
+    public static function mapNull(array $arr): array
+    {
+        $return = [];
+        foreach ($arr as $index => $item) {
+            if (is_array($item)) {
+                $return[$index] = self::mapNull($item);
+            }
+            elseif (is_null($item)) {
+                $return[$index] = '';
+            }
+            else {
                 $return[$index] = $item;
             }
         }

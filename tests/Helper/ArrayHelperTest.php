@@ -47,7 +47,7 @@ class ArrayHelperTest extends TestCase
             'a' => '1',
             'b' => '2',
         ];
-        $this->assertEquals('a=1,b=2', ArrayHelper::toKvStr($array2, ','));
+        $this->assertEquals('a=1,b=2', ArrayHelper::toKvStr($array2));
 
         $array3 = [
             'a' => [
@@ -55,7 +55,7 @@ class ArrayHelperTest extends TestCase
             ],
             'b' => '2',
         ];
-        $this->assertEquals('a=["d","e"],b=2', ArrayHelper::toKvStr($array3, ','));
+        $this->assertEquals('a=["d","e"],b=2', ArrayHelper::toKvStr($array3));
     }
 
     public function testNext(): void
@@ -73,6 +73,14 @@ class ArrayHelperTest extends TestCase
         ];
         $arrDelete = ArrayHelper::delete($array, [3]);
         $this->assertEquals([1, 2], $arrDelete);
+    }
 
+    public function testMapNull()
+    {
+        $array  = [
+            null, [], '5',
+        ];
+        $return = ArrayHelper::mapNull($array);
+        $this->assertEquals(['', [], '5'], $return);
     }
 }
