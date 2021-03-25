@@ -6,10 +6,9 @@ namespace Poppy\Area\Http;
  * Copyright (C) Update For IDE
  */
 
-use Poppy\System\Classes\Abstracts\SysRouteServiceProvider;
 use Route;
 
-class RouteServiceProvider extends SysRouteServiceProvider
+class RouteServiceProvider extends \Poppy\Framework\Application\RouteServiceProvider
 {
     /**
      * This namespace is applied to your controller routes.
