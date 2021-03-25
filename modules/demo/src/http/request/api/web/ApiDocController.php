@@ -8,10 +8,10 @@ use Poppy\Framework\Classes\Resp;
 class ApiDocController extends ApiController
 {
     /**
-     * @api               {get} api/demo/apidoc/how ApiDoc编写示例
+     * @api               {get} api/demo/apidoc/how [Demo]ApiDoc编写示例
      * @apiDescription    怎样写Apidoc
      * @apiVersion        1.0.0
-     * @apiName           DemoApidocHow
+     * @apiName           ApidocHow
      * @apiGroup          Demo
      * @apiParam {int}            number         数值
      * @apiParam {int{100-999}}   number_range   数值范围

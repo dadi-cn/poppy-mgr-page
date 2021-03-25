@@ -62,9 +62,10 @@
         </div>
         <script>
         $(function() {
-            var conf = Util.validateConfig({
+            let className = 'alert-warning alert-danger alert-info';
+            let conf      = Util.validateConfig({
                 submitHandler : function(form) {
-                    var $result = $('#J_result');
+                    let $result = $('#J_result');
                     $result.text(
                         '进行中...'
                     ).css('color', 'grey');
@@ -72,14 +73,16 @@
                         beforeSend : function(request) {
                             @if(isset($data['token']))
                             request.setRequestHeader("Authorization", "Bearer {!! $data['token'] !!}");
+                            request.setRequestHeader("X-ACCESS-TOKEN", "Bearer {!! $data['token'] !!}");
                             @endif
                             @if(isset($data['version']))
-                            request.setRequestHeader("Accept", "application/{!! config('api.standardsTree').'.'.config('api.subtype').'.'.$data['version'].'+json' !!}");
+                            request.setRequestHeader("X-APP-VERSION", "1.0.0");
                             @endif
                         },
                         success : function(data) {
+                            let objData;
                             try {
-                                var objData = Util.toJson(data);
+                                objData = Util.toJson(data);
                             } catch (e) {
                                 console.log($(form).serialize());
                                 $result.text(
@@ -88,23 +91,23 @@
                                 return;
                             }
 
-                            var className = '';
+                            let className;
                             if (objData.status === 0) {
                                 className = 'alert-info'
                             } else {
-                                className = 'alert-danger'
+                                className = 'alert-warning'
                             }
                             $result.text(
                                 JSON.stringify(Util.toJson(data), null, '  ')
-                            ).show(300).removeClass('alert-info alert-danger').addClass(className).css('color', '#000000');
+                            ).show(300).removeClass(className).addClass(className).css('color', '#000000');
                         },
                         error : function(data) {
                             $result
                                 .text(
                                     JSON.stringify(JSON.parse(data.responseText), null, '  ')
                                 )
-                                .show(300).css('color', 'red')
-                                .removeClass('alert-info alert-danger').addClass('alert-danger');
+                                .show(300)
+                                .removeClass(className).addClass('alert-danger');
                         }
                     });
                 },

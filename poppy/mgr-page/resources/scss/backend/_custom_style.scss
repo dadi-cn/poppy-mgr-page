@@ -3,6 +3,17 @@
 @import "_form.scss";
 @import "_top_search";
 
+.alert-info {
+	border-color: #5fb878;
+}
+
+.alert-danger{
+	border-color: #ff5722;
+}
+
+.alert-warning{
+	border-color: #ffb800;
+}
 
 .text-danger {
 	color: #ff5722;
