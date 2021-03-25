@@ -2,32 +2,14 @@
 
 use Illuminate\Routing\Router;
 
-Route::group([
-    'namespace' => 'Poppy\MgrPage\Http\Request\Develop',
-], function (Router $router) {
-    $router->any('api_doc/json/{type?}', 'ApiDocController@json')
-        ->name('py-mgr-page:develop.doc.json');
-});
 
 Route::group([
-    'middleware' => 'develop-auth',
-    'namespace'  => 'Poppy\MgrPage\Http\Request\Develop',
+    'namespace' => 'Poppy\MgrPage\Http\Request\Develop',
 ], function (Router $router) {
     /* Pam
      * ---------------------------------------- */
     $router->any('logout', 'PamController@logout')
         ->name('py-mgr-page:develop.pam.logout');
-
-    /* Control
-     * ---------------------------------------- */
-    $router->get('api', 'CpController@api')
-        ->name('py-mgr-page:develop.cp.api');
-    $router->any('set_token', 'CpController@setToken')
-        ->name('py-mgr-page:develop.cp.set_token');
-    $router->any('api_login', 'CpController@apiLogin')
-        ->name('py-mgr-page:develop.cp.api_login');
-    $router->get('doc/{type?}', 'CpController@doc')
-        ->name('py-mgr-page:develop.cp.doc');
 
     /* Env
      * ---------------------------------------- */
@@ -45,10 +27,12 @@ Route::group([
 
     /* ApiDoc
      * ---------------------------------------- */
-    $router->any('api_doc/field/{type}/{field}', 'ApiDocController@field')
-        ->name('py-mgr-page:develop.doc.field');
-    $router->any('api_doc/{type?}', 'ApiDocController@auto')
-        ->name('py-mgr-page:develop.doc.index');
+    $router->any('api/field/{type}/{field}', 'ApiController@field')
+        ->name('py-mgr-page:develop.api.field');
+    $router->any('api/login', 'ApiController@login')
+        ->name('py-mgr-page:develop.api.login');
+    $router->any('api/{type?}', 'ApiController@index')
+        ->name('py-mgr-page:develop.api.index');
 
 
     // progress

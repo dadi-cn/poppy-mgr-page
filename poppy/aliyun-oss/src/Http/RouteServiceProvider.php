@@ -6,10 +6,9 @@ namespace Poppy\AliyunOss\Http;
  * Copyright (C) Update For IDE
  */
 
-use Poppy\System\Classes\Abstracts\SysRouteServiceProvider;
 use Route;
 
-class RouteServiceProvider extends SysRouteServiceProvider
+class RouteServiceProvider extends \Poppy\Framework\Application\RouteServiceProvider
 {
     /**
      * Define the routes for the module.

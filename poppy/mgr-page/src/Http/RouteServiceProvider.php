@@ -7,10 +7,9 @@ namespace Poppy\MgrPage\Http;
  */
 
 use Illuminate\Routing\Router;
-use Poppy\System\Classes\Abstracts\SysRouteServiceProvider;
 use Route;
 
-class RouteServiceProvider extends SysRouteServiceProvider
+class RouteServiceProvider extends \Poppy\Framework\Application\RouteServiceProvider
 {
     /**
      * Define the routes for the module.
@@ -67,9 +66,12 @@ class RouteServiceProvider extends SysRouteServiceProvider
             $router->get('/', 'Poppy\MgrPage\Http\Request\Develop\CpController@index')
                 ->middleware('develop-auth')
                 ->name('py-mgr-page:develop.cp.cp');
+            $router->any('api/json/{type?}', 'ApiController@json')
+                ->name('py-mgr-page:develop.api.json');
         });
         Route::group([
-            'prefix'     => $this->prefix . '/develop/mgr-page',
+            'middleware' => 'develop-auth',
+            'prefix'     => $this->prefix . '/develop',
         ], function () {
             require_once __DIR__ . '/Routes/develop.php';
         });

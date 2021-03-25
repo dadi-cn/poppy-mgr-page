@@ -14,11 +14,11 @@ class AreaController extends WebApiController
 {
 
     /**
-     * @api                   {get} api_v1/area/code [area]地区代码
-     * @apiDescription        version 2.3
+     * @api                   {get} api_v1/area/area/code [Area]地区代码
+     * @apiDescription        获取地区代码
      * @apiVersion            1.0.0
-     * @apiName               AreaCode
-     * @apiGroup              Module
+     * @apiName               AreaAreaCode
+     * @apiGroup              Poppy
      * @apiSuccess {int}      id                  ID
      * @apiSuccess {string}   title               地区名称
      * @apiSuccess {object[]} cities              所属城市子集

@@ -65,7 +65,9 @@ return [
                     [
                         'name'        => 'timestamp',
                         'title'       => 'TimeStamp',
+                        'description' => '时间戳',
                         'type'        => 'String',
+                        'default'     => DefaultApiSignProvider::timestamp(),
                         'is_required' => 'Y',
                     ],
                 ],
