@@ -9,6 +9,8 @@ use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Poppy\Framework\Http\Middlewares\EnableCrossRequest;
+use Poppy\Framework\Http\Middlewares\EncryptCookies;
+use Poppy\Framework\Http\Middlewares\VerifyCsrfToken;
 
 /**
  * poppy http kernel
@@ -63,6 +65,8 @@ class Kernel extends HttpKernel
             StartSession::class,
             ShareErrorsFromSession::class,
             SubstituteBindings::class,
+            EncryptCookies::class,
+            VerifyCsrfToken::class,
         ],
         'api' => [
             'throttle:60,1',
