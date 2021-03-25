@@ -1,5 +1,5 @@
 @extends('py-mgr-page::tpl.dialog')
-@section('backend-main')
+@section('dialog-main')
     @if ($total > 0)
         <div class="alert alert-info">本次需要更新 <strong>{{$total}}</strong> 条信息, 每批次更新 <strong>{{$section}}</strong> 条, 还剩余
             <strong>{{$left}}</strong>条
