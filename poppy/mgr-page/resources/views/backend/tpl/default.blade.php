@@ -4,11 +4,10 @@
 @section('head-meta')
     {!! Html::favicon('assets/images/favicon.png') !!}
 @endsection
-@section('head-css')
-    @include('py-mgr-page::backend.tpl._style')
-@endsection
-@section('head-script')
-    @include('py-mgr-page::backend.tpl._script')
+@section('head-content')
+    @include('py-mgr-page::tpl._js_css', [
+        '_type' => ['layui', 'easy-web']
+    ])
 @endsection
 @section('body-main')
     @include('py-mgr-page::tpl._toastr')
@@ -18,8 +17,8 @@
         </div>
     </div>
     <script>
-	layui.use(['form'], function() {
-		layui.form.render();
-	})
+    layui.use(['form'], function() {
+        layui.form.render();
+    })
     </script>
 @endsection

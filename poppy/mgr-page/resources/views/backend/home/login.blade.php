@@ -2,7 +2,9 @@
 @section('title', $_title ?? '')
 @section('description', $_description ?? '')
 @section('head-css')
-    @include('py-mgr-page::backend.tpl._style')
+    @include('py-mgr-page::tpl._js_css', [
+        '_type' => ['layui-all']
+    ])
     <style>
         .login-pane {
             background    : rgba(1, 1, 1, 0.1);
@@ -15,9 +17,6 @@
             color : #fff;
         }
     </style>
-@endsection
-@section('head-script')
-    @include('py-mgr-page::backend.tpl._script')
 @endsection
 @section('body-class', 'gray-bg backend--login')
 @section('body-main')

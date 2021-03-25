@@ -1,6 +1,7 @@
 @extends('py-mgr-page::backend.tpl.default')
 @section('head-css')
-    @include('py-mgr-page::backend.tpl._style')
+    {!! Html::style('assets/libs/boot/style.css') !!}
+    {!! Html::script('assets/libs/boot/vendor.min.js') !!}
 @endsection
 @section('body-class', 'gray-bg')
 @section('body-main')
@@ -33,7 +34,7 @@
                                         href="{!! $location !!}">点此立即跳转</a>!
                                 <script>
 								$(function() {
-									var t = {!! $time !!};//设定跳转的时间
+									let t = {!! $time !!};//设定跳转的时间
 									setInterval(refer(), 1000); //启动1秒定时
 									function refer() {
 										if (t == 0) {
