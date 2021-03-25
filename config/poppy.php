@@ -61,6 +61,8 @@ return [
 
                 'method' => 'post',
 
+                'sign_token' => true,
+
                 'sign_certificate' => [
                     [
                         'name'        => 'timestamp',

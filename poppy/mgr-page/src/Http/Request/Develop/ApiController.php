@@ -4,6 +4,7 @@ namespace Poppy\MgrPage\Http\Request\Develop;
 
 use Carbon\Carbon;
 use Curl\Curl;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
@@ -64,6 +65,7 @@ class ApiController extends DevelopController
     /**
      * 自动生成接口
      * @param string $type 支持的类型
+     * @return array|Application|Factory|JsonResponse|RedirectResponse|Response|Redirector|View|Resp|\Response
      */
     public function index($type = '')
     {
@@ -241,7 +243,7 @@ class ApiController extends DevelopController
      * @param string $version 版本
      * @return array
      */
-    protected function apiData($type, $prefix = null, $method = 'get', $version = '1.0.0')
+    protected function apiData(string $type, $prefix = null, $method = 'get', $version = '1.0.0'): array
     {
         $catalog  = config('poppy.core.apidoc');
         $docs     = $catalog[$type];
@@ -295,10 +297,11 @@ class ApiController extends DevelopController
 
     /**
      * 获取随机参数值
-     * @param string $param 参数
+     * @param mixed $param 参数
      * @return int|string
+     * @throws ApplicationException
      */
-    protected function getParamValue($param)
+    private function getParamValue($param)
     {
         /*
         "group": "Parameter"
