@@ -4,6 +4,7 @@
     {!! Html::script('assets/libs/vue/vue.min.js') !!}
     {!! Html::script('assets/libs/underscore/underscore.js') !!}
     {!! Html::script('assets/libs/jshash/md5.min.js') !!}
+    {!! $definition['scripts'] ?? '' !!}
 @endsection
 @section('develop-main')
     @include('py-mgr-page::develop.api.nav')
