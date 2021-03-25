@@ -3,11 +3,6 @@
     @include('py-mgr-page::backend.tpl._style', [
         '_type' => ['!easy-web']
     ])
-    <style>
-		body {
-			font-size: 14px;
-		}
-    </style>
 @endsection
 @section('head-script')
     @include('py-mgr-page::backend.tpl._script', [
