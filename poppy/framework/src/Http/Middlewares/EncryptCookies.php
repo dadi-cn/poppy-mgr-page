@@ -1,6 +1,6 @@
 <?php
 
-namespace Poppy\System\Http\Middlewares;
+namespace Poppy\Framework\Http\Middlewares;
 
 use Illuminate\Contracts\Encryption\Encrypter as EncrypterContract;
 
@@ -13,6 +13,6 @@ class EncryptCookies extends \Illuminate\Cookie\Middleware\EncryptCookies
     public function __construct(EncrypterContract $encrypter)
     {
         parent::__construct($encrypter);
-        $this->except = (array) config('poppy.system.uncrypt_cookies');
+        $this->except = (array) config('poppy.framework.plain_cookies');
     }
 }
