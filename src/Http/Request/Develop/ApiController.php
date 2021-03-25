@@ -81,12 +81,14 @@ class ApiController extends DevelopController
         $definition = $catalog[$type];
 
         // 添加代签名
-        array_unshift($definition['sign_certificate'], [
+        $certificate = $definition['sign_certificate'] ?? [];
+        array_unshift($certificate, [
             'name'        => '_py_sys_secret',
             'title'       => '代签名',
             'description' => '存在代签名字串之后可不用进行签名计算即可通过接口验证',
             'type'        => 'String',
         ]);
+        $definition['sign_certificate'] = $certificate;
 
         $apiDocUrl = url('docs/' . $type);
 
