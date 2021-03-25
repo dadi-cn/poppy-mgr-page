@@ -2,7 +2,9 @@
 @section('title', $_title ?? '')
 @section('description', $_description ?? '')
 @section('head-css')
-	@include('py-mgr-page::backend.tpl._style')
+	@include('py-mgr-page::backend.tpl._style', [
+        '_type' => ['!easy-web']
+    ])
 	<style>
 		html {
 			background: #fff;
