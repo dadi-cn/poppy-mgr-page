@@ -5,8 +5,8 @@
         @endif
         <div class="layui-form-item">
             <label for="field_{!! $param->field !!}">
-                {!! ($param->optional ? '' : '<span style="color:red">*</span>') !!}
                 {!! $param->field !!}
+                {!! ($param->optional ? '' : '<span style="color:red">*</span>') !!}
                 ({!! strip_tags($param->type) !!})
             </label>
             &nbsp;&nbsp;
