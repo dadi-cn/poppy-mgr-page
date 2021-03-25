@@ -54,10 +54,10 @@ develop:
       children:
         -
           title: Restful-前台
-          route: py-mgr-page:develop.doc.index
+          route: py-mgr-page:develop.api.index
         -
           title: Restful-后台
-          route: py-mgr-page:develop.doc.index
+          route: py-mgr-page:develop.api.index
           route_param:
             - backend
     -

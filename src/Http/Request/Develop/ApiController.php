@@ -2,6 +2,7 @@
 
 namespace Poppy\MgrPage\Http\Request\Develop;
 
+use Carbon\Carbon;
 use Curl\Curl;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Collection;
@@ -9,32 +10,46 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Poppy\Framework\Classes\Resp;
 use Poppy\Framework\Exceptions\ApplicationException;
+use Poppy\Framework\Helper\ArrayHelper;
 use Poppy\Framework\Helper\FileHelper;
 use Poppy\Framework\Helper\StrHelper;
+use Poppy\System\Classes\Contracts\ApiSignContract;
 use Session;
 use Throwable;
 
 /**
  * Api 文档控制器
  */
-class ApiDocController extends DevelopController
+class ApiController extends DevelopController
 {
     /**
      * @var array 菜单项, 用于右侧展示
      */
     protected $selfMenu;
 
+    /**
+     * @var Curl
+     */
+    private $curl;
+
+    /**
+     * 当前 Token
+     * @var string
+     */
+    private $token;
+
     public function __construct()
     {
         parent::__construct();
-        $catlog = config('poppy.core.apidoc');
+        $apis = config('poppy.core.apidoc');
 
-        if (count($catlog)) {
-            foreach ($catlog as $k_cat => $v_cat) {
+        if (count($apis)) {
+            foreach ($apis as $k_cat => $v_cat) {
                 if (isset($v_cat['title']) && $v_cat['title']) {
                     $this->selfMenu[$v_cat['title']] = config('app.url') . '/docs/' . $k_cat;
                 }
@@ -50,7 +65,7 @@ class ApiDocController extends DevelopController
      * 自动生成接口
      * @param string $type 支持的类型
      */
-    public function auto($type = '')
+    public function index($type = '')
     {
         $catalog = config('poppy.core.apidoc');
         if (!$catalog) {
@@ -62,7 +77,16 @@ class ApiDocController extends DevelopController
             $type = $keys[0];
         }
         $definition = $catalog[$type];
-        $apiDocUrl  = url('docs/' . $type);
+
+        // 添加代签名
+        array_unshift($definition['sign_certificate'], [
+            'name'        => '_py_sys_secret',
+            'title'       => '代签名',
+            'description' => '存在代签名字串之后可不用进行签名计算即可通过接口验证',
+            'type'        => 'String',
+        ]);
+
+        $apiDocUrl = url('docs/' . $type);
 
         $this->seo('Restful-' . $type, '优雅的在线接口调试方案');
 
@@ -71,16 +95,14 @@ class ApiDocController extends DevelopController
                 $token = Session::get($key);
                 if (in_array($type, ['web', 'backend'])) {
                     // check token is valid
-                    $curl   = new Curl();
-                    $access = route('py-system:pam.auth.access');
-                    $curl->setHeader('x-requested-with', 'XMLHttpRequest');
-                    $curl->setHeader('Authorization', 'Bearer ' . $token);
-                    $item = $curl->post($access);
 
-                    if ($curl->httpStatusCode === 401) {
+                    $this->token = $token;
+                    $item        = $this->postWithSign(route('py-system:pam.auth.access'));
+
+                    if ($this->curl->httpStatusCode === 401) {
                         Session::remove($key);
                     }
-                    if ($curl->httpStatusCode === 200) {
+                    if ($this->curl->httpStatusCode === 200) {
                         if ($item->status === 0) {
                             $pam = json_decode(json_encode($item->data), true);
                             \View::share('pam', $pam);
@@ -92,7 +114,7 @@ class ApiDocController extends DevelopController
             return Session::get($key);
         };
 
-        $index = input('url');
+        $index   = input('url');
         $version = input('version', '1.0.0');
         $method  = input('method', 'get');
         try {
@@ -123,7 +145,7 @@ class ApiDocController extends DevelopController
             else {
                 $success = [];
             }
-            $data['token'] = $tokenGet('dev_token#' . $type);
+            $data['token'] = $tokenGet('dev#' . $type . '#token');
 
             // user
             $user  = [];
@@ -132,7 +154,7 @@ class ApiDocController extends DevelopController
                 return Resp::error('没有找到对应 URL 地址');
             }
 
-            return view('py-mgr-page::develop.api_doc.auto', [
+            return view('py-mgr-page::develop.api.index', [
                 'guard'      => $type,
                 'data'       => $data,
                 'variables'  => $variables,
@@ -164,11 +186,11 @@ class ApiDocController extends DevelopController
      * @param string $field 字段
      * @return Factory|JsonResponse|RedirectResponse|Response|Redirector|View
      */
-    public function field($type, $field)
+    public function field(string $type, string $field)
     {
-        $sessionKey = 'dev_token#' . $type . '#' . $field;
+        $sessionKey = 'dev#' . $type . '#' . $field;
         if (is_post()) {
-            $token = input('token');
+            $token = input('value');
             if (!$token) {
                 return Resp::error($field . '不能为空');
             }
@@ -179,7 +201,36 @@ class ApiDocController extends DevelopController
         }
         $value = Session::get($sessionKey);
 
-        return view('py-mgr-page::develop.api_doc.field', compact('type', 'value', 'field'));
+        return view('py-mgr-page::develop.api.field', compact('type', 'value', 'field'));
+    }
+
+    /**
+     * api 登录
+     * @return Factory|JsonResponse|RedirectResponse|Response|Redirector|View
+     */
+    public function login()
+    {
+        $type = input('guard');
+
+        if (is_post()) {
+            $data = $this->postWithSign(route_url('py-system:pam.auth.login'), input());
+
+            if ($this->curl->httpStatusCode === 200) {
+                if ((int) $data->status === Resp::SUCCESS) {
+                    $token = 'dev#' . $type . '#token';
+                    Session::put($token, data_get($data, 'data.token'));
+                }
+                else {
+                    return Resp::error($data->message);
+                }
+
+                return Resp::success('登录成功', '_top_reload|1');
+            }
+
+            return Resp::error($this->curl->errorMessage);
+        }
+
+        return view('py-mgr-page::develop.api.login', compact('type'));
     }
 
     /**
@@ -311,5 +362,20 @@ class ApiDocController extends DevelopController
         }
 
         return '';
+    }
+
+    private function postWithSign($url, $params = [])
+    {
+        /** @var ApiSignContract $sign */
+        $sign   = app(ApiSignContract::class);
+        $params = array_merge(ArrayHelper::mapNull(Arr::except($params, '_token')), [
+            'timestamp' => Carbon::now()->timestamp,
+        ]);
+
+        $params['token'] = $this->token;
+        $params['sign']  = $sign->sign($params);
+        $this->curl      = new Curl();
+        $this->curl->setHeader('Authorization', 'Bearer ' . $this->token);
+        return $this->curl->post($url, $params);
     }
 }

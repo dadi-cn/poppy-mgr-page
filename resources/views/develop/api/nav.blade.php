@@ -78,7 +78,7 @@ new Vue({
     },
     methods : {
         switchQuick : function() {
-            var display = $('#quick_search').css('display');
+            let display = $('#quick_search').css('display');
             if (display === 'none') {
                 $('#quick_search').css('display', 'block');
             } else {
