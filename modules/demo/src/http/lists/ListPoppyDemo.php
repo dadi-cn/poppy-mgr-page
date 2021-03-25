@@ -151,7 +151,9 @@ class ListPoppyDemo extends ListBase
     public function create($type): BaseButton
     {
         $url = route_url('py-mgr-page:backend.pam.establish', null, ['type' => $type]);
-        return new BaseButton('create', '新增', $url, '<i class="fa fa-plus"></i> 新增', 'J_iframe layui-btn layui-btn-sm layui-btn-normal');
+        return new BaseButton('新增', $url, [
+            'class' => 'J_iframe layui-btn layui-btn-sm layui-btn-normal',
+        ]);
     }
 
     /**
@@ -162,7 +164,9 @@ class ListPoppyDemo extends ListBase
     public function password($item): BaseButton
     {
         $url = route('py-mgr-page:backend.pam.password', [$item->id]);
-        return new BaseButton('password', '修改密码', $url, '<i class="fa fa-key"></i>', 'J_iframe J_tooltip');
+        return new BaseButton('修改密码', $url, [
+            'class' => 'J_iframe J_tooltip',
+        ]);
     }
 
 
@@ -174,7 +178,9 @@ class ListPoppyDemo extends ListBase
     public function edit($item): BaseButton
     {
         $url = route('py-mgr-page:backend.pam.establish', [$item->id]);
-        return new BaseButton('edit', "编辑[{$item->username}]", $url, '<i class="fa fa-edit"></i>', 'J_iframe J_tooltip');
+        return new BaseButton("编辑[{$item->username}]", $url, [
+            'class' => 'J_iframe J_tooltip',
+        ]);
     }
 
 }

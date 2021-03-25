@@ -162,8 +162,6 @@ class TableController extends WebController
             return "<div style='padding: 10px;'>数值 ： $data</div>";
         });
 
-        $grid->expandFilter();
-
         // $grid->quickCreate(function (Grid\Tools\QuickCreate $create) {
         // 	$create->text('name', '名称');
         // 	$create->email('email', '邮箱');
