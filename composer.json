@@ -23,6 +23,7 @@
         "ext-xml": "*",
         "symfony/console": "4.*",
         "symfony/finder": "4.*",
+        "symfony/yaml": "4.*",
         "elasticsearch/elasticsearch": "7.*",
         "jenssegers/date": "^4.0",
         "laravel/framework": "6.0.*",
