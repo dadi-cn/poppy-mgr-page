@@ -76,7 +76,7 @@
                         beforeSend : function(request) {
                             @if(isset($data['token']))
                             request.setRequestHeader("Authorization", "Bearer {!! $data['token'] !!}");
-                            request.setRequestHeader("X-ACCESS-TOKEN", "Bearer {!! $data['token'] !!}");
+                            request.setRequestHeader("X-ACCESS-TOKEN", "{!! $data['token'] !!}");
                             @endif
                             @if(isset($data['version']))
                             request.setRequestHeader("X-APP-VERSION", "1.0.0");
