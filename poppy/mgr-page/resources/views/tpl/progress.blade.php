@@ -1,7 +1,12 @@
-@extends('py-mgr-page::tpl.dialog')
 @extends('py-mgr-page::tpl.default')
 @section('head-css')
     {!! Html::style('assets/libs/layui/css/layui.css') !!}
+@endsection
+@section('head-content')
+    {{--  使用浏览器重定向替代js 重定向  --}}
+    @if ($left !== 0)
+        <meta http-equiv="refresh" content="{!! $continue_time/1000 !!};url={!!$continue_url!!}">
+    @endif
 @endsection
 @section('body-main')
     @include('py-mgr-page::tpl._toastr')
@@ -23,11 +28,6 @@
                 <span class="layui-progress-text">{{$percentage}}%</span>
             </div>
         </div>
-        @if ($left !== 0)
-            <script>
-            setTimeout("window.location.href = '{!!$continue_url!!}'", {{$continue_time}});
-            </script>
-        @endif
     @else
         <div class="layui-elem-quote">
             <p>没有需要更新的内容</p>
