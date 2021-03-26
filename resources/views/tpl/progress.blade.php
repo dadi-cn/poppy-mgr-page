@@ -2,12 +2,11 @@
 @section('dialog-main')
     @if ($total > 0)
         <div class="layui-elem-quote mt10">
-            @if ($left === 0)
-                <p>操作完成</p>
-            @else
-                <p>本次需要操作 <strong>{{$total}}</strong> 条数据, 每批次更新 <strong>{{$section}}</strong> 条, 还剩余
-                    <strong>{{$left}}</strong>条</p>
-            @endif
+            <p>
+                本次需要操作 <strong>{{$total}}</strong> 条数据, 每批次更新 <strong>{{$section}}</strong> 条, 还剩余
+                <strong>{{$left}}</strong>条
+                @if ($left === 0) 操作完成 @endif
+            </p>
         </div>
         @if (isset($info))
             <div class="layui-elem-quote mt10">{!! $info !!}</div>
