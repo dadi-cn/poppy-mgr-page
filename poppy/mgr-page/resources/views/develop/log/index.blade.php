@@ -1,27 +1,19 @@
 @extends('py-mgr-page::tpl.develop')
-@section('head-script')
+@section('head-content')
 	@parent
 	{!! Html::script('assets/libs/jquery/data-tables/jquery.data-tables.js') !!}
 @endsection
 @section('head-css')
     @parent()
     <style>
-        .stack {
-            font-size : 0.85em;
-        }
-        .date {
-            min-width : 75px;
-        }
-        .text {
-            word-break : break-all;
-        }
+        .stack {font-size : 0.85em;}
+        .date {min-width : 75px;}
+        .text {word-break : break-all;}
         a.llv-active {
             z-index          : 2;
             background-color : #f5f5f5;
         }
-        .dataTables_wrapper {
-            padding-bottom : 30px;
-        }
+        .dataTables_wrapper {padding-bottom : 30px;}
     </style>
 @endsection
 @section('develop-main')
