@@ -4,7 +4,14 @@
     {!! Html::script('assets/libs/vue/vue.min.js') !!}
     {!! Html::script('assets/libs/underscore/underscore.js') !!}
     {!! Html::script('assets/libs/jshash/md5.min.js') !!}
-    {!! $definition['scripts'] ?? '' !!}
+    <?php
+        $scripts = (array) ($definition['scripts'] ?? [])
+        if (count($scripts)){
+            foreach ($scripts as $script) {
+                echo Html::script($script).PHP_EOL
+            }
+        }
+    ?>
 @endsection
 @section('develop-main')
     @include('py-mgr-page::develop.api.nav')
