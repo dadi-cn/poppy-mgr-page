@@ -137,4 +137,23 @@ class ArrayHelper
         }
         return $return;
     }
+
+    /**
+     * 查找值在数组中的位置, 用于 Excel 导入的时候查找下一组键值
+     * @param array        $arr
+     * @param string|array $values
+     * @return false|int|string
+     */
+    public static function findKey(array $arr, $values)
+    {
+        if (is_array($values)) {
+            foreach ($values as $v) {
+                if (($value = self::findKey($arr, $v)) !== false) {
+                    return $value;
+                }
+            }
+            return false;
+        }
+        return array_search($values, $arr);
+    }
 }

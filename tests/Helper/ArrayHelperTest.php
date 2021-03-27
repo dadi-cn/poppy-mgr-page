@@ -83,4 +83,18 @@ class ArrayHelperTest extends TestCase
         $return = ArrayHelper::mapNull($array);
         $this->assertEquals(['', [], '5'], $return);
     }
+
+
+    public function testFindKey()
+    {
+        $arr = [
+            '姓名', '电话', '手机',
+        ];
+        $this->assertEquals(0, ArrayHelper::findKey($arr, ['姓名']));
+        $this->assertEquals(0, ArrayHelper::findKey($arr, '姓名'));
+        $this->assertEquals(0, ArrayHelper::findKey($arr, ['真实姓名', '姓名']));
+        $this->assertEquals(2, ArrayHelper::findKey($arr, ['手机', '电话']));
+        $this->assertEquals(1, ArrayHelper::findKey($arr, ['电话', '手机']));
+        $this->assertEquals(1, ArrayHelper::findKey($arr, '电话'));
+    }
 }
