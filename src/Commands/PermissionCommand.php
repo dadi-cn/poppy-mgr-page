@@ -8,13 +8,12 @@ use Illuminate\Support\Collection;
 use Poppy\Core\Classes\PyCoreDef;
 use Poppy\Core\Classes\Traits\CoreTrait;
 use Poppy\Core\Events\PermissionInitEvent;
-use Poppy\Core\Module\Repositories\Modules;
 use Poppy\Core\Rbac\Permission\Permission;
 use Poppy\Core\Rbac\Permission\PermissionManager;
 use Poppy\Framework\Exceptions\ApplicationException;
 
 /**
- * Class PermissionCommand.
+ * Permission Command
  */
 class PermissionCommand extends Command
 {
@@ -193,37 +192,39 @@ class PermissionCommand extends Command
 
         // calc
         $navigations = $this->coreModule()->menus();
-        $format      = function ($item) {
+        $format      = function ($item, $slug) {
             return [
-                'title'      => $item['text'],
-                'parent'     => $item['parent'],
+                'title'      => $item['title'],
+                'slug'       => $slug,
                 'permission' => $item['permission'],
             ];
         };
 
         $faults = collect();
-        $navigations->each(function ($item) use ($faults, $format) {
-            // 订单 / 系统
-            $permission = $item['permission'] ?? '';
-            if ($permission && !$this->corePermission()->has($permission)) {
-                $faults->push($format($item));
-            }
-            // 分组
-            $children = collect((array) $item['children']);
-            $children->map(function ($item) use ($faults, $format) {
-                $permission = $item['permission'] ?? '';
-                if ($permission && !$this->corePermission()->has($permission)) {
-                    $faults->push($format($item));
-                }
-                $children = collect((array) $item['children']);
-                // 路由
-                $children->each(function ($item) use ($faults, $format) {
+        $navigations->each(function ($item, $slug) use ($faults, $format) {
+
+            collect($item['groups'])->each(function ($group) use ($faults, $format, $slug) {
+
+                // 分组
+                $children = collect((array) $group['children']);
+                $children->map(function ($item) use ($faults, $format, $slug) {
+
                     $permission = $item['permission'] ?? '';
                     if ($permission && !$this->corePermission()->has($permission)) {
-                        $faults->push($format($item));
+                        $faults->push($format($item, $slug));
                     }
+
+                    $children = collect((array) ($item['children'] ?? []));
+                    // 路由
+                    $children->each(function ($item) use ($faults, $format, $slug) {
+                        $permission = $item['permission'] ?? '';
+                        if ($permission && !$this->corePermission()->has($permission)) {
+                            $faults->push($format($item, $slug));
+                        }
+                    });
                 });
             });
+
         });
 
         if (!$faults->count()) {
