@@ -59,15 +59,21 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
     }
 
     /**
+     * 输出变量
      * @param array|string $vars 需要输出的内容
+     * @param string       $description
      */
-    protected function outputVariables($vars)
+    protected function outputVariables($vars, $description = '')
     {
+        if ($description) {
+            echo $description . ':' . PHP_EOL;
+        }
         if (is_array($vars)) {
-            var_export(json_encode($vars, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)) . PHP_EOL;
+            var_export(json_encode($vars, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+            echo PHP_EOL;
         }
         else {
-            var_export($vars) . PHP_EOL;
+            echo $vars . PHP_EOL;
         }
     }
 
