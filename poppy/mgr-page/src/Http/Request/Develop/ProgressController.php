@@ -32,8 +32,6 @@ class ProgressController extends DevelopController
         $this->all     = collect();
         $this->already = collect();
 
-        app('poppy.system.setting')->set('py-system::progress.send_sms_progress', '');
-
         // 读取每个模块 找到 progress 文件下的 每个类
         app('poppy')->enabled()->pluck('slug')->map(function ($item) {
             if (Str::startsWith($item, 'poppy.')) {
