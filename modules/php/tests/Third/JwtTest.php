@@ -9,18 +9,16 @@ namespace Php\Tests\Third;
 use Carbon\Carbon;
 use Poppy\System\Models\PamAccount;
 use Poppy\System\Tests\Base\SystemTestCase;
+use Tymon\JWTAuth\JWTAuth;
+use Tymon\JWTAuth\JWTGuard;
 
 class JwtTest extends SystemTestCase
 {
-    /**
-     * @var int
-     */
-    private $pamId;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->pamId = PamAccount::orderByRaw('rand()')->value('id');
+        $this->pam = PamAccount::orderByRaw('rand()')->first();
     }
 
     /**
@@ -30,21 +28,29 @@ class JwtTest extends SystemTestCase
      */
     public function testGenToken()
     {
-        $code = auth('jwt')->setTTL(Carbon::now()->addDay()->diffInMinutes())->claims([
+        /** @var JWTGuard|JWTAuth $Jwt */
+        $Jwt = auth('jwt');
+
+        /**
+         * Jwt 不要使用 tokenById, 他还要重新取回一下用户
+         */
+        $Jwt->setTTL(Carbon::now()->addDay()->diffInMinutes())->claims([
             'action' => 'forgot_password',
             'email'  => 'zhaody901@126.com',
-        ])->tokenById($this->pamId);
+        ]);
+        $code = $Jwt->fromUser($this->pam);
 
-        $this->outputVariables($code);
-        $api  = auth('jwt');
-        $auth = $api->setToken($code);
-        $pam  = $auth->user();
+        $this->outputVariables($code, "JwtToken");
+        $auth = $Jwt->setToken($code);
+        $this->sqlLog();
+        $pam = $auth->user();
         if (!$pam) {
             $this->assertTrue(false, '用户不存在或者是未设置 JWT TOKEN');
         }
-        $paylod = $auth->payload();
-        $action = $paylod->get('action');
-        $mail   = $paylod->get('email');
+        $payload = $auth->payload();
+        $this->outputVariables($payload, "Payload");
+        $action = $payload->get('action');
+        $mail   = $payload->get('email');
         $this->assertEquals('forgot_password', $action);
         $this->assertEquals('zhaody901@126.com', $mail);
     }
