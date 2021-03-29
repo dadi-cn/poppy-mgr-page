@@ -196,7 +196,8 @@ return [
         'View'         => Illuminate\Support\Facades\View::class,
 
 
-        'Form' => Poppy\MgrPage\Facade\FormFacade::class,
-        'Html' => Collective\Html\HtmlFacade::class,
+        'Form'   => Poppy\MgrPage\Facade\FormFacade::class,
+        'SysPam' => Poppy\System\Facades\PamFacade::class,
+        'Html'   => Collective\Html\HtmlFacade::class,
     ],
 ];
