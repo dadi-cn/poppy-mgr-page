@@ -52,6 +52,9 @@ class ServiceProvider extends ModuleServiceProviderBase
                 'poppy.aliyun-oss.endpoint'      => sys_setting('py-aliyun-oss::oss.endpoint'),
                 'poppy.aliyun-oss.bucket'        => sys_setting('py-aliyun-oss::oss.bucket'),
                 'poppy.aliyun-oss.url'           => sys_setting('py-aliyun-oss::oss.url_prefix'),
+                'poppy.aliyun-oss.role_arn'      => sys_setting('py-aliyun-oss::oss.role_arn'),
+                'poppy.aliyun-oss.temp_key'      => sys_setting('py-aliyun-oss::oss.temp_app_key'),
+                'poppy.aliyun-oss.temp_secret'   => sys_setting('py-aliyun-oss::oss.temp_app_secret'),
             ]);
         }
     }

@@ -20,7 +20,6 @@ class FormSettingAliyunOss extends FormSettingBase
 
     /**
      * Build a form here.
-     * @throws FormException
      */
     public function form()
     {
