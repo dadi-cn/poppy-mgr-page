@@ -10,6 +10,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Poppy\Framework\Http\Middlewares\EnableCrossRequest;
 use Poppy\Framework\Http\Middlewares\EncryptCookies;
+use Poppy\Framework\Http\Middlewares\VerifyCsrfToken;
 
 /**
  * poppy http kernel
@@ -47,11 +48,12 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         // 'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'bindings' => SubstituteBindings::class,
+        'bindings'   => SubstituteBindings::class,
         // 'can' => \Illuminate\Auth\Middleware\Authorize::class,
         // 'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'throttle' => ThrottleRequests::class,
-        'cross'    => EnableCrossRequest::class,
+        'throttle'   => ThrottleRequests::class,
+        'cross'      => EnableCrossRequest::class,
+        'csrf_token' => VerifyCsrfToken::class,
     ];
 
     /**
@@ -64,7 +66,7 @@ class Kernel extends HttpKernel
             StartSession::class,
             ShareErrorsFromSession::class,
             SubstituteBindings::class,
-            EncryptCookies::class
+            EncryptCookies::class,
         ],
         'api' => [
             'throttle:60,1',
