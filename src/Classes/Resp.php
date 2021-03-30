@@ -156,6 +156,26 @@ class Resp
     }
 
     /**
+     * @param null|string $key Key
+     * @return array|string
+     */
+    public static function desc($key = null)
+    {
+        $desc = [
+            self::SUCCESS       => (string) trans('poppy::resp.success'),
+            self::ERROR         => (string) trans('poppy::resp.error'),
+            self::TOKEN_MISS    => (string) trans('poppy::resp.token_miss'),
+            self::TOKEN_TIMEOUT => (string) trans('poppy::resp.token_timeout'),
+            self::TOKEN_ERROR   => (string) trans('poppy::resp.token_error'),
+            self::PARAM_ERROR   => (string) trans('poppy::resp.param_error'),
+            self::SIGN_ERROR    => (string) trans('poppy::resp.sign_error'),
+            self::NO_AUTH       => (string) trans('poppy::resp.no_auth'),
+            self::INNER_ERROR   => (string) trans('poppy::resp.inner_error'),
+        ];
+        return kv($desc, $key);
+    }
+
+    /**
      * 错误输出
      * @param int                     $type   错误码
      * @param string|array|MessageBag $msg    类型
@@ -226,6 +246,8 @@ class Resp
      * @param int    $code    type
      * @param string $message msg
      * @return array
+     * @deprecated 3.1
+     * @removed    4.0
      */
     public static function data(int $code, string $message): array
     {
