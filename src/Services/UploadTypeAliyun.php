@@ -2,7 +2,7 @@
 
 namespace Poppy\AliyunOss\Services;
 
-use Poppy\AliyunOss\Action\OssDefaultUploadProvider;
+use Poppy\AliyunOss\Classes\Provider\OssDefaultUploadProvider;
 use Poppy\AliyunOss\Http\Forms\Settings\FormSettingAliyunOss;
 use Poppy\Core\Services\Contracts\ServiceArray;
 
