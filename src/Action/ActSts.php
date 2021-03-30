@@ -59,7 +59,7 @@ class ActSts
      * 子目录
      * @var string
      */
-    private $subDirectory;
+    private $subDirectory = '';
 
     /**
      * @return array 获取临时授权
@@ -79,9 +79,9 @@ class ActSts
         $this->url           = $url_prefix;
     }
 
-    public function setSubDirectory()
+    public function setSubDirectory($directory = '')
     {
-        $this->subDirectory = '';
+        $this->subDirectory = $directory;
     }
 
     /**
