@@ -1,0 +1,49 @@
+// Auth Login
+POST http://{{domain}}/api_v1/system/auth/login
+Content-Type: application/x-www-form-urlencoded
+
+timestamp={{$timestamp}}&_py_sys_secret={{py_secret}}&passport={{passport}}&password={{password}}
+
+> {%
+    client.test("Login With User And Set User Token", function(){
+        client.assert(response.status === 200);
+        client.assert(response.body.status === 0);
+        client.global.set('token', response.body.data.token)
+        client.log(client.global.get('token'));
+    })
+%}
+###
+
+// Upload Image With Base64
+POST http://{{domain}}/api_v1/system/upload/image
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{token}}
+
+timestamp={{$timestamp}}&_py_sys_secret={{py_secret}}&type=base64&image[]={{image-base64}}
+
+> {%
+    client.test("Upload Image Use Type Base64", function(){
+        client.assert(response.status === 200);
+        client.assert(response.body.status === 0);
+        client.log(response.body.data.url);
+    })
+%}
+
+###
+
+// Upload Image With Base64 With Array
+POST http://{{domain}}/api_v1/system/upload/image
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{token}}
+
+timestamp={{$timestamp}}&_py_sys_secret={{py_secret}}&type=base64&image[]={{image-base64}}&image[]={{image-base64}}
+
+> {%
+    client.test("Upload Image Use Type Base64", function(){
+        client.assert(response.status === 200);
+        client.assert(response.body.status === 0);
+        client.log(response.body.data.url);
+    })
+%}
+
+###
