@@ -6,7 +6,7 @@
 @endsection
 @section('head-content')
     @include('py-mgr-page::tpl._js_css', [
-        '_type' => ['layui', 'easy-web']
+        '_type' => ['layui-all']
     ])
 @endsection
 @section('body-main')
@@ -17,8 +17,6 @@
         </div>
     </div>
     <script>
-    layui.use(['form'], function() {
-        layui.form.render();
-    })
+    layui.form.render();
     </script>
 @endsection
