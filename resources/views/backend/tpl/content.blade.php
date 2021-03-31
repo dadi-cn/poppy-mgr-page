@@ -15,7 +15,7 @@
 @endsection
 @section('body-main')
     @include('py-mgr-page::tpl._toastr')
-    <div class="layui-fluid system--page" data-pjax pjax-ctr="#main" id="main">
+    <div class="layui-fluid pd15" data-pjax pjax-ctr="#main" id="main">
         @if ($title)
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
                 <legend>
