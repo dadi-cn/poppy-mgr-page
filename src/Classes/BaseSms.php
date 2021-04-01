@@ -15,12 +15,19 @@ abstract class BaseSms
     protected $sms;
 
     /**
+     * 短信签名
+     * @var string
+     */
+    protected $sign;
+
+    /**
      * 检查短信是否为空
-     * @param string       $type   类型
      * @param string|array $mobile 手机号
+     * @param string       $type   类型
+     * @param string       $sign   签名
      * @return bool
      */
-    public function checkSms($mobile, string $type): bool
+    public function checkSms($mobile, string $type, $sign = ''): bool
     {
         if (!$mobile) {
             return $this->setError('手机号缺失, 不进行发送!');
@@ -33,6 +40,16 @@ abstract class BaseSms
 
         if (!$this->sms) {
             return $this->setError('请设置短信模板');
+        }
+
+        $configSign = (string) config('poppy.sms.sign', '');
+        $this->sign = $configSign;
+        if ($sign) {
+            $this->sign = $sign;
+        }
+
+        if (!$this->sign) {
+            return $this->setError('尚未设置签名, 无法发送');
         }
 
         return true;

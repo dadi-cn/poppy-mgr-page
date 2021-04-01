@@ -4,7 +4,6 @@ namespace Poppy\Sms\Classes;
 
 use Log;
 use Poppy\Sms\Classes\Contracts\SmsContract;
-use SimpleXMLElement;
 
 /**
  * 本地发送短信, 记录在日志中
@@ -13,18 +12,15 @@ class LocalSms extends BaseSms implements SmsContract
 {
 
     /**
-     * @param string       $type    模版代码
-     * @param array|string $mobiles 手机号码
-     * @param array        $params  额外参数
-     * @return mixed|SimpleXMLElement
+     * @inheritDoc
      */
-    public function send(string $type, $mobiles, array $params = []): bool
+    public function send(string $type, $mobiles, array $params = [], $sign = ''): bool
     {
-        if (!$this->checkSms($mobiles, $type)) {
+        if (!$this->checkSms($mobiles, $type, $sign)) {
             return false;
         }
         // 未选择则使用日志, 线上不记录日志
-        $sign    = config('poppy.sms.sign');
+        $sign    = $this->sign;
         $trans   = sys_trans($this->sms['code'], $params);
         $content = ($sign ? "[{$sign}]" : '') . $trans;
         Log::info(sys_mark('poppy.sms', self::class, $content, true));
