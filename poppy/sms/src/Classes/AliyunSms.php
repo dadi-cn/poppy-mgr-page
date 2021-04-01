@@ -53,12 +53,13 @@ class AliyunSms extends BaseSms implements SmsContract
                 ->method('POST')
                 ->host('dysmsapi.aliyuncs.com')
                 ->options([
-                    'query' => [
-                        'PhoneNumbers'  => $mobiles,
-                        'SignName'      => $sign,
-                        'TemplateCode'  => $this->sms['code'],
+                    'query' => array_merge([
+                        'PhoneNumbers' => $mobiles,
+                        'SignName'     => $sign,
+                        'TemplateCode' => $this->sms['code'],
+                    ], $params ? [
                         'TemplateParam' => json_encode($params, JSON_UNESCAPED_UNICODE),
-                    ],
+                    ] : []),
                 ])
                 ->request();
 
