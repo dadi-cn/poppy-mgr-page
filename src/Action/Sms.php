@@ -2,47 +2,50 @@
 
 namespace Poppy\Sms\Action;
 
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Poppy\Framework\Classes\Traits\AppTrait;
 use Poppy\Framework\Validation\Rule;
-use Poppy\System\Classes\Traits\PamTrait;
 use Poppy\System\Classes\Traits\SystemTrait;
 use Validator;
 use View;
 
 /**
- * 短信模板action
+ * 短信模板
  */
 class Sms
 {
-    use AppTrait, PamTrait, SystemTrait;
+    use AppTrait, SystemTrait;
 
     public const SCOPE_LOCAL  = 'local';
     public const SCOPE_ALIYUN = 'aliyun';
 
-    private const CACHE_TEMPLATES = 'poppy::sms.template';
+    private const CACHE_TEMPLATES = 'py-sms::sms.template';
 
 
     /**
-     * @var mixed 所有的模版
+     * 所有的模版
+     * @var Collection
      */
     private $templates;
 
     /**
-     * @var array 项目条目
+     * 项目条目
+     * @var array
      */
     private $item;
 
     public function __construct()
     {
-        $this->templates = sys_setting(self::CACHE_TEMPLATES, []) ?: [];
+        $this->templates = collect(sys_setting(self::CACHE_TEMPLATES, []) ?: []);
     }
 
 
     /**
      * 获取所有的模版
-     * @return array
+     * @return Collection
      */
-    public function getTemplates(): array
+    public function getTemplates(): Collection
     {
         return $this->templates;
     }
@@ -57,40 +60,32 @@ class Sms
 
     /**
      * 新增和编辑
-     * @param array    $data data <br />
+     * @param array $data    data <br />
      *                       type     类型 <br />
      *                       code     代码 <br />
      *                       content  内容
-     * @param null|int $id
      * @return bool
      */
-    public function establish(array $data, $id = null): bool
+    public function establish(array $data): bool
     {
-        if (!$this->checkPam()) {
-            return false;
-        }
 
         $input = sys_get($data, ['type', 'code', 'content', 'scope']);
 
         $validator = Validator::make($input, [
-            'type'    => [
+            'type'  => [
                 Rule::required(),
                 Rule::in(array_keys(self::kvType())),
             ],
-            'code'    => [
+            'code'  => [
                 Rule::required(),
             ],
-            'scope'   => [
-                Rule::required(),
-            ],
-            'content' => [
+            'scope' => [
                 Rule::required(),
             ],
         ], [], [
-            'type'    => '类型',
-            'code'    => '模版代码',
-            'scope'   => '平台类型',
-            'content' => '短信内容',
+            'type'  => '类型',
+            'code'  => '短信内容/短信代码',
+            'scope' => '平台类型',
         ]);
 
         if ($validator->fails()) {
@@ -101,42 +96,30 @@ class Sms
         $type  = $input['type'];
 
 
-        $templates  = $this->templates;
-        $Collection = collect($templates);
+        $this->templates->offsetSet($scope . ':' . $type, $input);
 
-        if ((clone $Collection)->where('id', '!=', $id)->where('scope', $scope)->where('type', $type)->first()) {
-            return $this->setError('模板类型已经存在');
-        }
-
-        // 修改数据
-        if ($id) {
-            $index_key   = $this->indexKey($id);
-            $input['id'] = $id;
-
-            $templates[$index_key] = $input;
-        }
-        else {
-            $templates[] = $input;
-        }
-
-        return $this->save($templates);
+        return $this->save();
     }
 
     /**
      * 初始化
-     * @param int $id ID
+     * @param string $id ID
      * @return bool
      */
-    public function init(int $id): bool
+    public function init(string $id): bool
     {
-        $item = collect($this->templates)->where('id', $id)->first();
-        if ($item) {
-            $this->item = $item;
+        if (!Str::contains($id, ':')) {
+            return $this->setError('ID 类型错误');
+        }
+        $items = collect($this->templates);
+        if ($items->offsetExists($id)) {
+            $this->item = $items->offsetGet($id);
             return true;
         }
-        return $this->setError('短信ID不存在');
+        else {
+            return $this->setError('短信ID不存在');
+        }
     }
-
 
     /**
      * 分享
@@ -151,17 +134,16 @@ class Sms
 
     /**
      * 刪除
-     * @param int $id id
+     * @param string $id id
      * @return bool
      */
-    public function destroy(int $id): bool
+    public function destroy(string $id): bool
     {
-        $index_key = $this->indexKey($id);
-        if (isset($this->templates[$index_key])) {
-            unset($this->templates[$index_key]);
+        if (isset($this->templates[$id])) {
+            unset($this->templates[$id]);
         }
 
-        return $this->save($this->templates);
+        return $this->save();
     }
 
     /**
@@ -194,42 +176,29 @@ class Sms
     /**
      * 获取指定平台对应类型的模板
      * @param string $type 类型
-     * @return array|null [type|code|content|id]
+     * @return array [type|code|content]
      */
-    public static function smsTpl(string $type): ?array
+    public static function smsTpl(string $type): array
     {
-        $scope    = config('poppy.sms.send_type', self::SCOPE_LOCAL);
-        $template = collect((new Sms())->getTemplates())->where('scope', $scope)->where('type', $type)->first();
-        return $template ?? null;
+        $scope     = config('poppy.sms.send_type', self::SCOPE_LOCAL);
+        $templates = collect((new Sms())->getTemplates());
+        $key       = $scope . ':' . $type;
+        if ($templates->offsetExists($key)) {
+            return $templates->offsetGet($key);
+        }
+        else {
+            return [];
+        }
     }
-
 
     /**
      * 保存模板
-     * @param array $templates 模板信息
      * @return bool
      */
-    private function save(array $templates): bool
+    private function save(): bool
     {
-        $templates = collect($templates)->map(function ($item, $index) {
-            $item['id'] = ++$index;
-            return $item;
-        })->values()->toArray();
-
-        $this->sysSetting()->set(self::CACHE_TEMPLATES, $templates);
-        sys_cache('py-sms')->clear();
-
+        $this->sysSetting()->set(self::CACHE_TEMPLATES, $this->templates->toArray());
         return true;
-    }
-
-    /**
-     * 索引
-     * @param int $id id
-     * @return mixed
-     */
-    private function indexKey(int $id): int
-    {
-        return --$id;
     }
 
 }

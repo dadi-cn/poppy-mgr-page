@@ -25,7 +25,7 @@ class LocalSms extends BaseSms implements SmsContract
         }
         // 未选择则使用日志, 线上不记录日志
         $sign    = config('poppy.sms.sign');
-        $trans   = sys_trans($this->sms['content'], $params);
+        $trans   = sys_trans($this->sms['code'], $params);
         $content = ($sign ? "[{$sign}]" : '') . $trans;
         Log::info(sys_mark('poppy.sms', self::class, $content, true));
 

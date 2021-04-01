@@ -27,7 +27,6 @@ class AliyunTest extends SystemTestCase
             'poppy.sms.aliyun.access_key'    => $arrConf['aliyun_access_key'],
             'poppy.sms.aliyun.access_secret' => $arrConf['aliyun_access_secret'],
         ]);
-
     }
 
     /**
@@ -39,6 +38,20 @@ class AliyunTest extends SystemTestCase
         if ($Sms->send('captcha', '15254109156', [
             'code' => 'Test_' . Str::random(4),
         ])) {
+            $this->assertTrue(true);
+        }
+        else {
+            $this->assertTrue(false, $Sms->getError());
+        }
+    }
+
+    /**
+     * 测试短信发送
+     */
+    public function testHandle(): void
+    {
+        $Sms = app('poppy.sms');
+        if ($Sms->send('handle', '15254109156')) {
             $this->assertTrue(true);
         }
         else {
