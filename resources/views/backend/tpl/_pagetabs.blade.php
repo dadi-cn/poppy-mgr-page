@@ -25,6 +25,6 @@
          lay-unauto
          lay-allowclose="true"
          lay-filter="layadmin-layout-tabs">
-        <ul class="layui-tab-title" id="LAY_app_tabsheader"></ul>
+        <ul class="layui-tab-title" id="LAY_app_tabsheader" style="border-bottom: none!important;"></ul>
     </div>
 </div>
