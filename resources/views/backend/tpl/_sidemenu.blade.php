@@ -11,7 +11,7 @@
 					@foreach($v_menu['groups'] as $k_group => $v_group)
 						<li data-name="{!! $k_group !!}"
 							class="layui-nav-item {!! active_class($v_group['routes']->contains($_route), 'layui-nav-itemed') !!}">
-							<a href="#" class="collapsible-header J_ignore" lay-tips="{{$v_group['title']}}" lay-direction="1">
+							<a href="#" class="collapsible-header J_ignore">
 								{!! isset($v_group['icon']) && $v_group['icon']? '<i class="'.$v_group['icon'].'"></i>' :'' !!}
 								<cite>{{$v_group['title']}}</cite>
 								<span class="layui-nav-more"></span>
