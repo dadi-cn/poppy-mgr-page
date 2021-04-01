@@ -197,7 +197,6 @@ return [
 
 
         'Form'   => Poppy\MgrPage\Facade\FormFacade::class,
-        'SysPam' => Poppy\System\Facades\PamFacade::class,
         'Html'   => Collective\Html\HtmlFacade::class,
     ],
 ];
