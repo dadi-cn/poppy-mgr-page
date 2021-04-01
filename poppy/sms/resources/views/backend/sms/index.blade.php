@@ -6,6 +6,9 @@
             <a href="{{route_url('py-sms:backend.sms.establish', null, ['_scope'=> $scope])}}" class="layui-btn layui-btn-sm J_iframe">
                 创建模板
             </a>
+            <a href="{{route_url('py-sms:backend.sms.store')}}" class="layui-btn layui-btn-sm J_iframe">
+                短信设置
+            </a>
         </div>
     </div>
     <div class="layui-card-body">
@@ -14,8 +17,7 @@
             <tr>
                 <th class="w108">平台</th>
                 <th class="w108">类型</th>
-                <th class="w144">短信代码</th>
-                <th>模板内容</th>
+                <th>短信内容/模版</th>
                 <th>操作</th>
             </tr>
             @if (count($items))
@@ -24,15 +26,14 @@
                         <td>{{ \Poppy\Sms\Action\Sms::kvPlatform($item['scope'])}}</td>
                         <td>{{ \Poppy\Sms\Action\Sms::kvType($item['type'])}}</td>
                         <td>{{$item['code']}}</td>
-                        <td>{{$item['content']}}</td>
                         <td>
                             <a class="J_iframe" title="编辑"
-                                href="{{route_url('py-sms:backend.sms.establish', [$item['id']])}}">
+                                href="{{route_url('py-sms:backend.sms.establish', [$item['scope'].':'.$item['type']])}}">
                                 <i class="fa fa-edit text-info"></i>
                             </a>
                             <a title="删除" class="J_request"
                                 data-confirm="确认删除 ?"
-                                href="{{route('py-sms:backend.sms.destroy', [$item['id']])}}">
+                                href="{{route('py-sms:backend.sms.destroy', [$item['scope'].':'.$item['type']])}}">
                                 <i class="fa fa-times text-danger"></i>
                             </a>
                         </td>
@@ -40,7 +41,7 @@
                 @endforeach
             @else
                 <tr>
-                    <td colspan="6">
+                    <td colspan="4">
                         @include('py-mgr-page::backend.tpl._empty')
                     </td>
                 </tr>

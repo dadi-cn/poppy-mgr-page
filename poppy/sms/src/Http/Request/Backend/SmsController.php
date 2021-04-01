@@ -2,7 +2,6 @@
 
 namespace Poppy\Sms\Http\Request\Backend;
 
-use Auth;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -14,7 +13,6 @@ use Poppy\MgrPage\Http\Request\Backend\BackendController;
 use Poppy\Sms\Action\Sms;
 use Poppy\Sms\Http\Forms\Settings\FormSettingSms;
 use Poppy\System\Classes\Layout\Content;
-use Poppy\System\Models\PamAccount;
 
 /**
  * 短信控制器
@@ -40,11 +38,11 @@ class SmsController extends BackendController
         if (input('_scope')) {
             $scope = input('_scope');
         }
-        $templates = collect($this->action()->getTemplates());
-
+        $templates = $this->action()->getTemplates();
+        $items     = $templates->where('scope', $scope);
         return view('py-sms::backend.sms.index', [
             'scope' => $scope,
-            'items' => array_values($templates->where('scope', $scope)->toArray()),
+            'items' => $items,
         ]);
     }
 
@@ -58,7 +56,7 @@ class SmsController extends BackendController
     {
         $Sms = $this->action();
         if (is_post()) {
-            if (!$Sms->establish(input(), $id)) {
+            if (!$Sms->establish(input())) {
                 return Resp::error($Sms->getError());
             }
 
@@ -106,6 +104,6 @@ class SmsController extends BackendController
      */
     private function action(): Sms
     {
-        return (new Sms())->setPam(Auth::guard(PamAccount::GUARD_BACKEND)->user());
+        return new Sms();
     }
 }

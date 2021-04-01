@@ -10,8 +10,19 @@
     processIsolation="true"
     stopOnFailure="false">
     <testsuites>
-        <testsuite name="Application Test Suite">
+        <testsuite name="poppy">
             <directory>./poppy/framework/tests/</directory>
+            <directory>./poppy/system/tests/</directory>
+            <directory>./poppy/sms/tests/</directory>
+            <directory>./poppy/mgr-page/tests/</directory>
+            <directory>./poppy/ext-pinyin/tests/</directory>
+            <directory>./poppy/ext-netease/tests/</directory>
+            <directory>./poppy/ext-ip_store/tests/</directory>
+            <directory>./poppy/ext-alipay/tests/</directory>
+            <directory>./poppy/core/tests/</directory>
+            <directory>./poppy/area/tests/</directory>
+            <directory>./poppy/aliyun-push/tests/</directory>
+            <directory>./poppy/aliyun-oss/tests/</directory>
         </testsuite>
     </testsuites>
     <filter>

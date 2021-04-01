@@ -22,6 +22,7 @@
         "ext-libxml": "*",
         "ext-xml": "*",
         "symfony/console": "4.*",
+        "laravel/tinker": "2.*",
         "symfony/finder": "4.*",
         "symfony/yaml": "4.*",
         "elasticsearch/elasticsearch": "7.*",

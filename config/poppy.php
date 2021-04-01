@@ -58,7 +58,7 @@ return [
                 'title'       => '前台接口',
                 // 默认访问地址
                 'default_url' => 'api_v1/system/auth/login',
-                
+
                 // 额外添加的脚本
                 'scripts'     => '',
 
@@ -102,9 +102,12 @@ return [
          * ---------------------------------------- */
         'types' => [
             [
-                'type'        => 'captcha',
-                'title'       => '验证码',
-                'description' => '可用变量名称[code:验证码], 遵循 laravel translate 写法, 会显示在日志中',
+                'type'  => 'captcha',
+                'title' => '验证码(:code)',
+            ],
+            [
+                'type'  => 'handle',
+                'title' => '接单成功通知',
             ],
         ],
     ],
