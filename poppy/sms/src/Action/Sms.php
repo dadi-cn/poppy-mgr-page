@@ -17,8 +17,9 @@ class Sms
 {
     use AppTrait, SystemTrait;
 
-    public const SCOPE_LOCAL  = 'local';
-    public const SCOPE_ALIYUN = 'aliyun';
+    public const SCOPE_LOCAL     = 'local';
+    public const SCOPE_ALIYUN    = 'aliyun';
+    public const SCOPE_CHUANGLAN = 'chuanglan';
 
     private const CACHE_TEMPLATES = 'py-sms::sms.template';
 
