@@ -11,7 +11,7 @@
 					@foreach($v_menu['groups'] as $k_group => $v_group)
 						<li data-name="{!! $k_group !!}"
 							class="layui-nav-item {!! active_class($v_group['routes']->contains($_route), 'layui-nav-itemed') !!}">
-							<a href="#" class="collapsible-header J_ignore" lay-tips="{{$v_group['title']}}" lay-direction="2">
+							<a href="#" class="collapsible-header J_ignore" lay-tips="{{$v_group['title']}}" lay-direction="1">
 								{!! isset($v_group['icon']) && $v_group['icon']? '<i class="'.$v_group['icon'].'"></i>' :'' !!}
 								<cite>{{$v_group['title']}}</cite>
 								<span class="layui-nav-more"></span>
@@ -20,7 +20,7 @@
 								@foreach($v_group['children'] as $v_link)
 									@if (isset($v_link['route']))
 										<dd class=" @if ($v_link['route']??'' === $_route || in_array($_route, $v_link['match']??[], true)) layui-this @endif">
-											<a lay-href="{{ route_url($v_link['route'])}}" class=" J_ignore">
+											<a lay-href="{{ route_url($v_link['route'], $v_link['route_param']??[], $v_link['param']??[])}}" class=" J_ignore">
 												{!! isset($v_link['icon']) && $v_link['icon']? '<i class="'.$v_link['icon'].'"></i>' :'' !!}
 												{{$v_link['title']}}
 											</a>
