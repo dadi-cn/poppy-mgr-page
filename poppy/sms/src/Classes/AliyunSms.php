@@ -8,7 +8,6 @@ use AlibabaCloud\Client\Exception\ServerException;
 use Poppy\Framework\Classes\Traits\AppTrait;
 use Poppy\Sms\Classes\Contracts\SmsContract;
 use Poppy\Sms\Exceptions\SmsException;
-use SimpleXMLElement;
 use Throwable;
 
 class AliyunSms extends BaseSms implements SmsContract
@@ -25,20 +24,12 @@ class AliyunSms extends BaseSms implements SmsContract
     }
 
     /**
-     * @param string       $type    模版代码
-     * @param array|string $mobiles 手机号码
-     * @param array        $params  额外参数
-     * @return mixed|SimpleXMLElement
+     * @inheritDoc
      */
-    public function send(string $type, $mobiles, array $params = []): bool
+    public function send(string $type, $mobiles, array $params = [], $sign = ''): bool
     {
-        if (!$this->checkSms($mobiles, $type)) {
+        if (!$this->checkSms($mobiles, $type, $sign)) {
             return false;
-        }
-        $sign = config('poppy.sms.sign');
-
-        if (!$sign) {
-            return $this->setError('尚未设置签名, 无法发送');
         }
 
         try {
@@ -55,7 +46,7 @@ class AliyunSms extends BaseSms implements SmsContract
                 ->options([
                     'query' => array_merge([
                         'PhoneNumbers' => $mobiles,
-                        'SignName'     => $sign,
+                        'SignName'     => $this->sign,
                         'TemplateCode' => $this->sms['code'],
                     ], $params ? [
                         'TemplateParam' => json_encode($params, JSON_UNESCAPED_UNICODE),
