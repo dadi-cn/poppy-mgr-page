@@ -1,6 +1,6 @@
 /** EasyWeb iframe v3.1.1 data:2019-03-24 License By http://easyweb.vip */
 
-layui.define(['layer', 'element', 'admin', 'contextMenu'], function (exports) {
+layui.define(['admin', 'contextMenu'], function (exports) {
     var $ = layui.jquery;
     var layer = layui.layer;
     var element = layui.element;

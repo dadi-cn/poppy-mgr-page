@@ -6,7 +6,7 @@
 @endsection
 @section('head-content')
     @include('py-mgr-page::tpl._js_css', [
-        '_type' => ['layui-all']
+        '_type' => ['layui']
     ])
 @endsection
 @section('body-main')

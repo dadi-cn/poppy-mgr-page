@@ -1,6 +1,7 @@
 /** EasyWeb iframe v3.1.1 data:2019-03-24 License By http://easyweb.vip */
 
-layui.define(['layer'], function (exports) {
+layui.define(function (exports) {
+
     var $ = layui.jquery;
     var layer = layui.layer;
     var bodyDOM = '.layui-layout-admin>.layui-body';
@@ -10,7 +11,6 @@ layui.define(['layer'], function (exports) {
     var tabFilter = 'admin-pagetabs';
     var navFilter = 'admin-side-nav';
     var themeAdmin = 'theme-admin';  // 自带的主题
-
     var admin = {
         defaultTheme: 'theme-admin',  // 默认主题
         tableName: window.mgrHost,  // 存储表名
@@ -58,7 +58,7 @@ layui.define(['layer'], function (exports) {
                         $(sideDOM).animate({'scrollTop': $(sideDOM).scrollTop() - topDisparity}, 100);
                     }
                 } else {
-                    // console.warn(url + ' is not in left side');
+                    console.warn(url + ' is not in left side');
                 }
             } else {
                 console.warn('active url is null');
