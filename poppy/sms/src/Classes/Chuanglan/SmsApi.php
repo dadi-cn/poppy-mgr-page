@@ -17,15 +17,15 @@ class SmsApi
 {
 
     //参数的配置 请登录zz.253.com 获取以下API信息 ↓↓↓↓↓↓↓
-    public $api_send_url = 'http://XXX/msg/send/json'; //创蓝发送短信接口URL
+    public $apiSendUrl = 'http://XXX/msg/send/json'; //创蓝发送短信接口URL
 
-    public $api_variable_url = 'http://XXX/msg/variable/json';//创蓝变量短信接口URL
+    public $apiVariableUrl = 'http://XXX/msg/variable/json';//创蓝变量短信接口URL
 
-    public $api_balance_query_url = 'http://XXX/msg/balance/json';//创蓝短信余额查询接口URL
+    public $apiBalanceQueryUrl = 'http://XXX/msg/balance/json';//创蓝短信余额查询接口URL
 
-    public $api_account = ''; // 创蓝API账号
+    public $apiAccount = ''; // 创蓝API账号
 
-    public $api_password = '';// 创蓝API密码
+    public $apiPassword = '';// 创蓝API密码
 
     //参数的配置 请登录zz.253.com 获取以上API信息 ↑↑↑↑↑↑↑
 
@@ -38,12 +38,12 @@ class SmsApi
     {
         /* api_url
          * ---------------------------------------- */
-        $this->api_send_url = 'http://smssh1.253.com/msg/send/json';
+        $this->apiSendUrl = 'http://smssh1.253.com/msg/send/json';
 
         /* api_account
          * ---------------------------------------- */
-        $this->api_account  = $api_account;
-        $this->api_password = $api_password;
+        $this->apiAccount  = $api_account;
+        $this->apiPassword = $api_password;
     }
 
     /**
@@ -57,13 +57,13 @@ class SmsApi
     {
         //创蓝接口参数
         $postArr = [
-            'account'  => $this->api_account,
-            'password' => $this->api_password,
+            'account'  => $this->apiAccount,
+            'password' => $this->apiPassword,
             'msg'      => urlencode($msg),
             'phone'    => $mobile,
             'report'   => $needstatus,
         ];
-        return $this->curlPost($this->api_send_url, $postArr);
+        return $this->curlPost($this->apiSendUrl, $postArr);
     }
 
     /**
@@ -76,14 +76,14 @@ class SmsApi
     {
         //创蓝接口参数
         $postArr = [
-            'account'  => $this->api_account,
-            'password' => $this->api_password,
+            'account'  => $this->apiAccount,
+            'password' => $this->apiPassword,
             'msg'      => $msg,
             'params'   => $params,
             'report'   => 'true',
         ];
 
-        return $this->curlPost($this->api_variable_url, $postArr);
+        return $this->curlPost($this->apiVariableUrl, $postArr);
     }
 
     /**
@@ -95,10 +95,10 @@ class SmsApi
     {
         //查询参数
         $postArr = [
-            'account'  => $this->api_account,
-            'password' => $this->api_password,
+            'account'  => $this->apiAccount,
+            'password' => $this->apiPassword,
         ];
-        return $this->curlPost($this->api_balance_query_url, $postArr);
+        return $this->curlPost($this->apiBalanceQueryUrl, $postArr);
     }
 
     /**
