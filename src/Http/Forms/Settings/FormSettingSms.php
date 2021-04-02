@@ -17,8 +17,9 @@ class FormSettingSms extends FormSettingBase
     public function form()
     {
         $this->radio('send_type', '发送方式')->options([
-            'aliyun' => '阿里云',
-            'local'  => '本地',
+            'aliyun'    => '阿里云',
+            'local'     => '本地',
+            'chuanglan' => '创蓝',
         ])->rules([
             Rule::string(),
             Rule::required(),
