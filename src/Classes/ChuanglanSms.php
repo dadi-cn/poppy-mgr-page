@@ -30,7 +30,7 @@ class ChuanglanSms extends BaseSms implements SmsContract
      */
     public function send(string $type, $mobiles, array $params = [], $sign = ''): bool
     {
-        if (!$this->checkSms($mobiles, $type)) {
+        if (!$this->checkSms($mobiles, $type, $sign)) {
             return false;
         }
 

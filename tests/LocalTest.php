@@ -9,12 +9,11 @@ namespace Poppy\Sms\Tests;
 use Illuminate\Support\Str;
 use Poppy\Sms\Action\Sms;
 use Poppy\Sms\Classes\Contracts\SmsContract;
-use Poppy\System\Tests\Base\SystemTestCase;
 
 /**
  * 发送短信
  */
-class LocalTest extends SystemTestCase
+class LocalTest extends BaseSms
 {
 
     public function setUp(): void
@@ -31,7 +30,7 @@ class LocalTest extends SystemTestCase
     public function testCaptcha(): void
     {
         $Sms = app('poppy.sms');
-        if ($Sms->send('captcha', '15254109156', [
+        if ($Sms->send('captcha', $this->mobile, [
             'code' => 'Test_' . Str::random(4),
         ])) {
             $this->assertTrue(true);
@@ -44,9 +43,7 @@ class LocalTest extends SystemTestCase
     public function testContract()
     {
         $Sms = app(SmsContract::class);
-        if ($Sms->send('captcha', '15254109156', [
-            'code' => 'Test_' . Str::random(4),
-        ])) {
+        if ($Sms->send('handle', $this->mobile)) {
             $this->assertTrue(true);
         }
         else {

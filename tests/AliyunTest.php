@@ -8,24 +8,22 @@ namespace Poppy\Sms\Tests;
 
 use Illuminate\Support\Str;
 use Poppy\Sms\Action\Sms;
-use Poppy\System\Tests\Base\SystemTestCase;
 
 /**
  * 发送短信
  */
-class AliyunTest extends SystemTestCase
+class AliyunTest extends BaseSms
 {
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $arrConf = $this->readJson('poppy.sms', 'tests/config/account.json');
         // config
         config([
             'poppy.sms.send_type'            => Sms::SCOPE_ALIYUN,
-            'poppy.sms.aliyun.access_key'    => $arrConf['aliyun_access_key'],
-            'poppy.sms.aliyun.access_secret' => $arrConf['aliyun_access_secret'],
+            'poppy.sms.aliyun.access_key'    => data_get($this->conf, 'aliyun_access_key'),
+            'poppy.sms.aliyun.access_secret' => data_get($this->conf, 'aliyun_access_secret'),
         ]);
     }
 
@@ -35,7 +33,7 @@ class AliyunTest extends SystemTestCase
     public function testCaptcha(): void
     {
         $Sms = app('poppy.sms');
-        if ($Sms->send('captcha', '15254109156', [
+        if ($Sms->send('captcha', $this->mobile, [
             'code' => 'Test_' . Str::random(4),
         ])) {
             $this->assertTrue(true);
@@ -51,7 +49,7 @@ class AliyunTest extends SystemTestCase
     public function testHandle(): void
     {
         $Sms = app('poppy.sms');
-        if ($Sms->send('handle', '15254109156')) {
+        if ($Sms->send('handle', $this->mobile)) {
             $this->assertTrue(true);
         }
         else {
