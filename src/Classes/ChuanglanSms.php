@@ -3,17 +3,22 @@
 namespace Poppy\Sms\Classes;
 
 use Poppy\Framework\Classes\Traits\AppTrait;
+use Poppy\Sms\Classes\Chuanglan\SmsApi;
 use Poppy\Sms\Classes\Contracts\SmsContract;
-use Poppy\Sms\Exceptions\SmsException;
-use SimpleXMLElement;
 
 class ChuanglanSms extends BaseSms implements SmsContract
 {
     use AppTrait;
 
+    public $api_account;
+
+    public $api_password;
+
+    /** @var SmsApi */
+    public $clapi;
+
     /**
-     * AliyunSms constructor.
-     * @throws SmsException
+     * ChuanglanSms constructor.
      */
     public function __construct()
     {
@@ -21,14 +26,28 @@ class ChuanglanSms extends BaseSms implements SmsContract
     }
 
     /**
-     * @param string       $type    模版代码
-     * @param array|string $mobiles 手机号码
-     * @param array        $params  额外参数
-     * @return mixed|SimpleXMLElement
+     * @inheritDoc
      */
-    public function send(string $type, $mobiles, array $params = []): bool
+    public function send(string $type, $mobiles, array $params = [], $sign = ''): bool
     {
+        if (!$this->checkSms($mobiles, $type)) {
+            return false;
+        }
 
+        // 拼接签名
+        $msg = '【' . trim(trim($this->sign, '【'), '】') . '】' . $this->sms['code'];
+
+        $result = $this->clapi->sendSms($mobiles, $msg);
+        if (!is_null($result)) {
+            $output = json_decode($result, true);
+            if (isset($output['code']) && $output['code'] === '0') {
+                return true;
+            }
+
+            return $this->setError($result);
+        }
+
+        return $this->setError($result);
     }
 
     /**
@@ -36,6 +55,8 @@ class ChuanglanSms extends BaseSms implements SmsContract
      */
     private function initClient()
     {
-
+        $this->api_account  = config('poppy.sms.chuanglan.access_key');
+        $this->api_password = config('poppy.sms.chuanglan.access_secret');
+        $this->clapi        = new SmsApi($this->api_account, $this->api_password);
     }
 }
