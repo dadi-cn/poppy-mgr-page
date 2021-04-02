@@ -7,9 +7,6 @@ use Poppy\System\Http\Forms\Settings\FormSettingBase;
 
 class FormSettingSms extends FormSettingBase
 {
-
-    public $inbox = false;
-
     protected $group = 'py-sms::sms';
 
     protected $width = [

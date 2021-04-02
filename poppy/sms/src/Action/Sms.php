@@ -168,8 +168,9 @@ class Sms
     public static function kvPlatform($key = null, $check_key = false)
     {
         $desc = [
-            self::SCOPE_LOCAL  => 'Local(本地)',
-            self::SCOPE_ALIYUN => 'Aliyun(阿里云)',
+            self::SCOPE_LOCAL     => 'Local(本地)',
+            self::SCOPE_ALIYUN    => 'Aliyun(阿里云)',
+            self::SCOPE_CHUANGLAN => 'Chuanglan(创蓝)',
         ];
         return kv($desc, $key, $check_key);
     }

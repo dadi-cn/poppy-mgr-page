@@ -55,7 +55,6 @@ class SmsApi
      */
     public function sendSMS($mobile, $msg, $needstatus = 'true')
     {
-
         //创蓝接口参数
         $postArr = [
             'account'  => $this->api_account,
@@ -64,8 +63,7 @@ class SmsApi
             'phone'    => $mobile,
             'report'   => $needstatus,
         ];
-        $result  = $this->curlPost($this->api_send_url, $postArr);
-        return $result;
+        return $this->curlPost($this->api_send_url, $postArr);
     }
 
     /**
@@ -76,7 +74,6 @@ class SmsApi
      */
     public function sendVariableSMS($msg, $params)
     {
-
         //创蓝接口参数
         $postArr = [
             'account'  => $this->api_account,
@@ -86,8 +83,7 @@ class SmsApi
             'report'   => 'true',
         ];
 
-        $result = $this->curlPost($this->api_variable_url, $postArr);
-        return $result;
+        return $this->curlPost($this->api_variable_url, $postArr);
     }
 
     /**
@@ -97,14 +93,12 @@ class SmsApi
      */
     public function queryBalance()
     {
-
         //查询参数
         $postArr = [
             'account'  => $this->api_account,
             'password' => $this->api_password,
         ];
-        $result  = $this->curlPost($this->api_balance_query_url, $postArr);
-        return $result;
+        return $this->curlPost($this->api_balance_query_url, $postArr);
     }
 
     /**
@@ -131,12 +125,12 @@ class SmsApi
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         $ret = curl_exec($ch);
-        if (false == $ret) {
+        if (false === $ret) {
             $result = curl_error($ch);
         }
         else {
             $rsp = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            if (200 != $rsp) {
+            if (200 !== $rsp) {
                 $result = "请求状态 " . $rsp . " " . curl_error($ch);
             }
             else {
