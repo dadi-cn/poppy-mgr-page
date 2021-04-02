@@ -8,25 +8,22 @@ namespace Poppy\Sms\Tests;
 
 use Illuminate\Support\Str;
 use Poppy\Sms\Action\Sms;
-use Poppy\Sms\Classes\Contracts\SmsContract;
-use Poppy\System\Tests\Base\SystemTestCase;
 
 /**
  * 发送短信
  */
-class ChuanglanTest extends SystemTestCase
+class ChuanglanTest extends BaseSms
 {
 
     public function setUp(): void
     {
         parent::setUp();
-
-        $arrConf = $this->readJson('poppy.sms', 'tests/config/account.json');
         // config
         config([
             'poppy.sms.send_type'               => Sms::SCOPE_CHUANGLAN,
-            'poppy.sms.chuanglan.access_key'    => $arrConf['chuanglan_access_key'],
-            'poppy.sms.chuanglan.access_secret' => $arrConf['chuanglan_access_secret'],
+            'poppy.sms.sign'                    => data_get($this->conf, 'chuanglan_sign'),
+            'poppy.sms.chuanglan.access_key'    => data_get($this->conf, 'chuanglan_access_key'),
+            'poppy.sms.chuanglan.access_secret' => data_get($this->conf, 'chuanglan_access_secret'),
         ]);
     }
 
@@ -35,11 +32,10 @@ class ChuanglanTest extends SystemTestCase
      */
     public function testCaptcha(): void
     {
-        /** @var SmsContract $Sms */
         $Sms = app('poppy.sms');
-        if ($Sms->send('captcha', '15931012793', [
-            'code' => Str::random(4),
-        ])) {
+        if ($Sms->send('captcha', $this->mobile, [
+            'code' => 'Test_' . Str::random(4),
+        ], config('poppy.sms.sign'))) {
             $this->assertTrue(true);
         }
         else {
@@ -53,7 +49,7 @@ class ChuanglanTest extends SystemTestCase
     public function testHandle(): void
     {
         $Sms = app('poppy.sms');
-        if ($Sms->send('handle', '15931012793')) {
+        if ($Sms->send('handle', $this->mobile, [], config('poppy.sms.sign'))) {
             $this->assertTrue(true);
         }
         else {

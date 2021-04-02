@@ -27,7 +27,7 @@ abstract class BaseSms
      * @param string       $sign   签名
      * @return bool
      */
-    public function checkSms($mobile, string $type, $sign = ''): bool
+    public function checkSms($mobile, string $type, string $sign): bool
     {
         if (!$mobile) {
             return $this->setError('手机号缺失, 不进行发送!');
