@@ -1,6 +1,6 @@
 /** EasyWeb iframe v3.1.1 data:2019-03-24 License By http://easyweb.vip */
 
-layui.define(["jquery"], function (exports) {
+layui.define(function (exports) {
     var $ = layui.jquery;
     var hideClass = 'hide-print';  // 打印时隐藏
     var printingClass = 'printing';  // 正在打印

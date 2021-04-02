@@ -1,7 +1,7 @@
 @extends('py-mgr-page::tpl.default')
 @section('head-css')
     @include('py-mgr-page::tpl._js_css', [
-        '_type' => ['layui-all']
+        '_type' => ['layui']
     ])
 @endsection
 @section('body-main')

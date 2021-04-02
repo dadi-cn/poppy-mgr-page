@@ -72,5 +72,6 @@ mix
     .copyDirectory('poppy/mgr-page/resources/libs/jquery/tokenize2/', 'public/assets/libs/jquery/tokenize2')
     .copyDirectory('poppy/mgr-page/resources/libs/drag-arrange/', 'public/assets/libs/drag-arrange')
     .copyDirectory('poppy/mgr-page/resources/libs/easy-web/', 'public/assets/libs/easy-web')
+    .copyDirectory('poppy/mgr-page/resources/libs/layui/', 'public/assets/libs/layui')
     .copyDirectory('poppy/mgr-page/resources/libs/vue/', 'public/assets/libs/vue')
     .copyDirectory('poppy/mgr-page/resources/libs/underscore/', 'public/assets/libs/underscore');
