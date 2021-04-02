@@ -8,6 +8,7 @@ namespace Poppy\Sms\Tests;
 
 use Illuminate\Support\Str;
 use Poppy\Sms\Action\Sms;
+use Poppy\Sms\Classes\Contracts\SmsContract;
 use Poppy\System\Tests\Base\SystemTestCase;
 
 /**
@@ -34,10 +35,11 @@ class ChuanglanTest extends SystemTestCase
      */
     public function testCaptcha(): void
     {
+        /** @var SmsContract $Sms */
         $Sms = app('poppy.sms');
         if ($Sms->send('captcha', '15931012793', [
-            'code' => 'Test_' . Str::random(4),
-        ], '')) {
+            'code' => Str::random(4),
+        ])) {
             $this->assertTrue(true);
         }
         else {
