@@ -2,14 +2,13 @@
 $_type = $_type ?? [];
 ?>
 <!--style-->
-{!! Html::style('assets/libs/boot/style.css') !!}
 @if(in_array('layui', $_type))
     {!! Html::style('assets/libs/layui/css/layui.css') !!}
 @endif
 @if(in_array('easy-web', $_type))
     {!! Html::style('assets/libs/easy-web/module/admin.css') !!}
 @endif
-
+{!! Html::style('assets/libs/boot/style.css') !!}
 {{--js--}}
 {!! Html::script('assets/libs/boot/vendor.min.js') !!}
 {!! Html::script('assets/libs/boot/poppy.mgr.min.js') !!}
