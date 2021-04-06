@@ -522,10 +522,7 @@ class UtilHelper
      */
     private static function chidVerify(string $id_base): string
     {
-        if (!is_numeric($id_base)) {
-            return false;
-        }
-        if (strlen($id_base) !== 17) {
+        if (!preg_match('/\d{17}/', $id_base)) {
             return false;
         }
         //加权因子

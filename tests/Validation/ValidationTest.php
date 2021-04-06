@@ -100,6 +100,21 @@ class ValidationTest extends TestCase
         else {
             $this->assertTrue(true);
         }
+
+        $chid      = '3622012.0508072';
+        $validator = Validator::make([
+            'chid' => $chid,
+        ], [
+            'chid' => Rule::chid(),
+        ], [], [
+            'chid' => 'Chid',
+        ]);
+        if ($validator->fails()) {
+            $this->assertTrue(true);
+        }
+        else {
+            $this->assertTrue(false);
+        }
     }
 
 
