@@ -63,3 +63,4 @@ _ide_helper_models.php
 .phpstorm.meta.php
 .phpunit.result.cache
 /storage/clockwork/index
+/resources/http/http-client.private.env.json
