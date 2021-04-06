@@ -28,6 +28,12 @@ class UtilHelperTest extends TestCase
         // fix 1dailian 身份认证
         $isChid = UtilHelper::isChId('110101190,,1011009');
         $this->assertEquals(false, $isChid);
+
+        $isChid = UtilHelper::isChId('11010119');
+        $this->assertEquals(false, $isChid);
+
+        $isChid = UtilHelper::isChId('3622012.0508072');
+        $this->assertEquals(false, $isChid);
     }
 
     public function testIsUrl(): void
