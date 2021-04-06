@@ -3,7 +3,6 @@
 namespace Poppy\AliyunOss\Http\Forms\Settings;
 
 use Poppy\Framework\Validation\Rule;
-use Poppy\System\Exceptions\FormException;
 use Poppy\System\Http\Forms\Settings\FormSettingBase;
 
 class FormSettingAliyunOss extends FormSettingBase
@@ -37,6 +36,7 @@ class FormSettingAliyunOss extends FormSettingBase
         ]);
         $this->text('url_prefix', '域名前缀')->rules([
             Rule::nullable(),
+            Rule::url(),
         ]);
         $this->divider('用于资源授权');
         $this->text('role_arn', '角色描述符')->rules([
