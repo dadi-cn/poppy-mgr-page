@@ -139,6 +139,8 @@ class FormBuilder extends CollectiveFormBuilder
 
         $data = /** @lang text */
             <<<Editor
+    <script src="/assets/libs/boot/simditor.min.js"></script>
+    <link media="all" type="text/css" rel="stylesheet" href="/assets/libs/boot/simditor.css">
     <textarea class="hidden" name="{$name}" id="{$contentId}">{$value}</textarea>
         <script>
         $(function () {
@@ -462,9 +464,9 @@ CONTENT;
         }
 
         /** @var ApiSignContract $Sign */
-        $Sign = app(ApiSignContract::class);
-        $timestamp   = Carbon::now()->timestamp;
-        $sign = $Sign->sign([
+        $Sign      = app(ApiSignContract::class);
+        $timestamp = Carbon::now()->timestamp;
+        $sign      = $Sign->sign([
             'token'     => $token,
             'timestamp' => $timestamp,
         ]);
@@ -843,6 +845,44 @@ HTML;
         {$content}
     </ul>
 </div>
+HTML;
+    }
+
+    /**
+     * @param string $name
+     * @param array  $list
+     * @param string $value
+     * @param array  $options
+     * @return string
+     */
+    public function tags(string $name, $list = [], $value = [], $options = []): string
+    {
+        $id          = 'tags_' . Str::random();
+        $select      = $this->select($name . '[]', $list, $value, $options + [
+                'multiple',
+                'id'         => $id,
+                'lay-ignore' => 'lay-ignore',
+                'class'      => 'tokenize',
+            ]);
+        $placeholder = $options['placeholder'] ?? '';
+        $script      = app('html')->script('assets/libs/jquery/tokenize2/jquery.tokenize2.js');
+        $style       = app('html')->style('assets/libs/jquery/tokenize2/tokenize2.css');
+        return <<<HTML
+{$script}
+{$style}
+{$select}
+<script>
+$(function() {
+    let {$id} = $('#{$id}');
+    {$id}.tokenize2({
+        placeholder : '{$placeholder}',
+        tokensMaxItems : 0
+    })
+    {$id}.on("tokenize:select", function() {
+        $('#{$id}').trigger('tokenize:search', "");
+    });
+})
+</script>
 HTML;
     }
 }

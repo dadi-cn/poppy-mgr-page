@@ -35,6 +35,7 @@ class HelperController extends WebController
         return (new Content())->body(new FormTreeHelper());
     }
 
+
     public function imgStr()
     {
         ImgHelper::buildStr('Qianqian Li');
