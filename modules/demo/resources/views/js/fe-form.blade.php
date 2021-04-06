@@ -22,8 +22,8 @@
     {!! Form::editor('editor',null) !!}
 </div>
 <div class="layui-form-item">
-    {!! Form::label('editor', '编辑器') !!}
-    {!! Form::tags('editor',['1', '2'], [0]) !!}
+    {!! Form::label('tags', '多选标签') !!}
+    {!! Form::tags('tags',['1', '2'], [0]) !!}
 </div>
 <div class="layui-form-item">
     {!! Form::label('code', 'Code编辑器') !!}
