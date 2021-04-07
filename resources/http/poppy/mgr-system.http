@@ -1,0 +1,159 @@
+// @no-redirect  Login
+POST http://{{domain}}/mgr-page/login
+Content-Type: application/x-www-form-urlencoded
+
+username={{username}}&password={{password}}
+
+> {%
+    client.test("Mgr-Page Login", function(){
+        client.assert(response.status === 302, 'Response status is success');
+        client.log(response.headers.valuesOf('Set-Cookie'))
+    })
+%}
+
+###
+
+// Pam Index
+GET http://{{domain}}/mgr-page/system/pam?_query=1
+
+> {%
+     client.test("Pam Index", function(){
+        client.assert(response.status === 200, 'Response status is not 200');
+        client.log(response.body);
+    })
+ %}
+
+###
+
+// Pam Establish View
+GET http://{{domain}}/mgr-page/system/pam/establish?type={{_type}}
+
+> {%
+     client.test("Pam Establish View", function(){
+        client.assert(response.status === 200, 'Response status is not 200');
+    })
+ %}
+
+###
+
+// Pam Establish View
+GET http://{{domain}}/mgr-page/system/pam/establish/{{_id}}
+
+> {%
+     client.test("Pam Edit View", function(){
+        client.assert(response.status === 200, 'Response status is not 200');
+    })
+ %}
+
+###
+
+// Pam Establish
+POST http://{{domain}}/mgr-page/system/handle/form
+Content-Type: application/x-www-form-urlencoded
+
+username={{_username}}&password={{_password}}&role_id[]={{_role_id}}&type={{_type}}&_form_={{_form_}}
+
+> {%
+     client.test("Pam Establish", function(){
+        client.assert(response.status === 200, 'Response status is not 200');
+    })
+ %}
+
+###
+
+// Pam Edit&more_role
+POST http://{{domain}}/mgr-page/system/handle/form
+Content-Type: application/x-www-form-urlencoded
+
+username={{_username}}&password={{_password}}&role_id[]={{_role_id}}&role_id[]=4&type={{_type}}&_form_={{_form_}}&id={{_id}}
+
+> {%
+     client.test("Pam Edit", function(){
+        client.assert(response.status === 200, 'Response status is not 200');
+    })
+ %}
+
+###
+
+// Pam Disable View
+GET http://{{domain}}/mgr-page/system/pam/disable/{{_id}}
+
+> {%
+     client.test("Pam Disable View", function(){
+        client.assert(response.status === 200, 'Response status is not 200');
+    })
+ %}
+
+###
+
+// Pam Enable View
+GET http://{{domain}}/mgr-page/system/pam/enable/{{_id}}
+
+> {%
+     client.test("Pam Enable View", function(){
+        client.assert(response.status === 200, 'Response status is not 200');
+    })
+ %}
+
+###
+
+// Pam Disable
+POST http://{{domain}}/mgr-page/system/handle/form
+Content-Type: application/x-www-form-urlencoded
+
+date={{_date}}&reason={{_reason}}&_form_={{_form_pam_disable}}&id={{_id}}
+
+> {%
+     client.test("Pam Disable", function(){
+        client.assert(response.status === 200, 'Response status is not 200');
+    })
+ %}
+
+###
+
+// Pam Enable
+POST http://{{domain}}/mgr-page/system/handle/form
+Content-Type: application/x-www-form-urlencoded
+
+reason={{_reason}}&_form_={{_form_pam_enable}}&id={{_id}}
+
+> {%
+     client.test("Pam Disable", function(){
+        client.assert(response.status === 200, 'Response status is not 200');
+    })
+ %}
+
+###
+
+// Login Log
+GET http://{{domain}}/mgr-page/system/pam/log?_query=1
+
+> {%
+     client.test("Login Log", function(){
+        client.assert(response.status === 200, 'Response status is not 200');
+        client.assert(response.body.status === 0, 'Response status id not 0');
+    })
+ %}
+
+###
+
+// Role Index
+GET http://{{domain}}/mgr-page/system/role?_scope={{_scope}}&_query=1
+
+> {%
+     client.test("Role Index", function(){
+        client.assert(response.status === 200, 'Response status is not 200');
+        client.assert(response.body.status === 0, 'Response status id not 0');
+    })
+ %}
+
+###
+
+// Role Delete & 失败返回200[注意]
+GET http://{{domain}}/mgr-page/system/role/delete/{{_role_delete_id}}
+
+> {%
+     client.test("Role Delete", function(){
+        client.assert(response.status === 200, 'Response status is not 200');
+    })
+ %}
