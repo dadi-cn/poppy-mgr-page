@@ -49,9 +49,9 @@ class UtilHelper
      * @param string $url url address
      * @return false|int
      */
-    public static function isUrl(string $url)
+    public static function isUrl(string $url): bool
     {
-        return preg_match('/^http(s?):\/\/.*/', $url);
+        return (bool) preg_match('/^http(s?):\/\/.*/', $url);
     }
 
     /**
