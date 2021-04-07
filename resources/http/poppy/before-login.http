@@ -23,17 +23,3 @@ timestamp={{$timestamp}}&_py_sys_secret={{py_secret}}
         client.assert(response.body.status === 0)
     })
 %}
-
-### Auth Login
-POST http://{{domain}}/api_v1/system/auth/login
-Content-Type: application/x-www-form-urlencoded
-
-timestamp={{$timestamp}}&_py_sys_secret={{py_secret}}&passport={{passport}}&password={{password}}
-
-> {%
-    client.test("Login With User And Set User Token", function(){
-        client.assert(response.status === 200);
-        client.assert(response.body.status === 0);
-        client.global.set('token', response.body.data.token)
-    })
-%}

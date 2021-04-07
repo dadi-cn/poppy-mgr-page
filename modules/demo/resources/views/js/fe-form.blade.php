@@ -26,6 +26,10 @@
     {!! Form::tags('tags',['1', '2'], [0]) !!}
 </div>
 <div class="layui-form-item">
+    {!! Form::label('multi-select', 'Select 多选') !!}
+    {!! Form::multiSelect('multi-select',['1', '2'], [0]) !!}
+</div>
+<div class="layui-form-item">
     {!! Form::label('code', 'Code编辑器') !!}
     {!! Form::code('code', 'default code') !!}
 </div>

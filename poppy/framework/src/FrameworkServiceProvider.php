@@ -22,7 +22,7 @@ class FrameworkServiceProvider extends ServiceProvider
     {
         // 注册 api 文档配置
         $this->publishes([
-            framework_path('config/framework.php') => config_path('poppy.php'),
+            framework_path('config/poppy.php') => config_path('poppy.php'),
         ], 'poppy');
 
         // framework register

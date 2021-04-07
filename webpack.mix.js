@@ -37,40 +37,40 @@ mix
      * ---------------------------------------- */
     // develop
     .sass(
-        'poppy/mgr-page/resources/scss/style.scss',
+        'resources/assets/scss/mgr-page.scss',
         'public/assets/libs/boot/style.css'
     )
     .combine([
-            'poppy/mgr-page/resources/libs/poppy/util.js',
-            'poppy/mgr-page/resources/libs/poppy/cp.js',
-            'poppy/mgr-page/resources/libs/poppy/mgr-page/cp.js'
+            'resources/assets/libs/poppy/util.js',
+            'resources/assets/libs/poppy/cp.js',
+            'resources/assets/libs/poppy/mgr-page/cp.js'
         ],
         'public/assets/libs/boot/poppy.mgr.min.js'
     )
     .combine([
-            'poppy/mgr-page/resources/libs/simditor/module.js',
-            'poppy/mgr-page/resources/libs/simditor/hotkeys.js',
-            'poppy/mgr-page/resources/libs/simditor/uploader.js',
-            'poppy/mgr-page/resources/libs/simditor/simditor.js'
+            'resources/assets/libs/simditor/module.js',
+            'resources/assets/libs/simditor/hotkeys.js',
+            'resources/assets/libs/simditor/uploader.js',
+            'resources/assets/libs/simditor/simditor.js'
         ],
         'public/assets/libs/boot/simditor.min.js'
     )
     .combine([
-            'poppy/mgr-page/resources/libs/jquery/2.2.4/jquery.min.js',
-            'poppy/mgr-page/resources/libs/jquery/form/jquery.form.js',
-            'poppy/mgr-page/resources/libs/jquery/pjax/jquery.pjax.js',
-            'poppy/mgr-page/resources/libs/jquery/poshytip/jquery.poshytip.js',
-            'poppy/mgr-page/resources/libs/jquery/validation/jquery.validation.js',
-            'poppy/mgr-page/resources/libs/clipboard/clipboard.min.js'
+            'resources/assets/libs/jquery/2.2.4/jquery.min.js',
+            'resources/assets/libs/jquery/form/jquery.form.js',
+            'resources/assets/libs/jquery/pjax/jquery.pjax.js',
+            'resources/assets/libs/jquery/poshytip/jquery.poshytip.js',
+            'resources/assets/libs/jquery/validation/jquery.validation.js',
+            'resources/assets/libs/jquery/drag-arrange/drag-arrange.js',
+            'resources/assets/libs/jquery/tokenize2/jquery.tokenize2.js',
+            'resources/assets/libs/clipboard/clipboard.min.js'
         ],
         'public/assets/libs/boot/vendor.min.js'
     )
-    .copy('poppy/mgr-page/resources/libs/simditor/simditor.css', 'public/assets/libs/boot/simditor.css')
+    .copy('resources/assets/libs/simditor/simditor.css', 'public/assets/libs/boot/simditor.css')
     .copyDirectory('poppy/mgr-page/resources/font/', 'public/assets/font/')
     .copyDirectory('poppy/mgr-page/resources/images/', 'public/assets/images/')
-    .copyDirectory('poppy/mgr-page/resources/libs/jquery/backstretch/', 'public/assets/libs/jquery/backstretch')
-    .copyDirectory('poppy/mgr-page/resources/libs/jquery/tokenize2/', 'public/assets/libs/jquery/tokenize2')
-    .copyDirectory('poppy/mgr-page/resources/libs/drag-arrange/', 'public/assets/libs/drag-arrange')
+    .copyDirectory('poppy/mgr-page/resources/libs/jquery/', 'public/assets/libs/jquery/')
     .copyDirectory('poppy/mgr-page/resources/libs/easy-web/', 'public/assets/libs/easy-web')
     .copyDirectory('poppy/mgr-page/resources/libs/layui/', 'public/assets/libs/layui')
     .copyDirectory('poppy/mgr-page/resources/libs/vue/', 'public/assets/libs/vue')

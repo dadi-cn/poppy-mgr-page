@@ -1,9 +1,0 @@
-{
-	"name": "rds",
-	"slug": "rds",
-	"version": "1.0",
-	"description": "Redis Test",
-	"autoload": [
-		"src/classes/functions.php"
-	]
-}
