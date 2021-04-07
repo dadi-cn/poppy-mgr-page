@@ -30,7 +30,7 @@ class MixCommand extends Command
             'assets/libs/boot/style.css'        => 'poppy/mgr-page/resources/libs/boot/style.css',
             'assets/libs/boot/vendor.min.js'    => 'poppy/mgr-page/resources/libs/boot/vendor.min.js',
             'assets/libs/boot/poppy.mgr.min.js' => 'poppy/mgr-page/resources/libs/boot/poppy.mgr.min.js',
-            'assets/libs/boot/simditor.min.js'  => 'poppy/mgr-page/resources/libs/simditor/simditor.min.js',
+            'assets/libs/boot/simditor.min.js'  => 'poppy/mgr-page/resources/libs/boot/simditor.min.js',
         ];
 
         collect($files)->each(function ($aim, $ori) {

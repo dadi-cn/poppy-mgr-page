@@ -123,7 +123,7 @@ class FormBuilder extends CollectiveFormBuilder
      * @param array  $options 选项
      * @return string
      */
-    public function editor($name, $value = null, $options = []): string
+    public function editor(string $name, $value = null, $options = []): string
     {
         $pam = $options['pam'] ?? '';
 
@@ -137,7 +137,7 @@ class FormBuilder extends CollectiveFormBuilder
 
         $value = (string) $this->getValueAttribute($name, $value);
 
-        $data = /** @lang text */
+        return /** @lang text */
             <<<Editor
     <script src="/assets/libs/boot/simditor.min.js"></script>
     <link media="all" type="text/css" rel="stylesheet" href="/assets/libs/boot/simditor.css">
@@ -181,7 +181,6 @@ class FormBuilder extends CollectiveFormBuilder
         })
         </script>
 Editor;
-        return $data;
     }
 
     /**
@@ -192,7 +191,7 @@ Editor;
      * @param bool   $pjax       是否是 Pjax 请求
      * @return string
      */
-    public function order($name, $value = '', $route_name = '', $pjax = false): string
+    public function order(string $name, $value = '', $route_name = '', $pjax = false): string
     {
         $input = input();
         $value = $value ?: ($input['_order'] ?? '');
@@ -253,7 +252,7 @@ TIP;
      * @param array  $options 选项
      * @return string
      */
-    public function thumb($name, $value = null, $options = []): string
+    public function thumb(string $name, $value = null, $options = []): string
     {
         $id    = $this->getIdAttribute($name, $options) ?? 'thumb_' . Str::random(6);
         $value = (string) $this->getValueAttribute($name, $value);
@@ -267,12 +266,12 @@ TIP;
         $uploadUrl   = route('py-system:api_v1.upload.image');
         $timestamp   = Carbon::now()->timestamp;
         /** @var ApiSignContract $Sign */
-        $Sign     = app(ApiSignContract::class);
-        $sign     = $Sign->sign([
+        $Sign = app(ApiSignContract::class);
+        $sign = $Sign->sign([
             'token'     => $token,
             'timestamp' => $timestamp,
         ]);
-        $parseStr = /** @lang text */
+        return /** @lang text */
             <<<CONTENT
 <div class="layui-form-thumb {$display_str} {$sizeClass}" id="{$id}_wrap">
     <button id="{$id}" class="layui-btn form_thumb-upload" type="button">
@@ -317,8 +316,6 @@ layui.upload.render({
     });
 </script>
 CONTENT;
-
-        return $parseStr;
     }
 
     /**
@@ -328,7 +325,7 @@ CONTENT;
      * @param array  $options 选项
      * @return string
      */
-    public function upload($name, $value = null, $options = []): string
+    public function upload(string $name, $value = null, $options = []): string
     {
         $id    = $this->getIdAttribute($name, $options) ?? 'upload_' . Str::random(6);
         $value = (string) $this->getValueAttribute($name, $value);
@@ -378,7 +375,7 @@ CONTENT;
 
         $display_str = !$value ? 'class="hidden"' : '';
         $uploadUrl   = route('py-system:api_v1.upload.file');
-        $parseStr    = /** @lang text */
+        return /** @lang text */
             <<<CONTENT
 <div class="layui-form-upload">
     <button id="{$id}" class="layui-btn layui-btn-sm" type="button">上传</button>
@@ -427,8 +424,6 @@ layui.upload.render({
     });
 </script>
 CONTENT;
-
-        return $parseStr;
     }
 
     /**
@@ -438,7 +433,7 @@ CONTENT;
      * @param array  $options 选项
      * @return string
      */
-    public function multiThumb($name, $value = null, $options = []): string
+    public function multiThumb(string $name, $value = null, $options = []): string
     {
         $id       = $this->getIdAttribute($name, $options) ?? 'multi_thumb_' . Str::random(6);
         $number   = $options['number'] ?? 3;
@@ -731,7 +726,8 @@ MULTI;
         $range = isset($options['layui-range']) && $options['layui-range'] ? 'true' : 'false';
         $attr  = $this->html->attributes($options);
 
-        return <<<HTML
+        return /** @lang text */
+            <<<HTML
 <input type="text" name="{$name}" value="{$value}" {$attr}>
 <script>
     $(function(){
@@ -799,7 +795,8 @@ HTML;
         $value            = (string) $this->getValueAttribute($name, $value);
         $options['class'] = 'layui-input ' . ($options['class'] ?? '');
         $attr             = $this->html->attributes($options);
-        return <<<HTML
+        return /** @lang text */
+            <<<HTML
 <div class="layui-inline">
     <input type="text" id="input_{$options['id']}" name="{$name}" readonly value="{$value}" placeholder="请选择颜色" {$attr}>
 </div>
@@ -839,7 +836,7 @@ HTML;
             }
             $content .= "<li class=\"{$class}\"><a href=\"?_scope={$key}\">{$scope}</a></li>";
         }
-        return <<<HTML
+        return /** @lang text */ <<<HTML
 <div class="layui-tab">
     <ul class="layui-tab-title">
         {$content}
@@ -867,7 +864,8 @@ HTML;
         $placeholder = $options['placeholder'] ?? '';
         $script      = app('html')->script('assets/libs/jquery/tokenize2/jquery.tokenize2.js');
         $style       = app('html')->style('assets/libs/jquery/tokenize2/tokenize2.css');
-        return <<<HTML
+        return /** @lang text */
+            <<<HTML
 {$script}
 {$style}
 {$select}
@@ -882,6 +880,75 @@ $(function() {
         $('#{$id}').trigger('tokenize:search', "");
     });
 })
+</script>
+HTML;
+    }
+
+
+    /**
+     * 下拉复选框
+     * @param string $name
+     * @param array  $lists
+     * @param null   $value
+     * @param array  $options
+     * @return string
+     */
+    public function multiSelect(string $name, $lists = [], $value = null, $options = []): string
+    {
+        static $loaded;
+        $placeholder = $options['placeholder'] ?? '请选择';
+        $height      = $options['height'] ?? 200;
+        $width       = $options['width'] ?? '';
+        $width       = $width ? 'w' . $width : '';
+        $id          = 'select_' . Str::random(6);
+
+        if (is_string($value)) {
+            $value = explode(',', $value);
+        }
+
+        $data = collect($lists)->map(function ($item, $key) use ($value) {
+            $selected = false;
+            if ($value && in_array($key, $value, false)) {
+                $selected = true;
+            }
+            return [
+                'name'     => $item,
+                'value'    => $key,
+                'selected' => $selected,
+            ];
+        })->values()->toJson(JSON_UNESCAPED_UNICODE);
+
+        if (!$loaded) {
+            $script = '<script src="/assets/libs/layui/plugin/xm-select/xm-select.js"></script>';
+            $loaded = true;
+        }
+        else {
+            $script = '';
+        }
+
+        return /** @lang text */
+            <<<HTML
+{$script}
+<div id="{$id}" class="{$width}"></div>
+<script>
+	let selector_{$id} = xmSelect.render({
+		el   : '#{$id}',
+		
+		toolbar: {
+			show : true,
+			showIcon : true,
+			icon: 'el-icon-star-off'
+	    },
+		
+		name : '{$name}',
+		tips : '{$placeholder}',
+		height : '{$height}',
+		data : []
+	});
+
+	selector_{$id}.update({
+		data : {$data}
+	})
 </script>
 HTML;
     }

@@ -280,6 +280,23 @@
 }
 .tokenize-dropdown > .tokenize-dropdown-menu li:not(.active) a:hover, .tokenize-dropdown > .tokenize-dropdown-menu li:not(.active) a:focus {
 	background-color : transparent;
+}.layui-keywords-item {
+	position: relative;
+	margin-bottom: 10px
+}
+.layui-keywords-item .layui-icon-close {
+	font-size: 12px;
+	position: absolute;
+	top: -8px;
+	right: -8px;
+	width: 16px;
+	height: 16px;
+	line-height: 16px;
+	text-align: center;
+	color: #ffffff;
+	border-radius: 10px;
+	background: rgba(0, 0, 0, .3);
+	cursor: pointer
 }@charset "UTF-8";
 /* layout
  * ---------------------------------------- */
