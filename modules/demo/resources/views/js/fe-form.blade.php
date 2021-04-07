@@ -30,6 +30,10 @@
     {!! Form::multiSelect('multi-select',['1', '2'], [0]) !!}
 </div>
 <div class="layui-form-item">
+    {!! Form::label('keyword', '可以拖拽的关键词') !!}
+    {!! Form::keywords('keyword',['1', '2']) !!}
+</div>
+<div class="layui-form-item">
     {!! Form::label('code', 'Code编辑器') !!}
     {!! Form::code('code', 'default code') !!}
 </div>
