@@ -6,7 +6,6 @@ use DB;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Routing\Route;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Poppy\Core\Classes\Inspect\CommentParser;
 use Poppy\Core\Classes\PyCoreDef;
@@ -167,33 +166,38 @@ class InspectCommand extends Command
      */
     private function inspectSeo()
     {
-        $module = $this->option('module');
-        if (!$module) {
-            /** @var Collection $modules */
-            $modules = app('poppy')->enabled();
-            $modules = $modules->pluck('slug');
-        }
-        else {
-            $modules = collect($module);
-        }
-        $seoList = [];
-        $modules->each(function ($module) use (&$seoList) {
-            collect(\Route::getRoutes())->map(function (Route $route) use ($module, &$seoList) {
-                $name = $route->getName();
-                if (Str::startsWith($name, $module)) {
-                    $seoKey   = str_replace([':', '.', '::'], ['::', '_', '::seo.'], $name);
-                    $transKey = trans($seoKey);
-                    if ($transKey === $seoKey || $transKey === '') {
-                        $seoList[] = [
-                            $module,
-                            '\'' . str_replace([$module . ':', '.'], ['', '_'], $name) . '\' => \'\', ',
-                        ];
-                    }
-                }
-            });
+        $seoList         = [];
+        $unUniformedKeys = [];
+        collect(\Route::getRoutes())->map(function (Route $route) use (&$seoList, &$unUniformedKeys) {
+            $name = $route->getName();
+            if (!$name) {
+                return;
+            }
+            if (!preg_match('/(.+?):(.+?)\.(.+?)\.(.+?)/', $name, $match)) {
+                $unUniformedKeys[] = [
+                    $name,
+                ];
+                return;
+            }
+
+            $module   = Str::before($name, ':');
+            $seoKey   = str_replace([':', '.', '::'], ['::', '_', '::seo.'], $name);
+            $transKey = trans($seoKey);
+            if ($transKey === $seoKey || $transKey === '') {
+                $seoList[] = [
+                    $module,
+                    '\'' . str_replace([$module . ':', '.'], ['', '_'], $name) . '\' => \'\', ',
+                ];
+            }
         });
 
-        $this->warn('[Inspect:' . ucfirst($module) . ' Seo]');
+        if (count($unUniformedKeys)) {
+            $this->warn('[Inspect: Uniformed Route Url]');
+            $this->table(['Route Name'], $unUniformedKeys);
+        }
+
+
+        $this->warn('[Inspect: Seo Names]');
         if ($seoList) {
             $this->table(['Module', 'Key'], $seoList);
         }
