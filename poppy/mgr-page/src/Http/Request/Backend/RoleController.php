@@ -53,8 +53,8 @@ class RoleController extends BackendController
     /**
      * 编辑 / 创建
      * @param null $id 角色id
-     * @return Content
-     * @throws ApplicationException
+     * @return mixed
+     * @throws ApplicationException|Throwable
      */
     public function establish($id = null)
     {
