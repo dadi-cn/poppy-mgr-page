@@ -102,10 +102,6 @@ class ApiController extends DevelopController
 
                     $this->token = $token;
                     $item        = $this->postWithSign(route('py-system:pam.auth.access'));
-
-                    if ($this->curl->httpStatusCode === 401) {
-                        Session::remove($key);
-                    }
                     if ($this->curl->httpStatusCode === 200) {
                         if ($item->status === 0) {
                             $pam = json_decode(json_encode($item->data), true);
@@ -198,13 +194,10 @@ class ApiController extends DevelopController
             if (!$token) {
                 return Resp::error($field . '不能为空');
             }
-            Session::remove($sessionKey);
             Session::put($sessionKey, $token);
-
             return Resp::success('设置 ' . $field . ' 成功', '_top_reload|1');
         }
         $value = Session::get($sessionKey);
-
         return view('py-mgr-page::develop.api.field', compact('type', 'value', 'field'));
     }
 

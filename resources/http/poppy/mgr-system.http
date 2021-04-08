@@ -1,43 +1,71 @@
 // @no-redirect  Login
-POST http://{{domain}}/mgr-page/login
+POST {{domain}}/mgr-page/login
 Content-Type: application/x-www-form-urlencoded
 
-username={{username}}&password={{password}}
+username={{be-username}}&password={{be-password}}
 
 > {%
     client.test("Mgr-Page Login", function(){
         client.assert(response.status === 302, 'Response status is success');
-        client.log(response.headers.valuesOf('Set-Cookie'))
     })
 %}
 
 ###
 
 // Pam Index
-GET http://{{domain}}/mgr-page/system/pam?_query=1
+POST {{domain}}/mgr-page/system/pam?_query=1
 
 > {%
      client.test("Pam Index", function(){
         client.assert(response.status === 200, 'Response status is not 200');
-        client.log(response.body);
     })
  %}
 
 ###
 
-// Pam Establish View
-GET http://{{domain}}/mgr-page/system/pam/establish?type={{_type}}
+POST {{domain}}/api_v1/system/core/mock
+Content-Type: application/json
+
+{
+    "timestamp": {{$timestamp}},
+    "_py_sys_secret": {{py_secret}},
+    "mock" : {
+        "passport" : "phoneNumber",
+        "password" : "lexify|????????"
+    }
+}
+> {%
+     client.test("Pam Establish Faker Data Fetch", function(){
+        client.assert(response.status === 200, 'Response status is not 200');
+        client.global.set('_passport', response.body.data.passport)
+        client.global.set('_password', response.body.data.password)
+    })
+%}
+
+### PamEstablish
+POST {{domain}}/mgr-page/system/pam/establish
+Content-Type: application/x-www-form-urlencoded
+X-Requested-With:  XMLHttpRequest
+
+username={{_passport}}&password={{_password}}&role_id[]={{be-role_id}}
+
+> {%
+     client.test("Pam Establish", function(){
+        client.assert(response.status === 200, 'Response status is not 200');
+    })
+%}
+
+### Pam Establish View
+GET {{domain}}/mgr-page/system/pam/establish?type=user
 
 > {%
      client.test("Pam Establish View", function(){
         client.assert(response.status === 200, 'Response status is not 200');
     })
- %}
+%}
 
-###
-
-// Pam Establish View
-GET http://{{domain}}/mgr-page/system/pam/establish/{{_id}}
+### Pam Establish View
+GET {{domain}}/mgr-page/system/pam/establish/{{_id}}
 
 > {%
      client.test("Pam Edit View", function(){
@@ -62,7 +90,7 @@ username={{_username}}&password={{_password}}&role_id[]={{_role_id}}&type={{_typ
 ###
 
 // Pam Edit&more_role
-POST http://{{domain}}/mgr-page/system/handle/form
+POST {{domain}}/mgr-page/system/handle/form
 Content-Type: application/x-www-form-urlencoded
 
 username={{_username}}&password={{_password}}&role_id[]={{_role_id}}&role_id[]=4&type={{_type}}&_form_={{_form_}}&id={{_id}}
