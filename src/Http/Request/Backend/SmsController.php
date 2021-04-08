@@ -12,7 +12,6 @@ use Poppy\Framework\Classes\Resp;
 use Poppy\MgrPage\Http\Request\Backend\BackendController;
 use Poppy\Sms\Action\Sms;
 use Poppy\Sms\Http\Forms\Settings\FormSettingSms;
-use Poppy\System\Classes\Layout\Content;
 
 /**
  * 短信控制器
@@ -92,11 +91,10 @@ class SmsController extends BackendController
 
     /**
      * 短信配置
-     * @return Content
      */
-    public function store(): Content
+    public function store()
     {
-        return (new Content())->body(new FormSettingSms());
+        return (new FormSettingSms())->render();
     }
 
     /**
