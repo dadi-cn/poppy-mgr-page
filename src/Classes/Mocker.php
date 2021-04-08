@@ -17,19 +17,28 @@ class Mocker
      * {
      *     "name" : "name"
      * }
-     * @param string $json
+     * @param mixed  $json
      * @param string $locale
      * @return array
      */
-    public static function generate(string $json, $locale = Factory::DEFAULT_LOCALE): array
+    public static function generate($json, $locale = Factory::DEFAULT_LOCALE): array
     {
         self::$factory = Factory::create($locale);
 
-        if (!UtilHelper::isJson($json)) {
+        if (is_string($json)) {
+            if (!UtilHelper::isJson($json)) {
+                return [];
+            }
+            $define = json_decode($json, true);
+        }
+        else if (is_array($json)) {
+            $define = $json;
+        }
+        else {
             return [];
         }
-        $define = json_decode($json, true);
-        $gen    = [];
+
+        $gen = [];
         foreach ($define as $dk => $def) {
             $gen[$dk] = self::parseValue($def);
         }
