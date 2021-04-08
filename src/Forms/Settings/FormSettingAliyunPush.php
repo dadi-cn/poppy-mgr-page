@@ -9,13 +9,12 @@ use Poppy\System\Http\Forms\Settings\FormSettingBase;
 class FormSettingAliyunPush extends FormSettingBase
 {
 
-    public $title = '推送配置';
+    protected $title = '推送配置';
 
     protected $group = 'py-aliyun-push::push';
 
     /**
      * Build a form here.
-     * @throws FormException
      */
     public function form()
     {
