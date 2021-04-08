@@ -34,7 +34,7 @@ class MailController extends BackendController
      */
     public function store()
     {
-        return (new Content())->body(new FormMailStore());
+        return (new FormMailStore())->render();
     }
 
     /**
@@ -42,6 +42,6 @@ class MailController extends BackendController
      */
     public function test()
     {
-        return (new Content())->body(new FormMailTest());
+        return (new FormMailTest())->render();
     }
 }

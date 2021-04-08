@@ -60,7 +60,7 @@ class RoleController extends BackendController
     {
         $form = new FormRoleEstablish();
         $form->setId($id);
-        return (new Content())->body($form);
+        return $form->render();
     }
 
     /**
