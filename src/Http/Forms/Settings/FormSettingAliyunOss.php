@@ -8,12 +8,9 @@ use Poppy\System\Http\Forms\Settings\FormSettingBase;
 class FormSettingAliyunOss extends FormSettingBase
 {
 
-    public $title = '上传配置';
+    protected $title = '上传配置';
 
-    protected $width = [
-        'label' => 3,
-        'field' => 9,
-    ];
+    protected $withContent = true;
 
     protected $group = 'py-aliyun-oss::oss';
 
