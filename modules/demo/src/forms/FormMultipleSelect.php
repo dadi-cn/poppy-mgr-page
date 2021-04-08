@@ -10,7 +10,7 @@ class FormMultipleSelect extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'MultipleSelect';
+    protected $title = 'MultipleSelect';
 
 
     /**

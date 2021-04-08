@@ -12,7 +12,7 @@ class FormKeyValue extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'keyValue';
+    protected $title = 'keyValue';
 
 
     /**

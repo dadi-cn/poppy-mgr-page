@@ -12,7 +12,7 @@ class FormColor extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = '颜色(仅仅支持一种格式)';
+    protected $title = '颜色(仅仅支持一种格式)';
 
     /**
      * Build a form here.

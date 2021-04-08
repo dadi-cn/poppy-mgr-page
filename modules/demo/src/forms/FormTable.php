@@ -10,7 +10,7 @@ class FormTable extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'Table';
+    protected $title = 'Table';
 
 
     /**

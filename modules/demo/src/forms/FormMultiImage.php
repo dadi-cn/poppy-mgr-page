@@ -8,7 +8,7 @@ use Poppy\System\Models\PamAccount;
 class FormMultiImage extends FormBaseWidget
 {
 
-    public $title = 'MultiImage';
+    protected $title = 'MultiImage';
 
 
     public function data(): array

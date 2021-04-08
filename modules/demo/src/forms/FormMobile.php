@@ -12,7 +12,7 @@ class FormMobile extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'Mobile';
+    protected $title = 'Mobile';
 
 
     /**

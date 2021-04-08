@@ -49,51 +49,53 @@ class PamController extends BackendController
     /**
      * Show the form for creating a new resource.
      * @param null|int $id ID
-     * @return Content
+     * @throws Throwable
      */
     public function establish($id = null)
     {
         $form = new FormPamEstablish();
-        $form->setType(input('type'))->setId($id);
-        return (new Content())->body($form);
+        if (!$id) {
+            $form->setType((string) input('type'));
+        }
+        else {
+            $form->setId($id);
+        }
+        return $form->render();
     }
 
     /**
      * 设置密码
      * @param int $id 用户ID
-     * @return Content
-     * @throws ApplicationException
+     * @throws Throwable
      */
-    public function password($id)
+    public function password(int $id)
     {
         $form = new FormPamPassword();
         $form->setId($id);
-        return (new Content())->body($form);
+        return $form->render();
     }
 
     /**
      * 禁用用户
      * @param int $id 用户ID
-     * @return Content
      */
     public function disable($id)
     {
         $form = new FormPamDisable();
         $form->setId($id);
-        return (new Content())->body($form);
+        return $form->render();
     }
 
     /**
      * 启用用户
      * @param int $id 用户ID
      * @return Content
-     * @throws ApplicationException
      */
     public function enable($id)
     {
         $form = new FormPamEnable();
         $form->setId($id);
-        return (new Content())->body($form);
+        return $form->render();
     }
 
     /**

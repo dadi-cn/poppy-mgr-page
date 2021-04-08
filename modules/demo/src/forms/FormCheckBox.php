@@ -12,7 +12,7 @@ class FormCheckBox extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'Checkbox (多选框)';
+    protected $title = 'Checkbox (多选框)';
 
 
     /**

@@ -12,7 +12,7 @@ class FormTime extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'Time';
+    protected $title = 'Time';
 
 
     /**

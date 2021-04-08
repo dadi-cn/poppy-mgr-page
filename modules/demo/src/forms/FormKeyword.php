@@ -10,7 +10,7 @@ class FormKeyword extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'keyword(关键词)';
+    protected $title = 'keyword(关键词)';
 
 
     /**

@@ -13,7 +13,7 @@ class FormDate extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = '日期输入框';
+    protected $title = '日期输入框';
 
     public function data():array
     {

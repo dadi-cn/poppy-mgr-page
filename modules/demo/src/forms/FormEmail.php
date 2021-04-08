@@ -10,7 +10,7 @@ class FormEmail extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = '邮件配置';
+    protected $title = '邮件配置';
 
 
     /**

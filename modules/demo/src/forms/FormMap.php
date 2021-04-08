@@ -10,7 +10,7 @@ class FormMap extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'Map';
+    protected $title = 'Map';
 
 
     /**

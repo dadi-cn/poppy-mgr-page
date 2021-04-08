@@ -10,7 +10,7 @@ class FormMultipleFile extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'MultipleFile';
+    protected $title = 'MultipleFile';
 
 
     /**

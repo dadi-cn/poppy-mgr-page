@@ -13,7 +13,7 @@ class FormTags extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'Tags (标签)';
+    protected $title = 'Tags (标签)';
 
 
     public function data(): array

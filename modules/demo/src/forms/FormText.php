@@ -11,7 +11,7 @@ class FormText extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'Text(文本)';
+    protected $title = 'Text(文本)';
 
     public $ajax = true;
 

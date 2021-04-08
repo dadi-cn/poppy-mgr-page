@@ -13,7 +13,7 @@ class FormImage extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'Image';
+    protected $title = 'Image';
 
     public function data(): array
     {

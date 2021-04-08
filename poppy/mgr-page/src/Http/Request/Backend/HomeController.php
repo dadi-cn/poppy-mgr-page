@@ -80,7 +80,7 @@ class HomeController extends BackendController
     {
         $form = new FormPassword();
         $form->setPam($this->pam());
-        return (new Content())->body($form);
+        return $form->render();
     }
 
     public function clearCache()

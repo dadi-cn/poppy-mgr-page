@@ -10,7 +10,7 @@ class FormHasMany extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'HasMany 无法验证';
+    protected $title = 'HasMany 无法验证';
 
 
     /**

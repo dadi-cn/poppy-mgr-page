@@ -10,7 +10,7 @@ class FormButton extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'button框';
+    protected $title = 'button框';
 
 
     /**

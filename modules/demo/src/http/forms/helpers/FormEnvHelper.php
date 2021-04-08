@@ -14,7 +14,7 @@ class FormEnvHelper extends FormWidget
      * 表单标题
      * @var string
      */
-    public $title = 'EnvHelper';
+    protected $title = 'EnvHelper';
 
 
     /**

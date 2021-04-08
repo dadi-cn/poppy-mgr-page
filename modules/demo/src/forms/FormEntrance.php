@@ -13,7 +13,7 @@ class FormEntrance extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = '表单项目';
+    protected $title = '表单项目';
 
     /**
      * Handle the form request.

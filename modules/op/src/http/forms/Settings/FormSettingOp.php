@@ -8,7 +8,7 @@ use Poppy\System\Http\Forms\Settings\FormSettingBase;
 
 class FormSettingOp extends FormSettingBase
 {
-	public $title = '运维配置';
+    protected $title = '运维配置';
 
 	protected $group = 'op::maintain';
 

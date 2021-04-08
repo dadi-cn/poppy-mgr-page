@@ -12,7 +12,7 @@ class FormNullable extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'NullAble';
+    protected $title = 'NullAble';
 
 
     /**

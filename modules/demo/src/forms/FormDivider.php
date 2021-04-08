@@ -10,7 +10,7 @@ class FormDivider extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'Divider';
+    protected $title = 'Divider';
 
 
     /**

@@ -10,7 +10,7 @@ class FormSwitchField extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'SwitchField';
+    protected $title = 'SwitchField';
 
 
     /**

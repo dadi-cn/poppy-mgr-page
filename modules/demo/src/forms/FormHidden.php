@@ -10,7 +10,7 @@ class FormHidden extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'Hidden';
+    protected $title = 'Hidden';
 
 
     /**

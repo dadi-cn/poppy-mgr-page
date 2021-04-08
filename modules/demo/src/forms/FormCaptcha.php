@@ -15,7 +15,7 @@ class FormCaptcha extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = '验证码框';
+    protected $title = '验证码框';
 
 
     /**

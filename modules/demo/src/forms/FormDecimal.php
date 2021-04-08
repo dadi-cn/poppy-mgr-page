@@ -12,7 +12,7 @@ class FormDecimal extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = '数字输入';
+    protected $title = '数字输入';
 
 
     /**

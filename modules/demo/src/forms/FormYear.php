@@ -11,7 +11,7 @@ class FormYear extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'Year';
+    protected $title = 'Year';
 
 
     /**

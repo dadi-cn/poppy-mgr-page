@@ -10,7 +10,7 @@ class FormIp extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'Ip输入';
+    protected $title = 'Ip输入';
 
 
     /**

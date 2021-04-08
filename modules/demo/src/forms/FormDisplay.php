@@ -10,7 +10,7 @@ class FormDisplay extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = '显示框';
+    protected $title = '显示框';
 
 
     public function data(): array

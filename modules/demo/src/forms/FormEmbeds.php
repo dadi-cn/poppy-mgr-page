@@ -10,7 +10,7 @@ class FormEmbeds extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'Embeds';
+    protected $title = 'Embeds';
 
 
     /**

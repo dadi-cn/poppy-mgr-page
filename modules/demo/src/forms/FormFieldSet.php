@@ -10,7 +10,7 @@ class FormFieldSet extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = '表单项组合';
+    protected $title = '表单项组合';
 
 
     /**

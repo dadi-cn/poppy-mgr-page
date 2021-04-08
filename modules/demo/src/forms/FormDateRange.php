@@ -11,7 +11,7 @@ class FormDateRange extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = '日期输入框';
+    protected $title = '日期输入框';
 
     /**
      * Build a form here.

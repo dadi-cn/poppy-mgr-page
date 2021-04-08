@@ -11,7 +11,7 @@ class FormCurrency extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = '货币输入';
+    protected $title = '货币输入';
 
 
     /**

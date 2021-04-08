@@ -10,6 +10,7 @@ use Poppy\AliyunOss\Http\Forms\Settings\FormSettingAliyunOss;
 use Poppy\Framework\Classes\Resp;
 use Poppy\MgrPage\Http\Request\Backend\BackendController;
 use Poppy\System\Classes\Layout\Content;
+use Throwable;
 
 /**
  * Aliyun 上传配置
@@ -29,9 +30,10 @@ class UploadController extends BackendController
     /**
      * 保存邮件配置
      * @return array|JsonResponse|RedirectResponse|Response|Redirector|Resp|Content|\Response
+     * @throws Throwable
      */
     public function store()
     {
-        return (new Content())->body(new FormSettingAliyunOss());
+        return (new FormSettingAliyunOss())->render();
     }
 }

@@ -13,7 +13,7 @@ class FormTreeHelper extends FormWidget
      * 表单标题
      * @var string
      */
-    public $title = '树状结构';
+    protected $title = '树状结构';
 
 
     /**

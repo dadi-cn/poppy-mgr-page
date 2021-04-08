@@ -12,7 +12,7 @@ class FormMonth extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'Month';
+    protected $title = 'Month';
 
 
     /**

@@ -12,7 +12,7 @@ class FormEditor extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'Editor';
+    protected $title = 'Editor';
 
 
     /**

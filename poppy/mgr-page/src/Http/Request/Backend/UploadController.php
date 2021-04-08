@@ -1,5 +1,6 @@
 <?php
- namespace Poppy\MgrPage\Http\Request\Backend;
+
+namespace Poppy\MgrPage\Http\Request\Backend;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -32,6 +33,6 @@ class UploadController extends BackendController
      */
     public function store()
     {
-        return (new Content())->body(new FormSettingUpload());
+        return (new FormSettingUpload())->render();
     }
 }

@@ -10,7 +10,7 @@ class FormLink extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = '各种可以激活的链接地址';
+    protected $title = '各种可以激活的链接地址';
 
 
     /**

@@ -9,7 +9,7 @@ class FormId extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'Id';
+    protected $title = 'Id';
 
 
     public function data():array

@@ -12,7 +12,7 @@ class FormTextArea extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'TextArea';
+    protected $title = 'TextArea';
 
 
     /**

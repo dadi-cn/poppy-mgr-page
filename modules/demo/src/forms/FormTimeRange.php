@@ -12,7 +12,7 @@ class FormTimeRange extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = '时间范围选择';
+    protected $title = '时间范围选择';
 
 
     /**

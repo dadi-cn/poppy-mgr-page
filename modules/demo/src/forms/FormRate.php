@@ -12,7 +12,7 @@ class FormRate extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'Rate(比例)';
+    protected $title = 'Rate(比例)';
 
 
     /**

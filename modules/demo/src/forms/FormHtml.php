@@ -10,7 +10,7 @@ class FormHtml extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'HTML';
+    protected $title = 'HTML';
 
 
     /**

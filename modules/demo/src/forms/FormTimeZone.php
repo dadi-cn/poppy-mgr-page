@@ -12,7 +12,7 @@ class FormTimeZone extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = '时区选择';
+    protected $title = '时区选择';
 
 
     /**

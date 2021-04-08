@@ -12,7 +12,7 @@ class FormCode extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'code';
+    protected $title = 'code';
 
     /**
      * Build a form here.

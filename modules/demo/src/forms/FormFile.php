@@ -12,7 +12,7 @@ class FormFile extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'File';
+    protected $title = 'File';
 
 
     /**

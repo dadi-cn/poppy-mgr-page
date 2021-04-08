@@ -11,7 +11,7 @@ class FormRadio extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = '单选框(Radio)';
+    protected $title = '单选框(Radio)';
 
     /**
      * Build a form here.

@@ -10,7 +10,7 @@ class FormSlider extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'Slider(滑动选择)';
+    protected $title = 'Slider(滑动选择)';
 
 
     /**

@@ -12,7 +12,7 @@ class FormListBox extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'ListBox';
+    protected $title = 'ListBox';
 
 
     /**

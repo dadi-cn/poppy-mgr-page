@@ -11,7 +11,7 @@ class FormIcon extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = '图标选择(暂时不处理)';
+    protected $title = '图标选择(暂时不处理)';
 
 
     /**

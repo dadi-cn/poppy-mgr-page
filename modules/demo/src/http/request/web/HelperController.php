@@ -18,21 +18,20 @@ class HelperController extends WebController
 
     /**
      * 主页
-     * @return Content
      */
-    public function env(): Content
+    public function env()
     {
-        return (new Content())->body(new FormEnvHelper());
+        return (new FormEnvHelper())->render();
     }
 
-    public function image(): Content
+    public function image()
     {
-        return (new Content())->body(new FormImageHelper());
+        return (new FormImageHelper())->render();
     }
 
-    public function tree(): Content
+    public function tree()
     {
-        return (new Content())->body(new FormTreeHelper());
+        return (new FormTreeHelper())->render();
     }
 
 

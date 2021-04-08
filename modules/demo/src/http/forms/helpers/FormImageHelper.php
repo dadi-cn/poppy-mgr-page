@@ -13,7 +13,7 @@ class FormImageHelper extends FormWidget
      * 表单标题
      * @var string
      */
-    public $title = 'ImageHelper';
+    protected $title = 'ImageHelper';
 
 
     /**

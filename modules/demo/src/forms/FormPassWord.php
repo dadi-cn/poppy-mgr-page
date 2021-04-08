@@ -12,7 +12,7 @@ class FormPassWord extends FormBaseWidget
      * 表单标题
      * @var string
      */
-    public $title = 'PassWord';
+    protected $title = 'PassWord';
 
 
     /**
