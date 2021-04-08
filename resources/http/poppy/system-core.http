@@ -1,5 +1,5 @@
 ###         name1
-POST http://{{domain}}/api_v1/system/core/info
+POST {{domain}}/api_v1/system/core/info
 Content-Type: application/x-www-form-urlencoded
 
 timestamp={{$timestamp}}&_py_sys_secret={{py_secret}}
@@ -12,7 +12,7 @@ timestamp={{$timestamp}}&_py_sys_secret={{py_secret}}
 %}
 
 ###
-POST http://{{domain}}/api_v1/system/core/translate
+POST {{domain}}/api_v1/system/core/translate
 Content-Type: application/x-www-form-urlencoded
 
 timestamp={{$timestamp}}&_py_sys_secret={{py_secret}}
