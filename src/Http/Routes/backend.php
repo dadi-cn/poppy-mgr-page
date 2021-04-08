@@ -49,9 +49,4 @@ Route::group([
 
     $router->any('upload/store', 'UploadController@store')
         ->name('py-mgr-page:backend.upload.store');
-
-    /* 操作
-     * ---------------------------------------- */
-    $router->any('handle/form', 'HandleController@form')
-        ->name('py-mgr-page:backend.handle.form');
 });
