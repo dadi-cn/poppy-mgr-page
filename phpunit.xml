@@ -24,6 +24,9 @@
             <directory>./poppy/aliyun-push/tests/</directory>
             <directory>./poppy/aliyun-oss/tests/</directory>
         </testsuite>
+        <testsuite name="config">
+            <directory>./poppy/system/tests/Configuration</directory>
+        </testsuite>
     </testsuites>
     <filter>
         <whitelist>
