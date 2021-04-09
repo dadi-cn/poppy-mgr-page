@@ -2,6 +2,7 @@
 
 namespace Demo\Forms;
 
+use Poppy\Framework\Exceptions\FakerException;
 use Poppy\Framework\Validation\Rule;
 use Poppy\System\Models\PamAccount;
 
@@ -15,14 +16,18 @@ class FormImage extends FormBaseWidget
      */
     protected $title = 'Image';
 
+    /**
+     * @throws FakerException
+     */
     public function data(): array
     {
+        $faker = py_faker();
         return [
-            'image_rec'        => 'https://fakeimg.pl/640x480/282828/eae0d0/',
-            'image_rec_r'      => 'https://fakeimg.pl/480x640/282828/eae0d0/',
-            'image_square'     => 'https://fakeimg.pl/480/282828/eae0d0/',
-            'image_max_width'  => 'https://fakeimg.pl/2222x460/282828/eae0d0/',
-            'image_max_height' => 'https://fakeimg.pl/460x2222/282828/eae0d0/',
+            'image_rec'        => $faker->imageUrl(),
+            'image_rec_r'      => $faker->imageUrl(480, 640),
+            'image_square'     => $faker->imageUrl(480),
+            'image_max_width'  => $faker->imageUrl(2222),
+            'image_max_height' => $faker->imageUrl(480, 2222),
         ];
     }
 

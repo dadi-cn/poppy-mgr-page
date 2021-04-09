@@ -23,10 +23,7 @@ class FormImageHelper extends FormWidget
     {
         $file = poppy_path('poppy.framework', 'tests/files/demo.jpeg');
         $this->text('typeFromMime', 'TypeFromMime')->default(ImgHelper::typeFromMime($file));
-        // $this->text('imageCreateFromBmp', 'ImageCreateFromBmp')->default(ImgHelper::imageCreateFromBmp($file));
-        // dd(ImgHelper::buildStr($file));
         $this->image('build-str', 'ImgBuildStr')->default(route_url('demo:web.helper.img_str'));
         $this->image('build-bmp', 'ImgBuildBmp')->default(route_url('demo:web.helper.img_bmp'));
-
     }
 }
