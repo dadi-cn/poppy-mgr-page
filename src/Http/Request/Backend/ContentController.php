@@ -113,9 +113,6 @@ class ContentController extends BackendController
      */
     private function action(): Area
     {
-        /** @var PamAccount $pam */
-        $pam = $this->pam();
-
-        return (new Area())->setPam($pam);
+        return (new Area())->setPam($this->pam);
     }
 }
