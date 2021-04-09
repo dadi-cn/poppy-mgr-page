@@ -5179,7 +5179,7 @@
 }
 
 .hide {
-  display: none !important;
+  display: none;
 }
 
 .show {
@@ -5195,7 +5195,7 @@
 }
 
 .inline-block {
-  display: inline-block !important;
+  display: inline-block;
 }
 
 /* border [(Mark Zhao) 2014/11/21]
@@ -13979,12 +13979,13 @@ readers do not read off random characters that represent icons */
   font-size: 28px;
 }
 .layui-form-thumb.form_thumb-normal .form_thumb-ctr {
-  width: 85px;
-  height: 85px;
+  width: 86px;
+  height: 86px;
 }
 .layui-form-thumb.form_thumb-normal .form_thumb-ctr img {
-  max-width: 84px;
-  max-height: 84px;
+  max-width: 83px;
+  max-height: 83px;
+  border-radius: 3px;
 }
 .layui-form-thumb .form_thumb-upload {
   z-index: 1;
