@@ -3,24 +3,22 @@
 namespace Poppy\MgrPage\Http\Request\Backend;
 
 use Auth;
-use Exception;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\View\View;
 use Poppy\Core\Classes\Traits\CoreTrait;
 use Poppy\Core\Exceptions\PermissionException;
 use Poppy\Framework\Classes\Resp;
 use Poppy\Framework\Classes\Traits\PoppyTrait;
+use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\Framework\Helper\EnvHelper;
 use Poppy\Framework\Helper\StrHelper;
 use Poppy\System\Action\Pam;
-use Poppy\System\Classes\Layout\Content;
 use Poppy\System\Http\Forms\Backend\FormPassword;
+use Poppy\System\Http\Forms\Settings\FormSettingBase;
 use Poppy\System\Models\PamAccount;
 use Poppy\System\Models\PamRole;
 use Throwable;
@@ -79,7 +77,7 @@ class HomeController extends BackendController
     public function password()
     {
         $form = new FormPassword();
-        $form->setPam($this->pam());
+        $form->setPam($this->pam);
         return $form->render();
     }
 
@@ -115,15 +113,19 @@ class HomeController extends BackendController
      * Setting
      * @param string $path 地址
      * @param int    $index
-     * @return mixed
      */
     public function setting($path = 'poppy.system', $index = 0)
     {
         try {
             $index = (int) $index;
             $hooks = sys_hook('poppy.system.settings');
-            $forms = collect($hooks[$path]['forms'])->map(function ($form) {
-                return app($form);
+            $forms = collect($hooks[$path]['forms'])->map(function ($form_class) {
+                $form = app($form_class);
+                if (!($form instanceof FormSettingBase)) {
+                    throw new ApplicationException('设置表单需要继承 `FormSettingBase` Class');
+                }
+                $form->setPam($this->pam);
+                return $form;
             });
             return view('py-mgr-page::backend.tpl.settings', [
                 'hooks' => $hooks,

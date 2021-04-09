@@ -83,6 +83,6 @@ class PlaceController extends BackendController
      */
     private function action(): Place
     {
-        return (new Place())->setPam($this->pam());
+        return (new Place())->setPam($this->pam);
     }
 }

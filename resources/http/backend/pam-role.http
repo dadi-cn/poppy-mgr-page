@@ -6,7 +6,10 @@ Content-Type: application/json
     "_py_sys_secret": {{py_secret}},
     "mock" : {
         "title" : "lexify|Role-????",
-        "titleModify" : "lexify|Role-??????"
+        "titleModify" : "lexify|Role-??????",
+        "number" : "randomNumber",
+        "realname" : "name",
+        "chid" : "idNumber"
     }
 }
 > {%

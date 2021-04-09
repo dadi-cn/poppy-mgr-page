@@ -113,6 +113,6 @@ class RoleController extends BackendController
      */
     private function action(): Role
     {
-        return (new Role())->setPam($this->pam());
+        return (new Role())->setPam($this->pam);
     }
 }
