@@ -116,6 +116,6 @@ class ContentController extends BackendController
      */
     private function action(): Ad
     {
-        return (new Ad())->setPam($this->pam());
+        return (new Ad())->setPam($this->pam);
     }
 }
