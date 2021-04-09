@@ -24,13 +24,17 @@
             <directory>./poppy/aliyun-push/tests/</directory>
             <directory>./poppy/aliyun-oss/tests/</directory>
         </testsuite>
+        <testsuite name="poppy-core">
+            <directory>./poppy/core/tests/</directory>
+        </testsuite>
         <testsuite name="config">
             <directory>./poppy/system/tests/Configuration</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist>
-            <directory suffix=".php">poppy/framework/src</directory>
+            <directory suffix=".php">./poppy</directory>
+            <directory suffix=".php">./module</directory>
         </whitelist>
     </filter>
     <!-- 2020-10-13 : 隐藏单元覆盖率(加速测试)
@@ -39,6 +43,10 @@
             highLowerBound="70"/>
     </logging>
     -->
+    <logging>
+        <log type="coverage-html" target="./public/docs/coverage" lowUpperBound="35"
+            highLowerBound="70"/>
+    </logging>
     <php>
         <env name="APP_ENV" value="testing"/>
         <!--		<env name="CACHE_DRIVER" value="array"/>-->
