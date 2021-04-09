@@ -7,11 +7,11 @@
 	border-color: #5fb878;
 }
 
-.alert-danger{
+.alert-danger {
 	border-color: #ff5722;
 }
 
-.alert-warning{
+.alert-warning {
 	border-color: #ffb800;
 }
 
@@ -65,11 +65,12 @@
 			font-size: 28px;
 		}
 		.form_thumb-ctr {
-			width: 85px;
-			height: 85px;
+			width: 86px;
+			height: 86px;
 			img {
-				max-width: 84px;
-				max-height: 84px;
+				max-width: 83px;
+				max-height: 83px;
+				border-radius: 3px;
 			}
 		}
 	}

@@ -2,8 +2,8 @@
 
 namespace Demo\Http\Request\Web;
 
+use Poppy\Framework\Classes\Resp;
 use Poppy\Framework\Exceptions\ApplicationException;
-use Poppy\System\Classes\Layout\Content;
 use Poppy\System\Http\Request\Web\WebController;
 
 /**
@@ -11,29 +11,32 @@ use Poppy\System\Http\Request\Web\WebController;
  */
 class FormController extends WebController
 {
-    /**
-     * 主页
-     * @param      $type
-     * @return Content
-     * @throws ApplicationException
-     */
+    private $form;
+
     public function index($type)
     {
-        $Form = $this->factory($type);
-        return (new Content())->title('Form ' . $type)->body($Form);
+        try {
+            $this->factory($type);
+        } catch (ApplicationException $e) {
+            return Resp::error($e);
+        }
+        return $this->form->render();
     }
 
 
+    /**
+     * @throws ApplicationException
+     */
     private function factory($type)
     {
         static $factories;
         if (!isset($factories[$type])) {
             $className = '\Demo\Forms\Form' . $type;
             if (!class_exists($className)) {
-                throw new ApplicationException("类 {$className} 不存在!");
+                throw new ApplicationException("类 $className 不存在!");
             }
             $factories[$type] = new $className;
         }
-        return $factories[$type];
+        $this->form = $factories[$type];
     }
 }
