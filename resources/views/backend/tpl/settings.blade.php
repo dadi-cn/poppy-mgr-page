@@ -26,7 +26,7 @@
                         @foreach($forms as $group_key => $form)
                             <li class="{!! active_class($group_key === $index, 'layui-this') !!}">
                                 <a class="J_ignore" href="{!! route('py-mgr-page:backend.home.setting', [$path, $group_key]) !!}">
-                                    {!! $form->title  !!}
+                                    {!! $form->title()  !!}
                                 </a>
                             </li>
                         @endforeach

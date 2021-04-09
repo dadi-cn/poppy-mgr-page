@@ -37,7 +37,10 @@ abstract class BackendController extends Controller
 
     /**
      * 当前用户
+     * 因为这里的用户也不一定有值, 而且 $this->pam 中也存在此数据, 所以这里打算废弃此引用
      * @return Authenticatable|PamAccount
+     * @deprecated 3.1
+     * @removed    4.0
      */
     public function pam()
     {
