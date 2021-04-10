@@ -7,7 +7,8 @@ use Poppy\Core\Classes\PyCoreDef;
 use Poppy\Framework\Support\Abstracts\Repository;
 
 /**
- * Setting Modules
+ * @deprecated 3.1
+ * @removed    4.0
  */
 class ModulesSetting extends Repository
 {

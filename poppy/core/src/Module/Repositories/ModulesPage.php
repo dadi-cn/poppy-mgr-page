@@ -8,11 +8,11 @@ use Poppy\Framework\Support\Abstracts\Repository;
 
 /**
  * 为了兼容而存在
- * @deprecated
+ * @deprecated 3.1
+ * @removed    4.0
  */
 class ModulesPage extends Repository
 {
-
     /**
      * Initialize.
      * @param Collection $slugs 集合
