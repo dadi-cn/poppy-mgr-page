@@ -18,45 +18,47 @@ class ModuleManager
 {
 
     /**
-     * @var Collection
+     * @var ModulesUi
      */
-    protected $excepts;
+    private $uiRepository;
+
+    /**
+     * @var Modules
+     */
+    private $repository;
+
+    /**
+     * @var Collection
+     * @deprecated 3.1
+     * @removed    4.0
+     */
+    private $excepts;
 
     /**
      * @var ModulesMenu
      */
-    protected $menuRepository;
+    private $menuRepository;
 
     /**
      * @var ModulesPage
      * @deprecated
      */
-    protected $pageRepository;
+    private $pageRepository;
 
     /**
      * @var ModulesSetting
      */
-    protected $settingRepository;
+    private $settingRepository;
 
     /**
      * @var ModulesHook
      */
-    protected $hooksRepo;
+    private $hooksRepo;
 
     /**
      * @var ModulesService
      */
-    protected $serviceRepo;
-
-    /**
-     * @var ModulesUi
-     */
-    protected $uiRepository;
-
-    /**
-     * @var Modules
-     */
-    protected $repository;
+    private $serviceRepo;
 
     /**
      * ModuleManager constructor.
@@ -71,13 +73,15 @@ class ModuleManager
      */
     public function enabled(): Collection
     {
-        return $this->repository()->enabled();
+        return $this->modules()->enabled();
     }
 
+
     /**
+     * 返回所有模块信息
      * @return Modules
      */
-    public function repository(): Modules
+    public function modules(): Modules
     {
         if (!$this->repository instanceof Modules) {
             $this->repository = new Modules();
@@ -94,7 +98,7 @@ class ModuleManager
      */
     public function get($name): Module
     {
-        return $this->repository()->get($name);
+        return $this->modules()->get($name);
     }
 
     /**
@@ -104,16 +108,9 @@ class ModuleManager
      */
     public function has($name): bool
     {
-        return $this->repository()->has($name);
+        return $this->modules()->has($name);
     }
 
-    /**
-     * @return array
-     */
-    public function getExcepts(): array
-    {
-        return $this->excepts->toArray();
-    }
 
     /**
      * @return ModulesMenu
@@ -122,7 +119,7 @@ class ModuleManager
     {
         if (!$this->menuRepository instanceof ModulesMenu) {
             $collection = collect();
-            $this->repository()->enabled()->each(function (Module $module) use ($collection) {
+            $this->modules()->enabled()->each(function (Module $module) use ($collection) {
                 $collection->put($module->slug(), $module->get('menus', []));
             });
             $this->menuRepository = new ModulesMenu();
@@ -132,6 +129,60 @@ class ModuleManager
         return $this->menuRepository;
     }
 
+    /**
+     * @return ModulesHook
+     */
+    public function hooks(): ModulesHook
+    {
+        if (!$this->hooksRepo instanceof ModulesHook) {
+            $collect = collect();
+            $this->modules()->enabled()->each(function (Module $module) use ($collect) {
+                $collect->put($module->slug(), $module->get('hooks', []));
+            });
+            $this->hooksRepo = new ModulesHook();
+            $this->hooksRepo->initialize($collect);
+        }
+
+        return $this->hooksRepo;
+    }
+
+    /**
+     * @return ModulesService
+     */
+    public function services(): ModulesService
+    {
+        if (!$this->serviceRepo instanceof ModulesService) {
+            $collect = collect();
+            $this->modules()->enabled()->each(function (Module $module) use ($collect) {
+                $collect->put($module->slug(), $module->get('services', []));
+            });
+            $this->serviceRepo = new ModulesService();
+            $this->serviceRepo->initialize($collect);
+        }
+
+        return $this->serviceRepo;
+    }
+
+    /**
+     * @return Modules
+     * @deprecated 3.1
+     * @removed    4.0
+     */
+    public function repository(): Modules
+    {
+        return $this->modules();
+    }
+
+
+    /**
+     * @return array
+     * @deprecated 3.1
+     * @removed    4.0
+     */
+    public function getExcepts(): array
+    {
+        return $this->excepts->toArray();
+    }
 
     /**
      * 为了兼容而存在
@@ -141,7 +192,7 @@ class ModuleManager
     {
         if (!$this->pageRepository instanceof ModulesPage) {
             $collection = collect();
-            $this->repository()->enabled()->each(function (Module $module) use ($collection) {
+            $this->modules()->enabled()->each(function (Module $module) use ($collection) {
                 $collection->put($module->slug(), $module->get('pages', []));
             });
             $this->pageRepository = new ModulesPage();
@@ -160,7 +211,7 @@ class ModuleManager
     {
         if (!$this->uiRepository instanceof ModulesUi) {
             $collection = collect();
-            $this->repository()->enabled()->each(function (Module $module) use ($collection) {
+            $this->modules()->enabled()->each(function (Module $module) use ($collection) {
                 $collection->put($module->slug(), $module->get('ui', []));
             });
             $this->uiRepository = new ModulesUi();
@@ -172,12 +223,14 @@ class ModuleManager
 
     /**
      * @return ModulesSetting
+     * @deprecated 3.1
+     * @removed    4.0
      */
     public function settings(): ModulesSetting
     {
         if (!$this->settingRepository instanceof ModulesSetting) {
             $collection = collect();
-            $this->repository()->enabled()->each(function (Module $module) use ($collection) {
+            $this->modules()->enabled()->each(function (Module $module) use ($collection) {
                 $collection->put($module->slug(), $module->get('settings', []));
             });
             $this->settingRepository = new ModulesSetting();
@@ -187,46 +240,15 @@ class ModuleManager
         return $this->settingRepository;
     }
 
-    /**
-     * @return ModulesHook
-     */
-    public function hooks(): ModulesHook
-    {
-        if (!$this->hooksRepo instanceof ModulesHook) {
-            $collect = collect();
-            $this->repository()->enabled()->each(function (Module $module) use ($collect) {
-                $collect->put($module->slug(), $module->get('hooks', []));
-            });
-            $this->hooksRepo = new ModulesHook();
-            $this->hooksRepo->initialize($collect);
-        }
-
-        return $this->hooksRepo;
-    }
-
-    /**
-     * @return ModulesService(
-     */
-    public function services(): ModulesService
-    {
-        if (!$this->serviceRepo instanceof ModulesService) {
-            $collect = collect();
-            $this->repository()->enabled()->each(function (Module $module) use ($collect) {
-                $collect->put($module->slug(), $module->get('services', []));
-            });
-            $this->serviceRepo = new ModulesService();
-            $this->serviceRepo->initialize($collect);
-        }
-
-        return $this->serviceRepo;
-    }
 
     /**
      * @param array $excepts 数据数组
+     * @deprecated 3.1
+     * @removed    4.0
      */
     public function registerExcept(array $excepts): void
     {
-        foreach ((array) $excepts as $except) {
+        foreach ($excepts as $except) {
             $this->excepts->push($except);
         }
     }
