@@ -127,6 +127,11 @@ class HomeController extends BackendController
                 $form->setPam($this->pam);
                 return $form;
             });
+            if (is_post()) {
+                /** @var FormSettingBase $cur */
+                $cur = $forms->offsetGet($index);
+                return $cur->render();
+            }
             return view('py-mgr-page::backend.tpl.settings', [
                 'hooks' => $hooks,
                 'forms' => $forms,
