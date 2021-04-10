@@ -64,3 +64,5 @@ _ide_helper_models.php
 .phpunit.result.cache
 /storage/clockwork/
 /resources/http/http-client.private.env.json
+/storage/phpunit/
+
