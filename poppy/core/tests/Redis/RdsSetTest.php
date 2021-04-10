@@ -1,8 +1,8 @@
 <?php
 
-namespace Php\Tests\Redis;
+namespace Poppy\Core\Tests\Redis;
 
-class RedisSetTest extends RedisBaseTest
+class RdsSetTest extends RdsBaseTest
 {
     private static $key = 'rds-set';
 
@@ -12,19 +12,19 @@ class RedisSetTest extends RedisBaseTest
     public function testSAdd()
     {
 
-        if ($this->redis->sismember(self::$key, 1)) {
-            $remNum = $this->redis->srem(self::$key, 1);
+        if ($this->rds->sismember(self::$key, 1)) {
+            $remNum = $this->rds->srem(self::$key, 1);
             $this->assertEquals(1, $remNum);
         }
 
-        $result = $this->redis->sadd(self::$key, 1);
+        $result = $this->rds->sadd(self::$key, 1);
         $this->assertEquals(true, $result);
 
-        $result = $this->redis->sadd(self::$key, '1');
+        $result = $this->rds->sadd(self::$key, '1');
         $this->assertEquals(false, $result);
 
         // add array
-        $this->redis->sadd(self::$key, ['1', '2', '3', 4]);
+        $this->rds->sadd(self::$key, ['1', '2', '3', 4]);
     }
 
     /**
@@ -33,9 +33,9 @@ class RedisSetTest extends RedisBaseTest
     public function testSDiff()
     {
         $diffKey = self::$key . '-diff';
-        $this->redis->sadd($diffKey, 1);
-        $this->redis->sadd(self::$key, ['1', '2', '3', 4]);
-        $result = $this->redis->sdiff([self::$key, $diffKey]);
+        $this->rds->sadd($diffKey, 1);
+        $this->rds->sadd(self::$key, ['1', '2', '3', 4]);
+        $result = $this->rds->sdiff([self::$key, $diffKey]);
         $this->assertEquals(['2', '3', '4'], $result);
     }
 
@@ -43,8 +43,8 @@ class RedisSetTest extends RedisBaseTest
     public function testSRandMember()
     {
         $randKey = self::$key . '-rand';
-        $this->redis->sadd($randKey, range(1, 20));
-        $rand = $this->redis->srandmember($randKey, 3);
+        $this->rds->sadd($randKey, range(1, 20));
+        $rand = $this->rds->srandmember($randKey, 3);
         $this->assertCount(3, $rand);
     }
 }

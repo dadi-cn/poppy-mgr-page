@@ -2,6 +2,8 @@
 
 namespace Poppy\Framework\Tests\Helper;
 
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Poppy\Framework\Application\TestCase;
 use Poppy\Framework\Helper\UtilHelper;
 
@@ -38,8 +40,9 @@ class UtilHelperTest extends TestCase
 
     public function testIsUrl(): void
     {
-        $url = UtilHelper::isUrl('http://www.baidu.com');
-        $this->assertEquals(1, $url);
+        $this->assertTrue(UtilHelper::isUrl('http://www.baidu.com'));
+        $this->assertTrue(UtilHelper::isUrl('https://www.baidu.com'));
+        $this->assertFalse(UtilHelper::isUrl('www.baidu.com'));
     }
 
     public function testIsRobot(): void
@@ -56,8 +59,9 @@ class UtilHelperTest extends TestCase
 
     public function testIsMd5(): void
     {
-        $str = UtilHelper::isMd5('1kldhkjiryt23nbhjkkweoxshjklquec');
+        $str = UtilHelper::isMd5(md5(Carbon::now()->timestamp));
         $this->assertEquals(true, $str);
+        $this->assertFalse(UtilHelper::isMd5(Str::random()));
     }
 
     public function testIsImage(): void
@@ -214,8 +218,20 @@ class UtilHelperTest extends TestCase
 
     public function testIsJson(): void
     {
-        $isJson = ['a', 'b'];
-        $str    = UtilHelper::isJson(json_encode($isJson));
+        $str    = UtilHelper::isJson(json_encode([
+            'a' => 'b', 'c' => 'd'
+        ]));
+        $this->assertEquals(true, $str);
+        $str    = UtilHelper::isJson(json_encode([
+            'a', 'b'
+        ]));
+        $this->assertEquals(true, $str);
+
+        $str    = UtilHelper::isJson(json_encode(''));
+        $this->assertEquals(true, $str);
+        $str    = UtilHelper::isJson(json_encode(true));
+        $this->assertEquals(true, $str);
+        $str    = UtilHelper::isJson(json_encode(false));
         $this->assertEquals(true, $str);
     }
 

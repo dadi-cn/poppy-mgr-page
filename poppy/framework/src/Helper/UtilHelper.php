@@ -47,7 +47,7 @@ class UtilHelper
     /**
      * 是不是url地址
      * @param string $url url address
-     * @return false|int
+     * @return false
      */
     public static function isUrl(string $url): bool
     {
@@ -84,11 +84,11 @@ class UtilHelper
     /**
      * 是否是md5, 检测是否32位数字字母的组合
      * @param string $str string
-     * @return int
+     * @return bool
      */
-    public static function isMd5(string $str)
+    public static function isMd5(string $str): bool
     {
-        return preg_match('/^[a-z0-9]{32}$/', $str);
+        return (bool) preg_match('/^[a-z0-9]{32}$/', $str);
     }
 
     /**

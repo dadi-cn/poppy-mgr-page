@@ -5,62 +5,64 @@ namespace Poppy\Core\Tests\Redis;
 
 use Carbon\Carbon;
 use Poppy\Core\Redis\RdsDb;
-use Poppy\Framework\Application\TestCase;
 use Predis\Client;
 
-class RdsNativeTest extends TestCase
+class RdsNativeTest extends RdsBaseTest
 {
-    /**
-     * @var RdsDb
-     */
-    private $rds;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->rds = new RdsDb();
-    }
-
-    /**
-     * @
-     */
     public function testZRange(): void
     {
-        $key = 'test:system:cache:rds_native:zrange';
+        $key   = $this->key('db-zrange');
+        $user1 = $this->faker()->userName;
+        $user2 = $this->faker()->userName;
+
+        $timestamp = Carbon::now()->timestamp;
+
+        // 有序集合
         $this->rds->zadd($key, [
-            1 => Carbon::now()->timestamp - 10,
-            2 => Carbon::now()->timestamp,
+            $user1 => $timestamp - 10,
+            $user2 => $timestamp,
         ]);
-        $arr = $this->rds->zrangebyscore($key, Carbon::now()->timestamp - 5, Carbon::now()->timestamp + 5, [
+
+        // 根据分值获取有序集合的数据
+        $arr = $this->rds->zrangebyscore($key, $timestamp - 5, $timestamp + 5, [
             'WITHSCORES' => true,
         ]);
-        $this->assertNotEmpty($arr[2]);
 
-        dump($this->rds->zscore($key, 3));
+        $this->assertEquals($timestamp, $arr[$user2]);
+
+        $this->assertCount(1, $arr);
+
+        // 根据用户获取分值
+        $score = $this->rds->zscore($key, $user2);
+        $this->assertEquals($timestamp, $score);
+
+        $this->rds->del($key);
     }
 
-    public function testSrandMember()
+    public function testSRandMember()
     {
-        $key = 'test:system:cache:rds_native:srandmember';
+        $key = $this->key('db-srandmember');
 
-        $this->rds->sadd($key, [
-            1, 2, 4, 3, 5, 8, 9, 10,
-        ]);
+        $max = 100;
+        $this->rds->sadd($key, range(1, $max));
 
-        $this->rds->srem($key, 1);
+        $rand = rand(1, 50);
+        $this->rds->srem($key, $rand);
 
-        dd($this->rds->sscan($key));
+        $result = $this->rds->scard($key);
+        $this->assertEquals($result, $max - 1, 'Error Length @ SRandMember');
+
+        $this->rds->del($key);
+
     }
 
     public function testGeo()
     {
-        $cache = new RdsDb('money');
-
-        $key   = 'test_geo';
-        $count = 200000;
+        $key   = $this->key('db-geo');
+        $count = 1000;
 
         for ($i = 1; $i <= $count; $i++) {
-            $cache->geoadd($key, $this->faker()->longitude(), 45.123456, $i);
+            $this->rds->geoadd($key, $this->faker()->longitude(), $this->faker()->latitude(), $i);
         }
     }
 

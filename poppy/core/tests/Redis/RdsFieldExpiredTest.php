@@ -5,13 +5,12 @@ namespace Poppy\Core\Tests\Redis;
 use Poppy\Core\Classes\PyCoreDef;
 use Poppy\Core\Redis\RdsDb;
 use Poppy\Core\Redis\RdsFieldExpired;
-use Poppy\Framework\Application\TestCase;
 use Predis\Client;
 
 /**
  * redis 字段filed有效期
  */
-class RdsFieldExpiredTest extends TestCase
+class RdsFieldExpiredTest extends RdsBaseTest
 {
 
     /**
@@ -19,34 +18,32 @@ class RdsFieldExpiredTest extends TestCase
      */
     public function testSetFieldExpireTime()
     {
-        $databases = ['default'];
-        $types     = [
+        $database = 'default';
+        $types    = [
             RdsFieldExpired::TYPE_ZSET,
             RdsFieldExpired::TYPE_SET,
             RdsFieldExpired::TYPE_HASH,
         ];
-        $expired   = [1, 5, 60, 300];
+        $expired  = [1, 5, 60, 300];
 
         $caches = [];
         $count  = 100;
 
         $keyPrefix = uniqid('test', true);
         for ($i = 1; $i <= $count; $i++) {
-            $database = $this->faker()->randomElement($databases);
-            $type     = $this->faker()->randomElement($types);
-            $key      = $keyPrefix . '_' . $type;
-            $expire   = $this->faker()->randomElement($expired);
+            $type   = $this->faker()->randomElement($types);
+            $key    = $keyPrefix . '_' . $type;
+            $expire = $this->faker()->randomElement($expired);
 
-            $cache = new RdsDb($database);
             switch ($type) {
                 case 'hash':
-                    $cache->hset($key, $i, $i);
+                    $this->rds->hset($key, $i, $i);
                     break;
                 case 'set':
-                    $cache->sadd($key, $i);
+                    $this->rds->sadd($key, $i);
                     break;
                 case 'zset':
-                    $cache->zadd($key, [
+                    $this->rds->zadd($key, [
                         $i => $i * 10,
                     ]);
                     break;
@@ -56,8 +53,7 @@ class RdsFieldExpiredTest extends TestCase
 
             $caches[$database . '_' . $key] = compact('database', 'key');
 
-            $cache->disconnect();
-            $cache = null;
+            $this->rds->disconnect();
         }
 
         $this->assertEquals($count, $this->cacheCount($caches));
