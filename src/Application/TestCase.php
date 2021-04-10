@@ -6,6 +6,7 @@ use Faker\Generator;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Console\Kernel;
 use Poppy\Framework\Foundation\Application;
+use Poppy\Framework\Helper\UtilHelper;
 
 /**
  * Main Test Case
@@ -52,6 +53,8 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
     /**
      * 返回当前容器
      * @return Container|Application
+     * @deprecated 3.1
+     * @removed    4.0
      */
     protected function poppyContainer()
     {
@@ -75,6 +78,26 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         else {
             echo $vars . PHP_EOL;
         }
+    }
+
+
+    /**
+     * 读取模块 Json 文件
+     * @param $module
+     * @param $path
+     * @return array
+     */
+    protected function readJson($module, $path): array
+    {
+        $filePath = poppy_path($module, $path);
+        if (file_exists($filePath)) {
+            $config = file_get_contents($filePath);
+            if (UtilHelper::isJson($config)) {
+                return json_decode($config, true);
+            }
+            return [];
+        }
+        return [];
     }
 
 
