@@ -35,7 +35,7 @@ trait RbacRoleTrait
      * @param array $options 选项
      * @return bool
      */
-    public function save(array $options = [])
+    public function save(array $options = []): bool
     {   //both inserts and updates
         if (!parent::save($options)) {
             return false;
@@ -49,7 +49,7 @@ trait RbacRoleTrait
      * @param array $options 选项
      * @return bool
      */
-    public function delete(array $options = [])
+    public function delete(array $options = []): bool
     {   //soft or hard
         if (!parent::delete($options)) {
             return false;
@@ -82,7 +82,7 @@ trait RbacRoleTrait
     /**
      * @return bool
      */
-    public function restore()
+    public function restore(): bool
     {   //soft delete undo's
         if (!parent::restore()) {
             return false;
@@ -217,7 +217,7 @@ trait RbacRoleTrait
      * @param bool         $requireAll all permissions in the array are required
      * @return bool
      */
-    public function hasPermission($name, $requireAll = false)
+    public function hasPermission($name, $requireAll = false): bool
     {
         if (is_array($name)) {
             foreach ($name as $permissionName) {
@@ -250,7 +250,7 @@ trait RbacRoleTrait
     /**
      * @return string
      */
-    private function getPermissionRoleTable()
+    private function getPermissionRoleTable(): string
     {
         $permissionRole = config('poppy.core.rbac.role_permission');
         return (new $permissionRole)->getTable();

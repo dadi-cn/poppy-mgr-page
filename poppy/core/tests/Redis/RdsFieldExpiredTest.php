@@ -2,7 +2,7 @@
 
 namespace Poppy\Core\Tests\Redis;
 
-use Faker\Factory;
+use Poppy\Core\Classes\PyCoreDef;
 use Poppy\Core\Redis\RdsDb;
 use Poppy\Core\Redis\RdsFieldExpired;
 use Poppy\Framework\Application\TestCase;
@@ -71,11 +71,11 @@ class RdsFieldExpiredTest extends TestCase
     {
         $cache = new Client(config('database.redis.default'));
         $cache->multi();
-        $beforeCount = $cache->zcard(RdsFieldExpired::FIELD_EXPIRED_CACHE_KEY);
+        $beforeCount = $cache->zcard(PyCoreDef::ckRdsKeyFieldExpired());
 
         (new RdsFieldExpired)->clearExpiredField();
 
-        $afterCount = $cache->zcard(RdsFieldExpired::FIELD_EXPIRED_CACHE_KEY);
+        $afterCount = $cache->zcard(PyCoreDef::ckRdsKeyFieldExpired());
 
         $cache->exec();
         $this->assertGreaterThanOrEqual($beforeCount, $afterCount);
