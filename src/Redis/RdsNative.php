@@ -8,6 +8,7 @@ use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\Framework\Helper\UtilHelper;
 use Predis\Client;
 use Predis\Pipeline\Pipeline;
+use Predis\Response\Status;
 use stdClass;
 use Throwable;
 
@@ -40,14 +41,20 @@ class RdsNative
     }
 
     /**
-     * @param      $key
-     * @param      $value
-     * @param null $expireResolution
-     * @param null $expireTTL
-     * @param null $flag
-     * @return mixed
+     * 将字符串值 value 关联到 key, 如果 key 已经持有其他值， SET 就覆写旧值， 无视类型
+     * 当 SET 命令对一个带有生存时间（TTL）的键进行设置之后， 该键原有的 TTL 将被清除
+     * @param string       $key
+     * @param string|array $value
+     * @param null|string  $expireResolution 过期策略 EX : 过期时间(秒), PX : 过期时间(毫秒) <br>
+     *                                       EX seconds : 秒 <br>
+     *                                       PX milliseconds  毫秒 <br>
+     *                                       NX -- 不存在则设置 <br>
+     *                                       XX -- 存在则设置
+     * @param null|int     $expireTTL        过期时间
+     * @param null         $flag             设置类型 NX : 不存在则设置, XX : 存在则设置, 这个参数在没有时间设定情况下可以进行前置
+     * @return bool
      */
-    public function set($key, $value, $expireResolution = null, $expireTTL = null, $flag = null)
+    public function set(string $key, $value, $expireResolution = null, $expireTTL = null, $flag = null): bool
     {
         if (is_array($value)) {
             $value = json_encode($value, JSON_UNESCAPED_UNICODE);
@@ -57,15 +64,19 @@ class RdsNative
         $arguments[0] = $this->taggedItemKey($key);
         $arguments[1] = $value;
 
-        return $this->redis->set(...$arguments);
+        $result = $this->redis->set(...$arguments);
+        if ($result instanceof Status) {
+            return true;
+        }
+        return false;
     }
 
     /**
-     * @param      $key
-     * @param bool $assoc
+     * @param string $key
+     * @param bool   $assoc
      * @return string|null|array
      */
-    public function get($key, $assoc = true)
+    public function get(string $key, $assoc = true)
     {
         $result = $this->redis->get($this->taggedItemKey($key));
         if (UtilHelper::isJson($result)) {
@@ -93,14 +104,19 @@ class RdsNative
     }
 
     /**
-     * @param $key
-     * @param $seconds
-     * @param $value
-     * @return int
+     * 设置值并设置过期时间
+     * @param string       $key
+     * @param int          $seconds
+     * @param array|string $value
+     * @return bool
      */
-    public function setex($key, $seconds, $value)
+    public function setex(string $key, int $seconds, $value): bool
     {
-        return $this->redis->setex($this->taggedItemKey($key), $seconds, $value);
+        $res = $this->redis->setex($this->taggedItemKey($key), $seconds, $this->toString($value));
+        if ($res instanceof Status) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -120,7 +136,7 @@ class RdsNative
      */
     public function hdel($key, $fields)
     {
-        return $this->redis->hdel($this->taggedItemKey($key), $this->arrayedFields($fields));
+        return $this->redis->hdel($this->taggedItemKey($key), $this->toArray($fields));
     }
 
     /**
@@ -163,7 +179,7 @@ class RdsNative
      */
     public function hset($key, $field, $value)
     {
-        return $this->redis->hset($this->taggedItemKey($key), $field, $this->convertValueToString($value));
+        return $this->redis->hset($this->taggedItemKey($key), $field, $this->toString($value));
     }
 
     /**
@@ -193,8 +209,8 @@ class RdsNative
      */
     public function hmget($key, $fields)
     {
-        $fields = $this->arrayedFields($fields);
-        $result = $this->redis->hmget($this->taggedItemKey($key), $this->arrayedFields($fields));
+        $fields = $this->toArray($fields);
+        $result = $this->redis->hmget($this->taggedItemKey($key), $this->toArray($fields));
 
         return array_combine($fields, $this->unserializeResult($result));
     }
@@ -315,7 +331,7 @@ class RdsNative
      */
     public function lpush($key, $values)
     {
-        return $this->redis->lpush($this->taggedItemKey($key), $this->arrayedFields($values));
+        return $this->redis->lpush($this->taggedItemKey($key), $this->toArray($values));
     }
 
     /**
@@ -334,7 +350,7 @@ class RdsNative
      */
     public function rpush($key, $values)
     {
-        return $this->redis->rpush($this->taggedItemKey($key), $this->arrayedFields($values));
+        return $this->redis->rpush($this->taggedItemKey($key), $this->toArray($values));
     }
 
     /**
@@ -345,7 +361,7 @@ class RdsNative
      */
     public function sadd($key, $members): bool
     {
-        return (bool) $this->redis->sadd($this->taggedItemKey($key), $this->arrayedFields($members));
+        return (bool) $this->redis->sadd($this->taggedItemKey($key), $this->toArray($members));
     }
 
 
@@ -399,7 +415,7 @@ class RdsNative
      */
     public function srem($key, $member)
     {
-        return $this->redis->srem($this->taggedItemKey($key), $this->arrayedFields($member));
+        return $this->redis->srem($this->taggedItemKey($key), $this->toArray($member));
     }
 
     /**
@@ -434,14 +450,14 @@ class RdsNative
     }
 
     /**
-     * /**
+     * 有序集合
      * @param       $key
-     * @param array $members
+     * @param array $membersAndScoresDictionary 参数 ['value' => 'score']
      * @return int
      */
-    public function zadd($key, array $members)
+    public function zadd($key, array $membersAndScoresDictionary)
     {
-        return $this->redis->zadd($this->taggedItemKey($key), $members);
+        return $this->redis->zadd($this->taggedItemKey($key), $membersAndScoresDictionary);
     }
 
     /**
@@ -621,7 +637,7 @@ class RdsNative
      */
     public function del($keys): int
     {
-        $keys = $this->arrayedFields($keys);
+        $keys = $this->toArray($keys);
 
         return $this->redis->del(array_map(function ($key) {
             return $this->taggedItemKey($key);
@@ -649,7 +665,7 @@ class RdsNative
      */
     public function geopos($key, $members): array
     {
-        return (array) $this->redis->geopos($this->taggedItemKey($key), $this->arrayedFields($members));
+        return (array) $this->redis->geopos($this->taggedItemKey($key), $this->toArray($members));
     }
 
     /**
@@ -700,12 +716,12 @@ class RdsNative
      * @return bool
      * @throws ApplicationException
      */
-    public function select($database): bool
+    public function select(string $database): bool
     {
-        $database = config("database.redis.{$database}.database");
+        $database = config("database.redis.$database.database");
 
         if ($database === null) {
-            throw new ApplicationException("database [{$database}] not found");
+            throw new ApplicationException("database [$database] not found");
         }
 
         try {
@@ -739,7 +755,7 @@ class RdsNative
      */
     public function delTaggedKeys($keys): int
     {
-        $keys = $this->arrayedFields($keys);
+        $keys = $this->toArray($keys);
 
         return $this->redis->del($keys);
     }
@@ -803,7 +819,7 @@ class RdsNative
      * @param string|array $fields 字段
      * @return array
      */
-    private function arrayedFields($fields): array
+    private function toArray($fields): array
     {
         if (!is_array($fields)) {
             $fields = [$fields];
@@ -817,7 +833,7 @@ class RdsNative
      * @param array|string|Arrayable|stdClass $value
      * @return string
      */
-    private function convertValueToString($value): string
+    private function toString($value): string
     {
         if ($value instanceof Arrayable) {
             $value = $value->toArray();

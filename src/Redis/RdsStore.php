@@ -16,7 +16,6 @@ class RdsStore
 
     /**
      * 缓存器, 随机秒数缓存器, 不在同一时刻读取值
-     * todo @赵殿有 使用列表来做
      * @param string $key    键
      * @param mixed  $value  值
      * @param int    $second 秒数
@@ -133,34 +132,32 @@ class RdsStore
      * @param int    $seconds 秒数
      * @return bool
      */
-    public static function inLock($key, $seconds): bool
+    public static function inLock(string $key, int $seconds): bool
     {
-        /* 非 Redis 不进行原子性鉴定
+        /* 非 Redis, 使用文件来进行缓存
          * ---------------------------------------- */
         if (strtolower(config('cache.default')) !== 'redis') {
+            $now = Carbon::now()->timestamp;
+            if (Cache::has($key)) {
+                $content = Cache::get($key);
+                if ($content < $now) {
+                    Cache::forget($key);
+                    return true;
+                }
+                return false;
+            }
+            Cache::forever($key, $now + $seconds);
             return true;
         }
-        $prefix = config('cache.prefix');
-        $key    = $prefix . ':atomic_lock:' . $key;
+        $key = 'py-core:rds-lock:' . $key;
         if (strtolower(config('cache.default')) === 'redis') {
             $client = new RdsDb();
-            $status = $client->set($key, 'atomic_' . Carbon::now()->timestamp, 'EX', $seconds, 'NX');
-
-            return null === $status;
-        }
-        $now = Carbon::now()->timestamp;
-        if (Cache::has($key)) {
-            $content = Cache::get($key);
-            if ($content < $now) {
-                Cache::forget($key);
-
+            $res    = $client->set($key, 'atomic_' . Carbon::now()->timestamp, 'EX', $seconds, 'NX');
+            if ($res === false) {
                 return true;
             }
-
             return false;
         }
-        Cache::forever($key, $now + $seconds);
-
         return true;
     }
 }
