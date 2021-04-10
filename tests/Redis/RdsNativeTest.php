@@ -60,7 +60,7 @@ class RdsNativeTest extends TestCase
         $count = 200000;
 
         for ($i = 1; $i <= $count; $i++) {
-            $cache->geoadd($key, $this->faker()->longitude, 45.123456, $i);
+            $cache->geoadd($key, $this->faker()->longitude(), 45.123456, $i);
         }
     }
 

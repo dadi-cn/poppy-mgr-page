@@ -103,7 +103,7 @@ trait RbacUserTrait
      * @param bool         $requireAll all roles in the array are required
      * @return bool
      */
-    public function hasRole($name, $requireAll = false)
+    public function hasRole($name, $requireAll = false): bool
     {
         if (is_array($name)) {
             foreach ($name as $roleName) {
@@ -304,7 +304,7 @@ trait RbacUserTrait
     /**
      * @return string
      */
-    private function getRoleUserTable()
+    private function getRoleUserTable(): string
     {
         $roleAccountModel = config('poppy.core.rbac.role_account');
         return (new $roleAccountModel)->getTable();

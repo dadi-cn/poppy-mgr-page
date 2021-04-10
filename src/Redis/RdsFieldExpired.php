@@ -16,14 +16,17 @@ class RdsFieldExpired
     public const TYPE_HASH = 'hash';
     public const TYPE_SET  = 'set';
     public const TYPE_ZSET = 'zset';
+
     /**
      * @var RdsDb
      */
     private $cache;
+
     /**
      * @var RdsDb $expireHandler
      */
     private static $expireHandler;
+
     /**
      * 分隔符号
      * @var string $stripTag
