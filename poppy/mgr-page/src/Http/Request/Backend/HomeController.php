@@ -42,8 +42,12 @@ class HomeController extends BackendController
             '_menus' => $this->coreModule()->menus()->withPermission(PamAccount::TYPE_BACKEND, $isFullPermission, $this->pam),
         ]);
         $host = StrHelper::formatId(EnvHelper::host()) . '-backend';
+        $name = sys_setting('py-system::site.name');
+        $logo = sys_setting('py-system::site.logo');
         return view('py-mgr-page::backend.home.index', [
             'host' => $host,
+            'logo' => $logo,
+            'name' => $name,
         ]);
     }
 

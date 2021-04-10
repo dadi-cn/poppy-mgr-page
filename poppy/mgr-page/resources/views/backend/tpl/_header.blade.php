@@ -1,6 +1,10 @@
 <div class="layui-header">
     <div class="layui-logo" lay-href="{!! route('py-mgr-page:backend.home.cp') !!}">
-        {!! sys_setting('py-system::site.name') !!}
+        @if($logo)
+            <img src="{!! $logo !!}" alt="{!! $name !!}">
+        @else
+            {!! $name ?: 'Poppy Mgr Page' !!}
+        @endif
     </div>
     <ul class="layui-nav layui-layout-left">
         <li class="layui-nav-item layadmin-flexible" lay-unselect>
