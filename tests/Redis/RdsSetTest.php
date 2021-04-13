@@ -13,6 +13,7 @@ class RdsSetTest extends RdsBaseTest
     public function testSAdd()
     {
         $key = $this->key('s-add');
+        $this->rds->del($key);
         if ($this->rds->sismember($key, 1)) {
             $remNum = $this->rds->srem($key, 1);
             $this->assertEquals(1, $remNum);
@@ -109,6 +110,7 @@ class RdsSetTest extends RdsBaseTest
     public function testCard()
     {
         $key = $this->key('s-card');
+        $this->rds->del($key);
         $res = $this->rds->sCard($key);
         $this->assertEquals(0, $res);
         $this->rds->sAdd($key, [
@@ -117,6 +119,7 @@ class RdsSetTest extends RdsBaseTest
 
         $res = $this->rds->sCard($key);
         $this->assertEquals(3, $res);
+        $this->rds->del($key);
     }
 
 
@@ -163,11 +166,17 @@ class RdsSetTest extends RdsBaseTest
 
     public function testInter()
     {
-        $key = $this->key('s-inter');
+        $key      = $this->key('s-inter');
+        $key2     = $this->key('s-inter-2');
+        $keyStore = $this->key('s-inter-store');
+        $this->rds->del([
+            $key, $key2, $keyStore,
+        ]);
+
+
         $this->rds->sAdd($key, [
             1, '1', [1], new stdClass(),
         ]);
-        $key2 = $this->key('s-inter-2');
         $this->rds->sAdd($key2, [
             [1],
         ]);
@@ -177,21 +186,30 @@ class RdsSetTest extends RdsBaseTest
         $this->assertTrue(in_array([1], $inter));
 
 
-        $keyStore = $this->key('s-inter-store');
         $this->rds->sInterStore($keyStore, [
             $key, $key2,
         ]);
         $this->assertCount(1, $this->rds->sMembers($keyStore));
+
+        $this->rds->del([
+            $key, $key2, $keyStore,
+        ]);
     }
 
 
     public function testSUnion()
     {
-        $key = $this->key('s-union');
+        $key      = $this->key('s-union');
+        $key2     = $this->key('s-union-2');
+        $keyStore = $this->key('s-union-store');
+
+        $this->rds->del([
+            $key, $key2, $keyStore,
+        ]);
+
         $this->rds->sAdd($key, [
             1, "1",
         ]);
-        $key2 = $this->key('s-union-2');
         $this->rds->sAdd($key2, [
             [1],
         ]);
@@ -202,11 +220,13 @@ class RdsSetTest extends RdsBaseTest
         $this->assertTrue(in_array([1], $values));
         $this->assertTrue(in_array(1, $values));
 
-        $keyStore = $this->key('s-union-store');
         $this->rds->sUnionStore($keyStore, [
             $key, $key2,
         ]);
         $this->assertCount(2, $this->rds->sMembers($keyStore));
+        $this->rds->del([
+            $key, $key2, $keyStore,
+        ]);
     }
 
     /**
@@ -214,21 +234,27 @@ class RdsSetTest extends RdsBaseTest
      */
     public function testSDiff()
     {
-        $key = $this->key('s-diff');
+        $key      = $this->key('s-diff');
+        $key2     = $this->key('s-diff-2');
+        $keyStore = $this->key('s-diff-store');
+
+        $this->rds->del([
+            $key, $key2, $keyStore,
+        ]);
+
         $this->rds->sadd($key, 1);
-
-        $key2 = $this->key('s-diff-2');
         $this->rds->sadd($key2, ['1', '2', '3', 4]);
-
         $result = $this->rds->sDiff([$key2, $key]);
         $this->assertEquals(['2', '3', '4'], $result);
 
-        $keyStore = $this->key('s-diff-store');
         $this->rds->sDiffStore($keyStore, [
             $key2, $key,
         ]);
 
         $this->assertCount(3, $this->rds->sMembers($keyStore));
+        $this->rds->del([
+            $key, $key2, $keyStore,
+        ]);
     }
 
 
