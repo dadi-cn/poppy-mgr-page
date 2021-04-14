@@ -75,7 +75,7 @@ class AliPush
         $body          = $this->params['content'];
         $broadcastType = $this->params['broadcast_type'];
         $tags          = $this->params['registration_tags'] ?? '';
-        $extra         = json_encode($this->params['extra'] ?? [], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $extra         = json_encode($this->params['extra'] ?? [], JSON_FORCE_OBJECT | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         // send ios
         $iosType = $devices['ios'] ?? '';
