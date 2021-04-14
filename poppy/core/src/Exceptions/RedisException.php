@@ -4,6 +4,6 @@ namespace Poppy\Core\Exceptions;
 
 use Exception;
 
-class SettingException extends Exception
+class RedisException extends Exception
 {
 }
