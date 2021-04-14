@@ -138,6 +138,7 @@ class RdsListTest extends RdsBaseTest
     public function testLInsert()
     {
         $key = $this->key('l-insert');
+        $this->rds->del($key);
         $this->rds->rPush($key, ['1', [1], 1, ['1']]);
         $this->rds->lInsert($key, 'after', '1', '2');
         $val = $this->rds->lIndex($key, 1);
@@ -149,12 +150,14 @@ class RdsListTest extends RdsBaseTest
         $this->assertEquals([2], $val);
         $val = $this->rds->lInsert($key, 'after', ['3'], [2]);
         $this->assertFalse($val);
+        $this->rds->del($key);
     }
 
 
     public function testLSet()
     {
         $key = $this->key('l-set');
+        $this->rds->del($key);
         $res = $this->rds->lSet($key, 0, 'error');
         $this->assertFalse($res);
 

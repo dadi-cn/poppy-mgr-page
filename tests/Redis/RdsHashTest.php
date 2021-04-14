@@ -107,7 +107,8 @@ class RdsHashTest extends RdsBaseTest
 
     public function testHIncrBy()
     {
-        $key   = $this->key('h-incr-by');
+        $key = $this->key('h-incr-by');
+        $this->rds->del($key);
         $fault = $this->rds->hIncrBy($key, 'default');
         $this->assertEquals(1, $fault);
         $fault = $this->rds->hIncrBy($key, 'default', 30);
@@ -216,9 +217,8 @@ class RdsHashTest extends RdsBaseTest
         $this->rds->hMSet($key, $values);
 
         $vals = $this->rds->hScan($key, 0, [
-            'match' => '*a*',
             'count' => 8,
         ]);
-        $this->assertGreaterThan(8, $vals[0]);
+        $this->assertGreaterThan(0, $vals[0]);
     }
 }
