@@ -9,17 +9,11 @@ use Poppy\Core\Services\Contracts\ServiceArray;
 class UploadTypeAliyun implements ServiceArray
 {
 
-    /**
-     * @return mixed
-     */
-    public function key()
+    public function key():string
     {
         return 'aliyun';
     }
 
-    /**
-     * @return mixed
-     */
     public function data()
     {
         return [
