@@ -7,18 +7,11 @@ use Poppy\Core\Services\Contracts\ServiceArray;
 
 class SettingAliyunPush implements ServiceArray
 {
-
-    /**
-     * @return mixed
-     */
-    public function key()
+    public function key():string
     {
         return 'poppy.aliyun-push';
     }
 
-    /**
-     * @return mixed
-     */
     public function data()
     {
         return [
