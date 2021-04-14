@@ -10,7 +10,7 @@ use Poppy\Core\Services\Contracts\ServiceArray;
 class Service implements ServiceArray
 {
 
-    public function key()
+    public function key(): string
     {
         return 'poppy-core-array-service';
     }
