@@ -72,6 +72,7 @@ class RdsSetTest extends RdsBaseTest
     public function testSRem()
     {
         $key = $this->key('s-rem');
+        $this->rds->del($key);
         $this->rds->sAdd($key, [
             1, '1', [1], new stdClass(),
         ]);
