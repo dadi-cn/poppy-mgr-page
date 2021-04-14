@@ -9,7 +9,7 @@ interface ServiceArray
 {
     /**
      * key
-     * @return mixed
+     * @return string
      */
     public function key();
 
