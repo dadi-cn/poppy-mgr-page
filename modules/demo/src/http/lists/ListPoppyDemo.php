@@ -22,10 +22,11 @@ class ListPoppyDemo extends ListBase
         // 自定义样式
         $this->column('id', 'ID')->sortable()->style('color:red;');
         // 数据渲染
-        $this->column('is_open', '开关')->using([
-            1 => '开',
-            0 => '关',
-        ]);
+        // $this->column('is_open', '开关')->using([
+        //     1 => '开',
+        //     0 => '关',
+        // ]);
+        $this->column('is_open', '开关')->bool();
         // 文字替换
         $this->column('desc')->replace(['觅心' => '{HUOWAN}']);
 
