@@ -4,14 +4,13 @@ namespace Demo\Http\Lists;
 
 use Closure;
 use Poppy\Framework\Exceptions\ApplicationException;
-use Poppy\Framework\Helper\StrHelper;
 use Poppy\System\Classes\Grid\Column;
 use Poppy\System\Classes\Grid\Displayer\Actions;
 use Poppy\System\Classes\Grid\Filter;
 use Poppy\System\Classes\Grid\Tools\BaseButton;
 use Poppy\System\Http\Lists\ListBase;
 
-class ListPoppyDemo extends ListBase
+class ListPoppyEditable extends ListBase
 {
 
     /**
@@ -20,47 +19,23 @@ class ListPoppyDemo extends ListBase
      */
     public function columns()
     {
-        // 自定义样式
-        $this->column('id', 'ID(排序)')->sortable()->width(100);
-
-        // 自定义样式
-        $this->column('style', 'Style(Css样式)')->style('color:red;')->width(150);
-
-        // 转换开关为 x/√
-        $this->column('is_open', '图标(×/√)')->bool()->width(100);
-        // 数据渲染
-        // $this->column('is_open', '开关')->using([
-        //     1 => '开',
-        //     0 => '关',
-        // ]);
-
-        // 隐藏数据
-        $this->column('updated_at', '更新时间(临时隐藏)')->width(150)->hide();
-
-        // 自定义渲染
-        $this->column('hide-email', '邮箱(隐藏显示)')->width(150)->display(function () {
-            return StrHelper::hideEmail(data_get($this, 'email'));
+        $this->column('list_order')->display(function ($first_name, $column) {
+            return $column->editable();
         });
-        // 邮箱
-        $this->column('email', '头像[gravatar]')->gravatar()->width(130);
 
-        // 可下载, 附加地址以及文件名称
-        $this->column('file', '可下载的文件')->width(120)->downloadable();
+        // $grid->column('desc')->view('content');
 
-        // 渲染状态值
-        $this->column('status', '状态值')->using([
-            0 => '未知',
-            1 => '已下单',
-            2 => '已付款',
-            3 => '已取消',
-        ]);
+        $this->column('link')->image('', 40, 60);
 
-        $this->column('title', 'Str 截取(10)')->width(120)->limit(10)->ucfirst()->link();
+        $this->column('progress')->loading([20], [50 => '完成']);
+        $this->column('last_name')->using(['N' => 'this is N', 'G' => 'this is G', 'H' => 'this is H']);
 
-        // 组合字段显示
-        $this->column('full_name', '组合多字段(自定义渲染)')->width(180)->display(function () {
-            return data_get($this, 'first_name').' - '.data_get($this, 'last_name');
-        });
+        $this->column('trashed', '数量')->totalRow();
+
+
+        $this->column('a')->label('danger');
+
+        $this->column('c')->progress();
     }
 
 
@@ -146,6 +121,24 @@ class ListPoppyDemo extends ListBase
                 $filter->notEqual('created_at')->datetime();
             });
         };
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function actions()
+    {
+        $Action = $this;
+        $this->addColumn(Column::NAME_ACTION, '操作')
+            ->displayUsing(Actions::class, [
+                function (Actions $actions) use ($Action) {
+                    $item = $actions->row;
+                    $actions->append([
+                        $Action->password($item),
+                        $Action->edit($item),
+                    ]);
+                },
+            ])->fixed();
     }
 
 

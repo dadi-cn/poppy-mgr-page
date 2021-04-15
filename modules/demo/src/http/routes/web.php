@@ -22,9 +22,7 @@ Route::group([
         ->name('demo:web.form.index');
     $router->any('table', 'TableController@index')
         ->name('demo:web.table.index');
-    $router->any('table/grid/data', 'TableController@gridData')
-        ->name('demo:web.table.grid_data');
-    $router->any('table/grid/demo', 'TableController@demo')
+    $router->any('table/demo/{type}', 'TableController@demo')
         ->name('demo:web.table.grid_demo');
 
     // EnvHelper

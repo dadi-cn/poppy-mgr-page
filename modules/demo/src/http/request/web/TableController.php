@@ -3,8 +3,8 @@
 namespace Demo\Http\Request\Web;
 
 use Demo\Http\Lists\ListPoppyDemo;
+use Demo\Http\Lists\ListPoppyEditable;
 use Demo\Models\PoppyDemo;
-use Poppy\Framework\Classes\Resp;
 use Poppy\System\Classes\Grid;
 use Poppy\System\Classes\Layout\Content;
 use Poppy\System\Classes\Widgets\TableWidget;
@@ -15,29 +15,6 @@ use Poppy\System\Http\Request\Web\WebController;
  */
 class TableController extends WebController
 {
-
-
-    public function grid()
-    {
-        // 第一列显示id字段，并将这一列设置为可排序列
-        $grid = new Grid(new PoppyDemo());
-        return (new Content())->body($grid->render());
-    }
-
-    public function gridData()
-    {
-        return Resp::success('获取成功', [
-            'list'       => [
-                ['id' => 1],
-            ],
-            'pagination' => [
-                'total' => 200,
-                'page'  => 1,
-                'size'  => 20,
-                'pages' => 10,
-            ],
-        ]);
-    }
 
     /**
      * 主页
@@ -59,12 +36,17 @@ class TableController extends WebController
         return (new Content())->body($table->render());
     }
 
-    public function demo()
+    public function demo($type)
     {
         // 第一列显示id字段，并将这一列设置为可排序列
         $grid = new Grid(new PoppyDemo());
         $grid->setTitle('Title');
-        $grid->setLists(ListPoppyDemo::class);
+        if ($type === 'demo') {
+            $grid->setLists(ListPoppyDemo::class);
+        }
+        if ($type === 'edit') {
+            $grid->setLists(ListPoppyEditable::class);
+        }
 
         // $grid->disableCreateButton();
 
@@ -81,10 +63,6 @@ class TableController extends WebController
 
 
         // $grid->disableRowSelector();
-
-        // 设置单页的条目数
-        $grid->perPages([15, 20, 30, 50, 100]);
-
 
 
         // 错误
@@ -108,8 +86,6 @@ class TableController extends WebController
         // $grid->paginate(1);
 
 
-
-
         // 错误
         // $grid->column('username')->display(function ($userId) {
         // 	return PoppyDemo::find($userId)->username;
@@ -121,7 +97,6 @@ class TableController extends WebController
 
         // $grid->fixColumns(0, -1);
         // $grid->desciption()->popover('left');
-
 
 
         // $grid->column('status')->icon([
@@ -150,17 +125,6 @@ class TableController extends WebController
         // 	'off' => ['value' => 2, 'text' => '关闭', 'color' => 'default'],
         // ];
         // $grid->column('status')->switch($states);
-
-        $grid->header(function ($query) {
-            $data = $query->where('status', 3)->sum('progress');
-            return "<div style='padding: 10px;'>数值 ： $data</div>";
-        });
-
-        $grid->footer(function ($query) {
-            $data = $query->where('status', 2)->sum('progress');
-
-            return "<div style='padding: 10px;'>数值 ： $data</div>";
-        });
 
         // $grid->quickCreate(function (Grid\Tools\QuickCreate $create) {
         // 	$create->text('name', '名称');
