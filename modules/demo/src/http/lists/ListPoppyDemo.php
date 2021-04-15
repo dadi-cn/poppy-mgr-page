@@ -19,46 +19,46 @@ class ListPoppyDemo extends ListBase
      */
     public function columns()
     {
+        // 自定义样式
         $this->column('id', 'ID')->sortable()->style('color:red;');
-        $this->column('is_open', 'Is_open');
-        // $this->column('desc')->using(['1' => 'ha', '2' => 'xi']);
-        $this->column('desc')->replace(['ha' => '-']);
-        // $this->column('desc')->display(function ($desc) {
-        // 	return $desc ? '是' : '否';
-        // });
-        $this->column('created_at')->width(300)->color('#9b44cd')->sortable();
+        // 数据渲染
+        $this->column('is_open', '开关')->using([
+            1 => '开',
+            0 => '关',
+        ]);
+        // 文字替换
+        $this->column('desc')->replace(['觅心' => '{HUOWAN}']);
+
+        // 宽度/颜色/排序
+        $this->column('created_at')->width(100)->color('#9b44cd')->sortable();
+        // 隐藏数据/隐藏列
         $this->column('updated_at')->hide();
-        $this->column('haha')->display(function ($email) {
-            return "mailto:$email";
+        // 自定义列
+        $this->column('haha')->display(function () {
+            return "mailto:$this->email";
         });
+        // 邮箱
+        $this->column('email', '头像[gravatar]')->gravatar(45);
 
-        $this->column('email', '头像')->gravatar(45);
-
+        // 可下载, 附加地址以及文件名称
         $this->column('file')->downloadable();
 
-        // $this->column('status')->filter([
-        // 	0 => '未知',
-        // 	1 => '已下单',
-        // 	2 => '已付款',
-        // 	3 => '已取消',
-        // ]);
+        $this->column('status')->filter([
+            0 => '未知',
+            1 => '已下单',
+            2 => '已付款',
+            3 => '已取消',
+        ]);
 
-        $this->column('title')->limit(10)->ucfirst()->substr(1, 10)->link();
+        $this->column('title', '截取(10)')->limit(10)->ucfirst()->link();
 
-        // 不存的字段列
-        $this->column('full_name')->display(function () {
-            return $this->is_open . ' ' . $this->desc;
+        // 组合字段显示
+        $this->column('full_name', '组合姓名')->display(function () {
+            return $this->first_name . ' ' . $this->last_name;
         });
 
-        // 添加不存在的字段
-        $this->column('column_not_in_table')->display(function () {
-            return 'blablabla....';
-        });
 
         $this->column('first_name')->display(function ($first_name, $column) {
-            if ($this->first_name === 'L') {
-                return $first_name;
-            }
             return $column->editable();
         });
 
