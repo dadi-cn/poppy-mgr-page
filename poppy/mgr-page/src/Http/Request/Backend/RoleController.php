@@ -47,7 +47,7 @@ class RoleController extends BackendController
     {
         $grid = new Grid(new PamRole());
         $grid->setLists(ListPamRole::class);
-        return (new Content())->body($grid->render());
+        return $grid->render();
     }
 
     /**
@@ -81,7 +81,7 @@ class RoleController extends BackendController
     /**
      * 带单列表
      * @param int $id 角色id
-     * @return Factory|JsonResponse|RedirectResponse|Response|Redirector|View
+     * @return Factory|JsonResponse|Redirector|RedirectResponse|Response
      */
     public function menu(int $id)
     {

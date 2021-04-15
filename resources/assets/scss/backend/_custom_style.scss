@@ -486,3 +486,57 @@ div.layui-input.layui-input-inline {
 		}
 	}
 }
+
+
+.layui-input-group {
+	position: relative;
+	display: table;
+	border-collapse: separate;
+	.layui-input-group-addon {
+		padding: 6px 10px;
+		font-size: 14px;
+		font-weight: 400;
+		line-height: 1;
+		color: #555;
+		text-align: center;
+		border: 1px solid #e6e6e6;
+		white-space: nowrap;
+		vertical-align: middle;
+		display: table-cell;
+		border-radius: 2px;
+		&:first-child {
+			border-right: 0;
+			border-top-right-radius: 0;
+			border-bottom-right-radius: 0;
+		}
+		&:last-child {
+			border-left: 0;
+			border-top-left-radius: 0;
+			border-bottom-left-radius: 0;
+		}
+	}
+	input.layui-input {
+		float: left;
+		display: table-cell;
+		&:first-child {
+			border-bottom-left-radius: 0;
+			border-top-left-radius: 0;
+		}
+		&:last-child {
+			border-bottom-left-radius: 0;
+			border-top-left-radius: 0;
+		}
+		&:not(:first-child):not(:last-child) {
+			border-radius: 0;
+		}
+	}
+
+	&.layui-input-inline {
+		display: inline-table;
+		vertical-align: middle;
+	}
+
+	&.layui-input-inline .layui-input-group-addon {
+		width: auto;
+	}
+}

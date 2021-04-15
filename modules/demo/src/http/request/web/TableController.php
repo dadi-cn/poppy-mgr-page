@@ -184,9 +184,6 @@ class TableController extends WebController
 
         // table() 无法验证   字段为二维数组
 
-        if (input('_query')) {
-            return $grid->inquire($this->pagesize);
-        }
-        return (new Content())->body($grid->render());
+        return $grid->render();
     }
 }

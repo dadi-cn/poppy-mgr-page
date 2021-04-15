@@ -43,7 +43,7 @@ class PamController extends BackendController
     {
         $grid = new Grid(new PamAccount());
         $grid->setLists(ListPamAccount::class);
-        return (new Content())->body($grid->render());
+        return $grid->render();
     }
 
     /**
@@ -99,7 +99,7 @@ class PamController extends BackendController
     }
 
     /**
-     * @return array|JsonResponse|RedirectResponse|\Illuminate\Http\Response|Redirector|Resp|Content|Response
+     * @return array|\Illuminate\Http\Response|JsonResponse|Redirector|RedirectResponse|Resp|Response
      * @throws ApplicationException
      * @throws Throwable
      */
@@ -107,6 +107,6 @@ class PamController extends BackendController
     {
         $grid = new Grid(new PamLog());
         $grid->setLists(ListPamLog::class);
-        return (new Content())->body($grid->render());
+        return $grid->render();
     }
 }

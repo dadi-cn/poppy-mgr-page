@@ -102,16 +102,62 @@ class ListPoppyDemo extends ListBase
             });
             $filter->column(1 / 12, function (Filter $filter) {
                 $filter->day('day');
+            });
+            $filter->column(1 / 12, function (Filter $filter) {
                 $filter->date('date');
+            });
+            $filter->column(1 / 12, function (Filter $filter) {
                 $filter->year('year');
+            });
+            $filter->column(1 / 12, function (Filter $filter) {
                 $filter->month('month');
-                $filter->group('group', 'Group', function () {
-                    return [
-                        'id'       => 'ID',
-                        'username' => '用户名',
-                    ];
+            });
+            $filter->column(1 / 12, function (Filter $filter) {
+                $filter->group('group', 'Group', function (Filter\Group $group) {
+                    // 等于
+                    $group->equal('=');
+
+                    // 不等于
+                    $group->notEqual('!=');
+
+                    // 大于
+                    $group->gt('>');
+
+                    // 小于
+                    $group->lt('<');
+
+                    // 大于等于
+                    $group->nlt('>=');
+
+                    // 小于等于
+                    $group->ngt('<=');
+
+                    // 匹配
+                    $group->match('*');
+
+                    // 复杂条件
+                    // $group->where('啥', function($f){
+                    //     $f;
+                    // });
+
+                    // like查询
+                    $group->like('%');
+
+                    // like查询
+                    $group->contains('*');
+
+                    // ilike查询
+                    $group->ilike('like');
+
+                    // 以输入的内容开头
+                    $group->startWith('start');
+
+                    // 以输入的内容结尾
+                    $group->endWith('endwith');
                 });
-                $filter->notEqual('created_at')->day();
+            });
+            $filter->column(1 / 12, function (Filter $filter) {
+                $filter->notEqual('created_at')->datetime();
             });
         };
     }
