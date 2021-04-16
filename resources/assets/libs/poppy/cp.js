@@ -20,6 +20,22 @@
             layer.close(index)
         })
 
+        /* 粘贴板
+         * ---------------------------------------- */
+        if (typeof ClipboardJS !== 'undefined') {
+            let clipboard = new ClipboardJS('.J_copy', {
+                text : function(trigger) {
+                    return trigger.getAttribute('data-text');
+                }
+            });
+            clipboard.on('success', function(e) {
+                Util.splash({
+                    status : 0,
+                    message : '已复制'
+                })
+            });
+        }
+
 
         // 对话框, 用于显示信息提示
         // 不能用于生成图片组件

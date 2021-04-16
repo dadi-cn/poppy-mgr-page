@@ -26,11 +26,11 @@ class ListPoppyEditable extends ListBase
         $this->column('title', '标题(可复制)')->copyable();
         $this->column('progress')->progress();
         $this->column('loading')->loading(['N'], ['Y' => 'over']);
-        $this->column('qr')->display(function(){
-           return data_get($this, 'link');
+        $this->column('qr')->display(function () {
+            return data_get($this, 'link');
         })->qrcode();
 
-        $this->column('title-hide', '标题(隐藏)')->display(function(){
+        $this->column('title-hide', '标题(隐藏)')->display(function () {
             return data_get($this, 'title');
         })->secret();
         $this->column('a')->label('danger');
@@ -46,34 +46,34 @@ class ListPoppyEditable extends ListBase
     public function filter(): Closure
     {
         return function (Filter $filter) {
-            $filter->column(1 / 12, function (Filter $filter) {
+            $filter->column(1, function (Filter $filter) {
                 $filter->like('username', 'username');
             });
-            $filter->column(1 / 12, function (Filter $filter) {
+            $filter->column(1, function (Filter $filter) {
                 $filter->equal('status')->integer();
             });
-            $filter->column(1 / 12, function (Filter $filter) {
+            $filter->column(1, function (Filter $filter) {
                 $filter->startsWith('title');
             });
-            $filter->column(1 / 12, function (Filter $filter) {
+            $filter->column(1, function (Filter $filter) {
                 $filter->lt('progress')->integer();
             });
-            $filter->column(1 / 12, function (Filter $filter) {
+            $filter->column(1, function (Filter $filter) {
                 $filter->gt('progress')->integer();
             });
-            $filter->column(1 / 12, function (Filter $filter) {
+            $filter->column(1, function (Filter $filter) {
                 $filter->day('day');
             });
-            $filter->column(1 / 12, function (Filter $filter) {
+            $filter->column(1, function (Filter $filter) {
                 $filter->date('date');
             });
-            $filter->column(1 / 12, function (Filter $filter) {
+            $filter->column(1, function (Filter $filter) {
                 $filter->year('year');
             });
-            $filter->column(1 / 12, function (Filter $filter) {
+            $filter->column(1, function (Filter $filter) {
                 $filter->month('month');
             });
-            $filter->column(1 / 12, function (Filter $filter) {
+            $filter->column(1, function (Filter $filter) {
                 $filter->group('group', 'Group', function (Filter\Group $group) {
                     // 等于
                     $group->equal('=');
@@ -117,7 +117,7 @@ class ListPoppyEditable extends ListBase
                     $group->endWith('endwith');
                 });
             });
-            $filter->column(1 / 12, function (Filter $filter) {
+            $filter->column(2, function (Filter $filter) {
                 $filter->between('created_at')->datetime();
             });
         };
