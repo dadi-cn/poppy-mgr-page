@@ -118,7 +118,7 @@ class ListPoppyEditable extends ListBase
                 });
             });
             $filter->column(1 / 12, function (Filter $filter) {
-                $filter->notEqual('created_at')->datetime();
+                $filter->between('created_at')->datetime();
             });
         };
     }
