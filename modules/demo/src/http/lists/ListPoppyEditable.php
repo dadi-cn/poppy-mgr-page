@@ -22,19 +22,20 @@ class ListPoppyEditable extends ListBase
         $this->column('id', 'Id');
         $this->column('list_order', 'ListOrder')->editable()->sortable();
 
-        // $grid->column('desc')->view('content');
-
-        $this->column('link')->image('', 40, 60);
-
-        $this->column('progress')->loading([20], [50 => '完成']);
-        $this->column('last_name')->using(['N' => 'this is N', 'G' => 'this is G', 'H' => 'this is H']);
+        $this->column('image', '图片(可放大)')->image('', 28, 28);
+        $this->column('title', '标题(可复制)')->copyable();
+        $this->column('progress')->progress();
+        $this->column('loading')->loading(['N'], ['Y' => 'over']);
+        $this->column('qr')->display(function(){
+           return data_get($this, 'link');
+        })->qrcode();
 
         $this->column('trashed', '数量')->totalRow();
 
 
         $this->column('a')->label('danger');
 
-        $this->column('c')->progress();
+
     }
 
 
