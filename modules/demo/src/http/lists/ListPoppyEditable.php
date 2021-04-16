@@ -19,9 +19,8 @@ class ListPoppyEditable extends ListBase
      */
     public function columns()
     {
-        $this->column('list_order')->display(function ($first_name, $column) {
-            return $column->editable();
-        });
+        $this->column('id', 'Id');
+        $this->column('list_order', 'ListOrder')->editable()->sortable();
 
         // $grid->column('desc')->view('content');
 
