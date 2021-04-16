@@ -47,7 +47,7 @@ class ListPoppyIndex extends ListBase
         ]);
 
         // lable
-        $this->column('title')->label;
+        $this->column('title')->label();
 
         // button 与 badge 一致
         $this->column('handle', 'Button(按钮)')->button('J_iframe layui-btn layui-btn-primary layui-border-blue');
@@ -67,7 +67,7 @@ class ListPoppyIndex extends ListBase
         // $this->column('order_able')->orderAble('order_able', 'Order');
 
         $this->column('expand')->expand(function () {
-            return data_get($this, '');
+            return data_get($this, 'modal');
         });
 
         $this->column('modal')->modal(function () {
@@ -87,34 +87,34 @@ class ListPoppyIndex extends ListBase
     public function filter(): Closure
     {
         return function (Filter $filter) {
-            $filter->column(1 / 12, function (Filter $filter) {
+            $filter->column(1, function (Filter $filter) {
                 $filter->like('username', 'username');
             });
-            $filter->column(1 / 12, function (Filter $filter) {
+            $filter->column(1, function (Filter $filter) {
                 $filter->equal('status')->integer();
             });
-            $filter->column(1 / 12, function (Filter $filter) {
+            $filter->column(1, function (Filter $filter) {
                 $filter->startsWith('title');
             });
-            $filter->column(1 / 12, function (Filter $filter) {
+            $filter->column(1, function (Filter $filter) {
                 $filter->lt('progress')->integer();
             });
-            $filter->column(1 / 12, function (Filter $filter) {
+            $filter->column(1, function (Filter $filter) {
                 $filter->gt('progress')->integer();
             });
-            $filter->column(1 / 12, function (Filter $filter) {
+            $filter->column(1, function (Filter $filter) {
                 $filter->day('day');
             });
-            $filter->column(1 / 12, function (Filter $filter) {
+            $filter->column(1, function (Filter $filter) {
                 $filter->date('date');
             });
-            $filter->column(1 / 12, function (Filter $filter) {
+            $filter->column(1, function (Filter $filter) {
                 $filter->year('year');
             });
-            $filter->column(1 / 12, function (Filter $filter) {
+            $filter->column(1, function (Filter $filter) {
                 $filter->month('month');
             });
-            $filter->column(1 / 12, function (Filter $filter) {
+            $filter->column(2, function (Filter $filter) {
                 $filter->group('group', 'Group', function (Filter\Group $group) {
                     // 等于
                     $group->equal('=');
@@ -158,23 +158,26 @@ class ListPoppyIndex extends ListBase
                     $group->endWith('endwith');
                 });
             });
-            $filter->column(1 / 12, function (Filter $filter) {
+            $filter->column(1, function (Filter $filter) {
                 $filter->notEqual('created_at')->datetime();
             });
-            $filter->where(function ($query) {
-                $handle = input('handle');
-                $query->where('handle', 'like', "%{$handle}%");
-            }, 'button', 'handle');
-            $filter->column(1 / 12, function (Filter $filter) {
+            $filter->column(1, function (Filter $filter) {
+                $filter->where(function ($query) {
+                    $handle = input('handle');
+                    $query->where('handle', 'like', "%{$handle}%");
+                }, 'button', 'handle');
+            });
+
+            $filter->column(1, function (Filter $filter) {
                 $filter->in('type')->multipleSelect(['user' => '用户', 'backend' => '管理员', 'develop' => '开发者']);
             });
-            $filter->column(1 / 12, function (Filter $filter) {
+            $filter->column(1, function (Filter $filter) {
                 $filter->notIn('op_group')->multipleSelect(['play' => '伙玩', 'dailian' => '代练', 'fadan' => '发单']);
             });
-            $filter->column(1 / 12, function (Filter $filter) {
+            $filter->column(1, function (Filter $filter) {
                 $filter->endsWith('suffix');
             });
-            $filter->column(1 / 12, function (Filter $filter) {
+            $filter->column(1, function (Filter $filter) {
                 $filter->contains('modal');
             });
             $filter->column(0, function (Filter $filter) {
