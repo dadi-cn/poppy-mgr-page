@@ -41,6 +41,14 @@ return [
         |
         */
         'secret'        => env('PY_SYS_SECRET', ''),
+
+
+        /* 用户模块类型映射
+         * ---------------------------------------- */
+        'role_type_map' => [
+            'desktop' => 'backend',
+            'front'   => 'user',
+        ],
     ],
 
     'core' => [
