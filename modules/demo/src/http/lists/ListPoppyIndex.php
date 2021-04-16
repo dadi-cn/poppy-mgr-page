@@ -28,51 +28,8 @@ class ListPoppyIndex extends ListBase
             0 => '关闭',
         ]);
 
-        // 开关组
-        $this->column('op_group', 'Switch(组)')->switchGroup([
-            'play'    => '伙玩',
-            'dailian' => '代练',
-            'fadan'   => '发单',
-        ], [
-            'play'    => '伙玩',
-            'dailian' => '代练',
-            'fadan'   => '发单',
-        ]);
-
-        // 单选
-        $this->column('type', 'Select单选')->select([
-            'user'    => 'user',
-            'backend' => 'backend',
-            'develop' => 'develop',
-        ]);
-
-        // lable
-        $this->column('title')->label();
-
-        // button 与 badge 一致
-        $this->column('handle', 'Button(按钮)')->button('J_iframe layui-btn layui-btn-primary layui-border-blue');
-
         // 文件链接地址
         $this->column('file', '文件链接地址')->link();
-
-        // 渲染状态值
-        $this->column('status', 'Radio(状态值)')->radio([
-            0 => '未知',
-            1 => '已下单',
-            2 => '已付款',
-            3 => '已取消',
-        ]);
-
-        // orderAble table 方法错误
-        // $this->column('order_able')->orderAble('order_able', 'Order');
-
-        $this->column('expand')->expand(function () {
-            return data_get($this, 'modal');
-        });
-
-        $this->column('modal')->modal(function () {
-            return data_get($this, 'modal');
-        });
 
         $this->column('prefix', 'Prefix(默认前缀-Py)')->prefix('Py');
 

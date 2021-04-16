@@ -42,6 +42,8 @@ demo:
         -
           title: Grid Demo
           route: demo:web.table.grid_demo
+          route_param:
+            - demo
     -
       title: 前端文档
       children:
