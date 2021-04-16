@@ -4,6 +4,7 @@ namespace Demo\Http\Request\Web;
 
 use Demo\Http\Lists\ListPoppyDemo;
 use Demo\Http\Lists\ListPoppyEditable;
+use Demo\Http\Lists\ListPoppyIndex;
 use Demo\Models\PoppyDemo;
 use Poppy\System\Classes\Grid;
 use Poppy\System\Classes\Layout\Content;
@@ -47,7 +48,9 @@ class TableController extends WebController
         if ($type === 'edit') {
             $grid->setLists(ListPoppyEditable::class);
         }
-
+        if ($type === 'index') {
+            $grid->setLists(ListPoppyIndex::class);
+        }
         // $grid->disableCreateButton();
 
         // $grid->disablePagination();
