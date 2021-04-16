@@ -30,9 +30,9 @@ class ListPoppyEditable extends ListBase
            return data_get($this, 'link');
         })->qrcode();
 
-        $this->column('trashed', '数量')->totalRow();
-
-
+        $this->column('title-hide', '标题(隐藏)')->display(function(){
+            return data_get($this, 'title');
+        })->secret();
         $this->column('a')->label('danger');
 
 
