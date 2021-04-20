@@ -197,6 +197,11 @@ demo:
               route_param:
                 - Select
             -
+              title: MultipleSelect
+              route: demo:web.form.index
+              route_param:
+                - MultipleSelect
+            -
               title: SwitchField
               route: demo:web.form.index
               route_param:

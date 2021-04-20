@@ -897,6 +897,10 @@ HTML;
         $width       = $options['width'] ?? '';
         $width       = $width ? 'w' . $width : '';
         $id          = 'select_' . Str::random(6);
+        $direction   = $options['direction'] ?? 'down';//下拉方向
+        $paging      = $options['paging'] ?? false;//是否开启分页
+        $filter      = $options['filter'] ?? false;//是否开启搜索
+        $size        = $options['size'] ?? 8;//分页数量
 
         if (is_string($value)) {
             $value = explode(',', $value);
@@ -939,6 +943,12 @@ HTML;
 		name : '{$name}',
 		tips : '{$placeholder}',
 		height : '{$height}',
+		direction : '{$direction}',
+		paging : '{$paging}',
+		pageSize : {$size},
+		autoRow : true,
+		filterable: '{$filter}',
+		pageEmptyShow: false,
 		data : []
 	});
 

@@ -13,6 +13,13 @@ class FormMultipleSelect extends FormBaseWidget
     protected $title = 'MultipleSelect';
 
 
+    public function data(): array
+    {
+        return [
+            'data' => [1],
+        ];
+    }
+
     /**
      * Build a form here.
      */
@@ -20,11 +27,15 @@ class FormMultipleSelect extends FormBaseWidget
     {
         $this->divider('select 多选');
 
-        $this->multipleSelect('datal', 'Fill')
-            ->fill([
+        $this->multipleSelect('data', 'Fill')
+            ->options([
                 1 => 'Name',
                 2 => 'Name2',
                 3 => 'Name3',
+            ])->attribute([
+                'paging' => true,
+                'size'   => 2,
+                'filter' => true,
             ]);
     }
 }
