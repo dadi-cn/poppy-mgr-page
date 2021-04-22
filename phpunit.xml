@@ -40,6 +40,9 @@
         <testsuite name="config">
             <directory>./poppy/system/tests/Configuration</directory>
         </testsuite>
+        <testsuite name="demo">
+            <directory>./modules/demo/tests/Support</directory>
+        </testsuite>
     </testsuites>
     <!--  2021年04月10日 : 默认不开启
        <coverage cacheDirectory="storage/phpunit/coverage-cache" processUncoveredFiles="true">
@@ -52,4 +55,12 @@
         </report>
     </coverage>
    -->
+    <coverage cacheDirectory="storage/phpunit/coverage-cache" processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">./modules/demo/src</directory>
+        </include>
+        <report>
+            <html outputDirectory="storage/phpunit/coverage-html" lowUpperBound="50" highLowerBound="90"/>
+        </report>
+    </coverage>
 </phpunit>
