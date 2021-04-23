@@ -74,6 +74,14 @@ class UtilHelperTest extends TestCase
     {
         $phone = UtilHelper::isMobile('15988910012');
         $this->assertEquals(true, $phone);
+        $phone = UtilHelper::isMobile('86-15988910012');
+        $this->assertEquals(true, $phone);
+        $phone = UtilHelper::isMobile('33023-000001');
+        $this->assertEquals(false, $phone);
+        $phone = UtilHelper::isMobile('33023-0000001');
+        $this->assertEquals(true, $phone);
+        $phone = UtilHelper::isMobile('11-8181818');
+        $this->assertEquals(true, $phone);
     }
 
     public function testIsTelephone(): void
