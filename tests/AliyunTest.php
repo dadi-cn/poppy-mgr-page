@@ -27,6 +27,32 @@ class AliyunTest extends BaseSms
         ]);
     }
 
+
+    public function testCombile()
+    {
+        $mobiles      = '15555555551';
+        $carryMobiles = function ($mobiles) {
+            return array_reduce((array) $mobiles, function ($carry, $mobile) {
+                $mobile = str_replace('-', '', $mobile);
+                return $carry ? $carry . ',' . $mobile : $mobile;
+            }, '');
+        };
+        // single
+        $this->assertEquals('15555555551', $carryMobiles($mobiles));
+
+        // single
+        $mobiles = ['86-15555555552'];
+        $this->assertEquals('8615555555552', $carryMobiles($mobiles));
+
+        // multi
+        $mobiles = ['15555555553', '16666666666'];
+        $this->assertEquals('15555555553,16666666666', $carryMobiles($mobiles));
+
+        // multi string
+        $mobiles = '15555555554,16666666666';
+        $this->assertEquals('15555555554,16666666666', $carryMobiles($mobiles));
+    }
+
     /**
      * 测试短信发送
      */
