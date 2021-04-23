@@ -32,6 +32,9 @@ class ChuanglanSms extends BaseSms implements SmsContract
         }
 
         // 如果是86 改为1xxx
+        if (is_array($mobiles)) {
+            $mobiles = MobileCty::passportMobile(implode(',', $mobiles));
+        }
         $mobiles = MobileCty::passportMobile($mobiles);
 
         $msg = sys_trans($this->sms['code'], $params);
