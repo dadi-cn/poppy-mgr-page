@@ -117,6 +117,19 @@ class Rule extends IlluminateRule
     }
 
     /**
+     * 用户名验证, 支持子用户
+     * @param bool $sub 是否是子用户
+     * @return string
+     */
+    public static function username($sub = false): string
+    {
+        if ($sub) {
+            return 'username:sub';
+        }
+        return 'username:normal';
+    }
+
+    /**
      * @return string
      */
     public static function file(): string

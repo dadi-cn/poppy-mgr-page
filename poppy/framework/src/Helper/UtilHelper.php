@@ -2,6 +2,8 @@
 
 namespace Poppy\Framework\Helper;
 
+use Illuminate\Support\Str;
+
 /**
  * 功能函数类
  */
@@ -54,6 +56,22 @@ class UtilHelper
         return (bool) preg_match('/^http(s?):\/\/.*/', $url);
     }
 
+
+    /**
+     * 是否是用户名, 子用户比主用户多一个英文版本的 `:`
+     * @url https://regex101.com/r/otDXQG/1/
+     * @param string $username 用户名
+     * @param false  $is_sub   是否是子用户
+     * @return bool
+     */
+    public static function isUsername(string $username, $is_sub = false): bool
+    {
+        if (preg_match('/(?<username>[a-zA-Z\x{4e00}-\x{9fa5}][' . ($is_sub ? ':' : '') . 'a-zA-Z0-9_\x{4e00}-\x{9fa5}]+)/u', $username, $match)) {
+            return $match['username'] === $username;
+        }
+        return false;
+    }
+
     /**
      * 检测是否搜索机器人.
      * @return bool
@@ -74,11 +92,11 @@ class UtilHelper
     /**
      * 检测IP的匹配
      * @param string $ip 是否是IPv4
-     * @return int
+     * @return bool
      */
-    public static function isIp($ip)
+    public static function isIp(string $ip): bool
     {
-        return preg_match('/^([0-9]{1,3}\.){3}[0-9]{1,3}$/', $ip);
+        return (bool) preg_match('/^([0-9]{1,3}\.){3}[0-9]{1,3}$/', $ip);
     }
 
     /**
@@ -98,43 +116,53 @@ class UtilHelper
      */
     public static function isImage(string $filename): bool
     {
-        return (bool) preg_match('/^(jpg|jpeg|gif|png|bmp)$/i', FileHelper::ext($filename));
+        return (bool) preg_match('/^(jpg|jpeg|gif|png|bmp|webp)$/i', FileHelper::ext($filename));
     }
 
     /**
      * 是否是正确的手机号码
-     * // todo 国际正则手机号验证
-     * @url https://regex101.com/r/gO3lJ7/1
+     * @url https://regex101.com/r/7hOVSg/1
      * @param string $mobile 手机号
-     * @return int
+     * @return bool
      */
-    public static function isMobile(string $mobile)
+    public static function isMobile(string $mobile): bool
     {
-        return preg_match("/^(\+86)?1(3|4|5|6|8|7|9)[0-9]\d{8}$/i", $mobile);
+        if ((strlen($mobile) && is_numeric($mobile)) || Str::startsWith($mobile, ['+86', '86-'])) {
+            return self::isChMobile($mobile);
+        }
+        return (bool) preg_match('/^\+?(\d{1,5})-?\d{6,14}[0-9]$/', $mobile);
+    }
+
+    /**
+     * 是否是国内手机号
+     * @param string $mobile
+     * @return bool
+     */
+    public static function isChMobile(string $mobile): bool
+    {
+        return (bool) preg_match("/^(\+86|86-)?1(3|4|5|6|8|7|9)[0-9]\d{8}$/i", $mobile);
     }
 
     /**
      * 联系方式
      * @param string $telephone 电话号码
-     * @return int
+     * @return bool
      */
-    public static function isTelephone(string $telephone)
+    public static function isTelephone(string $telephone): bool
     {
         //return preg_match("/^[0-9\-\+]{7,}$/", $telephone);
         //return preg_match("/^(\(\d{3,4}-)|\d{3.4}-)?\d{7,8}$/", $telephone);
-        return preg_match("/((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/", $telephone);
+        return (bool) preg_match("/((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/", $telephone);
     }
 
     /**
      * 是否全部为中文, 并且验证长度
      * @param string $str 字串
-     * @return int
+     * @return bool
      */
-    public static function isChinese(string $str)
+    public static function isChinese(string $str): bool
     {
-        $re = '/^[\\x{4e00}-\\x{9fa5}]{1,}$/u';
-
-        return preg_match($re, $str, $matches);
+        return (bool) preg_match('/^[\x{4e00}-\x{9fa5}]+$/u', $str, $matches);
     }
 
     /**
@@ -495,10 +523,9 @@ class UtilHelper
      */
     public static function isPwd(string $pwd): bool
     {
-        if (preg_match('/([0-9a-zA-Z_\*\.\[\]\-!@#\$%\^&\(\)\~]+)/i', $pwd, $match)) {
+        if (preg_match('/([0-9a-zA-Z_*.\[\]\-!@#$%^&()~]+)/i', $pwd, $match)) {
             return $match[0] === $pwd;
         }
-
         return false;
     }
 

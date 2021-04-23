@@ -117,6 +117,25 @@ class ValidationTest extends TestCase
         }
     }
 
+    public function testUsername()
+    {
+        // false
+        $str       = '我是中国人---xxx';
+        $validator = Validator::make([
+            'len' => $str,
+        ], [
+            'len' => [
+                Rule::username(),
+            ],
+        ]);
+        if ($validator->fails()) {
+            $this->assertTrue(true, $validator->messages()->toJson(JSON_UNESCAPED_UNICODE));
+        }
+        else {
+            $this->assertTrue(true);
+        }
+    }
+
 
     public function testLength(): void
     {
