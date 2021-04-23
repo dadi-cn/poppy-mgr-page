@@ -21,6 +21,9 @@ class Sms
     public const SCOPE_ALIYUN    = 'aliyun';
     public const SCOPE_CHUANGLAN = 'chuanglan';
 
+    public const ZH  = 'zh';
+    public const CTY = 'cty';
+
     private const CACHE_TEMPLATES = 'py-sms::sms.template';
 
 
@@ -199,6 +202,7 @@ class Sms
      */
     private function save(): bool
     {
+        // todo li 区分国际/国内模板
         $this->sysSetting()->set(self::CACHE_TEMPLATES, $this->templates->toArray());
         return true;
     }
