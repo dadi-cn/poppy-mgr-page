@@ -40,6 +40,9 @@ class AliyunSms extends BaseSms implements SmsContract
             if (!class_exists('AlibabaCloud\Dysmsapi\Dysmsapi')) {
                 throw new SmsException('你需要手动安装 `alibabacloud/dysmsapi` 组件');
             }
+            /**
+             * @url https://help.aliyun.com/document_detail/101414.htm
+             */
             $result = AlibabaCloud::rpc()
                 ->product('Dysmsapi')
                 ->scheme('https') // https | http
