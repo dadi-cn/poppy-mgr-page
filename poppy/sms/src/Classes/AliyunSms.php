@@ -8,7 +8,6 @@ use AlibabaCloud\Client\Exception\ServerException;
 use Poppy\Framework\Classes\Traits\AppTrait;
 use Poppy\Sms\Classes\Contracts\SmsContract;
 use Poppy\Sms\Exceptions\SmsException;
-use Poppy\System\Classes\Passport\MobileCty;
 use Throwable;
 
 class AliyunSms extends BaseSms implements SmsContract
@@ -33,10 +32,11 @@ class AliyunSms extends BaseSms implements SmsContract
             return false;
         }
 
-        if (is_array($mobiles)) {
-            $mobiles = MobileCty::passportMobile(implode(',', $mobiles));
-        }
-        $mobiles = MobileCty::passportMobile($mobiles);
+        // 支持数组/字串/多字串
+        $mobiles = array_reduce((array) $mobiles, function ($carry, $mobile) {
+            $mobile = str_replace('-', '', $mobile);
+            return $carry ? $carry . ',' . $mobile : $mobile;
+        }, '');
 
         try {
             if (!class_exists('AlibabaCloud\Dysmsapi\Dysmsapi')) {

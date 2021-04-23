@@ -4,7 +4,6 @@ namespace Poppy\Sms\Classes;
 
 use Poppy\Sms\Classes\Chuanglan\SmsApi;
 use Poppy\Sms\Classes\Contracts\SmsContract;
-use Poppy\System\Classes\Passport\MobileCty;
 
 class ChuanglanSms extends BaseSms implements SmsContract
 {
@@ -32,10 +31,6 @@ class ChuanglanSms extends BaseSms implements SmsContract
         }
 
         // 如果是86 改为1xxx
-        if (is_array($mobiles)) {
-            $mobiles = MobileCty::passportMobile(implode(',', $mobiles));
-        }
-        $mobiles = MobileCty::passportMobile($mobiles);
 
         $msg = sys_trans($this->sms['code'], $params);
         // 拼接签名
