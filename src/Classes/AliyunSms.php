@@ -33,6 +33,7 @@ class AliyunSms extends BaseSms implements SmsContract
             return false;
         }
 
+        // todo bug , 不支持数组
         $mobiles = MobileCty::passportMobile($mobiles);
 
         try {
