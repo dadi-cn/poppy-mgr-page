@@ -9,6 +9,8 @@ class FormSettingSms extends FormSettingBase
 {
     protected $group = 'py-sms::sms';
 
+    protected $withContent = true;
+
     public function form()
     {
         $this->radio('send_type', '发送方式')->options([

@@ -22,7 +22,7 @@ class FunctionTest extends TestCase
 
     public function testMobile(): void
     {
-        $user = PamAccount::where('type', PamAccount::TYPE_USER)->pluck('id', 'mobile');
+        $user = PamAccount::where('type', PamAccount::TYPE_USER)->where('mobile', '!=', '')->pluck('id', 'mobile');
         if (!$user) {
             $this->assertTrue(false, '无用户信息');
         }
