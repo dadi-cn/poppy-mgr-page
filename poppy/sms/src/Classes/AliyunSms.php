@@ -8,6 +8,7 @@ use AlibabaCloud\Client\Exception\ServerException;
 use Poppy\Framework\Classes\Traits\AppTrait;
 use Poppy\Sms\Classes\Contracts\SmsContract;
 use Poppy\Sms\Exceptions\SmsException;
+use Poppy\System\Classes\Passport\MobileCty;
 use Throwable;
 
 class AliyunSms extends BaseSms implements SmsContract
@@ -31,6 +32,8 @@ class AliyunSms extends BaseSms implements SmsContract
         if (!$this->checkSms($mobiles, $type, $sign)) {
             return false;
         }
+
+        $mobiles = MobileCty::passportMobile($mobiles);
 
         try {
             if (!class_exists('AlibabaCloud\Dysmsapi\Dysmsapi')) {

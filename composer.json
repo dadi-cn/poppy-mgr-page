@@ -49,7 +49,8 @@
         "alibabacloud/sts": "^1.8",
         "overtrue/pinyin": "^4.0",
         "overtrue/wechat": "~4.0",
-        "xingwenge/canal_php": "^1.0"
+        "xingwenge/canal_php": "^1.0",
+        "giggsey/libphonenumber-for-php": "^8.12"
     },
     "require-dev": {
         "itsgoingd/clockwork": "~4.0",
