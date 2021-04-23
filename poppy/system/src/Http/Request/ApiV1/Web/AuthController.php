@@ -155,7 +155,9 @@ class AuthController extends WebApiController
      * @apiVersion             1.0.0
      * @apiName                SysAuthResetPassword
      * @apiGroup               Poppy
-     * @apiParam {string}      verify_code     验证串
+     * @apiParam {string}      [verify_code]   验证串
+     * @apiParam {string}      [captcha]       验证码
+     * @apiParam {string}      [passport]      通行证
      * @apiParam {string}      password        密码
      */
     public function resetPassword()

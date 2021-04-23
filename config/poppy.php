@@ -114,6 +114,10 @@ return [
                 'title' => '验证码(:code)',
             ],
             [
+                'type'  => 'captcha-cty',
+                'title' => '国际验证码(:code)',
+            ],
+            [
                 'type'  => 'handle',
                 'title' => '接单成功通知',
             ],
