@@ -70,6 +70,14 @@ class UtilHelperTest extends TestCase
         $this->assertEquals(true, $image);
     }
 
+    public function testIsUsername(): void
+    {
+        $this->assertEquals(false, UtilHelper::isUsername('demo.jpg'));
+        $this->assertEquals(false, UtilHelper::isUsername('username*()'));
+        $this->assertEquals(true, UtilHelper::isUsername('username'));
+        $this->assertEquals(true, UtilHelper::isUsername('username:wolegequ', true));
+    }
+
     public function testIsMobile(): void
     {
         $phone = UtilHelper::isMobile('15988910012');
@@ -226,20 +234,20 @@ class UtilHelperTest extends TestCase
 
     public function testIsJson(): void
     {
-        $str    = UtilHelper::isJson(json_encode([
-            'a' => 'b', 'c' => 'd'
+        $str = UtilHelper::isJson(json_encode([
+            'a' => 'b', 'c' => 'd',
         ]));
         $this->assertEquals(true, $str);
-        $str    = UtilHelper::isJson(json_encode([
-            'a', 'b'
+        $str = UtilHelper::isJson(json_encode([
+            'a', 'b',
         ]));
         $this->assertEquals(true, $str);
 
-        $str    = UtilHelper::isJson(json_encode(''));
+        $str = UtilHelper::isJson(json_encode(''));
         $this->assertEquals(true, $str);
-        $str    = UtilHelper::isJson(json_encode(true));
+        $str = UtilHelper::isJson(json_encode(true));
         $this->assertEquals(true, $str);
-        $str    = UtilHelper::isJson(json_encode(false));
+        $str = UtilHelper::isJson(json_encode(false));
         $this->assertEquals(true, $str);
     }
 

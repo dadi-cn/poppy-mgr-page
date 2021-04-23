@@ -3,6 +3,7 @@
 namespace Poppy\Framework;
 
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 use Poppy\Framework\Helper\UtilHelper;
 
@@ -89,6 +90,10 @@ class FrameworkServiceProvider extends ServiceProvider
         });
         app('validator')->extend('simple_pwd', function ($attribute, $value, $parameters) {
             return UtilHelper::isPwd($value);
+        });
+        app('validator')->extend('username', function ($attribute, $value, $parameters) {
+            $first = Arr::first($parameters);
+            return UtilHelper::isUsername($value, $first === 'sub');
         });
     }
 }
