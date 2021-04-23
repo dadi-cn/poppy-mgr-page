@@ -33,7 +33,9 @@ class AliyunSms extends BaseSms implements SmsContract
             return false;
         }
 
-        // todo bug , 不支持数组
+        if (is_array($mobiles)) {
+            $mobiles = MobileCty::passportMobile(implode(',', $mobiles));
+        }
         $mobiles = MobileCty::passportMobile($mobiles);
 
         try {

@@ -13,6 +13,6 @@ Route::group([
     $router->any('sms/destroy/{id}', 'SmsController@destroy')
         ->name('py-sms:backend.sms.destroy');
 
-    $router->get('sms/store', 'SmsController@store')
+    $router->any('sms/store', 'SmsController@store')
         ->name('py-sms:backend.sms.store');
 });
