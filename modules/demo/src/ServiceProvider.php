@@ -6,7 +6,6 @@ namespace Demo;
  * Copyright (C) Update For IDE
  */
 
-use Demo\Commands\UserMobileCommand;
 use Demo\Http\RouteServiceProvider;
 use Poppy\Framework\Exceptions\ModuleNotFoundException;
 use Poppy\Framework\Support\PoppyServiceProvider as ModuleServiceProviderBase;
@@ -35,8 +34,5 @@ class ServiceProvider extends ModuleServiceProviderBase
     public function register()
     {
         $this->app->register(RouteServiceProvider::class);
-        $this->commands([
-            Commands\UserMobileCommand::class,
-        ]);
     }
 }
