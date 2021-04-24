@@ -15,7 +15,8 @@ use Validator;
 use View;
 
 /**
- * 地区管理action
+ * 地区
+ * @url https://segmentfault.com/a/1190000021127798
  */
 class Area
 {
