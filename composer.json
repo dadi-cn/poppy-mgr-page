@@ -23,13 +23,6 @@
 			"Poppy\\AliyunPush\\Tests\\": "tests/"
 		}
 	},
-	"extra": {
-		"laravel": {
-			"providers": [
-				"Poppy\\AliyunPush\\ServiceProvider"
-			]
-		}
-	},
 	"config": {
 		"preferred-install": "dist"
 	},
