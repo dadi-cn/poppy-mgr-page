@@ -11,7 +11,6 @@ use Poppy\Framework\Helper\UtilHelper;
 use Poppy\Framework\Validation\Rule;
 use Poppy\System\Action\Pam;
 use Poppy\System\Action\Verification;
-use Poppy\System\Classes\Passport\MobileCty;
 use Poppy\System\Models\PamAccount;
 use Poppy\System\Models\Resources\PamResource;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -105,7 +104,7 @@ class AuthController extends WebApiController
             return Resp::error($validator->messages());
         }
 
-        $passport = input('passport', '');
+        $passport = PamAccount::fullFilledPassport(input('passport', ''));
         $captcha  = input('captcha', '');
         $password = input('password', '');
         $platform = input('platform', '');
@@ -155,31 +154,83 @@ class AuthController extends WebApiController
      * @apiVersion             1.0.0
      * @apiName                SysAuthResetPassword
      * @apiGroup               Poppy
-     * @apiParam {string}      [verify_code]   验证串
-     * @apiParam {string}      [captcha]       验证码
-     * @apiParam {string}      [passport]      通行证
-     * @apiParam {string}      password        密码
+     * @apiParam {string}      [verify_code]     方式1: 通过验证码获取到-> 验证串
+     * @apiParam {string}      [passport]        方式2: 手机号 + 验证码直接验证并修改
+     * @apiParam {string}      [captcha]         验证码
+     * @apiParam {string}      password          密码
      */
     public function resetPassword()
     {
         $verify_code = input('verify_code', '');
         $password    = input('password', '');
+        $passport    = input('passport', '');
+        $captcha     = input('captcha', '');
 
         $Verification = new Verification();
-        if ($Verification->verifyOnceCode($verify_code)) {
-            $passport = $Verification->getHidden();
-            $Pam      = new Pam();
-            $pam      = PamAccount::passport($passport);
-            if ($Pam->setPassword($pam, $password)) {
-                return Resp::success('密码已经重新设置');
-            }
-
-            return Resp::error($Pam->getError());
+        if (!$password) {
+            return Resp::error('密码必须填写');
         }
 
-        return Resp::error($Verification->getError());
+        if ((!$verify_code && !$passport) || ($verify_code && $passport)) {
+            return Resp::error('请选一种方式重设密码!');
+        }
+        if ($passport) {
+            if (!$captcha || !$Verification->checkCaptcha($passport, $captcha)) {
+                return Resp::error('请输入正确验证码');
+            }
+        }
+
+        if ($verify_code) {
+            if (!$Verification->verifyOnceCode($verify_code)) {
+                return Resp::error($Verification->getError());
+            }
+            $passport = $Verification->getHidden();
+        }
+
+        $Pam = new Pam();
+        if ($Pam->setPassword($passport, $password)) {
+            return Resp::success('密码已经重新设置');
+        }
+
+        return Resp::error($Pam->getError());
     }
 
+    /**
+     * @api                    {post} api_v1/system/auth/bind_mobile [Sys]换绑手机
+     * @apiVersion             1.0.0
+     * @apiName                SysAuthBindMobile
+     * @apiGroup               Poppy
+     * @apiParam {string}      verify_code     之前手机号生成的校验验证串
+     * @apiParam {string}      passport        新手机号
+     * @apiParam {string}      captcha         验证码
+     */
+    public function bindMobile()
+    {
+        $captcha     = input('captcha');
+        $passport    = input('passport');
+        $verify_code = input('verify_code');
+
+        if (!UtilHelper::isMobile($passport)) {
+            return Resp::error('请输入正确手机号');
+        }
+
+        $Verification = new Verification();
+        if (!$Verification->checkCaptcha($passport, $captcha)) {
+            return Resp::error('请输入正确验证码');
+        }
+
+        if ($verify_code && !$Verification->verifyOnceCode($verify_code)) {
+            return Resp::error($Verification->getError());
+        }
+
+        $hidden = $Verification->getHidden();
+
+        $Pam = new Pam();
+        if (!$Pam->rebind($hidden, $passport)) {
+            return Resp::error($Pam->getError());
+        }
+        return Resp::success('成功绑定手机');
+    }
 
     protected function username(): string
     {

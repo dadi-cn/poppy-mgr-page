@@ -78,15 +78,37 @@ class PamTest extends SystemTestCase
         }
     }
 
+
+    public function testRebind()
+    {
+        $this->initPam();
+        $mobile = $this->faker()->phoneNumber;
+        $Pam    = new Pam();
+        if ($Pam->rebind($this->pam, $mobile)) {
+            $this->assertTrue(true);
+        }
+        else {
+            $this->assertTrue(false, $Pam->getError());
+        }
+    }
+
     /**
      * 设置密码
      */
     public function testSetPassword(): void
     {
+        $this->initPam();
         $Pam      = new Pam();
         $password = $this->faker()->bothify('?#?#?#');
         if ($Pam->setPassword($this->pam, $password)) {
             $this->assertTrue(true);
+            if (!$Pam->loginCheck($this->pam->mobile, $password)) {
+                $this->assertTrue(false, $Pam->getError());
+            }
+            else {
+                $this->assertTrue(true);
+            }
+
         }
         else {
             $this->assertTrue(false, $Pam->getError());
