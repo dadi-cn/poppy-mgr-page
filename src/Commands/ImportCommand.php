@@ -63,7 +63,12 @@ class ImportCommand extends Command
             if (AreaContent::where('parent_id', $provinceId)->exists()) {
                 continue;
             }
-            AreaContent::insert($insert);
+            if(count($insert)){
+                AreaContent::where('id', $provinceId)->update([
+                    'has_child' => 1,
+                ]);
+                AreaContent::insert($insert);
+            }
         }
         $kv = AreaContent::whereRaw('right(code, 8) = "00000000"')->where('parent_id', '!=', 0)->pluck('id', 'code');
         $this->rds->hMSet($this->ckCity(), $kv->toArray());
@@ -89,7 +94,12 @@ class ImportCommand extends Command
             if (AreaContent::where('parent_id', $cityId)->exists()) {
                 continue;
             }
-            AreaContent::insert($insert);
+            if(count($insert)){
+                AreaContent::where('id', $cityId)->update([
+                    'has_child' => 1,
+                ]);
+                AreaContent::insert($insert);
+            }
         }
     }
 
