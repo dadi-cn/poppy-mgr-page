@@ -1,24 +1,26 @@
 <?php
 
-namespace Poppy\System\Tests\Classes;
+namespace Poppy\Area\Tests;
 
 /**
  * Copyright (C) Update For IDE
  */
 
-use Poppy\System\Classes\Misc\MiscArea;
+use Poppy\Area\Models\AreaContent;
 use Poppy\System\Tests\Base\SystemTestCase;
 
-class MiscTest extends SystemTestCase
+class AreaTest extends SystemTestCase
 {
     public function testCountryKv(): void
     {
-        $countryKv = MiscArea::kvCountry();
+        $countryKv = AreaContent::kvCountry();
         $this->assertEquals('中国', $countryKv['CN']);
     }
+
+
     public function testAreaKv(): void
     {
-        $cityKv = MiscArea::kvCity();
-        $this->assertEquals('济南市', $cityKv['3701']);
+        $city = AreaContent::kvCity('3701');
+        $this->assertEquals('济南市', $city);
     }
 }

@@ -7,7 +7,6 @@ use Poppy\Area\Models\AreaContent;
 use Poppy\Area\Models\Filters\AreaContentFilter;
 use Poppy\Framework\Classes\Resp;
 use Poppy\MgrPage\Http\Request\Backend\BackendController;
-use Poppy\System\Models\PamAccount;
 use Poppy\System\Models\SysConfig;
 
 /**
@@ -27,14 +26,13 @@ class ContentController extends BackendController
     /**
      * 地区列表
      * @param null|int $id 地区id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index($id = null)
     {
         $input       = input();
         $input['id'] = input('id') ?? $id;
 
-        $top   = AreaContent::where('parent_id', SysConfig::NO)->pluck('title', 'id');
+        $top   = AreaContent::where('level', '<=', 2)->select(['parent_id','title', 'id'])->get()->keyBy('id')->toArray();
         $items = AreaContent::filter($input, AreaContentFilter::class)->paginateFilter($this->pagesize);
 
         return view('py-area::backend.content.index', [
@@ -46,7 +44,6 @@ class ContentController extends BackendController
     /**
      * 地区添加/编辑
      * @param null|int $id 地区id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function establish($id = null)
     {
@@ -85,7 +82,6 @@ class ContentController extends BackendController
     /**
      * 删除地区
      * @param int $id 地区id
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      * @throws \Exception
      */
     public function delete($id)
@@ -100,7 +96,6 @@ class ContentController extends BackendController
 
     /**
      * 更新
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function fix()
     {

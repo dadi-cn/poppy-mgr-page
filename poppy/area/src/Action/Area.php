@@ -206,22 +206,18 @@ class Area
         if (!$this->fix['cached']) {
             $this->fix['cached'] = 1;
         }
-        $Db = AreaContent::whereRaw('1=1');
-        if (!$this->fix['total']) {
-            $this->fix['total'] = $Db->count();
-        }
-        if (!$this->fix['max']) {
-            $this->fix['max'] = $Db->max('id');
-        }
-        if (!$this->fix['min']) {
-            $this->fix['min'] = $Db->min('id');
-        }
+        $Db = new AreaContent();
+        $this->total($Db->count());
+        $this->max($Db->max('id'));
+        $this->min($Db->min('id'));
+        $this->section(20);
 
         // ↑↑↑↑↑↑↑↑↑↑↑   获取参数
 
         // 剩余数
-        $this->fix['left'] = $Db->whereRaw('id > ?', [$this->fix['start']])
-            ->count('id');
+        $this->left(
+            $Db->whereRaw('id > ?', [$this->fix['start']])->count('id')
+        );
 
         $this->fix['lastId'] = $this->fix['start'];
         if ($this->fix['left']) {

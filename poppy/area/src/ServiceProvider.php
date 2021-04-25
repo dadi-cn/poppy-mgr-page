@@ -6,6 +6,7 @@ namespace Poppy\Area;
  * Copyright (C) Update For IDE
  */
 
+use Poppy\Area\Commands\ImportCommand;
 use Poppy\Area\Http\RouteServiceProvider;
 use Poppy\Framework\Exceptions\ModuleNotFoundException;
 use Poppy\Framework\Support\PoppyServiceProvider as ModuleServiceProviderBase;
@@ -34,5 +35,8 @@ class ServiceProvider extends ModuleServiceProviderBase
     public function register()
     {
         $this->app->register(RouteServiceProvider::class);
+        $this->commands([
+            ImportCommand::class,
+        ]);
     }
 }
