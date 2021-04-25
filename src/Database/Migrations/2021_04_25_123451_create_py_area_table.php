@@ -1,11 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 
-class CreateAreaContentTable extends Migration
+class CreatePyAreaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class CreateAreaContentTable extends Migration
      */
     public function up()
     {
-        Schema::create('area_content', function (Blueprint $table) {
+        Schema::create('py_area', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title', 50)->default('')->comment('地区名称');
             $table->integer('parent_id')->default(0)->comment('父级ID');
@@ -24,11 +24,11 @@ class CreateAreaContentTable extends Migration
             $table->text('children')->comment('所有的子元素');
             $table->char('code', 12)->default('');
             $table->index('code', 'k_code');
-            
-            $table->charset = 'utf8';
+
+            $table->charset   = 'utf8';
             $table->collation = 'utf8_general_ci';
         });
-        
+
     }
 
     /**
@@ -38,6 +38,6 @@ class CreateAreaContentTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('area_content');
+        Schema::dropIfExists('py_area');
     }
 }

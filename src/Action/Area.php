@@ -5,7 +5,7 @@ namespace Poppy\Area\Action;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Poppy\Area\Classes\PyAreaDef;
-use Poppy\Area\Models\AreaContent;
+use Poppy\Area\Models\PyArea;
 use Poppy\Framework\Classes\Traits\AppTrait;
 use Poppy\Framework\Validation\Rule;
 use Poppy\System\Classes\Traits\FixTrait;
@@ -16,14 +16,13 @@ use View;
 
 /**
  * 地区
- * @url https://segmentfault.com/a/1190000021127798
  */
 class Area
 {
     use AppTrait, PamTrait, FixTrait;
 
     /**
-     * @var AreaContent
+     * @var PyArea
      */
     protected $area;
 
@@ -39,7 +38,7 @@ class Area
 
     public function __construct()
     {
-        $this->areaTable = (new AreaContent())->getTable();
+        $this->areaTable = (new PyArea())->getTable();
     }
 
     /**
@@ -97,7 +96,7 @@ class Area
             $this->area->update($initDb);
         }
         else {
-            $area       = AreaContent::create($initDb);
+            $area       = PyArea::create($initDb);
             $this->area = $area;
         }
 
@@ -125,7 +124,7 @@ class Area
         if ($id && !$this->initArea($id)) {
             return false;
         }
-        if (AreaContent::where('parent_id', $id)->exists()) {
+        if (PyArea::where('parent_id', $id)->exists()) {
             return $this->setError(trans('py-system::action.area.exist_error'));
         }
         $parentIds = $this->parentIds($id, 'array');
@@ -189,7 +188,7 @@ class Area
     {
         $children    = $this->getChildren($id);
         $topParentId = $this->topParentId($id);
-        AreaContent::where('id', $id)->update([
+        PyArea::where('id', $id)->update([
             'children'      => implode(',', $children),
             'top_parent_id' => $topParentId,
         ]);
@@ -206,7 +205,7 @@ class Area
         if (!$this->fix['cached']) {
             $this->fix['cached'] = 1;
         }
-        $Db = new AreaContent();
+        $Db = new PyArea();
         $this->total($Db->count());
         $this->max($Db->max('id'));
         $this->min($Db->min('id'));
@@ -221,7 +220,7 @@ class Area
 
         $this->fix['lastId'] = $this->fix['start'];
         if ($this->fix['left']) {
-            $left_items = AreaContent::whereRaw('id >= ?', [$this->fix['start']])
+            $left_items = PyArea::whereRaw('id >= ?', [$this->fix['start']])
                 ->take($this->fix['section'])
                 ->orderBy('id')
                 ->get(['id', 'title']);
@@ -245,14 +244,14 @@ class Area
      */
     public function hasChild(int $id): bool
     {
-        $parent = AreaContent::where('id', $id)->value('parent_id');
-        if (AreaContent::where('id', $id)->where('top_parent_id', $id)->exists() || AreaContent::where('id', $id)->where('top_parent_id', $parent)->exists()) {
-            AreaContent::where('id', $id)->update([
+        $parent = PyArea::where('id', $id)->value('parent_id');
+        if (PyArea::where('id', $id)->where('top_parent_id', $id)->exists() || PyArea::where('id', $id)->where('top_parent_id', $parent)->exists()) {
+            PyArea::where('id', $id)->update([
                 'has_child' => 1,
             ]);
         }
         else {
-            AreaContent::where('id', $id)->update([
+            PyArea::where('id', $id)->update([
                 'has_child' => 0,
             ]);
         }
@@ -268,13 +267,13 @@ class Area
     public function level(int $id): bool
     {
         //省级
-        AreaContent::where('id', $id)->where('parent_id', 0)->update([
+        PyArea::where('id', $id)->where('parent_id', 0)->update([
             'level' => 1,
         ]);
         // 市级
-        $parent = AreaContent::where('id', $id)->value('parent_id');
-        if (AreaContent::where('id', $parent)->where('parent_id', 0)->exists()) {
-            AreaContent::where('id', $id)->update([
+        $parent = PyArea::where('id', $id)->value('parent_id');
+        if (PyArea::where('id', $parent)->where('parent_id', 0)->exists()) {
+            PyArea::where('id', $id)->update([
                 'level' => 2,
             ]);
         }
@@ -290,7 +289,7 @@ class Area
     public function initArea(int $id): bool
     {
         try {
-            $this->area   = AreaContent::findOrFail($id);
+            $this->area   = PyArea::findOrFail($id);
             $this->areaId = $this->area->id;
 
             return true;
@@ -321,7 +320,7 @@ class Area
         }
 
         return sys_cache('py-area')->remember(PyAreaDef::ckMatchIdPid(), 10, function () {
-            return AreaContent::pluck('parent_id', 'id')->toArray();
+            return PyArea::pluck('parent_id', 'id')->toArray();
         });
     }
 
