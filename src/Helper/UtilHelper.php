@@ -297,7 +297,7 @@ class UtilHelper
      * @param string       $son   子元素
      * @return array        返回的排序好的数组
      */
-    public static function genTree($items, $id = 'id', $pid = 'pid', $son = 'children')
+    public static function genTree($items, $id = 'id', $pid = 'pid', $son = 'children', $reserve_pid = true)
     {
         $items = self::objToArray($items);
 
@@ -323,6 +323,10 @@ class UtilHelper
             }
         }
         unset($tmpMap);
+
+        if (!$reserve_pid) {
+            return self::removePidAt($tree, $son, $pid);
+        }
 
         return $tree;
     }
@@ -541,6 +545,27 @@ class UtilHelper
         }
 
         return false;
+    }
+
+    /**
+     * 移除树中的KEY
+     * @param array  $tree
+     * @param string $child_key
+     * @param string $pid_key
+     * @return array
+     */
+    private static function removePidAt(array $tree, $child_key = 'children', $pid_key = 'parent_id'): array
+    {
+        $return = [];
+        foreach ($tree as $k => $ch) {
+            $rm = $ch;
+            unset($rm[$pid_key]);
+            if (isset($rm[$child_key])) {
+                $rm[$child_key] = self::removePidAt($rm['children'], $child_key, $pid_key);
+            }
+            $return[$k] = $rm;
+        }
+        return $return;
     }
 
     /**
