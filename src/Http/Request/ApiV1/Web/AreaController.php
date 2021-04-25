@@ -19,75 +19,50 @@ class AreaController extends WebApiController
      * @apiVersion            1.0.0
      * @apiName               AreaAreaCode
      * @apiGroup              Poppy
-     * @apiSuccess {int}      id                  ID
-     * @apiSuccess {string}   title               地区名称
-     * @apiSuccess {object[]} cities              所属城市子集
-     * @apiSuccess {int}      cities.id           城市ID
-     * @apiSuccess {string}   cities.title        城市名称
-     * @apiSuccess {object[]} cities.areas        地区信息
-     * @apiSuccess {int}      cities.areas.id     地区ID
-     * @apiSuccess {string}   cities.areas.title  地区名称
+     * @apiSuccess {int}      id           ID
+     * @apiSuccess {string}   title        标题
+     * @apiSuccess {string}   code         地区编码
+     * @apiSuccess {object[]} children     子级别
      * @apiSuccessExample     城市数据
      * [
      *     {
      *         "id": 1,
      *         "title": "北京市",
-     *         "cities": [
+     *         "children": [
      *             {
      *                 "id": 3,
      *                 "title": "北京市",
-     *                 "areas": [
+     *                 "children": [
      *                     {
      *                         "id": 4,
      *                         "title": "东城区"
-     *                     },
-     *                     ...
-     *                     {
-     *                         "id": 14,
-     *                         "title": "大兴区"
      *                     }
      *                 ]
      *             }
      *         ]
-     *     },
-     *     ...
+     *     }
      * ]
      */
     public function code()
     {
-        $items = AreaContent::get()->toArray();
-        $array = UtilHelper::genTree($items, 'id', 'parent_id', 'areas');
+        $items = AreaContent::selectRaw("id,title,left(code, 6) as code,parent_id")->get()->toArray();
+        $array = UtilHelper::genTree($items, 'id', 'parent_id', 'children', false);
+        return Resp::success('获取数据成功', $array);
+    }
 
-        $return = [];
-        foreach ($array as $province_key => $province_value) {
-            $new_province_value = [
-                'id'    => $province_value['id'],
-                'title' => $province_value['title'],
-            ];
-            if (!isset($province_value['areas'])) {
-                continue;
-            }
-            foreach ($province_value['areas'] as $city_key => $city_value) {
-                $new_city_value = [
-                    'id'    => $city_value['id'],
-                    'title' => $city_value['title'],
-                ];
-                if (!isset($city_value['areas'])) {
-                    continue;
-                }
-                foreach ($city_value['areas'] as $area_key => $area_value) {
-                    $new_area_value            = [
-                        'id'    => $area_value['id'],
-                        'title' => $area_value['title'],
-                    ];
-                    $new_city_value['areas'][] = $new_area_value;
-                }
 
-                $new_province_value['cities'][] = $new_city_value;
-            }
-            $return[$province_key] = $new_province_value;
-        }
-
-        return Resp::success('获取数据成功', $return);
+    /**
+     * @api                   {post} api_v1/area/area/country [Area]国别
+     * @apiDescription        获取国家代码
+     * @apiVersion            1.0.0
+     * @apiName               AreaAreaCountry
+     * @apiGroup              Poppy
+     */
+    public function country()
+    {
+        return Resp::success(
+            '获取成功',
+            AreaContent::country()
+        );
     }
 }

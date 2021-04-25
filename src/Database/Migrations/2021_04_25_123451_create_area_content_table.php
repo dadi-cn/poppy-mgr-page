@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
 
 class CreateAreaContentTable extends Migration
 {
@@ -21,7 +22,14 @@ class CreateAreaContentTable extends Migration
             $table->tinyInteger('has_child')->default(0)->comment('是否有子元素');
             $table->tinyInteger('level')->default(0)->comment('级别');
             $table->text('children')->comment('所有的子元素');
+            $table->char('code', 12)->default('');
+            $table->primary('id');
+            $table->index('code', 'k_code');
+            
+            $table->charset = 'utf8';
+            $table->collation = 'utf8_general_ci';
         });
+        
     }
 
     /**

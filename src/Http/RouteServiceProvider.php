@@ -61,7 +61,8 @@ class RouteServiceProvider extends \Poppy\Framework\Application\RouteServiceProv
     protected function mapApiRoutes()
     {
         Route::group([
-            'prefix' => 'api_v1/area',
+            'middleware' => 'api-sign',
+            'prefix'     => 'api_v1/area',
         ], function () {
             require_once __DIR__ . '/Routes/api_v1.php';
         });
