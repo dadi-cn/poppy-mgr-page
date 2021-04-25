@@ -5,6 +5,7 @@ namespace Demo\Http\Request\Web;
 use Demo\Http\Lists\ListPoppyDemo;
 use Demo\Http\Lists\ListPoppyEditable;
 use Demo\Http\Lists\ListPoppyIndex;
+use Demo\Http\Lists\ListPoppyUser;
 use Demo\Models\PoppyDemo;
 use Poppy\System\Classes\Grid;
 use Poppy\System\Classes\Layout\Content;
@@ -50,6 +51,9 @@ class TableController extends WebController
         }
         if ($type === 'index') {
             $grid->setLists(ListPoppyIndex::class);
+        }
+        if ($type === 'user') {
+            $grid->setLists(ListPoppyUser::class);
         }
         // $grid->disableCreateButton();
 

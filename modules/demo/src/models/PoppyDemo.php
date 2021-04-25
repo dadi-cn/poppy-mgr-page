@@ -5,6 +5,7 @@ namespace Demo\Models;
 use Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Poppy\System\Models\PamAccount;
 
 /**
  * \Poppy\PoppyCoreDemo
@@ -24,4 +25,8 @@ class PoppyDemo extends Model
         // fillable
     ];
 
+    public function pam()
+    {
+        return $this->hasOne(PamAccount::class, 'id', 'account_id');
+    }
 }
