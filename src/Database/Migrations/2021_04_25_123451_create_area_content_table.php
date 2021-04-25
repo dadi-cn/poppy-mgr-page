@@ -23,7 +23,6 @@ class CreateAreaContentTable extends Migration
             $table->tinyInteger('level')->default(0)->comment('级别');
             $table->text('children')->comment('所有的子元素');
             $table->char('code', 12)->default('');
-            $table->primary('id');
             $table->index('code', 'k_code');
             
             $table->charset = 'utf8';
