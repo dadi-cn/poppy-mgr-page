@@ -1,22 +1,22 @@
 <?php
 
-namespace Poppy\Area;
+namespace Poppy\SensitiveWord;
 
 /**
  * Copyright (C) Update For IDE
  */
 
-use Poppy\Area\Commands\InitCommand;
-use Poppy\Area\Http\RouteServiceProvider;
 use Poppy\Framework\Exceptions\ModuleNotFoundException;
 use Poppy\Framework\Support\PoppyServiceProvider as ModuleServiceProviderBase;
+use Poppy\SensitiveWord\Commands\ImportCommand;
+use Poppy\SensitiveWord\Http\RouteServiceProvider;
 
 class ServiceProvider extends ModuleServiceProviderBase
 {
     /**
      * @var string the poppy name slug
      */
-    private $name = 'poppy.area';
+    private $name = 'poppy.sensitive-word';
 
     /**
      * Bootstrap the module services.
@@ -35,8 +35,5 @@ class ServiceProvider extends ModuleServiceProviderBase
     public function register()
     {
         $this->app->register(RouteServiceProvider::class);
-        $this->commands([
-            InitCommand::class,
-        ]);
     }
 }

@@ -21,16 +21,16 @@ use Poppy\System\Models\SysConfig;
  * @property int    $has_child       是否有子元素
  * @property int    $level           级别
  * @mixin Eloquent
- * @method static Builder|AreaContent filter($input = [], $filter = null)
- * @method static Builder|AreaContent pageFilter(PageInfo $pageInfo)
- * @method static Builder|AreaContent paginateFilter($perPage = null, $columns = [], $pageName = 'page', $page = null)
- * @method static Builder|AreaContent simplePaginateFilter($perPage = null, $columns = [], $pageName = 'page')
- * @method static Builder|AreaContent whereBeginsWith($column, $value, $boolean = 'and')
- * @method static Builder|AreaContent whereEndsWith($column, $value, $boolean = 'and')
- * @method static Builder|AreaContent whereLike($column, $value, $boolean = 'and')
+ * @method static Builder|PyArea filter($input = [], $filter = null)
+ * @method static Builder|PyArea pageFilter(PageInfo $pageInfo)
+ * @method static Builder|PyArea paginateFilter($perPage = null, $columns = [], $pageName = 'page', $page = null)
+ * @method static Builder|PyArea simplePaginateFilter($perPage = null, $columns = [], $pageName = 'page')
+ * @method static Builder|PyArea whereBeginsWith($column, $value, $boolean = 'and')
+ * @method static Builder|PyArea whereEndsWith($column, $value, $boolean = 'and')
+ * @method static Builder|PyArea whereLike($column, $value, $boolean = 'and')
  * @url https://github.com/wecatch/china_regions
  */
-class AreaContent extends Eloquent
+class PyArea extends Eloquent
 {
     use FilterTrait;
 
@@ -40,7 +40,7 @@ class AreaContent extends Eloquent
 
     public $timestamps = false;
 
-    protected $table = 'area_content';
+    protected $table = 'py_area';
 
     protected $fillable = [
         'title',
