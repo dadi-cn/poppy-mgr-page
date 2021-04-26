@@ -4,11 +4,12 @@ namespace Demo\Forms;
 
 use Poppy\Framework\Exceptions\FakerException;
 use Poppy\Framework\Validation\Rule;
-use Poppy\System\Models\PamAccount;
+use Poppy\System\Classes\Traits\PamTrait;
 
 class FormImage extends FormBaseWidget
 {
 
+    use PamTrait;
 
     /**
      * 表单标题
@@ -36,7 +37,7 @@ class FormImage extends FormBaseWidget
      */
     public function form()
     {
-        $token = app('tymon.jwt.auth')->fromUser(PamAccount::first());
+        $token = app('tymon.jwt.auth')->fromUser($this->pam);
         $this->image('image', '图片, 默认, 可上传')->rules([
             Rule::required(),
         ])->token($token);
