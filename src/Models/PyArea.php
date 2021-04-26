@@ -5,6 +5,7 @@ namespace Poppy\Area\Models;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Poppy\Area\Classes\PyAreaDef;
+use Poppy\Framework\Helper\TreeHelper;
 use Poppy\Framework\Http\Pagination\PageInfo;
 use Poppy\System\Classes\Traits\FilterTrait;
 use Poppy\System\Models\SysConfig;
@@ -51,6 +52,16 @@ class PyArea extends Eloquent
         'top_parent_id',
         'children',
     ];
+
+    public static function cityTree()
+    {
+        return sys_cache('py-area')->remember(PyAreaDef::ckArea('tree-level-2'), SysConfig::MIN_ONE_MONTH, function () {
+            $items = PyArea::selectRaw("id,title,parent_id")->where('level', '<', 4)->get()->keyBy('id')->toArray();
+            $Tree  = new TreeHelper();
+            $Tree->init($items, 'id', 'parent_id', 'title');
+            return $Tree->getTreeArray(0);
+        });
+    }
 
 
     /**
