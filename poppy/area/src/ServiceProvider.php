@@ -2,12 +2,12 @@
 
 namespace Poppy\Area;
 
-use Poppy\Area\Classes\Form\Field\Area;
 use Poppy\Area\Commands\InitCommand;
 use Poppy\Area\Http\RouteServiceProvider;
 use Poppy\Framework\Exceptions\ModuleNotFoundException;
 use Poppy\Framework\Support\PoppyServiceProvider as ModuleServiceProviderBase;
 use Poppy\System\Classes\Form;
+use Poppy\System\Classes\Grid\Filter;
 
 class ServiceProvider extends ModuleServiceProviderBase
 {
@@ -37,6 +37,7 @@ class ServiceProvider extends ModuleServiceProviderBase
             InitCommand::class,
         ]);
 
-        Form::extend('area', Area::class);
+        Form::extend('area', Classes\Form\Field\Area::class);
+        Filter::extend('area', Classes\Grid\Filter\Area::class);
     }
 }

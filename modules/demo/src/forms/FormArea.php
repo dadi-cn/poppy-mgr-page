@@ -20,6 +20,8 @@ class FormArea extends FormBaseWidget
     public function form()
     {
         call_user_func_array([$this, 'area'], ['Area']);
+
+        $this->area('area', 'Area');
         $this->divider();
     }
 }

@@ -31,6 +31,9 @@ class ListPoppyUser extends ListBase
             $filter->column(1, function (Filter $filter) {
                 $filter->like('username', 'username');
             });
+            $filter->column(1, function (Filter $filter) {
+                $filter->area('area', 'area');
+            });
         };
     }
 }
