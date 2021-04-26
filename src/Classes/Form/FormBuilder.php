@@ -131,53 +131,45 @@ class FormBuilder extends CollectiveFormBuilder
 
         $uploadUrl = route_url('py-system:api_v1.upload.image');
 
-        $contentId = 'editor_content_' . Str::random('5');
-
-        $defaultImage = url('assets/images/default/nopic.gif');
-
+        $contentId = 'editor_' . Str::random('5');
+        $timestamp = Carbon::now()->timestamp;
+        /** @var ApiSignContract $Sign */
+        $Sign  = app(ApiSignContract::class);
+        $sign  = $Sign->sign([
+            'token'     => $token,
+            'from'      => 'wang-editor',
+            'timestamp' => $timestamp,
+        ]);
         $value = (string) $this->getValueAttribute($name, $value);
 
         return /** @lang text */
             <<<Editor
-    <script src="/assets/libs/boot/simditor.min.js"></script>
-    <link media="all" type="text/css" rel="stylesheet" href="/assets/libs/boot/simditor.css">
-    <textarea class="hidden" name="{$name}" id="{$contentId}">{$value}</textarea>
+    <script src="/assets/libs/boot/wang-editor.min.js"></script>
+    <div id="$contentId">{$value}</div>
+    <textarea class="hidden" id="input_{$contentId}" name="{$name}"></textarea>
         <script>
         $(function () {
-            new Simditor({
-                textarea: $('#{$contentId}'),
-                defaultImage : '{$defaultImage}',
-                upload : {
-                    url : '{$uploadUrl}',
-                    params : {
-                        token : '{$token}',
-                    },
-                    fileKey : 'image',
-                    leaveConfirm: '上传进行中, 确认中断?'
-                },
-                toolbar: [
-                  'title',
-                  'bold',
-                  'italic',
-                  'underline',
-                  'strikethrough',
-                  'fontScale',
-                  'color',
-                  'ol',
-                  'ul',
-                  'blockquote',
-                  'code',
-                  'table',
-                  'link',
-                  'image',
-                  'hr',
-                  'indent',
-                  'outdent',
-                  'alignment',
-                ],
-                pasteImage: true,
-                cleanPaste : true
-            });
+            const instance_$contentId = new wangEditor('#$contentId');
+            instance_$contentId.config.onchange = function (newHtml) {
+                $('#input_{$contentId}').val(newHtml)
+            }
+            instance_$contentId.config.uploadImgServer = '$uploadUrl';
+            instance_$contentId.config.uploadImgParams = {
+                token: '$token',
+                sign: '$sign',
+                timestamp: '$timestamp',
+                from: 'wang-editor'
+            }
+            instance_$contentId.config.uploadFileName = 'image';
+            instance_$contentId.config.uploadImgHooks = {
+                fail: function(xhr, editor, resData) {
+                    console.log(resData);
+                    layer.msg(resData.message);
+                    return;
+                }
+            }
+            instance_$contentId.create();
+            $('#input_{$contentId}').val(editor_$contentId.txt.html())
         })
         </script>
 Editor;
