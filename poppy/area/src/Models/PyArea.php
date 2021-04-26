@@ -82,19 +82,41 @@ class PyArea extends Eloquent
 
 
     /**
-     * 国家KV
-     * @return array
+     * ID : Title
+     * @param string $id ID : Title
+     * @return mixed
      */
-    public static function kvCountry(): array
+    public static function kvArea(string $id = ''): string
     {
-        return sys_cache('py-area')->remember(PyAreaDef::ckCountry('kv'), SysConfig::MIN_ONE_MONTH, function () {
-            $area    = self::country();
-            $collect = [];
-            collect($area)->each(function ($country) use (&$collect) {
-                $collect[$country['iso']] = $country['zh'];
+        static $cache;
+        if (!$cache) {
+            $cache = sys_cache('py-area')->remember(PyAreaDef::ckArea('kv-area'), SysConfig::MIN_ONE_MONTH, function () {
+                return self::select(['id', 'title'])->pluck('title', 'id')->toArray();
             });
-            return $collect;
-        });
+        }
+        return kv($cache, $id);
+    }
+
+
+    /**
+     * 国家KV
+     * @param string $code
+     * @return string|array
+     */
+    public static function kvCountry($code = null)
+    {
+        static $cache;
+        if (!$cache) {
+            $cache = sys_cache('py-area')->remember(PyAreaDef::ckCountry('kv'), SysConfig::MIN_ONE_MONTH, function () {
+                $area    = self::country();
+                $collect = [];
+                collect($area)->each(function ($country) use (&$collect) {
+                    $collect[$country['iso']] = $country['zh'];
+                });
+                return $collect;
+            });
+        }
+        return kv($cache, $code);
     }
 
     /**
