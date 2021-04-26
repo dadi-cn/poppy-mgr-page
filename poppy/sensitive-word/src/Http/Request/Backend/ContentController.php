@@ -3,7 +3,7 @@
 namespace Poppy\SensitiveWord\Http\Request\Backend;
 
 use Poppy\SensitiveWord\Action\Area;
-use Poppy\SensitiveWord\Models\AreaContent;
+use Poppy\SensitiveWord\Models\PySensitiveWord;
 use Poppy\SensitiveWord\Models\Filters\AreaContentFilter;
 use Poppy\Framework\Classes\Resp;
 use Poppy\MgrPage\Http\Request\Backend\BackendController;
@@ -32,8 +32,8 @@ class ContentController extends BackendController
         $input       = input();
         $input['id'] = input('id') ?? $id;
 
-        $top   = AreaContent::where('level', '<=', 2)->select(['parent_id','title', 'id'])->get()->keyBy('id')->toArray();
-        $items = AreaContent::filter($input, AreaContentFilter::class)->paginateFilter($this->pagesize);
+        $top   = PySensitiveWord::where('level', '<=', 2)->select(['parent_id','title', 'id'])->get()->keyBy('id')->toArray();
+        $items = PySensitiveWord::paginateFilter($this->pagesize);
 
         return view('py-area::backend.content.index', [
             'items' => $items,

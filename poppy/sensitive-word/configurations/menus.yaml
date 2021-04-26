@@ -7,7 +7,7 @@ backend:
       icon: 'fa-file-word'
       injection: 'poppy.mgr-page/backend||setting'
       children:
-        -
-          title: 敏感词管理
-          route: py-senstivie-word:backend.content.index
-          permission: 'backend:py-sensitive-word.main.manage'
+#        -
+#          title: 敏感词管理
+#          route: py-senstivie-word:backend.content.index
+#          permission: 'backend:py-sensitive-word.main.manage'
