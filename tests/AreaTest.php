@@ -22,5 +22,9 @@ class AreaTest extends SystemTestCase
     {
         $city = PyArea::kvCity('3701');
         $this->assertEquals('济南市', $city);
+
+        $city = PyArea::kvArea(1);
+        $this->assertEquals('北京市', $city);
     }
+
 }
