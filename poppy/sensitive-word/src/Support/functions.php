@@ -9,14 +9,14 @@
 use Poppy\SensitiveWord\Classes\Sensitive\SensitiveDirectory;
 use Poppy\SensitiveWord\Classes\Sensitive\SensitiveWords;
 
-if (!function_exists('words_filter')) {
+if (!function_exists('sensitive_words')) {
     /**
      * 词汇过滤
      * @param string $words  词汇
      * @param string $action 动作
      * @return mixed
      */
-    function words_filter(string $words, $action = SensitiveWords::TYPE_CHECK)
+    function sensitive_words(string $words, $action = SensitiveWords::TYPE_CHECK)
     {
         /** @var SensitiveWords $Sensitive */
         static $Sensitive = null;
