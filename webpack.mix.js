@@ -48,14 +48,6 @@ mix
         'public/assets/libs/boot/poppy.mgr.min.js'
     )
     .combine([
-            'resources/assets/libs/simditor/module.js',
-            'resources/assets/libs/simditor/hotkeys.js',
-            'resources/assets/libs/simditor/uploader.js',
-            'resources/assets/libs/simditor/simditor.js'
-        ],
-        'public/assets/libs/boot/simditor.min.js'
-    )
-    .combine([
             'resources/assets/libs/jquery/2.2.4/jquery.min.js',
             'resources/assets/libs/jquery/form/jquery.form.js',
             'resources/assets/libs/jquery/pjax/jquery.pjax.js',
@@ -67,7 +59,6 @@ mix
         ],
         'public/assets/libs/boot/vendor.min.js'
     )
-    .copy('resources/assets/libs/simditor/simditor.css', 'public/assets/libs/boot/simditor.css')
     .copyDirectory('poppy/mgr-page/resources/font/', 'public/assets/font/')
     .copyDirectory('poppy/mgr-page/resources/images/', 'public/assets/images/')
     .copyDirectory('poppy/mgr-page/resources/libs/jquery/', 'public/assets/libs/jquery/')

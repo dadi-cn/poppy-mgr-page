@@ -41,21 +41,21 @@ class ServiceProvider extends PoppyServiceProvider
         ], 'poppy');
         $this->publishes([
             // 需要从项目中反向复制的页面
-            __DIR__ . '/../resources/libs/boot/vendor.min.js'    => public_path('assets/libs/boot/vendor.min.js'),
-            __DIR__ . '/../resources/libs/boot/poppy.mgr.min.js' => public_path('assets/libs/boot/poppy.mgr.min.js'),
-            __DIR__ . '/../resources/libs/boot/style.css'        => public_path('assets/libs/boot/style.css'),
-            __DIR__ . '/../resources/libs/boot/simditor.min.js'  => public_path('assets/libs/boot/simditor.min.js'),
-            __DIR__ . '/../resources/libs/boot/simditor.css'     => public_path('assets/libs/boot/simditor.css'),
+            __DIR__ . '/../resources/libs/boot/vendor.min.js'      => public_path('assets/libs/boot/vendor.min.js'),
+            __DIR__ . '/../resources/libs/boot/poppy.mgr.min.js'   => public_path('assets/libs/boot/poppy.mgr.min.js'),
+            __DIR__ . '/../resources/libs/boot/style.css'          => public_path('assets/libs/boot/style.css'),
+            // editor
+            __DIR__ . '/../resources/libs/boot/wang-editor.min.js' => public_path('assets/libs/boot/wang-editor.min.js'),
             // 编辑器
-            __DIR__ . '/../resources/libs/jquery/backstretch'    => public_path('assets/libs/jquery/backstretch'),
-            __DIR__ . '/../resources/libs/vue'                   => public_path('assets/libs/vue'),
-            __DIR__ . '/../resources/libs/underscore'            => public_path('assets/libs/underscore'),
-            __DIR__ . '/../resources/libs/jshash'                => public_path('assets/libs/jshash'),
-            __DIR__ . '/../resources/libs/easy-web/'             => public_path('assets/libs/easy-web/'),
-            __DIR__ . '/../resources/libs/jquery/data-tables/'   => public_path('assets/libs/jquery/data-tables/'),
-            __DIR__ . '/../resources/libs/layui/'                => public_path('assets/libs/layui/'),
-            __DIR__ . '/../resources/images/'                    => public_path('assets/images/'),
-            __DIR__ . '/../resources/font/'                      => public_path('assets/font/'),
+            __DIR__ . '/../resources/libs/jquery/backstretch'      => public_path('assets/libs/jquery/backstretch'),
+            __DIR__ . '/../resources/libs/vue'                     => public_path('assets/libs/vue'),
+            __DIR__ . '/../resources/libs/underscore'              => public_path('assets/libs/underscore'),
+            __DIR__ . '/../resources/libs/jshash'                  => public_path('assets/libs/jshash'),
+            __DIR__ . '/../resources/libs/easy-web/'               => public_path('assets/libs/easy-web/'),
+            __DIR__ . '/../resources/libs/jquery/data-tables/'     => public_path('assets/libs/jquery/data-tables/'),
+            __DIR__ . '/../resources/libs/layui/'                  => public_path('assets/libs/layui/'),
+            __DIR__ . '/../resources/images/'                      => public_path('assets/images/'),
+            __DIR__ . '/../resources/font/'                        => public_path('assets/font/'),
         ], 'poppy-mix');
     }
 
