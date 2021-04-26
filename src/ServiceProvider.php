@@ -2,14 +2,12 @@
 
 namespace Poppy\Area;
 
-/**
- * Copyright (C) Update For IDE
- */
-
+use Poppy\Area\Classes\Form\Field\Area;
 use Poppy\Area\Commands\InitCommand;
 use Poppy\Area\Http\RouteServiceProvider;
 use Poppy\Framework\Exceptions\ModuleNotFoundException;
 use Poppy\Framework\Support\PoppyServiceProvider as ModuleServiceProviderBase;
+use Poppy\System\Classes\Form;
 
 class ServiceProvider extends ModuleServiceProviderBase
 {
@@ -38,5 +36,7 @@ class ServiceProvider extends ModuleServiceProviderBase
         $this->commands([
             InitCommand::class,
         ]);
+
+        Form::extend('area', Area::class);
     }
 }
