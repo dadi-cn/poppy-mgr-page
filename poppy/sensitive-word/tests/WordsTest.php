@@ -2,20 +2,18 @@
 
 namespace Poppy\SensitiveWord\Tests;
 
+use Poppy\SensitiveWord\Classes\Sensitive\SensitiveWords;
 use Poppy\System\Tests\Base\SystemTestCase;
 
 class WordsTest extends SystemTestCase
 {
-    public function testCountryKv(): void
+    public function testFilter(): void
     {
-        $countryKv = AreaContent::kvCountry();
-        $this->assertEquals('中国', $countryKv['CN']);
-    }
-
-
-    public function testAreaKv(): void
-    {
-        $city = AreaContent::kvCity('3701');
-        $this->assertEquals('济南市', $city);
+        $value = words_filter('暴政', SensitiveWords::TYPE_CHECK);
+        dump($value);
+        $value = words_filter('嬴政暴政', SensitiveWords::TYPE_WORDS);
+        dump($value);
+        $value = words_filter('嬴政暴政', SensitiveWords::TYPE_REPLACE);
+        dump($value);
     }
 }

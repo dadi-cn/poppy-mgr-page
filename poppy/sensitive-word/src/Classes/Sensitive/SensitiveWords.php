@@ -17,21 +17,25 @@ class SensitiveWords
      * @var null|HashMap
      */
     private $wordTree;
+
     /**
      * 敏感词
      * @var array
      */
     private $illegalWords = [];
+
     /**
      * 检测所有敏感词
      * @var bool $searchAllIllegal
      */
     private $searchAllIllegal = false;
+
     /**
      * 内容
      * @var string $content
      */
     private $content = '';
+
     /**
      * @var self $instance
      */
@@ -42,7 +46,7 @@ class SensitiveWords
      * @return $this
      * @throws DirectoryNotFoundException
      */
-    public function setTreeByArray($data): self
+    public function setTree($data): self
     {
         $data = (array) $data;
 
@@ -50,29 +54,11 @@ class SensitiveWords
             throw new DirectoryNotFoundException('词库不存在');
         }
 
-        $this->initWordTree();
+        if (!($this->wordTree instanceof HashMap)) {
+            $this->wordTree = new HashMap();
+        }
 
         foreach ($data as $words) {
-            $this->buildTree(trim($words));
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param string $file 文件
-     * @return self
-     * @throws DirectoryNotFoundException
-     */
-    public function setTreeByFile($file): self
-    {
-        if (!is_file($file)) {
-            throw new DirectoryNotFoundException('词库不存在');
-        }
-
-        $this->initWordTree();
-
-        foreach ($this->readFile($file) as $words) {
             $this->buildTree(trim($words));
         }
 
@@ -142,7 +128,7 @@ class SensitiveWords
     /**
      * @return self
      */
-    public static function init(): self
+    public static function instance(): self
     {
         if (!self::$instance instanceof self) {
             self::$instance = new self;
@@ -253,7 +239,7 @@ class SensitiveWords
      */
     private function initWordTree(): self
     {
-        if (!$this->wordTree instanceof HashMap) {
+        if (!($this->wordTree instanceof HashMap)) {
             $this->wordTree = new HashMap();
         }
 
@@ -265,7 +251,7 @@ class SensitiveWords
      * @param string $file 文件地址
      * @return Generator
      */
-    private function readFile($file): ?Generator
+    private function readFile(string $file): ?Generator
     {
         $file_pointer = fopen($file, 'rb');
 
@@ -281,7 +267,7 @@ class SensitiveWords
      * @param string $content 文本
      * @return int
      */
-    private function getLength($content): int
+    private function getLength(string $content): int
     {
         return mb_strlen($content, 'utf-8');
     }

@@ -57,7 +57,7 @@
    -->
     <coverage cacheDirectory="storage/phpunit/coverage-cache" processUncoveredFiles="true">
         <include>
-            <directory suffix=".php">./modules</directory>
+            <directory suffix=".php">./modules/**/src</directory>
         </include>
         <report>
             <html outputDirectory="storage/phpunit/coverage-html" lowUpperBound="50" highLowerBound="90"/>

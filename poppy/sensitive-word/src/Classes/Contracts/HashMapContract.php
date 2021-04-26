@@ -1,6 +1,6 @@
 <?php
 
-namespace Poppy\Classes\Contracts;
+namespace Poppy\SensitiveWord\Classes\Contracts;
 
 /**
  * HashMap
@@ -12,12 +12,12 @@ interface HashMapContract
      * @param mixed  $value value
      * @return mixed
      */
-    public function put($key, $value);
+    public function put(string $key, $value);
 
     /**
      * @param string $key key
      * @return mixed|null
      */
-    public function get($key);
+    public function get(string $key);
 
 }

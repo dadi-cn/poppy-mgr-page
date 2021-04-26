@@ -2,7 +2,8 @@
 
 namespace Poppy\SensitiveWord\Classes\Sensitive;
 
-use Poppy\Classes\Contracts\HashMapContract;
+
+use Poppy\SensitiveWord\Classes\Contracts\HashMapContract;
 
 /**
  * 构建hash表
@@ -19,7 +20,7 @@ class HashMap implements HashMapContract
      * @param mixed  $value value
      * @return mixed
      */
-    public function put($key, $value)
+    public function put(string $key, $value)
     {
         $this->hashTable[$key] = $value;
 

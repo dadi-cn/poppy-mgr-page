@@ -3,7 +3,8 @@
 namespace Poppy\SensitiveWord\Classes\Sensitive;
 
 use Poppy\Core\Redis\RdsDb;
-use Site\Classes\FileUpload;
+use Poppy\SensitiveWord\Classes\PySensitiveWordDef;
+use Poppy\SensitiveWord\Models\PySensitiveWord;
 use Throwable;
 
 /**
@@ -21,7 +22,7 @@ class SensitiveDirectory
      */
     public function __construct()
     {
-        $this->initCache();
+        $this->cache = new RdsDb();
     }
 
     /**
@@ -29,7 +30,7 @@ class SensitiveDirectory
      */
     public function getDirectory()
     {
-        $directory = self::unSerializeDirectory($this->cache->get(self::directoryCacheKey()));
+        $directory = self::unSerializeDirectory($this->cache->get(PySensitiveWordDef::ckOriDict()));
 
         if (!$directory) {
             $directory = $this->buildDirectory();
@@ -44,18 +45,14 @@ class SensitiveDirectory
      */
     public function buildDirectory(): ?SensitiveWords
     {
-        $fileUpload = new FileUpload('config');
-        $fileUrl    = $fileUpload->getFileUrl('badwords.txt');
-        $filePath   = '/config/badwords.txt';
         try {
-            copy($fileUrl, resource_path($filePath));
-            $file      = resource_path($filePath);
-            $directory = SensitiveWords::init()->setTreeByFile($file);
+            $words     = PySensitiveWord::pluck('word')->toArray();
+            $directory = SensitiveWords::instance()->setTree($words);
         } catch (Throwable $e) {
             $directory = null;
         }
 
-        $this->cache->set(self::directoryCacheKey(), self::serializeDirectory($directory));
+        $this->cache->set(PySensitiveWordDef::ckOriDict(), self::serializeDirectory($directory));
 
         return $directory;
     }
@@ -85,22 +82,5 @@ class SensitiveDirectory
         } catch (Throwable $e) {
             return null;
         }
-    }
-
-    /**
-     * 敏感词字典缓存key
-     * @return string
-     */
-    private static function directoryCacheKey()
-    {
-        return 'sensitive_directory';
-    }
-
-    /**
-     * 初始化缓存
-     */
-    private function initCache()
-    {
-        $this->cache = new RdsDb();
     }
 }

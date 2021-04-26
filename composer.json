@@ -49,8 +49,7 @@
         "alibabacloud/sts": "^1.8",
         "overtrue/pinyin": "^4.0",
         "overtrue/wechat": "~4.0",
-        "xingwenge/canal_php": "^1.0",
-        "giggsey/libphonenumber-for-php": "^8.12"
+        "xingwenge/canal_php": "^1.0"
     },
     "require-dev": {
         "itsgoingd/clockwork": "~4.0",
@@ -88,19 +87,21 @@
             "Poppy\\Sms\\Tests\\": "poppy/sms/tests",
             "Poppy\\AliyunPush\\": "poppy/aliyun-push/src",
             "Poppy\\AliyunPush\\Tests\\": "poppy/aliyun-push/tests",
+            "Poppy\\SensitiveWord\\": "poppy/sensitive-word/src",
+            "Poppy\\SensitiveWord\\Tests\\": "poppy/sensitive-word/tests",
             "Poppy\\AliyunOss\\": "poppy/aliyun-oss/src",
             "Poppy\\AliyunOss\\Tests\\": "poppy/aliyun-oss/tests",
             "Poppy\\CanalEs\\": "poppy/canal-es/src/",
             "Poppy\\CanalEs\\Tests\\": "poppy/canal-es/tests/",
             "Php\\Tests\\": "modules/php/tests",
-            "Site\\Tests\\": "modules/site/tests",
-            "Rds\\Tests\\": "modules/rds/tests"
+            "Site\\Tests\\": "modules/site/tests"
         },
         "files": [
             "poppy/framework/src/Support/functions.php",
             "poppy/system/src/Support/functions.php",
             "poppy/core/src/Support/functions.php",
-            "poppy/ext-pinyin/src/Support/functions.php"
+            "poppy/ext-pinyin/src/Support/functions.php",
+            "poppy/sensitive-word/src/Support/functions.php"
         ]
     },
     "extra": {
