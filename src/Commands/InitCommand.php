@@ -83,7 +83,7 @@ class InitCommand extends Command
 
     public function initCounty()
     {
-        $this->info('Init City Data ....');
+        $this->info('Init County Data ....');
         $path    = poppy_path('poppy.area', 'resources/def/county.json');
         $content = app('files')->get($path);
         $cities  = json_decode($content, true);
