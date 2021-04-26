@@ -1,0 +1,1 @@
+{!! app('poppy.mgr-page.form')->select($name, $area, $value) !!}
