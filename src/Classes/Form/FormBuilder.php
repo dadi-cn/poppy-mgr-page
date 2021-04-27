@@ -146,11 +146,12 @@ class FormBuilder extends CollectiveFormBuilder
             <<<Editor
     <script src="/assets/libs/boot/wang-editor.min.js"></script>
     <div id="$contentId">{$value}</div>
-    <textarea class="hidden" id="input_{$contentId}" name="{$name}"></textarea>
+    <input type="hidden" id="input_{$contentId}" name="{$name}">
         <script>
         $(function () {
             const instance_$contentId = new wangEditor('#$contentId');
             instance_$contentId.config.onchange = function (newHtml) {
+            console.log(newHtml);
                 $('#input_{$contentId}').val(newHtml)
             }
             instance_$contentId.config.uploadImgServer = '$uploadUrl';
@@ -169,7 +170,7 @@ class FormBuilder extends CollectiveFormBuilder
                 }
             }
             instance_$contentId.create();
-            $('#input_{$contentId}').val(editor_$contentId.txt.html())
+            $('#input_{$contentId}').val(instance_$contentId.txt.html())
         })
         </script>
 Editor;
