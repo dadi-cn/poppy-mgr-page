@@ -12,21 +12,51 @@ class MockerTest extends TestCase
     {
         $json = <<<JSON
 {
-    "name" : "name",
+    "name|2" : "name",
+    "master" : "*",
     "unixTime" : "unixTime",
-    "imageUrl" : "imageUrl|400,20",
-    "faker" : "fakerName"
+    "url-image" : "imageUrl(400,20)",
+    "url-image-slash" : "imageUrl|400,20",
+    "url" : "imageUrl()",
+    "urls-array|5" : [
+        "imageUrl"
+    ],
+    "urls|5" : [
+        {
+            "url": "url"
+        }
+    ]
 }
 JSON;
         $gen  = Mocker::generate($json);
         $this->assertIsString($gen['name']);
-        $this->assertTrue(UtilHelper::isUrl($gen['imageUrl']));
-    }
+        $this->assertTrue(UtilHelper::isUrl($gen['url']));
 
-    public function testEmpty()
+
+        $array = <<<JSON
+[
     {
-        $json = '';
-        $gen  = Mocker::generate($json);
-        $this->assertIsArray($gen);
+       "id": 1,
+       "title": "北京市",
+       "code": "110000",
+       "children|6": [ {
+            "id": 32,
+            "title": "市辖区",
+            "code": "110100",
+            "children": [{
+                "id": 1,
+                "title": "北京市",
+                "code": "110000",
+                "children": [{
+                     "id": 32,
+                     "title": "市辖区",
+                     "code": "110100"
+                }]
+            }]
+        }]
+    }
+]
+JSON;
+
     }
 }

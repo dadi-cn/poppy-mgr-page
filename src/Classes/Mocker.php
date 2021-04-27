@@ -3,9 +3,10 @@
 namespace Poppy\Framework\Classes;
 
 use Faker\Factory;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use InvalidArgumentException;
 use Poppy\Framework\Helper\UtilHelper;
+use Throwable;
 
 class Mocker
 {
@@ -25,48 +26,104 @@ class Mocker
     {
         self::$factory = Factory::create($locale);
 
-        if (is_string($json)) {
-            if (!UtilHelper::isJson($json)) {
-                return [];
-            }
-            $define = json_decode($json, true);
+        if (!UtilHelper::isJson($json)) {
+            return ['Input Mock Is Not Valid Json'];
         }
-        else if (is_array($json)) {
-            $define = $json;
+        $define = json_decode($json);
+        $gen    = [];
+        if (is_array($define)) {
+            return self::parseValue($define, 15);
         }
-        else {
-            return [];
-        }
-
-        $gen = [];
         foreach ($define as $dk => $def) {
-            $gen[$dk] = self::parseValue($def);
+            [$key, $num] = self::parseKey($dk);
+            $gen[$key] = self::parseValue($def, $num);
         }
         return $gen;
     }
 
 
     /**
-     * @param $value
+     * 解析KEY/NUM
+     * @param string $key
+     * @return array
+     */
+    private static function parseKey(string $key): array
+    {
+        $parsed = explode('|', $key);
+        $pk     = $parsed[0];
+        $num    = $parsed[1] ?? 1;
+        if (Str::contains($num, '-')) {
+            [$start, $end] = explode('-', $num);
+            $num = rand($start, $end);
+        }
+        return [$pk, $num];
+    }
+
+    /**
+     * @param string|array $value
      * @return mixed
      */
-    private static function parseValue($value)
+    private static function parseValue($value, $num = 1)
     {
-        if (Str::contains($value, '|')) {
-            [$prop, $params] = explode('|', $value);
+        if (is_array($value)) {
+            $first = Arr::first($value);
+            // 对象
+            if (is_object($first)) {
+                $item = [];
+                for ($i = 0; $i < $num; $i++) {
+                    $firstParse = [];
+                    foreach ((array) $first as $k => $v) {
+                        [$kk, $kn] = self::parseKey($k);
+                        $firstParse[$kk] = self::parseValue($v, $kn);
+                    }
+                    $item [] = (object) $firstParse;
+                }
+                return $item;
+
+            }
+            // 字串
+            if (is_string($first)) {
+                $item = [];
+                for ($i = 0; $i < $num; $i++) {
+                    $item [] = self::parseValue($first);
+                }
+                return $item;
+            }
+        }
+
+        if (is_object($value)) {
+            $object = [];
+            foreach ((array) $value as $k => $v) {
+                $object[$k] = self::parseValue($v);
+            }
+            return (object) $object;
+        }
+
+        // 字串
+        if (preg_match('/(?<method>.+?)\((?<param>.*?)\)/', $value, $match)) {
+            $prop   = $match['method'];
+            $params = json_decode('[' . $match['param'] . ']');
+        }
+        elseif (Str::contains($value, '|')) {
+            [$prop, $strParams] = explode('|', $value);
+            $params = json_decode('[' . $strParams . ']');
         }
         else {
             $prop   = $value;
-            $params = '';
+            $params = [];
         }
-        $arrParam = explode(',', $params);
+
         try {
-            if ($params) {
-                return call_user_func_array([self::$factory, $prop], $arrParam);
+            if (is_numeric($prop) || !preg_match('/^[a-zA-Z0-9]+$/', $prop)) {
+                return str_repeat($prop, $num);
             }
-            return call_user_func([self::$factory, $prop]);
-        } catch (InvalidArgumentException  $e) {
-            return $e->getMessage();
+            $res = call_user_func_array([self::$factory, $prop], $params);
+            if (is_string($res)) {
+                return str_repeat($res, $num);
+            }
+            return $res;
+        } catch (Throwable $e) {
+            return str_repeat($prop, $num);
         }
     }
 }
