@@ -14,6 +14,13 @@ class FormEditor extends FormBaseWidget
      */
     protected $title = 'Editor';
 
+    public function data(): array
+    {
+        return [
+            'editor'          => '<p>illqq</p>',
+            'editor-required' => '<p>illqq</p>',
+        ];
+    }
 
     /**
      * Build a form here.
