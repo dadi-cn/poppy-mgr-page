@@ -151,7 +151,6 @@ class FormBuilder extends CollectiveFormBuilder
         $(function () {
             const instance_$contentId = new wangEditor('#$contentId');
             instance_$contentId.config.onchange = function (newHtml) {
-            console.log(newHtml);
                 $('#input_{$contentId}').val(newHtml)
             }
             instance_$contentId.config.uploadImgServer = '$uploadUrl';
