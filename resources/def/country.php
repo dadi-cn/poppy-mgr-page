@@ -1,6 +1,12 @@
 <?php namespace System\Classes\Passport;
 
 return [
+    // 常用
+    ['en' => 'China', 'iso' => 'CN', 'py' => '#', 'zh' => '中国', 'cty' => 86],
+    ['en' => 'Hong Kong', 'iso' => 'HK', 'py' => '#', 'zh' => '中国香港', 'cty' => 852],
+    ['en' => 'Macau', 'iso' => 'MO', 'py' => '#', 'zh' => '中国澳门', 'cty' => 853],
+    ['en' => 'Taiwan', 'iso' => 'TW', 'py' => '#', 'zh' => '中国台湾', 'cty' => 886],
+
     ['en' => 'Afghanistan', 'iso' => 'AF', 'py' => 'a', 'zh' => '阿富汗', 'cty' => 93],
     ['en' => 'Albania', 'iso' => 'AL', 'py' => 'a', 'zh' => '阿尔巴尼亚', 'cty' => 355],
     ['en' => 'Algeria', 'iso' => 'DZ', 'py' => 'a', 'zh' => '阿尔及利亚', 'cty' => 213],
