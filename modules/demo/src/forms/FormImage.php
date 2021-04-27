@@ -40,7 +40,9 @@ class FormImage extends FormBaseWidget
         $token = app('tymon.jwt.auth')->fromUser($this->pam);
         $this->image('image', '图片, 默认, 可上传')->rules([
             Rule::required(),
-        ])->token($token);
+        ])->options([
+            'pam' => $this->pam,
+        ]);
         // 添加 code 代码
         $code = <<<CODE
 \$token = app('tymon.jwt.auth')->fromUser(PamAccount::first());

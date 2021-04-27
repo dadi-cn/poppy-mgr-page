@@ -3,10 +3,12 @@
 namespace Demo\Forms;
 
 use Poppy\Framework\Validation\Rule;
+use Poppy\System\Classes\Traits\PamTrait;
 
 class FormEditor extends FormBaseWidget
 {
 
+    use PamTrait;
 
     /**
      * 表单标题
@@ -27,7 +29,9 @@ class FormEditor extends FormBaseWidget
      */
     public function form()
     {
-        $this->editor('editor', '编辑器Demo');
+        $this->editor('editor', '编辑器Demo')->options([
+            'pam' => $this->pam,
+        ]);
         // 添加 code 代码
         $code = <<<CODE
 \$this->editor('editor', '编辑器Demo');
