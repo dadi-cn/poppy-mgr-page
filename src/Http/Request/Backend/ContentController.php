@@ -3,7 +3,7 @@
 namespace Poppy\Area\Http\Request\Backend;
 
 use Poppy\Area\Action\Area;
-use Poppy\Area\Models\PyArea;
+use Poppy\Area\Models\SysArea;
 use Poppy\Area\Models\Filters\AreaContentFilter;
 use Poppy\Framework\Classes\Resp;
 use Poppy\MgrPage\Http\Request\Backend\BackendController;
@@ -32,8 +32,8 @@ class ContentController extends BackendController
         $input       = input();
         $input['id'] = input('id') ?? $id;
 
-        $top   = PyArea::where('level', '<=', 2)->select(['parent_id','title', 'id'])->get()->keyBy('id')->toArray();
-        $items = PyArea::filter($input, AreaContentFilter::class)->paginateFilter($this->pagesize);
+        $top   = SysArea::where('level', '<=', 2)->select(['parent_id','title', 'id'])->get()->keyBy('id')->toArray();
+        $items = SysArea::filter($input, AreaContentFilter::class)->paginateFilter($this->pagesize);
 
         return view('py-area::backend.content.index', [
             'items' => $items,
@@ -58,13 +58,13 @@ class ContentController extends BackendController
         }
 
         $top  = [];
-        $area = PyArea::where('parent_id', SysConfig::NO)->select(['title', 'id'])->get()->toArray();
+        $area = SysArea::where('parent_id', SysConfig::NO)->select(['title', 'id'])->get()->toArray();
         foreach ($area as $item) {
             $top[$item['id']] = $item['title'];
         }
         if ($city) {
             $second    = [];
-            $area_city = PyArea::where('parent_id', $city)->select(['title', 'id'])->get()->toArray();
+            $area_city = SysArea::where('parent_id', $city)->select(['title', 'id'])->get()->toArray();
             foreach ($area_city as $item) {
                 $second[$item['id']] = $item['title'];
             }

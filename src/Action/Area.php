@@ -5,7 +5,7 @@ namespace Poppy\Area\Action;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Poppy\Area\Classes\PyAreaDef;
-use Poppy\Area\Models\PyArea;
+use Poppy\Area\Models\SysArea;
 use Poppy\Framework\Classes\Traits\AppTrait;
 use Poppy\Framework\Validation\Rule;
 use Poppy\System\Classes\Traits\FixTrait;
@@ -22,7 +22,7 @@ class Area
     use AppTrait, PamTrait, FixTrait;
 
     /**
-     * @var PyArea
+     * @var SysArea
      */
     protected $area;
 
@@ -38,7 +38,7 @@ class Area
 
     public function __construct()
     {
-        $this->areaTable = (new PyArea())->getTable();
+        $this->areaTable = (new SysArea())->getTable();
     }
 
     /**
@@ -96,7 +96,7 @@ class Area
             $this->area->update($initDb);
         }
         else {
-            $area       = PyArea::create($initDb);
+            $area       = SysArea::create($initDb);
             $this->area = $area;
         }
 
@@ -124,7 +124,7 @@ class Area
         if ($id && !$this->initArea($id)) {
             return false;
         }
-        if (PyArea::where('parent_id', $id)->exists()) {
+        if (SysArea::where('parent_id', $id)->exists()) {
             return $this->setError(trans('py-system::action.area.exist_error'));
         }
         $parentIds = $this->parentIds($id, 'array');
@@ -188,7 +188,7 @@ class Area
     {
         $children    = $this->getChildren($id);
         $topParentId = $this->topParentId($id);
-        PyArea::where('id', $id)->update([
+        SysArea::where('id', $id)->update([
             'children'      => implode(',', $children),
             'top_parent_id' => $topParentId,
         ]);
@@ -205,7 +205,7 @@ class Area
         if (!$this->fix['cached']) {
             $this->fix['cached'] = 1;
         }
-        $Db = new PyArea();
+        $Db = new SysArea();
         $this->total($Db->count());
         $this->max($Db->max('id'));
         $this->min($Db->min('id'));
@@ -220,7 +220,7 @@ class Area
 
         $this->fix['lastId'] = $this->fix['start'];
         if ($this->fix['left']) {
-            $left_items = PyArea::whereRaw('id >= ?', [$this->fix['start']])
+            $left_items = SysArea::whereRaw('id >= ?', [$this->fix['start']])
                 ->take($this->fix['section'])
                 ->orderBy('id')
                 ->get(['id', 'title']);
@@ -244,14 +244,14 @@ class Area
      */
     public function hasChild(int $id): bool
     {
-        $parent = PyArea::where('id', $id)->value('parent_id');
-        if (PyArea::where('id', $id)->where('top_parent_id', $id)->exists() || PyArea::where('id', $id)->where('top_parent_id', $parent)->exists()) {
-            PyArea::where('id', $id)->update([
+        $parent = SysArea::where('id', $id)->value('parent_id');
+        if (SysArea::where('id', $id)->where('top_parent_id', $id)->exists() || SysArea::where('id', $id)->where('top_parent_id', $parent)->exists()) {
+            SysArea::where('id', $id)->update([
                 'has_child' => 1,
             ]);
         }
         else {
-            PyArea::where('id', $id)->update([
+            SysArea::where('id', $id)->update([
                 'has_child' => 0,
             ]);
         }
@@ -267,13 +267,13 @@ class Area
     public function level(int $id): bool
     {
         //省级
-        PyArea::where('id', $id)->where('parent_id', 0)->update([
+        SysArea::where('id', $id)->where('parent_id', 0)->update([
             'level' => 1,
         ]);
         // 市级
-        $parent = PyArea::where('id', $id)->value('parent_id');
-        if (PyArea::where('id', $parent)->where('parent_id', 0)->exists()) {
-            PyArea::where('id', $id)->update([
+        $parent = SysArea::where('id', $id)->value('parent_id');
+        if (SysArea::where('id', $parent)->where('parent_id', 0)->exists()) {
+            SysArea::where('id', $id)->update([
                 'level' => 2,
             ]);
         }
@@ -289,7 +289,7 @@ class Area
     public function initArea(int $id): bool
     {
         try {
-            $this->area   = PyArea::findOrFail($id);
+            $this->area   = SysArea::findOrFail($id);
             $this->areaId = $this->area->id;
 
             return true;
@@ -320,7 +320,7 @@ class Area
         }
 
         return sys_cache('py-area')->remember(PyAreaDef::ckMatchIdPid(), 10, function () {
-            return PyArea::pluck('parent_id', 'id')->toArray();
+            return SysArea::pluck('parent_id', 'id')->toArray();
         });
     }
 

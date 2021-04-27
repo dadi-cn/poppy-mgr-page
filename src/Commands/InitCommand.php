@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Poppy\Area\Commands;
 
 use Illuminate\Console\Command;
-use Poppy\Area\Models\PyArea;
+use Poppy\Area\Models\SysArea;
 use Poppy\Core\Redis\RdsDb;
 
 class InitCommand extends Command
@@ -34,16 +34,16 @@ class InitCommand extends Command
         $provinces = json_decode($content, true);
 
         foreach ($provinces as $pro) {
-            if (!PyArea::where('code', $pro['id'])->exists()) {
-                PyArea::create([
+            if (!SysArea::where('code', $pro['id'])->exists()) {
+                SysArea::create([
                     'code'     => $pro['id'],
                     'title'    => $pro['name'],
-                    'level'    => PyArea::LEVEL_PROVINCE,
+                    'level'    => SysArea::LEVEL_PROVINCE,
                     'children' => '',
                 ]);
             }
         }
-        $kv = PyArea::whereRaw('right(code, 10) = "0000000000"')->pluck('id', 'code');
+        $kv = SysArea::whereRaw('right(code, 10) = "0000000000"')->pluck('id', 'code');
         $this->rds->hMSet($this->ckProvince(), $kv->toArray());
         $this->info('Init Province Data Success');
     }
@@ -62,21 +62,21 @@ class InitCommand extends Command
                     'code'      => $ci['id'],
                     'parent_id' => $provinceId,
                     'title'     => $ci['name'],
-                    'level'     => PyArea::LEVEL_CITY,
+                    'level'     => SysArea::LEVEL_CITY,
                     'children'  => '',
                 ];
             }
-            if (PyArea::where('parent_id', $provinceId)->exists()) {
+            if (SysArea::where('parent_id', $provinceId)->exists()) {
                 continue;
             }
             if (count($insert)) {
-                PyArea::where('id', $provinceId)->update([
+                SysArea::where('id', $provinceId)->update([
                     'has_child' => 1,
                 ]);
-                PyArea::insert($insert);
+                SysArea::insert($insert);
             }
         }
-        $kv = PyArea::whereRaw('right(code, 8) = "00000000"')->where('parent_id', '!=', 0)->pluck('id', 'code');
+        $kv = SysArea::whereRaw('right(code, 8) = "00000000"')->where('parent_id', '!=', 0)->pluck('id', 'code');
         $this->rds->hMSet($this->ckCity(), $kv->toArray());
         $this->info('Init City Data Success');
     }
@@ -95,18 +95,18 @@ class InitCommand extends Command
                     'code'      => $ci['id'],
                     'parent_id' => $cityId,
                     'title'     => $ci['name'],
-                    'level'     => PyArea::LEVEL_COUNTY,
+                    'level'     => SysArea::LEVEL_COUNTY,
                     'children'  => '',
                 ];
             }
-            if (PyArea::where('parent_id', $cityId)->exists()) {
+            if (SysArea::where('parent_id', $cityId)->exists()) {
                 continue;
             }
             if (count($insert)) {
-                PyArea::where('id', $cityId)->update([
+                SysArea::where('id', $cityId)->update([
                     'has_child' => 1,
                 ]);
-                PyArea::insert($insert);
+                SysArea::insert($insert);
             }
         }
         $this->info('Init County Data Success');

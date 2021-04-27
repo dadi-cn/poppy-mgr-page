@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 
-class CreatePyAreaTable extends Migration
+class CreateSysAreaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class CreatePyAreaTable extends Migration
      */
     public function up()
     {
-        Schema::create('py_area', function (Blueprint $table) {
+        Schema::create('sys_area', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title', 50)->default('')->comment('地区名称');
             $table->integer('parent_id')->default(0)->comment('父级ID');
@@ -38,6 +38,6 @@ class CreatePyAreaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('py_area');
+        Schema::dropIfExists('sys_area');
     }
 }

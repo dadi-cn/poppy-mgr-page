@@ -2,7 +2,7 @@
 
 namespace Poppy\Area\Classes\Form\Field;
 
-use Poppy\Area\Models\PyArea;
+use Poppy\Area\Models\SysArea;
 use Poppy\System\Classes\Form\Field;
 
 final class Area extends Field
@@ -16,7 +16,7 @@ final class Area extends Field
     public function render()
     {
         $this->addVariables([
-            'area' => PyArea::cityTree(),
+            'area' => SysArea::cityTree(),
         ]);
         return parent::render();
     }
