@@ -56,7 +56,7 @@ CODE;
         $this->code('checkbox_all-code', 'Code@全选')->default($code);
         $this->divider();
 
-        $this->checkbox('checkbox_func', 'func')->checked(['Func2'])->options(function () {
+        $this->checkbox('checkbox_func', 'func')->checked([1])->options(function () {
             return [1 => 'Func', 2 => 'Func2', 3 => 'Func3'];
         })->help('默认选择项');
         // 添加 code 代码
