@@ -58,23 +58,20 @@ abstract class Controller extends BaseController
      */
     public function __construct()
     {
-        $this->route = Route::currentRouteName();
-        View::share([
-            '_route' => $this->route,
-        ]);
-
-        // pagesize
+        $this->route    = Route::currentRouteName();
         $this->pagesize = PageInfo::pagesize();
+        $this->ip       = EnvHelper::ip();
+        $this->now      = Carbon::now();
+    }
 
-        $this->ip  = EnvHelper::ip();
-        $this->now = Carbon::now();
-
+    protected function withViews()
+    {
         View::share([
             '_ip'       => $this->ip,
             '_now'      => $this->now,
             '_pagesize' => $this->pagesize,
+            '_route'    => $this->route,
         ]);
-
         // 自动计算seo
         // 根据路由名称来转换 seo key
         // system:web.user.index  => system::web_nav_index
