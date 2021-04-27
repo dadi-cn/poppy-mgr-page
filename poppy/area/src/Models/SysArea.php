@@ -126,7 +126,11 @@ class SysArea extends Eloquent
     public static function country()
     {
         return sys_cache('py-area')->remember(PyAreaDef::ckCountry(), SysConfig::MIN_ONE_MONTH, function () {
-            return include poppy_path('poppy.area', 'resources/def/country.php');
+            $values = include poppy_path('poppy.area', 'resources/def/country.php');
+            return collect($values)->map(function($cty){
+                $cty['py'] = strtoupper($cty['py']);
+                return $cty;
+            })->values()->toArray();
         });
     }
 }
