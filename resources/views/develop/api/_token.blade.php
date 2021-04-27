@@ -4,7 +4,7 @@
         <a href="{!! route_url('py-mgr-page:develop.api.field', [$guard, 'token']) !!}"
             data-title="设置 Token {!! $guard !!}"
             class="J_iframe pull-right layui-btn layui-btn-sm">设置 Token</a>
-        <a href="{!! route_url('py-mgr-page:develop.api.login', null, ['type'=> $guard]) !!}"
+        <a href="{!! route_url('py-mgr-page:develop.api.login', null, ['guard'=> $guard]) !!}"
             data-title="登录 {!! $guard !!}"
             class="J_iframe pull-right layui-btn layui-btn-sm mr10">登录</a>
         {!! Form::text('token',$data['token']??'', [
