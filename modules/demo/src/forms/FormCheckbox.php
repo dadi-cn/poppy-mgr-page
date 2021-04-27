@@ -4,7 +4,7 @@ namespace Demo\Forms;
 
 use Poppy\Framework\Validation\Rule;
 
-class FormCheckBox extends FormBaseWidget
+class FormCheckbox extends FormBaseWidget
 {
 
 
@@ -14,6 +14,14 @@ class FormCheckBox extends FormBaseWidget
      */
     protected $title = 'Checkbox (多选框)';
 
+    public function data():array
+    {
+        return [
+            'checkbox_required' => [
+                'a'
+            ]
+        ];
+    }
 
     /**
      * Build a form here.
