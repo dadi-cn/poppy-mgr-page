@@ -33,6 +33,7 @@ abstract class BackendController extends Controller
             }
             return $next($request);
         });
+        $this->withViews();
     }
 
     /**

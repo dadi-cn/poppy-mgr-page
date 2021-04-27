@@ -127,7 +127,7 @@ class SysArea extends Eloquent
     {
         return sys_cache('py-area')->remember(PyAreaDef::ckCountry(), SysConfig::MIN_ONE_MONTH, function () {
             $values = include poppy_path('poppy.area', 'resources/def/country.php');
-            return collect($values)->map(function($cty){
+            return collect($values)->sortBy('py')->map(function ($cty) {
                 $cty['py'] = strtoupper($cty['py']);
                 return $cty;
             })->values()->toArray();
