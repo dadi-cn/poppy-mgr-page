@@ -22,16 +22,16 @@ use Poppy\System\Models\SysConfig;
  * @property int    $has_child       是否有子元素
  * @property int    $level           级别
  * @mixin Eloquent
- * @method static Builder|PyArea filter($input = [], $filter = null)
- * @method static Builder|PyArea pageFilter(PageInfo $pageInfo)
- * @method static Builder|PyArea paginateFilter($perPage = null, $columns = [], $pageName = 'page', $page = null)
- * @method static Builder|PyArea simplePaginateFilter($perPage = null, $columns = [], $pageName = 'page')
- * @method static Builder|PyArea whereBeginsWith($column, $value, $boolean = 'and')
- * @method static Builder|PyArea whereEndsWith($column, $value, $boolean = 'and')
- * @method static Builder|PyArea whereLike($column, $value, $boolean = 'and')
+ * @method static Builder|SysArea filter($input = [], $filter = null)
+ * @method static Builder|SysArea pageFilter(PageInfo $pageInfo)
+ * @method static Builder|SysArea paginateFilter($perPage = null, $columns = [], $pageName = 'page', $page = null)
+ * @method static Builder|SysArea simplePaginateFilter($perPage = null, $columns = [], $pageName = 'page')
+ * @method static Builder|SysArea whereBeginsWith($column, $value, $boolean = 'and')
+ * @method static Builder|SysArea whereEndsWith($column, $value, $boolean = 'and')
+ * @method static Builder|SysArea whereLike($column, $value, $boolean = 'and')
  * @url https://github.com/wecatch/china_regions
  */
-class PyArea extends Eloquent
+class SysArea extends Eloquent
 {
     use FilterTrait;
 
@@ -41,7 +41,7 @@ class PyArea extends Eloquent
 
     public $timestamps = false;
 
-    protected $table = 'py_area';
+    protected $table = 'sys_area';
 
     protected $fillable = [
         'title',
@@ -56,7 +56,7 @@ class PyArea extends Eloquent
     public static function cityTree()
     {
         return sys_cache('py-area')->remember(PyAreaDef::ckArea('tree-level-2'), SysConfig::MIN_ONE_MONTH, function () {
-            $items = PyArea::selectRaw("id,title,parent_id")->where('level', '<', 4)->get()->keyBy('id')->toArray();
+            $items = SysArea::selectRaw("id,title,parent_id")->where('level', '<', 4)->get()->keyBy('id')->toArray();
             $Tree  = new TreeHelper();
             $Tree->init($items, 'id', 'parent_id', 'title');
             return $Tree->getTreeArray(0);

@@ -11,12 +11,12 @@ use Eloquent;
  * @property string $word      文字
  * @mixin Eloquent
  */
-class PySensitiveWord extends Eloquent
+class SysSensitiveWord extends Eloquent
 {
 
     public $timestamps = false;
 
-    protected $table = 'py_sensitive_word';
+    protected $table = 'sys_sensitive_word';
 
     protected $fillable = [
         'word',

@@ -2,7 +2,7 @@
 
 namespace Poppy\Area\Http\Request\ApiV1\Web;
 
-use Poppy\Area\Models\PyArea;
+use Poppy\Area\Models\SysArea;
 use Poppy\Framework\Classes\Resp;
 use Poppy\Framework\Helper\UtilHelper;
 use Poppy\System\Http\Request\ApiV1\Web\WebApiController;
@@ -45,7 +45,7 @@ class AreaController extends WebApiController
      */
     public function code()
     {
-        $items = PyArea::selectRaw("id,title,left(code, 6) as code,parent_id")->get()->toArray();
+        $items = SysArea::selectRaw("id,title,left(code, 6) as code,parent_id")->get()->toArray();
         $array = UtilHelper::genTree($items, 'id', 'parent_id', 'children', false);
         return Resp::success('获取数据成功', $array);
     }
@@ -62,7 +62,7 @@ class AreaController extends WebApiController
     {
         return Resp::success(
             '获取成功',
-            PyArea::country()
+            SysArea::country()
         );
     }
 }

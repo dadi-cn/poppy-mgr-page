@@ -4,7 +4,7 @@ namespace Poppy\SensitiveWord\Classes\Sensitive;
 
 use Poppy\Core\Redis\RdsDb;
 use Poppy\SensitiveWord\Classes\PySensitiveWordDef;
-use Poppy\SensitiveWord\Models\PySensitiveWord;
+use Poppy\SensitiveWord\Models\SysSensitiveWord;
 use Throwable;
 
 /**
@@ -46,7 +46,7 @@ class SensitiveDirectory
     public function buildDirectory(): ?SensitiveWords
     {
         try {
-            $words     = PySensitiveWord::pluck('word')->toArray();
+            $words     = SysSensitiveWord::pluck('word')->toArray();
             $directory = SensitiveWords::instance()->setTree($words);
         } catch (Throwable $e) {
             $directory = null;

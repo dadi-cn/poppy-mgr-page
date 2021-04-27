@@ -6,7 +6,7 @@ namespace Poppy\SensitiveWord\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
-use Poppy\SensitiveWord\Models\PySensitiveWord;
+use Poppy\SensitiveWord\Models\SysSensitiveWord;
 use Throwable;
 
 class InitCommand extends Command
@@ -21,7 +21,7 @@ class InitCommand extends Command
             $words = file($path);
 
             $first = Arr::first($words);
-            if (PySensitiveWord::where('word', $first)->exists()) {
+            if (SysSensitiveWord::where('word', $first)->exists()) {
                 $this->error('你已经导入了默认数据, 无需重新导入');
                 return;
             }
@@ -33,7 +33,7 @@ class InitCommand extends Command
                     'word' => trim($word),
                 ];
             }
-            PySensitiveWord::insert($import);
+            SysSensitiveWord::insert($import);
             $this->info('Init Sensitive Word Data Success');
         } catch (Throwable $e) {
             $this->error($e->getMessage());
