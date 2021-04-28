@@ -99,6 +99,22 @@ class SysArea extends Eloquent
 
 
     /**
+     * 省份的KV
+     * @param string $code 2位长度, 匹配身份证省份/城市
+     * @return mixed
+     */
+    public static function kvProvince(string $code = ''): string
+    {
+        static $cache;
+        if (!$cache) {
+            $cache = sys_cache('py-area')->remember(PyAreaDef::ckArea('kv-province'), SysConfig::MIN_ONE_MONTH, function () {
+                return self::where('level', self::LEVEL_PROVINCE)->selectRaw('left(code, 2) as code, title')->pluck('title', 'code')->toArray();
+            });
+        }
+        return kv($cache, $code);
+    }
+
+    /**
      * 国家KV
      * @param string $code
      * @return string|array
