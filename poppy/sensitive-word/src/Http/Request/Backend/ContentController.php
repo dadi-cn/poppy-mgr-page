@@ -2,9 +2,7 @@
 
 namespace Poppy\SensitiveWord\Http\Request\Backend;
 
-use Poppy\SensitiveWord\Action\Area;
 use Poppy\SensitiveWord\Models\SysSensitiveWord;
-use Poppy\SensitiveWord\Models\Filters\AreaContentFilter;
 use Poppy\Framework\Classes\Resp;
 use Poppy\MgrPage\Http\Request\Backend\BackendController;
 use Poppy\System\Models\SysConfig;
@@ -19,7 +17,7 @@ class ContentController extends BackendController
     {
         parent::__construct();
         self::$permission = [
-            'global' => 'backend:py-area.main.manage',
+            'global' => 'backend:py-sensitive-word.main.manage',
         ];
     }
 
