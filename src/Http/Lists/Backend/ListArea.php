@@ -96,7 +96,7 @@ class ListArea extends ListBase
     public function edit($item): BaseButton
     {
         return new BaseButton('<i class="fa fa-edit text-info"></i>', route('py-area:backend.content.establish', [$item->id]), [
-            'title' => "编辑[{$item->word}]",
+            'title' => "编辑[{$item->title}]",
             'class' => 'J_iframe',
         ]);
     }
