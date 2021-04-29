@@ -15,7 +15,7 @@ class InitCommand extends Command
 
     public function handle()
     {
-        $this->rds = new RdsDb();
+        $this->rds = RdsDb::instance();
 
         $this->initProvince();
         $this->initCity();
