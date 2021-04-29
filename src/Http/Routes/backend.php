@@ -39,6 +39,19 @@ Route::group([
         ->name('py-mgr-page:backend.pam.enable');
     $router->any('pam/log', 'PamController@log')
         ->name('py-mgr-page:backend.pam.log');
+    $router->any('pam/token', 'PamController@token')
+        ->name('py-mgr-page:backend.pam.token');
+    $router->any('pam/ban/{id}/{type}', 'PamController@ban')
+        ->name('py-mgr-page:backend.pam.ban');
+    $router->any('pam/delete_token/{id}', 'PamController@deleteToken')
+        ->name('py-mgr-page:backend.pam.delete_token');
+
+    $router->any('ban', 'BanController@index')
+        ->name('py-mgr-page:backend.ban.index');
+    $router->any('ban/establish/{id?}', 'BanController@establish')
+        ->name('py-mgr-page:backend.ban.establish');
+    $router->any('ban/delete/{id}', 'BanController@delete')
+        ->name('py-mgr-page:backend.ban.delete');
 
     /* 发送测试邮件
      * ---------------------------------------- */

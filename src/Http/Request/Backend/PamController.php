@@ -2,21 +2,26 @@
 
 namespace Poppy\MgrPage\Http\Request\Backend;
 
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Poppy\Framework\Classes\Resp;
 use Poppy\Framework\Exceptions\ApplicationException;
+use Poppy\MgrPage\Http\Lists\Backend\ListPamAccount;
+use Poppy\MgrPage\Http\Lists\Backend\ListPamLog;
+use Poppy\MgrPage\Http\Lists\Backend\ListPamToken;
+use Poppy\System\Action\Ban;
 use Poppy\System\Classes\Grid;
 use Poppy\System\Classes\Layout\Content;
+use Poppy\System\Events\PamTokenBanEvent;
 use Poppy\System\Http\Forms\Backend\FormPamDisable;
 use Poppy\System\Http\Forms\Backend\FormPamEnable;
 use Poppy\System\Http\Forms\Backend\FormPamEstablish;
 use Poppy\System\Http\Forms\Backend\FormPamPassword;
-use Poppy\System\Http\Lists\Backend\ListPamAccount;
-use Poppy\System\Http\Lists\Backend\ListPamLog;
 use Poppy\System\Models\PamAccount;
 use Poppy\System\Models\PamLog;
+use Poppy\System\Models\PamToken;
 use Response;
 use Throwable;
 
@@ -108,5 +113,39 @@ class PamController extends BackendController
         $grid = new Grid(new PamLog());
         $grid->setLists(ListPamLog::class);
         return $grid->render();
+    }
+
+    /**
+     * @return array|\Illuminate\Http\Response|JsonResponse|Redirector|RedirectResponse|Resp|Response
+     * @throws ApplicationException
+     * @throws Throwable
+     */
+    public function token()
+    {
+        $grid = new Grid(new PamToken());
+        $grid->setLists(ListPamToken::class);
+        return $grid->render();
+    }
+
+    public function ban($id, $type)
+    {
+        $Ban = new Ban();
+        if (!$Ban->type($id, $type)) {
+            return Resp::error($Ban->getError());
+        }
+        return Resp::success('禁用成功', '_top_reload|1');
+    }
+
+    public function deleteToken($id)
+    {
+        $item = PamToken::find($id);
+
+        // 踢下线(当前用户不可访问)
+        $Ban = new Ban();
+        $Ban->token($item->account_id, $item->token_hash, Carbon::now()->addMinutes(config('jwt.ttl')));
+        $item->delete();
+
+        event(new PamTokenBanEvent($item, 'token'));
+        return Resp::error('删除用户成功, 用户已无法访问(需重新登录)');
     }
 }
