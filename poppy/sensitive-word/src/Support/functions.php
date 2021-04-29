@@ -1,33 +1,28 @@
 <?php
-/*
- * This is NOT a Free software.
- * When you have some Question or Advice can contact Me.
- * @author     Duoli <zhaody901@126.com>
- * @copyright  Copyright (c) 2013-2021 Poppy Team
- */
 
-use Poppy\SensitiveWord\Classes\Sensitive\SensitiveDirectory;
-use Poppy\SensitiveWord\Classes\Sensitive\SensitiveWords;
+use Poppy\SensitiveWord\Classes\Sensitive\Dict;
+use Poppy\SensitiveWord\Classes\Sensitive\Words;
 
 if (!function_exists('sensitive_words')) {
     /**
      * 词汇过滤
+     * Check : 非法返回 false
      * @param string $words  词汇
      * @param string $action 动作
      * @return mixed
      */
-    function sensitive_words(string $words, $action = SensitiveWords::TYPE_CHECK)
+    function sensitive_words(string $words, $action = Words::TYPE_CHECK)
     {
-        /** @var SensitiveWords $Sensitive */
+        /** @var Words $Sensitive */
         static $Sensitive = null;
 
         if (!$Sensitive) {
-            $Sensitive = (new SensitiveDirectory())->getDirectory();
+            $Sensitive = (new Dict())->getDirectory();
         }
 
         $isIllegal = false;
         if ($Sensitive) {
-            if ($action !== SensitiveWords::TYPE_CHECK) {
+            if ($action !== Words::TYPE_CHECK) {
                 $Sensitive->setSearchAllIllegal(true);
             }
             $isIllegal = $Sensitive->illegal($words);
@@ -35,11 +30,11 @@ if (!function_exists('sensitive_words')) {
 
         switch ($action) {
             default:
-            case SensitiveWords::TYPE_CHECK:
-                return !$isIllegal; // 非法返回false
-            case SensitiveWords::TYPE_WORDS:
+            case Words::TYPE_CHECK:
+                return !$isIllegal; // 非法返回 false
+            case Words::TYPE_WORDS:
                 return $Sensitive ? $Sensitive->getIllegalWords() : [];
-            case SensitiveWords::TYPE_REPLACE:
+            case Words::TYPE_REPLACE:
                 return $Sensitive ? $Sensitive->replaceIllegalWords() : [];
         }
     }

@@ -2,12 +2,20 @@
 
 namespace Poppy\Area\Http\Request\Backend;
 
+use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Poppy\Area\Action\Area;
+use Poppy\Area\Http\Forms\Backend\FormAreaEstablish;
+use Poppy\Area\Http\Lists\Backend\ListArea;
 use Poppy\Area\Models\SysArea;
-use Poppy\Area\Models\Filters\AreaContentFilter;
 use Poppy\Framework\Classes\Resp;
+use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\MgrPage\Http\Request\Backend\BackendController;
-use Poppy\System\Models\SysConfig;
+use Poppy\System\Classes\Grid;
+use Response;
+use Throwable;
 
 /**
  * 地区管理控制器
@@ -25,20 +33,15 @@ class ContentController extends BackendController
 
     /**
      * 地区列表
-     * @param null|int $id 地区id
+     * @return array|JsonResponse|RedirectResponse|\Illuminate\Http\Response|Redirector|Resp|Response|string
+     * @throws ApplicationException
+     * @throws Throwable
      */
-    public function index($id = null)
+    public function index()
     {
-        $input       = input();
-        $input['id'] = input('id') ?? $id;
-
-        $top   = SysArea::where('level', '<=', 2)->select(['parent_id','title', 'id'])->get()->keyBy('id')->toArray();
-        $items = SysArea::filter($input, AreaContentFilter::class)->paginateFilter($this->pagesize);
-
-        return view('py-area::backend.content.index', [
-            'items' => $items,
-            'top'   => $top,
-        ]);
+        $grid = new Grid(new SysArea());
+        $grid->setLists(ListArea::class);
+        return $grid->render();
     }
 
     /**
@@ -47,42 +50,16 @@ class ContentController extends BackendController
      */
     public function establish($id = null)
     {
-        $city = input('city');
-        $Area = $this->action();
-        if (is_post()) {
-            if ($Area->establish(input(), $id)) {
-                return Resp::success('添加版本成功', '_reload|1');
-            }
-
-            return Resp::error($Area->getError());
-        }
-
-        $top  = [];
-        $area = SysArea::where('parent_id', SysConfig::NO)->select(['title', 'id'])->get()->toArray();
-        foreach ($area as $item) {
-            $top[$item['id']] = $item['title'];
-        }
-        if ($city) {
-            $second    = [];
-            $area_city = SysArea::where('parent_id', $city)->select(['title', 'id'])->get()->toArray();
-            foreach ($area_city as $item) {
-                $second[$item['id']] = $item['title'];
-            }
-
-            return json_encode($second);
-        }
-
-        $id && $Area->initArea($id) && $Area->share();
-
-        return view('py-area::backend.content.establish', [
-            'top' => $top,
-        ]);
+        $form = new FormAreaEstablish();
+        $form->setPam($this->pam);
+        $form->setId($id);
+        return $form->render();
     }
 
     /**
      * 删除地区
      * @param int $id 地区id
-     * @throws \Exception
+     * @throws Exception
      */
     public function delete($id)
     {

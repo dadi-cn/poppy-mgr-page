@@ -9,5 +9,5 @@ backend:
       children:
         -
           title: 敏感词管理
-          route: py-sensitive-word:backend.content.index
+          route: py-sensitive-word:backend.word.index
           permission: 'backend:py-sensitive-word.main.manage'

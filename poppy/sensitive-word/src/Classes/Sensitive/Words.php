@@ -2,12 +2,10 @@
 
 namespace Poppy\SensitiveWord\Classes\Sensitive;
 
-use Generator;
-
 /**
  * 敏感词库
  */
-class SensitiveWords
+class Words
 {
     public const TYPE_CHECK   = 'check';
     public const TYPE_WORDS   = 'words';
@@ -97,13 +95,13 @@ class SensitiveWords
      */
     public function getIllegalWords(): array
     {
-        return (array) $this->illegalWords;
+        return $this->illegalWords;
     }
 
     /**
      * 检测所有敏感词
      * @param bool $searchAllIllegal 寻找所有敏感词
-     * @return SensitiveWords
+     * @return Words
      */
     public function setSearchAllIllegal(bool $searchAllIllegal): self
     {
@@ -120,9 +118,9 @@ class SensitiveWords
     {
         $replaces = array_map(function ($words) {
             return str_repeat('*', mb_strlen($words));
-        }, (array) $this->illegalWords);
+        }, $this->illegalWords);
 
-        return str_replace((array) $this->illegalWords, $replaces, $this->content);
+        return str_replace($this->illegalWords, $replaces, $this->content);
     }
 
     /**
@@ -232,34 +230,6 @@ class SensitiveWords
         $tree->put($char, $subTree);
 
         return $subTree;
-    }
-
-    /**
-     * @return $this
-     */
-    private function initWordTree(): self
-    {
-        if (!($this->wordTree instanceof HashMap)) {
-            $this->wordTree = new HashMap();
-        }
-
-        return $this;
-    }
-
-    /**
-     * 获取文件信息
-     * @param string $file 文件地址
-     * @return Generator
-     */
-    private function readFile(string $file): ?Generator
-    {
-        $file_pointer = fopen($file, 'rb');
-
-        while (!feof($file_pointer)) {
-            yield fgets($file_pointer);
-        }
-
-        fclose($file_pointer);
     }
 
     /**

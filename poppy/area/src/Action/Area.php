@@ -70,8 +70,8 @@ class Area
                 Rule::integer(),
             ],
         ], [], [
-            'title'     => sys_db('area_content.title'),
-            'parent_id' => sys_db('area_content.parent_id'),
+            'title'     => sys_db('sys_area.title'),
+            'parent_id' => sys_db('sys_area.parent_id'),
         ]);
         if ($validator->fails()) {
             return $this->setError($validator->messages());
