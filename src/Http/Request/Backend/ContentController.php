@@ -3,10 +3,14 @@
 namespace Poppy\Area\Http\Request\Backend;
 
 use Poppy\Area\Action\Area;
+use Poppy\Area\Http\Forms\Backend\FormAreaEstablish;
+use Poppy\Area\Http\Lists\Backend\ListArea;
 use Poppy\Area\Models\SysArea;
 use Poppy\Area\Models\Filters\AreaContentFilter;
 use Poppy\Framework\Classes\Resp;
 use Poppy\MgrPage\Http\Request\Backend\BackendController;
+use Poppy\SensitiveWord\Http\Forms\Backend\FormSensWordEstablish;
+use Poppy\System\Classes\Grid;
 use Poppy\System\Models\SysConfig;
 
 /**
@@ -29,10 +33,14 @@ class ContentController extends BackendController
      */
     public function index($id = null)
     {
+        $grid = new Grid(new SysArea());
+        $grid->setLists(ListArea::class);
+        return $grid->render();
+
         $input       = input();
         $input['id'] = input('id') ?? $id;
 
-        $top   = SysArea::where('level', '<=', 2)->select(['parent_id','title', 'id'])->get()->keyBy('id')->toArray();
+        $top   = SysArea::where('level', '<=', 2)->select(['parent_id', 'title', 'id'])->get()->keyBy('id')->toArray();
         $items = SysArea::filter($input, AreaContentFilter::class)->paginateFilter($this->pagesize);
 
         return view('py-area::backend.content.index', [
