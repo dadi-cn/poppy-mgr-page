@@ -99,6 +99,20 @@ class UtilHelper
         return (bool) preg_match('/^([0-9]{1,3}\.){3}[0-9]{1,3}$/', $ip);
     }
 
+
+    /**
+     * 是否是局域网IP
+     * @param string $ip
+     * @return bool
+     */
+    public static function isLocalIp(string $ip): bool
+    {
+        if (strpos($ip, '127.0.') === 0) {
+            return true;
+        }
+        return (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE));
+    }
+
     /**
      * 是否是md5, 检测是否32位数字字母的组合
      * @param string $str string
