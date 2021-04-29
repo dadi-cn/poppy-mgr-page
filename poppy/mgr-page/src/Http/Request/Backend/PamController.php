@@ -2,7 +2,6 @@
 
 namespace Poppy\MgrPage\Http\Request\Backend;
 
-use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
@@ -142,10 +141,10 @@ class PamController extends BackendController
 
         // 踢下线(当前用户不可访问)
         $Ban = new Ban();
-        $Ban->token($item->account_id, $item->token_hash, Carbon::now()->addMinutes(config('jwt.ttl')));
+        $Ban->unToken($item->account_id);
         $item->delete();
 
         event(new PamTokenBanEvent($item, 'token'));
-        return Resp::error('删除用户成功, 用户已无法访问(需重新登录)');
+        return Resp::error('删除用户成功, 用户已无法访问(需重新登录)', '_top_reload|1');
     }
 }
