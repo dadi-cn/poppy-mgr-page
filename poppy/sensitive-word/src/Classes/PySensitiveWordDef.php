@@ -9,8 +9,8 @@ class PySensitiveWordDef
      * 关键词字典
      * @return string
      */
-    public static function ckOriDict(): string
+    public static function ckDict(): string
     {
-        return 'py-sensitive-word:dict';
+        return 'dict';
     }
 }

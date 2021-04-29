@@ -5,6 +5,7 @@ namespace Poppy\SensitiveWord\Action;
 use Exception;
 use Poppy\Framework\Classes\Traits\AppTrait;
 use Poppy\Framework\Validation\Rule;
+use Poppy\SensitiveWord\Classes\PySensitiveWordDef;
 use Poppy\SensitiveWord\Models\SysSensitiveWord;
 use Validator;
 
@@ -70,6 +71,9 @@ class Word
         }
 
         SysSensitiveWord::insert($diff->toArray());
+
+        // 移除词典
+        sys_cache('py-sensitive-word')->forget(PySensitiveWordDef::ckDict());
 
         return true;
     }
