@@ -5,8 +5,6 @@ namespace Poppy\Core\Classes;
 
 class PyCoreDef
 {
-
-    // time define
     public const MIN_DEBUG     = 0;
     public const MIN_ONE_HOUR  = 60;
     public const MIN_SIX_HOUR  = 360;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Poppy\System\Http\Lists\Backend;
+namespace Poppy\MgrPage\Http\Lists\Backend;
 
 use Closure;
 use Illuminate\Support\Str;
@@ -92,6 +92,8 @@ class ListPamAccount extends ListBase
     public function quickButtons(): array
     {
         return [
+            $this->ban(),
+            $this->token(),
             $this->create(input(Filter\Scope::QUERY_NAME)),
         ];
     }
@@ -105,7 +107,7 @@ class ListPamAccount extends ListBase
     public function create($type): BaseButton
     {
         return new BaseButton('<i class="fa fa-plus"></i> 新增', route_url('py-mgr-page:backend.pam.establish', null, ['type' => $type]), [
-            'title' => "修改密码",
+            'title' => "新增账号",
             'class' => 'J_iframe layui-btn layui-btn-sm',
         ]);
     }
@@ -134,6 +136,30 @@ class ListPamAccount extends ListBase
         return new BaseButton('<i class="fa fa-edit"></i>', route('py-mgr-page:backend.pam.establish', [$item->id]), [
             'title' => "编辑[{$item->username}]",
             'class' => 'J_iframe',
+        ]);
+    }
+
+    /**
+     * Token 管理
+     * @return BaseButton
+     */
+    public function token(): BaseButton
+    {
+        return new BaseButton('<i class="fa fa-map-signs"></i> 登录用户', route('py-mgr-page:backend.pam.token'), [
+            'title' => "登录用户管理",
+            'class' => 'layui-btn layui-btn-sm',
+        ]);
+    }
+
+    /**
+     * 编辑
+     * @return BaseButton
+     */
+    public function ban(): BaseButton
+    {
+        return new BaseButton('<i class="fa fa-ban"></i> 封禁管理', route('py-mgr-page:backend.ban.index'), [
+            'title' => "封禁管理",
+            'class' => 'layui-btn layui-btn-sm',
         ]);
     }
 

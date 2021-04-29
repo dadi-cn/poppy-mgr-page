@@ -22,7 +22,7 @@ class RdsList
 
     public function __construct($database = 'default', $cache_key, $max_length = 0)
     {
-        $this->redis     = new RdsDb($database);
+        $this->redis     = RdsDb::instance($database);
         $this->maxLength = $max_length;
         $this->cacheKey  = $cache_key;
     }
