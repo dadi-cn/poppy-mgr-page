@@ -52,7 +52,7 @@ class ListArea extends ListBase
                         $Action->delete($item),
                     ]);
                 },
-            ]);
+            ])->width(120);
     }
 
 
