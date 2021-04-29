@@ -53,9 +53,10 @@ class WordController extends BackendController
      * @return array|JsonResponse|RedirectResponse|\Illuminate\Http\Response|Redirector|Resp|Response
      * @throws \Exception
      */
-    public function delete($id)
+    public function delete($id = null)
     {
         $Word = $this->action();
+        $id   = input('id', (array) $id);
         if (!$Word->delete($id)) {
             return Resp::error($Word->getError());
         }

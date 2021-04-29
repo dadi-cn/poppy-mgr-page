@@ -7,6 +7,7 @@ use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\System\Classes\Grid\Column;
 use Poppy\System\Classes\Grid\Displayer\Actions;
 use Poppy\System\Classes\Grid\Filter;
+use Poppy\System\Classes\Grid\Tools\ActionButton;
 use Poppy\System\Classes\Grid\Tools\BaseButton;
 use Poppy\System\Http\Lists\ListBase;
 
@@ -45,44 +46,31 @@ class ListSensitiveWord extends ListBase
                 function (Actions $actions) use ($Action) {
                     $item = $actions->row;
                     $actions->append([
-                        $Action->edit($item),
                         $Action->delete($item),
                     ]);
                 },
-            ]);
+            ])->width(120);
     }
 
+    public function batchAction(): array
+    {
+        return [
+            new ActionButton('<i class="fa fa-trash"></i> 删除', route_url('py-sensitive-word:backend.word.delete', null), [
+                'title'        => "删除",
+                'data-confirm' => "确认删除选中数据",
+                'class'        => 'layui-btn layui-btn-sm layui-btn-danger',
+            ]),
+        ];
+    }
 
     public function quickButtons(): array
     {
         return [
-            $this->create(),
+            new BaseButton('<i class="fa fa-plus"></i> 新增', route_url('py-sensitive-word:backend.word.establish', null), [
+                'title' => "新增",
+                'class' => 'J_iframe layui-btn layui-btn-sm',
+            ]),
         ];
-    }
-
-    /**
-     * 创建
-     * @return BaseButton
-     */
-    public function create(): BaseButton
-    {
-        return new BaseButton('<i class="fa fa-plus"></i> 新增', route_url('py-sensitive-word:backend.word.establish', null), [
-            'title' => "新增",
-            'class' => 'J_iframe layui-btn layui-btn-sm',
-        ]);
-    }
-
-    /**
-     * 编辑
-     * @param $item
-     * @return BaseButton
-     */
-    public function edit($item): BaseButton
-    {
-        return new BaseButton('<i class="fa fa-edit"></i>', route('py-sensitive-word:backend.word.establish', [$item->id]), [
-            'title' => "编辑[{$item->word}]",
-            'class' => 'J_iframe',
-        ]);
     }
 
     /**

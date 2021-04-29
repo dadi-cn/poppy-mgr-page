@@ -9,6 +9,6 @@ Route::group([
         ->name('py-sensitive-word:backend.word.index');
     $router->any('establish/{id?}', 'WordController@establish')
         ->name('py-sensitive-word:backend.word.establish');
-    $router->any('delete/{id}', 'WordController@delete')
+    $router->any('delete/{id?}', 'WordController@delete')
         ->name('py-sensitive-word:backend.word.delete');
 });

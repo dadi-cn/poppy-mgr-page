@@ -13,31 +13,6 @@ class FormSensWordEstablish extends FormWidget
 
     public $ajax = true;
 
-    private $id;
-
-    /**
-     * @var SysSensitiveWord
-     */
-    private $item;
-
-    /**
-     * 设置id
-     * @param $id
-     * @return $this
-     */
-    public function setId($id): self
-    {
-        $this->id = $id;
-
-        if ($id) {
-            $this->item = SysSensitiveWord::find($this->id);
-            if (!$this->item) {
-                throw new ApplicationException('无敏感词信息');
-            }
-        }
-        return $this;
-    }
-
 
     public function handle()
     {
@@ -50,17 +25,6 @@ class FormSensWordEstablish extends FormWidget
             return Resp::success('操作成功', '_top_reload|1');
         }
 
-    }
-
-    public function data(): array
-    {
-        if ($this->item) {
-            return [
-                'id'   => $this->item->id,
-                'word' => $this->item->word,
-            ];
-        }
-        return [];
     }
 
     public function form()
