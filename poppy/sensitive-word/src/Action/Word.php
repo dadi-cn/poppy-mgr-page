@@ -7,6 +7,7 @@ use Poppy\Framework\Classes\Traits\AppTrait;
 use Poppy\Framework\Validation\Rule;
 use Poppy\SensitiveWord\Classes\PySensitiveWordDef;
 use Poppy\SensitiveWord\Models\SysSensitiveWord;
+use Poppy\System\Classes\Traits\PamTrait;
 use Validator;
 
 /**
@@ -14,7 +15,7 @@ use Validator;
  */
 class Word
 {
-    use AppTrait;
+    use AppTrait, PamTrait;
 
     /**
      * @var SysSensitiveWord

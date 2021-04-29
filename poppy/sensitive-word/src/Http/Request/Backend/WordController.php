@@ -35,15 +35,12 @@ class WordController extends BackendController
     }
 
     /**
-     * 编辑/创建
-     * @param null $id
+     * 创建
      * @return array|JsonResponse|RedirectResponse|\Illuminate\Http\Response|Redirector|mixed|Resp|Response|string
-     * @throws ApplicationException
      */
-    public function establish($id = null)
+    public function establish()
     {
         $form = new FormSensWordEstablish();
-        $form->setId($id);
         return $form->render();
     }
 
