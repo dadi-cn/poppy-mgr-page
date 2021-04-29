@@ -20,7 +20,7 @@ class ListArea extends ListBase
      */
     public function columns()
     {
-        $this->column('id', "地区ID")->sortable()->width(80);
+        $this->column('id', "ID")->sortable()->width(80);
         $this->column('title', "名称");
     }
 
@@ -28,8 +28,11 @@ class ListArea extends ListBase
     public function filter(): Closure
     {
         return function (Filter $filter) {
-            $filter->column(1 / 12, function (Filter $column) {
+            $filter->column(1, function (Filter $column) {
                 $column->like('title', '标题');
+            });
+            $filter->column(2, function (Filter $column) {
+                $column->area('parent_id', '上级地区');
             });
         };
     }
