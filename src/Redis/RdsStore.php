@@ -151,8 +151,8 @@ class RdsStore
         }
         $key = 'py-core:rds-lock:' . $key;
         if (strtolower(config('cache.default')) === 'redis') {
-            $client = new RdsDb();
-            $res    = $client->set($key, 'atomic_' . Carbon::now()->timestamp, 'EX', $seconds, 'NX');
+            $client = RdsDb::instance();
+            $res    = $client->set($key, 'atomic-' . Carbon::now()->timestamp, 'EX', $seconds, 'NX');
             if ($res === false) {
                 return true;
             }

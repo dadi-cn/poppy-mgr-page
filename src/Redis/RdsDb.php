@@ -15,6 +15,9 @@ class RdsDb
      */
     private $handler;
 
+
+    private static $handleRepo;
+
     /**
      * Handle constructor.
      * @param string $database
@@ -24,6 +27,19 @@ class RdsDb
         $database      = $database ?: 'default';
         $config        = config('database.redis.' . $database);
         $this->handler = new RdsNative($config);
+    }
+
+    /**
+     * 数据库单例
+     * @param string $db
+     * @return mixed|\Poppy\Core\Redis\RdsDb
+     */
+    public static function instance(string $db = 'default')
+    {
+        if (!isset(self::$handleRepo[$db])) {
+            self::$handleRepo[$db] = new self($db);
+        }
+        return self::$handleRepo[$db];
     }
 
     /**
