@@ -7,8 +7,6 @@ use Poppy\Area\Models\SysArea;
 use Poppy\Framework\Classes\Resp;
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\Framework\Validation\Rule;
-use Poppy\SensitiveWord\Action\Word;
-use Poppy\SensitiveWord\Models\SysSensitiveWord;
 use Poppy\System\Classes\Traits\PamTrait;
 use Poppy\System\Classes\Widgets\FormWidget;
 
@@ -35,9 +33,9 @@ class FormAreaEstablish extends FormWidget
         $this->id = $id;
 
         if ($id) {
-            $this->item = SysSensitiveWord::find($this->id);
+            $this->item = SysArea::find($this->id);
             if (!$this->item) {
-                throw new ApplicationException('无敏感词信息');
+                throw new ApplicationException('无地区信息');
             }
         }
         return $this;
@@ -46,14 +44,17 @@ class FormAreaEstablish extends FormWidget
 
     public function handle()
     {
-        $Word = new Word();
-        $Word->setPam(request()->user());
+        $id   = input('id');
+        $Area = (new Area())->setPam($this->pam);
         if (is_post()) {
-            if (!$Word->establish(input(), input('id'))) {
-                return Resp::error($Word->getError());
+            if ($Area->establish(input(), $id)) {
+                return Resp::success('添加版本成功', '_top_reload|1');
             }
-            return Resp::success('操作成功', '_top_reload|1');
+
+            return Resp::error($Area->getError());
         }
+
+        $id && $Area->initArea($id) && $Area->share();
 
     }
 
@@ -61,8 +62,8 @@ class FormAreaEstablish extends FormWidget
     {
         if ($this->item) {
             return [
-                'id'   => $this->item->id,
-                'word' => $this->item->word,
+                'id'    => $this->item->id,
+                'title' => $this->item->title,
             ];
         }
         return [];
@@ -73,29 +74,11 @@ class FormAreaEstablish extends FormWidget
         if ($this->id) {
             $this->hidden('id', 'ID');
         }
-
         $this->text('title', '地区名称')->rules([
             Rule::nullable(),
         ]);
-        $this->select('top_id','选择省级')->rules([
-
+        $this->area('parent_id', '选择省级')->rules([
+            Rule::nullable(),
         ]);
-    }
-
-    /**
-     * 更新
-     */
-    public function fix()
-    {
-        return (new Area())->fixHandle();
-    }
-
-    /**
-     * 版本Action
-     * @return Area
-     */
-    private function actArea(): Area
-    {
-        return (new Area())->setPam($this->pam);
     }
 }
