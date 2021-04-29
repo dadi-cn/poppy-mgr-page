@@ -53,7 +53,7 @@ class Word
             return $this->setError($validator->messages());
         }
 
-        $words = explode(',', $initDb['word']);
+        $words = array_filter(explode(PHP_EOL, $initDb['word']));
         if (!count($words)) {
             return $this->setError('没有需要添加的敏感词');
         }
@@ -67,7 +67,7 @@ class Word
         });
 
         if (!$diff->count()) {
-            return $this->setError('没有需要添加的敏感词');
+            return $this->setError('没有需要添加的敏感词, 输入内容存在重复数据');
         }
 
         SysSensitiveWord::insert($diff->toArray());
