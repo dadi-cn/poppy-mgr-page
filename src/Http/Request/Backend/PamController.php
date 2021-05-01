@@ -141,7 +141,7 @@ class PamController extends BackendController
 
         // 踢下线(当前用户不可访问)
         $Ban = new Ban();
-        $Ban->unToken($item->account_id);
+        $Ban->forbidden($item->account_id);
         $item->delete();
 
         event(new PamTokenBanEvent($item, 'token'));
