@@ -14,3 +14,10 @@ Route::group([
     $route->get('resp/error', 'RespController@error');
     $route->get('resp/401', 'RespController@unAuth');
 });
+
+Route::group([
+    'middleware' => ['api-sso'],
+    'namespace'  => 'Demo\Http\Request\Api\Web',
+], function (Illuminate\Routing\Router $route) {
+    $route->get('sso/access', 'SsoController@access');
+});
