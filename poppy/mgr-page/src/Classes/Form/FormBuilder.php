@@ -9,6 +9,7 @@ use Poppy\Core\Classes\Traits\CoreTrait;
 use Poppy\Framework\Helper\FileHelper;
 use Poppy\Framework\Helper\TreeHelper;
 use Poppy\System\Classes\Contracts\ApiSignContract;
+use Poppy\System\Models\PamAccount;
 
 /**
  * 表单生成
@@ -244,11 +245,14 @@ TIP;
      * @param array  $options 选项
      * @return string
      */
-    public function thumb(string $name, $value = null, $options = []): string
+    public function thumb(string $name, $value = null, array $options = []): string
     {
         $id    = $this->getIdAttribute($name, $options) ?? 'thumb_' . Str::random(6);
         $value = (string) $this->getValueAttribute($name, $value);
         $pam   = $options['pam'] ?? [];
+        if (!$pam){
+            $pam = app('auth')->guard(PamAccount::TYPE_BACKEND)->user();
+        }
         $token = $pam ? app('tymon.jwt.auth')->fromUser($pam) : '';
         if (!$token) {
             $token = $options['token'] ?? '';
