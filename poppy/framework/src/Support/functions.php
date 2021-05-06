@@ -149,6 +149,17 @@ if (!function_exists('is_post')) {
     }
 }
 
+if (!function_exists('jwt_token')) {
+    /**
+     * 是否是 Jwt 请求
+     * @return string
+     */
+    function jwt_token(): string
+    {
+        return (string) (Request::bearerToken() ?: input('token'));
+    }
+}
+
 if (!function_exists('post')) {
     /**
      * Identical function to input(), however restricted to $_POST values.
