@@ -89,6 +89,8 @@ class Word
     {
         try {
             SysSensitiveWord::whereIn('id', $id)->delete();
+            // 移除词典
+            sys_cache('py-sensitive-word')->forget(PySensitiveWordDef::ckDict());
             return true;
         } catch (Exception $e) {
             return $this->setError($e->getMessage());

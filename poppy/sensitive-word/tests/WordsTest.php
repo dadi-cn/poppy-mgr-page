@@ -9,11 +9,11 @@ class WordsTest extends SystemTestCase
 {
     public function testFilter(): void
     {
-        $value = sensitive_words('暴政', Words::TYPE_CHECK);
-        dump($value);
+        $value = sensitive_words('暴政');
+        $this->assertFalse($value);
         $value = sensitive_words('嬴政暴政', Words::TYPE_WORDS);
-        dump($value);
+        $this->assertEquals('暴政', $value[0] ?? '');
         $value = sensitive_words('嬴政暴政', Words::TYPE_REPLACE);
-        dump($value);
+        $this->assertEquals('嬴政**', $value);
     }
 }

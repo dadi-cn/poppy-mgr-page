@@ -9,9 +9,9 @@ if (!function_exists('sensitive_words')) {
      * Check : 非法返回 false
      * @param string $words  词汇
      * @param string $action 动作
-     * @return mixed
+     * @return bool|array
      */
-    function sensitive_words(string $words, $action = Words::TYPE_CHECK)
+    function sensitive_words(string $words, string $action = Words::TYPE_CHECK)
     {
         /** @var Words $Sensitive */
         static $Sensitive = null;
