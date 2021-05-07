@@ -34,6 +34,9 @@ class ListPoppyUser extends ListBase
             $filter->column(1, function (Filter $filter) {
                 $filter->area('area', 'area');
             });
+            $filter->column(2, function (Filter $filter) {
+                $filter->betweenDate('id', 'Between')->withTime();
+            });
         };
     }
 }
