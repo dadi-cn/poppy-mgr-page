@@ -250,7 +250,7 @@ TIP;
         $id    = $this->getIdAttribute($name, $options) ?? 'thumb_' . Str::random(6);
         $value = (string) $this->getValueAttribute($name, $value);
         $pam   = $options['pam'] ?? [];
-        if (!$pam){
+        if (!$pam) {
             $pam = app('auth')->guard(PamAccount::TYPE_BACKEND)->user();
         }
         $token = $pam ? app('tymon.jwt.auth')->fromUser($pam) : '';
@@ -702,6 +702,22 @@ MULTI;
     {
         return $this->datePicker($name, $value, array_merge($options, [
             'layui-type' => 'datetime',
+        ]));
+    }
+
+
+    /**
+     * 日期选择器
+     * @param string $name    名字
+     * @param string $value   值
+     * @param array  $options 选项
+     * @return string
+     */
+    public function datetimeRangePicker(string $name, $value = '', $options = []): string
+    {
+        return $this->datePicker($name, $value, array_merge($options, [
+            'layui-type'  => 'datetime',
+            'layui-range' => 'true',
         ]));
     }
 
