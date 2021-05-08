@@ -9,7 +9,6 @@ use Poppy\System\Http\Lists\ListBase;
 
 class ListPoppyUser extends ListBase
 {
-
     /**
      * @inheritDoc
      * @throws ApplicationException
