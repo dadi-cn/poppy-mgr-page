@@ -1,4 +1,4 @@
-@extends('poppy-mgr-page::backend.tpl.default')
+@extends('py-mgr-page::backend.tpl.default')
 @section('backend-main')
     <div class="layui-card-header">
         考核问题
@@ -18,7 +18,7 @@
             <div class="layui-input-inline w84">
                 {!! Form::select('type',\Php\Models\ExamContent::kvType(), null, ['placeholder' => '类型', 'class' => 'layui-input']) !!}
             </div>
-            @include('poppy-mgr-page::backend.tpl._search')
+            @include('py-mgr-page::backend.tpl._search')
         </div>
         {!! Form::close() !!}
         <table class="layui-table">
@@ -55,7 +55,7 @@
             @else
                 <tr>
                     <td colspan="7">
-                        @include('poppy-mgr-page::backend.tpl._empty')
+                        @include('py-mgr-page::backend.tpl._empty')
                     </td>
                 </tr>
             @endif

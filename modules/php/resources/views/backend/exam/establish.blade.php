@@ -1,4 +1,4 @@
-@extends('poppy-mgr-page::backend.tpl.dialog')
+@extends('py-mgr-page::backend.tpl.dialog')
 @section('backend-main')
     {!! Form::model($item ?? null, ['route' => [$_route, $id ?? ''], 'class' => 'layui-form']) !!}
 
