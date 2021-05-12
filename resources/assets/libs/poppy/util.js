@@ -307,6 +307,10 @@ if (typeof Util !== 'object') {
             }
         }
         if (obj_data._top_reload) {
+            if ($('#filter-box-reload').length) {
+                $('#filter-box-reload').trigger('click')
+                return;
+            }
             if (typeof top.window.layui !== 'undefined' && typeof top.window.layui.admin !== 'undefined') {
                 top.window.layui.admin.events.refresh();
             } else {
