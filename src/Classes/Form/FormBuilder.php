@@ -326,7 +326,10 @@ CONTENT;
         $id    = $this->getIdAttribute($name, $options) ?? 'upload_' . Str::random(6);
         $value = (string) $this->getValueAttribute($name, $value);
         $pam   = $options['pam'] ?? [];
-        $type  = $options['type'] ?? 'images';
+        if (!$pam) {
+            $pam = app('auth')->guard(PamAccount::TYPE_BACKEND)->user();
+        }
+        $type = $options['type'] ?? 'images';
         if (!in_array($type, ['images', 'audio', 'video', 'file'])) {
             $type = 'images';
         }
@@ -334,38 +337,33 @@ CONTENT;
 
         /* 进行赋值
          * ---------------------------------------- */
-        if ($value) {
-            switch ($type) {
-                case 'images':
-                default:
-                    $template = '<!--图片-->
-                    <a href="___VALUE___">
-                        <img style="position: relative;top: 2px;" alt="" height="30" src="___VALUE___">
-                    </a>';
-                    break;
-                case 'audio':
-                    $template = '<!--音频-->
+        switch ($type) {
+            case 'images':
+            default:
+                $template = '<!--图片-->
+                        <img style="position: relative;top: 2px;" alt="" height="30" class="J_image_preview" src="___VALUE___">
+                    ';
+                break;
+            case 'audio':
+                $template = '<!--音频-->
                         <audio style="height: 30px;position: relative;top: 11px;" controls>
                             <source src="___VALUE___" type="audio/mp3">
                         </audio>';
-                    break;
-                case 'video':
-                    $template = '<!--视频-->
-                    <a href="___VALUE___">
+                break;
+            case 'video':
+                $template = '<!--视频-->
+                    <a href="___VALUE___" target="_blank">
                         <i class="fa fa-video"></i>
                     </a>';
-                    break;
-                case 'file':
-                    $template = '<!--视频-->
+                break;
+            case 'file':
+                $template = '<!--文件-->
                     <a target="_blank" href="___VALUE___">
                         <i class="fa fa-file"></i>
                     </a>';
-                    break;
-            }
+                break;
         }
-        else {
-            $template = '';
-        }
+
         $content  = str_replace(['___VALUE___', PHP_EOL], [$value, ''], $template);
         $template = str_replace(["\n", "\t", PHP_EOL], '', $template);
 
@@ -373,8 +371,8 @@ CONTENT;
         $uploadUrl   = route('py-system:api_v1.upload.file');
         return /** @lang text */
             <<<CONTENT
-<div class="layui-form-upload">
-    <button id="{$id}" class="layui-btn layui-btn-sm" type="button">上传</button>
+<div class="layui-form-upload" style="padding-left:5px;">
+    <button id="{$id}" class="layui-btn layui-btn-primary" type="button">上传</button>
     <div class="form_thumb-ctr" id="{$id}_ctr">
         <input type="hidden" name="{$name}" value="{$value}" id="{$id}_url"/>
         <span id="{$id}_preview_ctr" {$display_str}>
@@ -405,7 +403,7 @@ layui.upload.render({
         } else {
             $('#{$id}_url').val(obj_resp.data.url[0]);
             $('#{$id}_preview_ctr').removeClass('hidden');
-            {$id}_tpl = {$id}_tpl.replace(/___VALUE___/g, obj_resp.data.url[0])
+            {$id}_tpl = {$id}_tpl.replace(/___VALUE___/g, obj_resp.data.url[0]);
             $('#{$id}_content').html({$id}_tpl);
         }
         $("#{$id}_preview_ctr").show();
