@@ -36,6 +36,15 @@ class ListPoppyUser extends ListBase
             $filter->column(2, function (Filter $filter) {
                 $filter->betweenDate('id', 'Between')->withTime();
             });
+            $filter->column(2, function (Filter $filter) {
+                $filter->lt('datetime', 'Datetime')->datetime();
+            });
+            $filter->column(2, function (Filter $filter) {
+                $filter->lt('date', 'Date')->date();
+            });
+            $filter->column(2, function (Filter $filter) {
+                $filter->lt('time', 'Time')->time();
+            });
         };
     }
 }
