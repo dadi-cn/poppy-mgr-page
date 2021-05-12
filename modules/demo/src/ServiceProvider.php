@@ -7,11 +7,18 @@ namespace Demo;
  */
 
 use Demo\Http\RouteServiceProvider;
+use Demo\Listeners\PassportVerify\PassportVerifyListener;
 use Poppy\Framework\Exceptions\ModuleNotFoundException;
 use Poppy\Framework\Support\PoppyServiceProvider as ModuleServiceProviderBase;
+use Poppy\System\Events\PassportVerifyEvent;
 
 class ServiceProvider extends ModuleServiceProviderBase
 {
+    protected $listens = [
+        PassportVerifyEvent::class => [
+            PassportVerifyListener::class,
+        ],
+    ];
     /**
      * @var string the poppy name slug
      */

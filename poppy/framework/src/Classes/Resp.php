@@ -192,7 +192,8 @@ class Resp
     public static function web(int $type, $msg, $append = null, $input = null)
     {
         if ($msg instanceof Exception) {
-            $resp = new self($msg->getCode(), $msg->getMessage());
+            $code = $msg->getCode() ?: self::ERROR;
+            $resp = new self($code, $msg->getMessage());
         }
         elseif (!($msg instanceof self)) {
             $resp = new self($type, $msg);
