@@ -106,9 +106,7 @@
                         },
                         error : function(data) {
                             $result
-                                .text(
-                                    JSON.stringify(JSON.parse(data.responseText), null, '  ')
-                                )
+                                .text(data.responseText)
                                 .show(300)
                                 .removeClass(className).addClass('alert-danger');
                         }

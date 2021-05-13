@@ -134,7 +134,7 @@ if (!function_exists('input')) {
         }
 
         // 数组直接返回
-        return $result;
+        return $result ?: $default;
     }
 }
 
