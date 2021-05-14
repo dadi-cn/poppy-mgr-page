@@ -1,7 +1,7 @@
 @extends('py-mgr-page::tpl.develop')
 @section('head-script')
     @parent
-    {!! Html::script('assets/libs/vue/vue.min.js') !!}
+    {!! Html::script('assets/libs/vue/vue.js') !!}
     {!! Html::script('assets/libs/underscore/underscore.js') !!}
     {!! Html::script('assets/libs/jshash/md5.min.js') !!}
     @foreach((array) ($definition['scripts'] ?? []) as $script)

@@ -12,7 +12,7 @@ $_type = $_type ?? [];
 {{--js--}}
 {!! Html::script('assets/libs/boot/vendor.min.js') !!}
 {!! Html::script('assets/libs/boot/poppy.mgr.min.js') !!}
-{!! Html::script('assets/libs/vue/vue.min.js') !!}
+{!! Html::script('assets/libs/vue/vue.js') !!}
 
 {{-- 加载 layui / layui.all[用于页面的模块化加载] --}}
 @if(in_array('layui', $_type))
