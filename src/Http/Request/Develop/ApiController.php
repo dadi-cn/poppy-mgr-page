@@ -56,7 +56,7 @@ class ApiController extends DevelopController
                 }
             }
         }
-        $this->selfMenu['apiDoc'] = 'http://apidocjs.com';
+        $this->selfMenu['apiDoc'] = 'https://apidocjs.com';
         \View::share([
             'self_menu' => $this->selfMenu,
         ]);
