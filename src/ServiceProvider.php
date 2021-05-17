@@ -84,8 +84,10 @@ class ServiceProvider extends ModuleServiceProviderBase
         }
         if (sys_setting('py-sms::sms.send_type') === Sms::SCOPE_CHUANGLAN) {
             config([
-                'poppy.sms.chuanglan.access_key'    => sys_setting('py-sms::sms.chuanglan_access_key'),
-                'poppy.sms.chuanglan.access_secret' => sys_setting('py-sms::sms.chuanglan_access_secret'),
+                'poppy.sms.chuanglan.access_key'        => sys_setting('py-sms::sms.chuanglan_access_key'),
+                'poppy.sms.chuanglan.access_secret'     => sys_setting('py-sms::sms.chuanglan_access_secret'),
+                'poppy.sms.chuanglan.cty_access_key'    => sys_setting('py-sms::sms.chuanglan_cty_access_key'),
+                'poppy.sms.chuanglan.cty_access_secret' => sys_setting('py-sms::sms.chuanglan_cty_access_secret'),
             ]);
         }
     }

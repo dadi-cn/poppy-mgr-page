@@ -39,5 +39,11 @@ class FormSettingSms extends FormSettingBase
         $this->text('chuanglan_access_secret', '创蓝 Secret')->rules([
             Rule::nullable(),
         ]);
+        $this->text('chuanglan_cty_access_key', '创蓝国际 Key')->rules([
+            Rule::nullable(),
+        ]);
+        $this->text('chuanglan_cty_access_secret', '创蓝国际 Secret')->rules([
+            Rule::nullable(),
+        ]);
     }
 }
