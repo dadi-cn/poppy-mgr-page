@@ -8,19 +8,8 @@ use Poppy\Sms\Classes\Contracts\SmsContract;
 
 class ChuanglanSms extends BaseSms implements SmsContract
 {
-
     /** @var SmsApi */
     private $clApi;
-
-    /**
-     * clSms constructor.
-     */
-    public function __construct()
-    {
-        $apiAccount  = config('poppy.sms.chuanglan.access_key');
-        $apiPassword = config('poppy.sms.chuanglan.access_secret');
-        $this->clApi = new SmsApi($apiAccount, $apiPassword);
-    }
 
     /**
      * @inheritDoc
@@ -30,6 +19,7 @@ class ChuanglanSms extends BaseSms implements SmsContract
         if (!$this->checkSms($mobiles, $type, $sign)) {
             return false;
         }
+        $this->initConfig($mobiles);
 
         $msg = sys_trans($this->sms['code'], $params);
         // 拼接签名
@@ -46,5 +36,22 @@ class ChuanglanSms extends BaseSms implements SmsContract
         }
 
         return $this->setError($result);
+    }
+
+    /**
+     * 初始化配置
+     * @param string $mobiles
+     */
+    private function initConfig($mobiles): void
+    {
+        if (!UtilHelper::isChMobile($mobiles)) {
+            $apiAccount  = config('poppy.sms.chuanglan.cty_access_key');
+            $apiPassword = config('poppy.sms.chuanglan.cty_access_secret');
+        }
+        else {
+            $apiAccount  = config('poppy.sms.chuanglan.access_key');
+            $apiPassword = config('poppy.sms.chuanglan.access_secret');
+        }
+        $this->clApi = new SmsApi($apiAccount, $apiPassword);
     }
 }
