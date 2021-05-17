@@ -14,9 +14,9 @@ class LocalSms extends BaseSms implements SmsContract
     /**
      * @inheritDoc
      */
-    public function send(string $type, $mobiles, array $params = [], $sign = ''): bool
+    public function send(string $type, $mobile, array $params = [], $sign = ''): bool
     {
-        if (!$this->checkSms($mobiles, $type, $sign)) {
+        if (!$this->checkSms($mobile, $type, $sign)) {
             return false;
         }
         // 未选择则使用日志, 线上不记录日志

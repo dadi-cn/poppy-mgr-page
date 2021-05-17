@@ -14,18 +14,20 @@ class ChuanglanSms extends BaseSms implements SmsContract
     /**
      * @inheritDoc
      */
-    public function send(string $type, $mobiles, array $params = [], $sign = ''): bool
+    public function send(string $type, $mobile, array $params = [], $sign = ''): bool
     {
-        if (!$this->checkSms($mobiles, $type, $sign)) {
+        if (!$this->checkSms($mobile, $type, $sign)) {
             return false;
         }
-        $this->initConfig($mobiles);
+        $this->initConfig($mobile);
 
         $msg = sys_trans($this->sms['code'], $params);
         // 拼接签名
         $msg = '【' . trim(trim($this->sign, '【'), '】') . '】' . $msg;
 
-        $result = UtilHelper::isChMobile($mobiles) ? $this->clApi->sendSms($mobiles, $msg) : $this->clApi->sendCtySMS($mobiles, $msg);
+        $result = UtilHelper::isChMobile($mobile)
+            ? $this->clApi->sendSms($mobile, $msg)
+            : $this->clApi->sendCtySMS($mobile, $msg);
         if (!is_null($result)) {
             $output = json_decode($result, true);
             if (isset($output['code']) && $output['code'] === '0') {

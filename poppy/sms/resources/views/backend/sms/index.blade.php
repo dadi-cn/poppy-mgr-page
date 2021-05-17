@@ -6,7 +6,7 @@
             <a href="{{route_url('py-sms:backend.sms.establish', null, ['_scope'=> $scope])}}" class="layui-btn layui-btn-sm J_iframe">
                 创建模板
             </a>
-            <a href="{{route_url('py-sms:backend.sms.store')}}" class="layui-btn layui-btn-sm J_iframe">
+            <a href="{{route_url('py-sms:backend.sms.store')}}" data-width="600" class="layui-btn layui-btn-sm J_iframe">
                 短信设置
             </a>
         </div>

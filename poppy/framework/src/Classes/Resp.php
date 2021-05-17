@@ -15,6 +15,7 @@ use Redirect;
 use Request;
 use Response;
 use Session;
+use TypeError;
 
 /**
  * Resp
@@ -179,7 +180,7 @@ class Resp
      * 错误输出
      * @param int                     $type   错误码
      * @param string|array|MessageBag $msg    类型
-     * @param string|null             $append append
+     * @param string|null|array       $append append
      *                                        json: 强制以 json 数据返回
      *                                        forget : 不将错误信息返回到session 中
      *                                        location : 重定向
@@ -191,9 +192,10 @@ class Resp
      */
     public static function web(int $type, $msg, $append = null, $input = null)
     {
-        if ($msg instanceof Exception) {
-            $code = $msg->getCode() ?: self::ERROR;
-            $resp = new self($code, $msg->getMessage());
+        if ($msg instanceof Exception || $msg instanceof TypeError) {
+            $code    = $msg->getCode() ?: self::ERROR;
+            $message = config('app.debug') ? $msg->getMessage() : '操作出错, 请联系管理员';
+            $resp    = new self($code, $message);
         }
         elseif (!($msg instanceof self)) {
             $resp = new self($type, $msg);
