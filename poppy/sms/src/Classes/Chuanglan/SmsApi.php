@@ -23,6 +23,8 @@ class SmsApi
 
     public $apiBalanceQueryUrl = 'http://XXX/msg/balance/json';//创蓝短信余额查询接口URL
 
+    public $apiSendCtyUrl = 'https://intapi.253.com/send/json'; // 创蓝国际单发短信接口URL
+
     public $apiAccount = ''; // 创蓝API账号
 
     public $apiPassword = '';// 创蓝API密码
@@ -84,6 +86,26 @@ class SmsApi
         ];
 
         return $this->curlPost($this->apiVariableUrl, $postArr);
+    }
+
+    /**
+     * 发送国际短信
+     *
+     * @param string $mobile 手机号码
+     * @param string $msg    短信内容
+     * @return mixed|string
+     */
+    public function sendCtySMS($mobile, $msg)
+    {
+        //创蓝接口参数
+        $postArr = [
+            'account'  => $this->apiAccount,
+            'password' => $this->apiPassword,
+            'msg'      => $msg,
+            'mobile'   => $mobile,
+        ];
+
+        return $this->curlPost($this->apiSendCtyUrl, $postArr);
     }
 
     /**
