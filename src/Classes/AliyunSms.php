@@ -26,14 +26,14 @@ class AliyunSms extends BaseSms implements SmsContract
     /**
      * @inheritDoc
      */
-    public function send(string $type, $mobiles, array $params = [], $sign = ''): bool
+    public function send(string $type, $mobile, array $params = [], $sign = ''): bool
     {
-        if (!$this->checkSms($mobiles, $type, $sign)) {
+        if (!$this->checkSms($mobile, $type, $sign)) {
             return false;
         }
 
         // 支持数组/字串/多字串
-        $mobiles = array_reduce((array) $mobiles, function ($carry, $mobile) {
+        $mobile = array_reduce((array) $mobile, function ($carry, $mobile) {
             $mobile = str_replace('-', '', $mobile);
             return $carry ? $carry . ',' . $mobile : $mobile;
         }, '');
@@ -54,7 +54,7 @@ class AliyunSms extends BaseSms implements SmsContract
                 ->host('dysmsapi.aliyuncs.com')
                 ->options([
                     'query' => array_merge([
-                        'PhoneNumbers' => $mobiles,
+                        'PhoneNumbers' => $mobile,
                         'SignName'     => $this->sign,
                         'TemplateCode' => $this->sms['code'],
                     ], $params ? [
