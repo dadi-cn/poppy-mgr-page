@@ -7,19 +7,18 @@ use Poppy\Framework\Validation\Rule;
 class FormCheckbox extends FormBaseWidget
 {
 
-
     /**
      * 表单标题
      * @var string
      */
     protected $title = 'Checkbox (多选框)';
 
-    public function data():array
+    public function data(): array
     {
         return [
             'checkbox_required' => [
-                'a'
-            ]
+                'a',
+            ],
         ];
     }
 
@@ -64,14 +63,14 @@ CODE;
         $this->code('checkbox_all-code', 'Code@全选')->default($code);
         $this->divider();
 
-        $this->checkbox('checkbox_func', 'func')->checked([1])->options(function () {
-            return [1 => 'Func', 2 => 'Func2', 3 => 'Func3'];
-        })->help('默认选择项');
+        $this->checkbox('checkbox_func', 'func')->default([1])
+            ->options([1 => 'Func', 2 => 'Func2', 3 => 'Func3'])
+            ->help('默认选择项');
         // 添加 code 代码
         $code = <<<CODE
-\$this->checkbox('checkbox_func', 'func')->checked(['1'])->options(function () {
-    return [1 => 'Func', 2 => 'Func2', 3 => 'Func3'];
-})->help('默认选择项');
+\$this->checkbox('checkbox_func', 'func')->checked(['1'])
+    ->options([1 => 'Func', 2 => 'Func2', 3 => 'Func3'])
+    ->help('默认选择项');
 CODE;
         $this->code('checkbox_func-code', 'Code@func')->default($code);
     }
