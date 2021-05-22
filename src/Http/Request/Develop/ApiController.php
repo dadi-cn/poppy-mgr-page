@@ -163,7 +163,6 @@ class ApiController extends DevelopController
                 'apidoc_url' => $apiDocUrl,
                 'user'       => $user,
                 'front'      => $front,
-                'api_url'    => config('app.url'),
             ]);
         } catch (Throwable $e) {
             return Resp::error('Url : `' . $index . '` 存在错误 : ' . $e->getMessage());
@@ -262,7 +261,7 @@ class ApiController extends DevelopController
                 $method = $docs['method'] ?? 'get';
             }
             if ($url) {
-                foreach ($content as $key => $val) {
+                foreach ($content as $val) {
                     $valUrl = trim($val->url, '/');
                     $url    = trim($url, '/');
                     if ($val->type === $method && $valUrl === $url && $val->version === $version) {

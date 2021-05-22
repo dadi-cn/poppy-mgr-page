@@ -21,7 +21,7 @@
             <div class="layui-col-md6 mt5">
                 {{-- ajax 方式, 便于调试, 需要服务器配置跨域 --}}
                 {!! Form::model($data['params'] ?? null,[
-                    'url' => $api_url.'/'.$data['current']->url,
+                    'url' => url($data['current']->url),
                     'method' => $data['current']->type,
                     'id'=> 'form_auto',
                     'class'=> 'layui-form'
@@ -122,8 +122,8 @@
             el : '#app',
             data : {
                 requestType : '{!! $data['current']->type !!}',
-                url : '{!! $api_url.'/'.$data['current']->url !!}',
-                url_origin : '{!! $api_url.'/'.$data['current']->url !!}',
+                url : '{!! url($data['current']->url) !!}',
+                url_origin : '{!! url($data['current']->url) !!}',
                 variables : {}
             },
             methods : {
