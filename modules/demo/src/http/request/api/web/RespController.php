@@ -56,4 +56,19 @@ class RespController extends ApiController
             'status'  => 401,
         ], 401);
     }
+
+    /**
+     * @api                    {get} api/demo/resp/header   [Demo]Resp-Header
+     * @apiVersion             1.0.0
+     * @apiName                RespHeader
+     * @apiGroup               Demo
+     */
+    public function header()
+    {
+        return Resp::success('访问成功', [
+            'x-app-id'      => x_app('id'),
+            'x-app-os'      => x_app('os'),
+            'x-app-version' => x_app('version'),
+        ]);
+    }
 }
