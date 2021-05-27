@@ -73,7 +73,7 @@ if (!function_exists('command_exist')) {
         try {
             $returnVal = shell_exec("which $cmd");
 
-            return empty($returnVal) ? false : true;
+            return !empty($returnVal);
         } catch (Exception $e) {
             return false;
         }
@@ -366,5 +366,32 @@ if (!function_exists('parse_seo')) {
             $description = func_get_arg(1);
         }
         return [$title, $description];
+    }
+}
+
+if (!function_exists('x_app')) {
+    /**
+     * 获取 Header 中的 APP 信息
+     * @param string $type version,id,os
+     * @return string
+     * @since 3.1
+     */
+    function x_app(string $type): string
+    {
+        /** @var \Illuminate\Http\Request $request */
+        $request = app('request');
+        $header  = $request->header('X-APP');
+        if ($header) {
+            $type = strtolower($type);
+            try {
+                $infos = json_decode($header, true);
+            } catch (Throwable $e) {
+                $infos = [];
+            }
+            return $infos[$type] ?? '';
+        }
+
+        $fullKey = strtoupper('x-app-' . $type);
+        return $request->header($fullKey, '');
     }
 }
