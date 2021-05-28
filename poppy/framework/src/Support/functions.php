@@ -13,13 +13,13 @@ use Poppy\Framework\Helper\HtmlHelper;
 if (!function_exists('route_url')) {
     /**
      * 自定义可以传值的路由写法
-     * @param string     $route
-     * @param array      $route_params
-     * @param array|null $params
-     * @param bool       $absolute 是否绝对路径
+     * @param string            $route
+     * @param array|string|null $route_params
+     * @param array|null        $params
+     * @param bool              $absolute 是否绝对路径
      * @return string
      */
-    function route_url($route = '', $route_params = [], $params = null, $absolute = true): string
+    function route_url(string $route = '', $route_params = [], $params = null, $absolute = true): string
     {
         if (is_null($route_params)) {
             $route_params = [];
@@ -263,9 +263,9 @@ if (!function_exists('poppy_class')) {
 if (!function_exists('is_production')) {
     /**
      * Check Env If Production
-     * @return string
+     * @return bool
      */
-    function is_production()
+    function is_production(): bool
     {
         return config('app.env') === 'production';
     }
@@ -277,7 +277,7 @@ if (!function_exists('home_path')) {
      * @param string $path
      * @return string
      */
-    function home_path($path = ''): string
+    function home_path(string $path = ''): string
     {
         return app('path.poppy') . ($path ? DIRECTORY_SEPARATOR . $path : '');
     }
@@ -289,7 +289,7 @@ if (!function_exists('framework_path')) {
      * @param string $path
      * @return string
      */
-    function framework_path($path = ''): string
+    function framework_path(string $path = ''): string
     {
         /** @var Application $container */
         $container = Container::getInstance();
