@@ -116,7 +116,7 @@ class ModulesMenu extends Repository
      * @return Collection
      * @throws PermissionException
      */
-    public function withPermission(string $type, $is_full_permission = false, $pam = null): Collection
+    public function withPermission(string $type, bool $is_full_permission = false, $pam = null): Collection
     {
         $menus = $this->where('type', $type);
 
@@ -298,10 +298,6 @@ class ModulesMenu extends Repository
         // 值补足
         $group['route_param'] = $group['route_param'] ?? '';
         $group['param']       = $group['param'] ?? '';
-
-        $url = $route ? route_url($route, $group['route_param'], $group['param']) : '#';
-        // deprecated 不建议使用, 因为此处生成的url地址会存在 http/https 不兼容问题, remove @ 4.0
-        $group['url'] = $url;
         $group['key'] = UtilHelper::md5($group);
         return $group;
     }
