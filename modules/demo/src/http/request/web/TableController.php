@@ -20,6 +20,7 @@ class TableController extends WebController
 
     /**
      * 主页
+     * @throws \Throwable
      */
     public function index()
     {
@@ -30,12 +31,12 @@ class TableController extends WebController
             [2, 'omnis.in@hotmail.com', 'Allie Kuhic', 'Murphy, Koepp and Morar'],
             [3, 'quia65@hotmail.com', 'Prof. Drew Heller', 'Kihn LLC'],
             [4, 'xet@yahoo.com', 'William Koss', 'Becker-Raynor'],
-            [5, 'ipsa.aut@gmail.com', 'Ms. Antonietta Kozey Jr.'],
+            [5, 'ipsa.aut@gmail.com', 'Ms. Antonietta Kozey Jr.', 'woso'],
         ];
 
         $table = new TableWidget($headers, $rows);
 
-        return (new Content())->body($table->render());
+        return $table->render();
     }
 
     public function demo($type)
