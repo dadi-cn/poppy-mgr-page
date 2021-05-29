@@ -298,7 +298,6 @@ class ModulesMenu extends Repository
         // 值补足
         $group['route_param'] = $group['route_param'] ?? '';
         $group['param']       = $group['param'] ?? '';
-        $group['key'] = UtilHelper::md5($group);
         return $group;
     }
 }
