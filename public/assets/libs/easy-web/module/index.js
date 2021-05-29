@@ -1,44 +1,44 @@
 /** EasyWeb iframe v3.1.1 data:2019-03-24 License By http://easyweb.vip */
 
-layui.define(['layer', 'element', 'admin', 'contextMenu'], function (exports) {
-    var $ = layui.jquery;
-    var layer = layui.layer;
-    var element = layui.element;
-    var admin = layui.admin;
+layui.define(['layer', 'element', 'admin', 'contextMenu'], function(exports) {
+    var $           = layui.jquery;
+    var layer       = layui.layer;
+    var element     = layui.element;
+    var admin       = layui.admin;
     var contextMenu = layui.contextMenu;
-    var headerDOM = '.layui-layout-admin>.layui-header';
-    var sideDOM = '.layui-layout-admin>.layui-side>.layui-side-scroll';
-    var bodyDOM = '.layui-layout-admin>.layui-body';
-    var tabDOM = bodyDOM + '>.layui-tab';
-    var titleDOM = bodyDOM + '>.layui-body-header';
-    var tabFilter = 'admin-pagetabs';
-    var navFilter = 'admin-side-nav';
-    var tabEndCall = {};  // Tab关闭的事件回调
-    var mIsAddTab = false;  // 是否是添加Tab，添加Tab的时候切换不自动刷新
+    var headerDOM   = '.layui-layout-admin>.layui-header';
+    var sideDOM     = '.layui-layout-admin>.layui-side>.layui-side-scroll';
+    var bodyDOM     = '.layui-layout-admin>.layui-body';
+    var tabDOM      = bodyDOM + '>.layui-tab';
+    var titleDOM    = bodyDOM + '>.layui-body-header';
+    var tabFilter   = 'admin-pagetabs';
+    var navFilter   = 'admin-side-nav';
+    var tabEndCall  = {};  // Tab关闭的事件回调
+    var mIsAddTab   = false;  // 是否是添加Tab，添加Tab的时候切换不自动刷新
     var homeUrl;  // 主页地址，主页不参与Tab记忆
 
     var index = {
-        pageTabs: true,  // 是否开启多标签
-        cacheTab: true,  // 是否记忆打开的选项卡
-        openTabCtxMenu: true,  // 是否开启Tab右键菜单
-        maxTabNum: 20,  // 最多打开多少个tab
-        mTabList: [], // 当前打开的Tab
-        mTabPosition: undefined, // 当前选中的Tab
+        pageTabs : true,  // 是否开启多标签
+        cacheTab : true,  // 是否记忆打开的选项卡
+        openTabCtxMenu : true,  // 是否开启Tab右键菜单
+        maxTabNum : 20,  // 最多打开多少个tab
+        mTabList : [], // 当前打开的Tab
+        mTabPosition : undefined, // 当前选中的Tab
         // 加载主体部分
-        loadView: function (param) {
+        loadView : function(param) {
             var menuPath = param.menuPath;
             var menuName = param.menuName;
 
             if (!menuPath) {
                 console.error('url不能为空');
-                layer.msg('url不能为空', {icon: 2});
+                layer.msg('url不能为空', {icon : 2});
                 return;
             }
             // 是否开启多标签
             if (index.pageTabs) {
                 // 判断选项卡是否已添加
                 var flag = false;
-                $(tabDOM + '>.layui-tab-title>li').each(function () {
+                $(tabDOM + '>.layui-tab-title>li').each(function() {
                     if ($(this).attr('lay-id') === menuPath) {
                         flag = true;
                         return false;
@@ -47,15 +47,15 @@ layui.define(['layer', 'element', 'admin', 'contextMenu'], function (exports) {
                 // 没有则添加
                 if (!flag) {
                     if (index.mTabList.length >= index.maxTabNum) {
-                        layer.msg('最多打开' + index.maxTabNum + '个选项卡', {icon: 2});
+                        layer.msg('最多打开' + index.maxTabNum + '个选项卡', {icon : 2});
                         admin.activeNav(index.mTabPosition);
                         return;
                     }
                     mIsAddTab = true;
                     element.tabAdd(tabFilter, {
-                        id: menuPath,
-                        title: menuName ? menuName : '无标题',
-                        content: '<iframe lay-id="' + menuPath + '" src="' + menuPath + '" frameborder="0" class="admin-iframe"></iframe>'
+                        id : menuPath,
+                        title : menuName ? menuName : '无标题',
+                        content : '<iframe lay-id="' + menuPath + '" src="' + menuPath + '" frameborder="0" class="admin-iframe"></iframe>'
                     });
                     // 记忆选项卡
                     if (menuPath != homeUrl) {
@@ -110,14 +110,14 @@ layui.define(['layer', 'element', 'admin', 'contextMenu'], function (exports) {
             }
         },
         // 加载主页
-        loadHome: function (param) {
-            homeUrl = param.menuPath;  // 记录主页的地址
-            var indexTabs = admin.getTempData('indexTabs');
+        loadHome : function(param) {
+            homeUrl         = param.menuPath;  // 记录主页的地址
+            var indexTabs   = admin.getTempData('indexTabs');
             var tabPosition = admin.getTempData('tabPosition');
-            var loadSetting = (param.loadSetting == undefined ? true : param.loadSetting);
+            var loadSetting = ( param.loadSetting == undefined ? true : param.loadSetting );
             index.loadView({
-                menuPath: homeUrl,
-                menuName: param.menuName
+                menuPath : homeUrl,
+                menuName : param.menuName
             });
             if (!index.pageTabs) {
                 admin.activeNav(param.menuPath);  // 设置导航栏选中
@@ -127,26 +127,26 @@ layui.define(['layer', 'element', 'admin', 'contextMenu'], function (exports) {
             }
         },
         // 打开新页面
-        openTab: function (param) {
-            var url = param.url;
+        openTab : function(param) {
+            var url   = param.url;
             var title = param.title;
             if (param.end) {
                 tabEndCall[url] = param.end;
             }
             index.loadView({
-                menuPath: url,
-                menuName: title
+                menuPath : url,
+                menuName : title
             });
         },
         // 关闭选项卡
-        closeTab: function (url) {
+        closeTab : function(url) {
             element.tabDelete(tabFilter, url);
         },
         // 加载设置
-        loadSettings: function (cacheTabs, cacheTabPosition) {
+        loadSettings : function(cacheTabs, cacheTabPosition) {
             // 恢复记忆的tab选项卡
             if (index.cacheTab) {
-                var indexTabs = cacheTabs;
+                var indexTabs   = cacheTabs;
                 var tabPosition = cacheTabPosition;
                 if (indexTabs) {
                     var mi = -1;
@@ -159,7 +159,7 @@ layui.define(['layer', 'element', 'admin', 'contextMenu'], function (exports) {
                         }
                     }
                     if (mi != -1) {
-                        setTimeout(function () {
+                        setTimeout(function() {
                             index.loadView(indexTabs[mi]);
                             if (!index.pageTabs) {
                                 admin.activeNav(tabPosition);
@@ -182,8 +182,8 @@ layui.define(['layer', 'element', 'admin', 'contextMenu'], function (exports) {
             }
         },
         // 设置是否记忆Tab
-        setTabCache: function (isCache) {
-            layui.data(admin.tableName, {key: 'cacheTab', value: isCache});
+        setTabCache : function(isCache) {
+            layui.data(admin.tableName, {key : 'cacheTab', value : isCache});
             index.cacheTab = isCache;
             if (isCache) {
                 admin.putTempData('indexTabs', index.mTabList);
@@ -194,11 +194,11 @@ layui.define(['layer', 'element', 'admin', 'contextMenu'], function (exports) {
             }
         },
         // 清除选项卡记忆
-        clearTabCache: function () {
+        clearTabCache : function() {
             admin.putTempData('indexTabs', undefined);
         },
         // 设置Tab标题
-        setTabTitle: function (title) {
+        setTabTitle : function(title) {
             if (!index.pageTabs) {
                 if (title) {
                     $(titleDOM).addClass('show');
@@ -211,7 +211,7 @@ layui.define(['layer', 'element', 'admin', 'contextMenu'], function (exports) {
             }
         },
         // 自定义Tab标题
-        setTabTitleHtml: function (html) {
+        setTabTitleHtml : function(html) {
             if (!index.pageTabs) {
                 if (html) {
                     $(titleDOM).addClass('show');
@@ -222,11 +222,11 @@ layui.define(['layer', 'element', 'admin', 'contextMenu'], function (exports) {
             }
         },
         // 废弃方法兼容
-        closeTabCache: function () {
+        closeTabCache : function() {
             console.warn('closeTabCache() has been deprecated, please use clearTabCache().');
             index.clearTabCache();
         },
-        loadSetting: function () {
+        loadSetting : function() {
             console.warn('loadSetting() has been deprecated.');
         }
     };
@@ -247,7 +247,7 @@ layui.define(['layer', 'element', 'admin', 'contextMenu'], function (exports) {
     if ($(siteShadeDom).length <= 0) {
         $('.layui-layout-admin').append('<div class="site-mobile-shade"></div>');
     }
-    $(siteShadeDom).click(function () {
+    $(siteShadeDom).click(function() {
         admin.flexible(true);
     });
 
@@ -276,26 +276,26 @@ layui.define(['layer', 'element', 'admin', 'contextMenu'], function (exports) {
     }
 
     // 监听侧导航栏点击事件
-    element.on('nav(' + navFilter + ')', function (elem) {
-        var $that = $(elem);
+    element.on('nav(' + navFilter + ')', function(elem) {
+        var $that   = $(elem);
         var menuUrl = $that.attr('lay-href');
-        var menuId = $that.attr('lay-id');
+        var menuId  = $that.attr('lay-id');
         if (!menuId) {
             menuId = menuUrl;
         }
         if (menuUrl && menuUrl != 'javascript:;') {
             var menuName = $that.text().replace(/(^\s*)|(\s*$)/g, '');  // 去空格
             index.loadView({
-                menuId: menuId,
-                menuPath: menuUrl,
-                menuName: menuName
+                menuId : menuId,
+                menuPath : menuUrl,
+                menuName : menuName
             });
         } else {
             admin.setNavHoverCss($that.parentsUntil('.layui-nav-item').parent().children().eq(0));
         }
         // 手风琴侧边栏
-        if ('true' == ($(sideDOM + '>.layui-nav-tree').attr('lay-accordion'))) {
-            if (($that.parent().hasClass('layui-nav-itemed')) || ($that.parent().hasClass('layui-this'))) {
+        if ('true' == ( $(sideDOM + '>.layui-nav-tree').attr('lay-accordion') )) {
+            if (( $that.parent().hasClass('layui-nav-itemed') ) || ( $that.parent().hasClass('layui-this') )) {
                 $(sideDOM + '>.layui-nav .layui-nav-itemed').not($that.parents('.layui-nav-child').parent()).removeClass('layui-nav-itemed');
                 $that.parent().addClass('layui-nav-itemed');
             }
@@ -304,7 +304,7 @@ layui.define(['layer', 'element', 'admin', 'contextMenu'], function (exports) {
     });
 
     // tab选项卡切换监听
-    element.on('tab(' + tabFilter + ')', function (data) {
+    element.on('tab(' + tabFilter + ')', function(data) {
         var layId = $(this).attr('lay-id');
 
         // 记录当前Tab位置
@@ -337,7 +337,7 @@ layui.define(['layer', 'element', 'admin', 'contextMenu'], function (exports) {
     });
 
     // tab选项卡删除监听
-    element.on('tabDelete(' + tabFilter + ')', function (data) {
+    element.on('tabDelete(' + tabFilter + ')', function(data) {
         var mTab = index.mTabList[data.index - 1];
         if (mTab) {
             var layId = mTab.menuPath;
@@ -356,7 +356,7 @@ layui.define(['layer', 'element', 'admin', 'contextMenu'], function (exports) {
     });
 
     // 多系统切换事件
-    $('body').off('click.navMore').on('click.navMore', '[nav-bind]', function () {
+    $('body').off('click.navMore').on('click.navMore', '[nav-bind]', function() {
         var navId = $(this).attr('nav-bind');
         $('ul[lay-filter="' + navFilter + '"]').addClass('layui-hide');
         $('ul[nav-id="' + navId + '"]').removeClass('layui-hide');
@@ -369,12 +369,12 @@ layui.define(['layer', 'element', 'admin', 'contextMenu'], function (exports) {
 
     // 开启Tab右键菜单
     if (index.openTabCtxMenu && index.pageTabs) {
-        $(tabDOM + '>.layui-tab-title').off('contextmenu.tab').on('contextmenu.tab', 'li', function (e) {
+        $(tabDOM + '>.layui-tab-title').off('contextmenu.tab').on('contextmenu.tab', 'li', function(e) {
             var layId = $(this).attr('lay-id');
             contextMenu.show([{
-                icon: 'layui-icon layui-icon-refresh',
-                name: '刷新当前',
-                click: function () {
+                icon : 'layui-icon layui-icon-refresh',
+                name : '刷新当前',
+                click : function() {
                     element.tabChange(tabFilter, layId);
                     var autoRefresh = $(tabDOM).attr('lay-autoRefresh');
                     if (!autoRefresh || autoRefresh !== 'true') {
@@ -382,22 +382,28 @@ layui.define(['layer', 'element', 'admin', 'contextMenu'], function (exports) {
                     }
                 }
             }, {
-                icon: 'layui-icon layui-icon-close-fill ctx-ic-lg',
-                name: '关闭当前',
-                click: function () {
+                icon : 'layui-icon layui-icon-close-fill ctx-ic-lg',
+                name : '关闭当前',
+                click : function() {
                     admin.closeThisTabs(layId);
                 }
             }, {
-                icon: 'layui-icon layui-icon-unlink',
-                name: '关闭其他',
-                click: function () {
+                icon : 'layui-icon layui-icon-unlink',
+                name : '关闭其他',
+                click : function() {
                     admin.closeOtherTabs(layId);
                 }
             }, {
-                icon: 'layui-icon layui-icon-close ctx-ic-lg',
-                name: '关闭全部',
-                click: function () {
+                icon : 'layui-icon layui-icon-close ctx-ic-lg',
+                name : '关闭全部',
+                click : function() {
                     admin.closeAllTabs();
+                }
+            }, {
+                icon : 'layui-icon layui-icon-release',
+                name : '新窗口打开',
+                click : function() {
+                    window.open(layId, '_blank');
                 }
             }], e.clientX, e.clientY);
             return false;
