@@ -17,6 +17,7 @@ use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\Framework\Helper\EnvHelper;
 use Poppy\Framework\Helper\StrHelper;
 use Poppy\System\Action\Pam;
+use Poppy\System\Classes\Widgets\FormWidget;
 use Poppy\System\Http\Forms\Backend\FormPassword;
 use Poppy\System\Http\Forms\Settings\FormSettingBase;
 use Poppy\System\Models\PamAccount;
@@ -118,7 +119,7 @@ class HomeController extends BackendController
      * @param string $path 地址
      * @param int    $index
      */
-    public function setting($path = 'poppy.system', $index = 0)
+    public function setting(string $path = 'poppy.system', $index = 0)
     {
         try {
             $index = (int) $index;
@@ -128,7 +129,6 @@ class HomeController extends BackendController
                 if (!($form instanceof FormSettingBase)) {
                     throw new ApplicationException('设置表单需要继承 `FormSettingBase` Class');
                 }
-                $form->setPam($this->pam);
                 return $form;
             });
             if (is_post()) {
@@ -136,6 +136,28 @@ class HomeController extends BackendController
                 $cur = $forms->offsetGet($index);
                 return $cur->render();
             }
+
+            if (input('_skeleton')) {
+                $hk = [];
+                collect($hooks)->each(function ($item, $key) use (&$hk) {
+                    $hk[] = [
+                        'title' => $item['title'],
+                        'key'   => $key,
+                        'url'   => route_url('py-mgr-page:backend.home.setting', [$key]),
+                    ];
+                });
+                $fm = [];
+                collect($forms)->each(function (FormWidget $form) use (&$fm) {
+                    $form->plainSkeleton();
+                    $fm[] = $form->render();
+                });
+                return Resp::success('获取成功', [
+                    'type'  => 'setting',
+                    'hooks' => $hk,
+                    'forms' => $fm,
+                ]);
+            }
+
             return view('py-mgr-page::backend.tpl.settings', [
                 'hooks' => $hooks,
                 'forms' => $forms,
