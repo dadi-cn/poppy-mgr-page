@@ -17,6 +17,7 @@ class RouteServiceProvider extends \Poppy\Framework\Application\RouteServiceProv
     public function map(): void
     {
         $this->mapBackendRoutes();
+        $this->mapApiRoutes();
     }
 
     /**
@@ -31,6 +32,21 @@ class RouteServiceProvider extends \Poppy\Framework\Application\RouteServiceProv
             'middleware' => 'backend-auth',
         ], function () {
             require_once __DIR__ . '/Routes/backend.php';
+        });
+    }
+
+    /**
+     * Define the "api" routes for the module.
+     * These routes are typically stateless.
+     * @return void
+     */
+    protected function mapApiRoutes()
+    {
+        Route::group([
+            'middleware' => 'api-sign',
+            'prefix'     => 'api_v1/aliyun-oss',
+        ], function () {
+            require_once __DIR__ . '/Routes/api_v1.php';
         });
     }
 }
