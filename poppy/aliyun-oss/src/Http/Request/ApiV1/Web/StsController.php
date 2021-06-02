@@ -39,6 +39,7 @@ class StsController extends BackendController
      */
     public function tempOss()
     {
+
         if (sys_setting('py-system::picture.save_type') !== 'aliyun') {
             return Resp::error('后台配置必须开启 Aliyun 存储');
         }
