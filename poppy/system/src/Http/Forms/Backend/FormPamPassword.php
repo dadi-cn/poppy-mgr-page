@@ -45,7 +45,6 @@ class FormPamPassword extends FormWidget
         $id = input('id');
         if (is_post()) {
             $this->setId($id);
-            // todo li 规则验证
             $validator = Validator::make(input(), [
                 'password' => [
                     Rule::required(),
