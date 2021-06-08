@@ -111,8 +111,7 @@ class RdsPersist
         $DB = DB::table($table)->where($where);
         if ($exists) {
             // 对之前的数据进行计算
-            $former = $this->redis->hget($rdsKey, $whereJson);
-            $former = json_decode($former, true);
+            $former = (array) $this->redis->hget($rdsKey, $whereJson);
             // diff fields
             $formerKey = $this->pureKeys(array_keys($former));
             $updateKey = $this->pureKeys(array_keys($update));
