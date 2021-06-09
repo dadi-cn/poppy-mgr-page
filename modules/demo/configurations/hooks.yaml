@@ -6,3 +6,8 @@
   name: 'demo.html_demo'
   hooks:
     - '\Demo\Hooks\HtmlDemo\Service'
+-
+  name: 'poppy.system.settings'
+  hooks:
+    - '\Demo\Services\SettingKeyA'
+    - '\Demo\Services\SettingKeyB'

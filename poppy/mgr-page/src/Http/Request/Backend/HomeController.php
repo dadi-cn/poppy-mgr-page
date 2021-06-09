@@ -13,16 +13,13 @@ use Poppy\Core\Classes\Traits\CoreTrait;
 use Poppy\Core\Exceptions\PermissionException;
 use Poppy\Framework\Classes\Resp;
 use Poppy\Framework\Classes\Traits\PoppyTrait;
-use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\Framework\Helper\EnvHelper;
 use Poppy\Framework\Helper\StrHelper;
+use Poppy\MgrPage\Classes\Setting\SettingView;
 use Poppy\System\Action\Pam;
-use Poppy\System\Classes\Widgets\FormWidget;
 use Poppy\System\Http\Forms\Backend\FormPassword;
-use Poppy\System\Http\Forms\Settings\FormSettingBase;
 use Poppy\System\Models\PamAccount;
 use Poppy\System\Models\PamRole;
-use Throwable;
 
 /**
  * 主页控制器
@@ -116,58 +113,13 @@ class HomeController extends BackendController
 
     /**
      * Setting
-     * @param string $path 地址
-     * @param int    $index
+     * @param string     $path 地址
+     * @param int|string $index
      */
     public function setting(string $path = 'poppy.system', $index = 0)
     {
-        try {
-            $index = (int) $index;
-            $hooks = sys_hook('poppy.system.settings');
-            $forms = collect($hooks[$path]['forms'])->map(function ($form_class) {
-                $form = app($form_class);
-                if (!($form instanceof FormSettingBase)) {
-                    throw new ApplicationException('设置表单需要继承 `FormSettingBase` Class');
-                }
-                return $form;
-            });
-            if (is_post()) {
-                /** @var FormSettingBase $cur */
-                $cur = $forms->offsetGet($index);
-                return $cur->render();
-            }
-
-            if (input('_skeleton')) {
-                $hk = [];
-                collect($hooks)->each(function ($item, $key) use (&$hk) {
-                    $hk[] = [
-                        'title' => $item['title'],
-                        'key'   => $key,
-                        'url'   => route_url('py-mgr-page:backend.home.setting', [$key]),
-                    ];
-                });
-                $fm = [];
-                collect($forms)->each(function (FormWidget $form) use (&$fm) {
-                    $form->plainSkeleton();
-                    $fm[] = $form->render();
-                });
-                return Resp::success('获取成功', [
-                    'type'  => 'setting',
-                    'hooks' => $hk,
-                    'forms' => $fm,
-                ]);
-            }
-
-            return view('py-mgr-page::backend.tpl.settings', [
-                'hooks' => $hooks,
-                'forms' => $forms,
-                'index' => $index,
-                'cur'   => $forms->offsetGet($index),
-                'path'  => $path,
-            ]);
-        } catch (Throwable $e) {
-            return Resp::error($e->getMessage());
-        }
+        $Setting = new SettingView();
+        return $Setting->render($path, $index);
     }
 
     /**
