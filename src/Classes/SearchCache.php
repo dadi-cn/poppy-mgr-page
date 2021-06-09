@@ -5,27 +5,24 @@ namespace Poppy\MgrPage\Classes;
 use Poppy\Core\Redis\RdsDb;
 
 /**
- * 缓存
+ * 搜索缓存
  */
 class SearchCache
 {
-
-    private const KEY = 'tag:py-mgr-page:search-py';
-
     /**
      * @param string $text
      * @return string
      */
-    public static function py(string $text)
+    public static function py(string $text): string
     {
         $Rds = new RdsDb();
         if (function_exists('ext_pinyin_abbr')) {
-            if ($py = $Rds->hget(self::KEY, $text)) {
+            if ($py = $Rds->hget(PyMgrPageDef::ckSearchPy(), $text)) {
                 return $py;
             }
             /** @var  $pinYin */
             $py = ext_pinyin_abbr($text);
-            $Rds->hset(self::KEY, $text, $py);
+            $Rds->hset(PyMgrPageDef::ckSearchPy(), $text, $py);
             return $py;
         }
         return '';
