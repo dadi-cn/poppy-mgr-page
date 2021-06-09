@@ -4,12 +4,12 @@ namespace Poppy\AliyunOss\Http\Request\ApiV1\Web;
 
 use Poppy\AliyunOss\Action\ActSts;
 use Poppy\Framework\Classes\Resp;
-use Poppy\MgrPage\Http\Request\Backend\BackendController;
+use Poppy\System\Http\Request\ApiV1\Web\WebApiController;
 
 /**
  * Sts 配置
  */
-class StsController extends BackendController
+class StsController extends WebApiController
 {
 
     /**
