@@ -147,6 +147,7 @@ return [
         Poppy\MgrPage\ServiceProvider::class,
         Poppy\AliyunPush\ServiceProvider::class,
         Poppy\AliyunOss\ServiceProvider::class,
+        Poppy\Version\ServiceProvider::class,
         Poppy\Extension\IpStore\ExtensionServiceProvider::class,
         Poppy\Extension\Pinyin\ExtensionServiceProvider::class,
     ],

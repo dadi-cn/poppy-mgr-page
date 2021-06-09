@@ -85,6 +85,8 @@
             "Poppy\\Area\\Tests\\": "poppy/area/tests",
             "Poppy\\Sms\\": "poppy/sms/src",
             "Poppy\\Sms\\Tests\\": "poppy/sms/tests",
+            "Poppy\\Version\\": "poppy/version/src",
+            "Poppy\\Version\\Tests\\": "poppy/version/tests",
             "Poppy\\AliyunPush\\": "poppy/aliyun-push/src",
             "Poppy\\AliyunPush\\Tests\\": "poppy/aliyun-push/tests",
             "Poppy\\SensitiveWord\\": "poppy/sensitive-word/src",
