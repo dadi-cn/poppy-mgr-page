@@ -128,6 +128,10 @@ class FormBuilder extends CollectiveFormBuilder
     {
         $pam = $options['pam'] ?? '';
 
+        if (!$pam) {
+            $pam = app('auth')->guard(PamAccount::TYPE_BACKEND)->user();
+        }
+
         $token = $pam ? app('tymon.jwt.auth')->fromUser($pam) : '';
 
         $uploadUrl = route_url('py-system:api_v1.upload.image');
