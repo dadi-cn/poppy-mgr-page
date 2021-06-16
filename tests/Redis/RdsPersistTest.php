@@ -112,6 +112,9 @@ class RdsPersistTest extends TestCase
         DB::commit();
     }
 
+    /**
+     * @throws \Poppy\Framework\Exceptions\ApplicationException
+     */
     public function testUpdateMoreFields()
     {
         $this->initOne();
