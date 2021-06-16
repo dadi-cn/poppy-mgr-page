@@ -14,7 +14,6 @@ git clone https://codeup.aliyun.com/dadi/poppy/canal-es.git
 git clone https://codeup.aliyun.com/dadi/poppy/core.git
 git clone https://codeup.aliyun.com/dadi/poppy/ext-alipay.git
 git clone https://codeup.aliyun.com/dadi/poppy/ext-ip_store.git
-git clone https://codeup.aliyun.com/dadi/poppy/ext-netease.git
 git clone https://codeup.aliyun.com/dadi/poppy/ext-pinyin.git
 git clone https://codeup.aliyun.com/dadi/poppy/ext-wxpay.git
 git clone https://codeup.aliyun.com/dadi/poppy/faker.git
@@ -28,10 +27,10 @@ git clone https://codeup.aliyun.com/dadi/poppy/version.git
 git clone git@github.com:imvkmark/poppy-faker.git faker
 ```
 
-
 ### Todo(3.0)
 
 3.0 涵盖的项目
+
 - framework
 - system
 - rbac
@@ -79,7 +78,7 @@ module.order.xxx
 
 ### 系统设置
 
-扩展的配置文件配置命名使用 
+扩展的配置文件配置命名使用
 
 ```
 # 扩展的命名
