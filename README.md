@@ -4,6 +4,30 @@
 
 将扩展放置到 poppy 目录下进行开发
 
+```
+cd poppy
+git clone https://codeup.aliyun.com/dadi/poppy/ad.git
+git clone https://codeup.aliyun.com/dadi/poppy/aliyun-oss.git
+git clone https://codeup.aliyun.com/dadi/poppy/aliyun-push.git
+git clone https://codeup.aliyun.com/dadi/poppy/area.git
+git clone https://codeup.aliyun.com/dadi/poppy/canal-es.git
+git clone https://codeup.aliyun.com/dadi/poppy/core.git
+git clone https://codeup.aliyun.com/dadi/poppy/ext-alipay.git
+git clone https://codeup.aliyun.com/dadi/poppy/ext-ip_store.git
+git clone https://codeup.aliyun.com/dadi/poppy/ext-netease.git
+git clone https://codeup.aliyun.com/dadi/poppy/ext-pinyin.git
+git clone https://codeup.aliyun.com/dadi/poppy/ext-wxpay.git
+git clone https://codeup.aliyun.com/dadi/poppy/faker.git
+git clone https://codeup.aliyun.com/dadi/poppy/framework.git
+git clone https://codeup.aliyun.com/dadi/poppy/mgr-page.git
+git clone https://codeup.aliyun.com/dadi/poppy/sensitive-word.git
+git clone https://codeup.aliyun.com/dadi/poppy/sms.git
+git clone https://codeup.aliyun.com/dadi/poppy/system.git
+git clone https://codeup.aliyun.com/dadi/poppy/version.git
+
+git clone git@github.com:imvkmark/poppy-faker.git faker
+```
+
 
 ### Todo(3.0)
 

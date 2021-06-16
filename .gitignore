@@ -54,6 +54,7 @@ modules/op/tests/files/account.json
 /public/dev/*
 !/public/uploads/.gitkeep
 /node_modules
+/poppy
 .env
 composer.lock
 package-lock.json
