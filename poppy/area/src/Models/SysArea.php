@@ -5,10 +5,10 @@ namespace Poppy\Area\Models;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Poppy\Area\Classes\PyAreaDef;
+use Poppy\Core\Classes\PyCoreDef;
 use Poppy\Framework\Helper\TreeHelper;
 use Poppy\Framework\Http\Pagination\PageInfo;
 use Poppy\System\Classes\Traits\FilterTrait;
-use Poppy\System\Models\SysConfig;
 
 /**
  * 地区表
@@ -55,7 +55,7 @@ class SysArea extends Eloquent
 
     public static function cityTree()
     {
-        return sys_cache('py-area')->remember(PyAreaDef::ckArea('tree-level-2'), SysConfig::MIN_ONE_MONTH, function () {
+        return sys_cache('py-area')->remember(PyAreaDef::ckArea('tree-level-2'), PyCoreDef::MIN_ONE_MONTH, function () {
             $items = SysArea::selectRaw("id,title,parent_id")->where('level', '<', 4)->get()->keyBy('id')->toArray();
             $Tree  = new TreeHelper();
             $Tree->init($items, 'id', 'parent_id', 'title');
@@ -73,7 +73,7 @@ class SysArea extends Eloquent
     {
         static $cache;
         if (!$cache) {
-            $cache = sys_cache('py-area')->remember(PyAreaDef::ckArea('kv-4'), SysConfig::MIN_ONE_MONTH, function () {
+            $cache = sys_cache('py-area')->remember(PyAreaDef::ckArea('kv-4'), PyCoreDef::MIN_ONE_MONTH, function () {
                 return self::where('level', self::LEVEL_CITY)->selectRaw('left(code, 4) as code, title')->pluck('title', 'code')->toArray();
             });
         }
@@ -90,7 +90,7 @@ class SysArea extends Eloquent
     {
         static $cache;
         if (!$cache) {
-            $cache = sys_cache('py-area')->remember(PyAreaDef::ckArea('kv-area'), SysConfig::MIN_ONE_MONTH, function () {
+            $cache = sys_cache('py-area')->remember(PyAreaDef::ckArea('kv-area'), PyCoreDef::MIN_ONE_MONTH, function () {
                 return self::select(['id', 'title'])->pluck('title', 'id')->toArray();
             });
         }
@@ -107,7 +107,7 @@ class SysArea extends Eloquent
     {
         static $cache;
         if (!$cache) {
-            $cache = sys_cache('py-area')->remember(PyAreaDef::ckArea('kv-province'), SysConfig::MIN_ONE_MONTH, function () {
+            $cache = sys_cache('py-area')->remember(PyAreaDef::ckArea('kv-province'), PyCoreDef::MIN_ONE_MONTH, function () {
                 return self::where('level', self::LEVEL_PROVINCE)->selectRaw('left(code, 2) as code, title')->pluck('title', 'code')->toArray();
             });
         }
@@ -123,7 +123,7 @@ class SysArea extends Eloquent
     {
         static $cache;
         if (!$cache) {
-            $cache = sys_cache('py-area')->remember(PyAreaDef::ckCountry('kv'), SysConfig::MIN_ONE_MONTH, function () {
+            $cache = sys_cache('py-area')->remember(PyAreaDef::ckCountry('kv'), PyCoreDef::MIN_ONE_MONTH, function () {
                 $area    = self::country();
                 $collect = [];
                 collect($area)->each(function ($country) use (&$collect) {
@@ -141,7 +141,7 @@ class SysArea extends Eloquent
      */
     public static function country()
     {
-        return sys_cache('py-area')->remember(PyAreaDef::ckCountry(), SysConfig::MIN_ONE_MONTH, function () {
+        return sys_cache('py-area')->remember(PyAreaDef::ckCountry(), PyCoreDef::MIN_ONE_MONTH, function () {
             $values = include poppy_path('poppy.area', 'resources/def/country.php');
             return collect($values)->sortBy('py')->map(function ($cty) {
                 $cty['py'] = strtoupper($cty['py']);

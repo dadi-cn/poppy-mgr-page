@@ -56,7 +56,6 @@ class ServiceProvider extends PoppyServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../resources/config/core.php', 'poppy.core');
 
         $this->app->register(Module\ModuleServiceProvider::class);
-
         $this->app->register(Rbac\RbacServiceProvider::class);
 
         $this->registerConsole();
@@ -87,6 +86,7 @@ class ServiceProvider extends PoppyServiceProvider
             Commands\DocCommand::class,
             Commands\OpCommand::class,
             Commands\InspectCommand::class,
+            Commands\PersistCommand::class,
         ]);
     }
 }

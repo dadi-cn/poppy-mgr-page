@@ -15,9 +15,9 @@ class FormMultiImage extends FormBaseWidget
     {
         return [
             'image' => [
-                'https://fakeimg.pl/640x480/282828/eae0d0/',
-                'https://fakeimg.pl/480x640/282828/eae0d0/',
-                'https://fakeimg.pl/480/282828/eae0d0/',
+                py_faker()->imageUrl(),
+                py_faker()->imageUrl(480, 640),
+                py_faker()->imageUrl(480),
             ],
         ];
     }
