@@ -2,39 +2,41 @@
 
 namespace Poppy\Core\Tests\Redis;
 
-use Artisan;
 use Carbon\Carbon;
 use DB;
 use Poppy\Core\Redis\RdsPersist;
 use Poppy\Framework\Application\TestCase;
-use Predis\Client;
 
 /**
  * 内存持久化测试
+ * 这里需要创建一个表来接收数据库的数据
+ * create table sys_test_persist
+ * (
+ *     id         int unsigned auto_increment primary key,
+ *     title       varchar(50) default '' not null comment '描述',
+ *     num        int                    not null comment '数量',
+ *     girl_num   int                    not null comment 'Girl',
+ *     boy_num    int                    not null comment '男生数量',
+ *     created_at timestamp              null,
+ *     updated_at timestamp              null
+ * )
+ * charset = utf8;
  */
 class RdsPersistTest extends TestCase
 {
     /**
-     * @var Client $redis
-     */
-    public $redis;
-
-    /**
      * 写入单条测试
+     * @throws \Poppy\Framework\Exceptions\TransactionException
      */
     public function testInsert()
     {
-        $maxId = DB::table('pam_log')->max('id');
+        $maxId = DB::table('sys_test_persist')->max('id');
         $item  = function () {
             return [
-                'account_id'   => 10,
-                'parent_id'    => 0,
-                'account_type' => 'user',
-                'type'         => 'success',
-                'ip'           => $this->faker()->ipv4,
-                'area_text'    => $this->faker()->word(),
-                'created_at'   => Carbon::now()->toDateTimeString(),
-                'updated_at'   => Carbon::now()->toDateTimeString(),
+                'title'      => 'insert-' . $this->faker()->words(5, true),
+                'num'        => $this->faker()->randomNumber(5),
+                'created_at' => Carbon::now()->toDateTimeString(),
+                'updated_at' => Carbon::now()->toDateTimeString(),
             ];
         };
 
@@ -46,82 +48,88 @@ class RdsPersistTest extends TestCase
 
         /* attention: 如果这里不进行数据库提交, 则自增ID 会变大, 导致无法一致
          * ---------------------------------------- */
-        RdsPersist::insert('pam_log', $items);
-        Artisan::call('system:persist', ['table' => 'pam_log']);
-        DB::commit();
-        $this->assertEquals($maxId + $rand, DB::table('pam_log')->max('id'));
+        RdsPersist::insert('sys_test_persist', $items);
+        RdsPersist::execTable('sys_test_persist');
+        $this->assertEquals($maxId + $rand, DB::table('sys_test_persist')->max('id'));
     }
 
 
     /**
      * 修改测试
+     * @throws \Poppy\Framework\Exceptions\TransactionException
+     * @throws \Poppy\Framework\Exceptions\ApplicationException
      */
     public function testUpdate()
     {
+        // insert data
+        $this->initOne();
+        $one   = $this->fetchOne();
         $where = [
-            'account_id' => 10,
-            'gift_id'    => 5,
+            'id' => data_get($one, 'id'),
         ];
 
         $getGiftNum = function ($where) {
-            return DB::table('gift_collection')->where($where)->value('gift_num');
+            return DB::table('sys_test_persist')->where($where)->value('num');
         };
 
         /* 初始化
          * ---------------------------------------- */
-        RdsPersist::update('gift_collection', $where, [
-            'gift_num' => 8,
+        RdsPersist::update('sys_test_persist', $where, [
+            'num' => 8,
         ]);
-        RdsPersist::update('gift_collection', $where, [
-            'gift_num[+]' => 8,
+        RdsPersist::update('sys_test_persist', $where, [
+            'num[+]' => 8,
         ]);
-        Artisan::call('system:persist', ['table' => 'gift_collection']);
+        RdsPersist::execTable('sys_test_persist');
         $this->assertEquals(8 + 8, $getGiftNum($where));
 
         /* -8
          * ---------------------------------------- */
         $ori = $getGiftNum($where);
-        RdsPersist::update('gift_collection', $where, [
-            'gift_num[+]' => 8,
+        RdsPersist::update('sys_test_persist', $where, [
+            'num[+]' => 8,
         ]);
-        Artisan::call('system:persist', ['table' => 'gift_collection']);
+        RdsPersist::execTable('sys_test_persist');
         $this->assertEquals($ori + 8, $getGiftNum($where));
 
         /* +8
          * ---------------------------------------- */
         $ori = $getGiftNum($where);
-        RdsPersist::update('gift_collection', $where, [
-            'gift_num[-]' => 8,
+        RdsPersist::update('sys_test_persist', $where, [
+            'num[-]' => 8,
         ]);
-        Artisan::call('system:persist', ['table' => 'all']);
+        RdsPersist::exec();
         $this->assertEquals($ori - 8, $getGiftNum($where));
 
         /* .8
         * ---------------------------------------- */
         $ori = $getGiftNum($where);
-        RdsPersist::update('gift_collection', $where, [
-            'gift_num[.]' => 8,
+        RdsPersist::update('sys_test_persist', $where, [
+            'num[.]' => 8,
         ]);
-        Artisan::call('system:persist', ['table' => 'gift_collection']);
+        RdsPersist::execTable('sys_test_persist');
         $this->assertEquals($ori . '8', $getGiftNum($where));
         DB::commit();
     }
 
     public function testUpdateMoreFields()
     {
+        $this->initOne();
+        $one   = $this->fetchOne();
         $where = [
-            'id' => 79,
+            'id' => data_get($one, 'id'),
         ];
 
-        RdsPersist::update('chat_room', $where, [
-            'hot_num' => 8,
+        RdsPersist::update('sys_test_persist', $where, [
+            'num' => 8,
         ]);
-        RdsPersist::update('chat_room', $where, [
-            'password' => '2333',
+        $num = $this->faker()->randomNumber(3);
+        RdsPersist::update('sys_test_persist', $where, [
+            'boy_num' => $num,
         ]);
-        $result = RdsPersist::where('chat_room', $where);
-        $this->assertEquals(8, $result['hot_num']);
-        $this->assertEquals('2333', $result['password']);
+        $result = RdsPersist::where('sys_test_persist', $where);
+        $this->assertEquals(8, $result['num']);
+        $this->assertEquals($num, $result['boy_num']);
     }
 
     /**
@@ -129,7 +137,6 @@ class RdsPersistTest extends TestCase
      */
     public function testParseUpdate()
     {
-
         $init = [
             'add'      => 0,
             'subtract' => 0,
@@ -144,10 +151,10 @@ class RdsPersistTest extends TestCase
         ];
 
         $result = RdsPersist::calcUpdate($init, $update);
-        $this->assertEquals($result['add'], '5.00');
-        $this->assertEquals($result['subtract'], '-5.00');
-        $this->assertEquals($result['preserve'], 0);
-        $this->assertEquals($result['force'], 8);
+        $this->assertEquals('5.00', $result['add']);
+        $this->assertEquals('-5.00', $result['subtract']);
+        $this->assertEquals(0, $result['preserve']);
+        $this->assertEquals(8, $result['force']);
 
 
         $purColumn = function ($keys) {
@@ -174,5 +181,21 @@ class RdsPersistTest extends TestCase
         ];
         $result = RdsPersist::calcUpdate($init, $update);
         $this->assertCount(2, array_keys($result));
+    }
+
+    private function initOne()
+    {
+        // insert data
+        DB::table('sys_test_persist')->insert([
+            'title'      => 'init-' . $this->faker()->words(5, true),
+            'num'        => $this->faker()->randomNumber(5),
+            'created_at' => Carbon::now()->toDateTimeString(),
+            'updated_at' => Carbon::now()->toDateTimeString(),
+        ]);
+    }
+
+    private function fetchOne()
+    {
+        return DB::table('sys_test_persist')->orderByRaw('rand()')->first();
     }
 }

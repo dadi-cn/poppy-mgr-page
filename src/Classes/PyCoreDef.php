@@ -14,6 +14,17 @@ class PyCoreDef
     public const MIN_ONE_WEEK  = 10080;
     public const MIN_ONE_MONTH = 43200;
 
+
+    /**
+     * 持久化
+     * @param string $key 持久化KEY
+     * @return string
+     */
+    public static function ckTagPersist(string $key): string
+    {
+        return 'py-core:persist:' . $key;
+    }
+
     /**
      * 模型注释
      * @return string
