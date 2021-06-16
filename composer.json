@@ -131,7 +131,8 @@
             "composer run area",
             "composer run aliyun-push",
             "composer run aliyun-oss",
-            "composer run ad"
+            "composer run ad",
+            "composer run version"
         ],
         "py-github": [
             "composer run gh-mgr-page",
@@ -153,6 +154,9 @@
         ],
         "area": [
             "git push area `git subtree split --prefix=poppy/area 3.1`:3.1 --force"
+        ],
+        "version": [
+            "git push version `git subtree split --prefix=poppy/version 3.1`:3.1 --force"
         ],
         "core": [
             "git push core `git subtree split --prefix=poppy/core 3.1`:3.1 --force"
