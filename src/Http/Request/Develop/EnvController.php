@@ -40,7 +40,7 @@ class EnvController extends DevelopController
     public function model()
     {
 
-        $items = sys_cache('py-system')->remember(PySystemDef::ckModelComment(), PyCoreDef::MIN_HALF_DAY, function () {
+        $items = sys_cache('py-system')->remember(PySystemDef::ckModelComment(), PyCoreDef::MIN_HALF_DAY * 60, function () {
             $files   = app('files')->glob(base_path('modules/*/src/models/*.php'));
             $modules = [];
             foreach ($files as $file) {
