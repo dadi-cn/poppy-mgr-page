@@ -21,7 +21,7 @@ class ModulesPage extends Repository
     {
         $this->items = sys_cache('py-core')->remember(
             PyCoreDef::ckModule('page'),
-            PyCoreDef::MIN_ONE_DAY,
+            PyCoreDef::MIN_ONE_DAY * 60,
             function () use ($slugs) {
                 $collection = collect();
                 $slugs->each(function ($items, $slug) use ($collection) {

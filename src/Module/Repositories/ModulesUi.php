@@ -25,7 +25,7 @@ class ModulesUi extends Repository
         // check serve setting
         $this->items = sys_cache('py-core')->remember(
             PyCoreDef::ckModule('ui'),
-            PyCoreDef::MIN_ONE_DAY,
+            PyCoreDef::MIN_ONE_DAY * 60,
             function () use ($uis) {
                 $ui = collect();
                 $uis->each(function ($moduleUis) use ($ui) {

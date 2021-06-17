@@ -116,7 +116,7 @@ class PermissionManager
     {
         $minute = $cache ? 60 * 24 : 0;
         /** @var Collection $permissions */
-        $permissions = sys_cache('py-core')->remember(PyCoreDef::ckPermissions(), $minute, function () {
+        $permissions = sys_cache('py-core')->remember(PyCoreDef::ckPermissions(), $minute * 60, function () {
             return $this->permissions()->keys();
         });
 

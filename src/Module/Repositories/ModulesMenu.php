@@ -30,7 +30,7 @@ class ModulesMenu extends Repository
         // check serve setting
         $this->items = sys_cache('py-core')->remember(
             PyCoreDef::ckModule('menu'),
-            PyCoreDef::MIN_ONE_DAY,
+            PyCoreDef::MIN_ONE_DAY * 60,
             function () use ($uis) {
                 $uis = $uis->map(function ($definition) {
                     // slug  - module

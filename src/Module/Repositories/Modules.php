@@ -30,7 +30,7 @@ class Modules extends Repository
         $files       = app('files');
         $this->items = sys_cache('py-core')->remember(
             PyCoreDef::ckModule('module'),
-            PyCoreDef::MIN_HALF_DAY,
+            PyCoreDef::MIN_HALF_DAY * 60,
             function () use ($slugs, $files) {
                 // load from file
                 $this->loadFromCache = false;

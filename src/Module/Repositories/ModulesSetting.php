@@ -21,7 +21,7 @@ class ModulesSetting extends Repository
     {
         $this->items = sys_cache('py-core')->remember(
             PyCoreDef::ckModule('setting'),
-            PyCoreDef::MIN_HALF_DAY,
+            PyCoreDef::MIN_HALF_DAY * 60,
             function () use ($data) {
                 $collection = collect();
                 $data->each(function ($items, $slug) use ($collection) {
