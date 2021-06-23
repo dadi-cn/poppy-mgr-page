@@ -72,9 +72,6 @@ develop:
         -
           title: 数据库字典
           route: py-mgr-page:develop.env.db
-        -
-          title: 数据库模型
-          route: py-mgr-page:develop.env.model
     -
       title: 数据表更新
       children:
