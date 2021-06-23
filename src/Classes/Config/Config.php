@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Poppy\AliyunPush\Classes\Config;
 
 class Config
@@ -95,5 +97,20 @@ class Config
     public function getAccessSecret(): string
     {
         return $this->accessSecret;
+    }
+
+    /**
+     * 默认配置
+     * @return static
+     */
+    public static function default(): self
+    {
+        $androidAppKey   = config('poppy.aliyun-push.android_app_key');
+        $iosAppKey       = config('poppy.aliyun-push.ios_app_key');
+        $androidChannel  = config('poppy.aliyun-push.android_channel');
+        $accessKey       = config('poppy.aliyun-push.access_key');
+        $accessSecret    = config('poppy.aliyun-push.access_secret');
+        $androidActivity = config('poppy.aliyun-push.android_activity');
+        return new Config($accessKey, $accessSecret, $androidAppKey, $androidChannel, $androidActivity, $iosAppKey);
     }
 }

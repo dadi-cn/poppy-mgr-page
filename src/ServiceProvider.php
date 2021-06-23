@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Poppy\AliyunPush;
 
 use Poppy\Framework\Exceptions\ModuleNotFoundException;
@@ -39,16 +41,6 @@ class ServiceProvider extends ModuleServiceProviderBase
         // 配置文件
         $this->mergeConfigFrom(dirname(__DIR__) . '/resources/config/aliyun-push.php', 'poppy.aliyun-push');
     }
-
-    /**
-     * Get the services provided by the provider.
-     * @return array
-     */
-    public function provides()
-    {
-        return [];
-    }
-
 
     private function bootConfig()
     {

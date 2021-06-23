@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Poppy\AliyunPush\Forms\Settings;
 
 use Poppy\Framework\Validation\Rule;

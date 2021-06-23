@@ -19,11 +19,6 @@ abstract class BaseClient
     use AppTrait;
 
     /**
-     * @var array 保存请求结果
-     */
-    protected $results;
-
-    /**
      * @var string
      */
     protected $iosAppKey;
@@ -57,6 +52,8 @@ abstract class BaseClient
      */
     protected $androidActivity;
 
+    protected $result;
+
 
     /**
      * SendBase constructor.
@@ -73,43 +70,6 @@ abstract class BaseClient
 
     }
 
-    /**
-     * @param string $broadcast_type 推送目标(自定义, 不区分大小写)
-     * @param array  $ids            设备ID
-     * @param string $tag            标签表达式[字串或者Json 表达式]
-     * @return array
-     * @throws PushException
-     */
-    public function getTargetSetting(string $broadcast_type, array $ids = [], string $tag = '')
-    {
-        $target         = '';
-        $values         = '';
-        $broadcast_type = strtolower($broadcast_type);
-
-        switch ($broadcast_type) {
-            case 'device':
-                $target = 'DEVICE';
-                $values = implode(',', $ids);
-                break;
-            case 'all':
-                $target = 'ALL';
-                $values = 'ALL';
-                break;
-            case 'tag':
-                $target = 'TAG';
-                $values = $tag;
-                break;
-        }
-        if (!$target) {
-            throw new PushException('推送目标未设置!');
-        }
-        return [
-            'target' => $target,
-            'value'  => $values,
-        ];
-    }
-
-
     public function setAppConfig($ak, $sk, $android_app_id, $android_channel = '', $ios_key = '')
     {
         $this->accessKey      = $ak;
@@ -117,6 +77,11 @@ abstract class BaseClient
         $this->androidAppKey  = $android_app_id;
         $this->androidChannel = $android_channel;
         $this->iosAppKey      = $ios_key;
+    }
+
+    public function getResult()
+    {
+        return $this->result;
     }
 
     /**
@@ -133,12 +98,6 @@ abstract class BaseClient
             ->method('POST')
             ->host('cloudpush.aliyuncs.com');
     }
-
-    protected function saveResult($result)
-    {
-        $this->results[] = $result;
-    }
-
 
     /**
      * 初始化

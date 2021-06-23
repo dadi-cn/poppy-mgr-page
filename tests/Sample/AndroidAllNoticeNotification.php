@@ -8,7 +8,7 @@ use Poppy\AliyunPush\Contracts\AliPushChannel as AliPushChannelContract;
 use Poppy\Framework\Exceptions\FakerException;
 
 
-class IosNoticeNotification extends Notification implements AliPushChannelContract
+class AndroidAllNoticeNotification extends Notification implements AliPushChannelContract
 {
 
     /**
@@ -22,14 +22,14 @@ class IosNoticeNotification extends Notification implements AliPushChannelContra
     }
 
     /**
-     * @return array
+     * @return array|mixed
      * @throws FakerException
      */
-    public function toAliPush():array
+    public function toAliPush()
     {
         return [
-            'broadcast_type'   => 'device',
-            'device_type'      => 'ios|notice',
+            'broadcast_type'   => 'all',
+            'device_type'      => 'android|notice;',
             'title'            => 'Notice.' . py_faker()->sentence,
             'content'          => 'Content.' . py_faker()->sentences(3, true),
             'registration_ids' => config('poppy.aliyun-push.registration_ids'),

@@ -22,10 +22,10 @@ class AndroidNoticeNotification extends Notification implements AliPushChannelCo
     }
 
     /**
-     * @return array|mixed
+     * @return array
      * @throws FakerException
      */
-    public function toAliPush()
+    public function toAliPush(): array
     {
         return [
             'broadcast_type'   => 'device',
@@ -33,7 +33,7 @@ class AndroidNoticeNotification extends Notification implements AliPushChannelCo
             'title'            => 'Notice.' . py_faker()->sentence,
             'content'          => 'Content.' . py_faker()->sentences(3, true),
             'registration_ids' => config('poppy.aliyun-push.registration_ids'),
-            'extra'           => [
+            'extra'            => [
                 'key1' => '',
                 'key2' => '',
             ],

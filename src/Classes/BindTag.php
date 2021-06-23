@@ -12,10 +12,6 @@ use Poppy\AliyunPush\Exceptions\PushException;
  */
 class BindTag extends BaseClient
 {
-
-    public const DEVICE_TYPE_ANDROID = 'android';
-    public const DEVICE_TYPE_IOS     = 'ios';
-
     /**
      * @param string       $device_type 设备类型 [ANDROID|IOS]
      * @param string       $tag         标签
