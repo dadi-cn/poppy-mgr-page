@@ -62,7 +62,6 @@ class PushSender extends BaseClient
                     'AndroidExtParameters'       => $message->getExtParameters(),
                     'AndroidNotificationChannel' => $this->androidChannel,
                 ]);
-                dump($this->androidActivity);
                 if ($this->androidActivity) {
                     $query += [
                         'AndroidOpenType'      => 'ACTIVITY',
@@ -75,10 +74,6 @@ class PushSender extends BaseClient
                 }
                 $query = array_merge($query, $queryExtend['android'] ?? []);
             }
-
-            sys_info('poppy.aliyun-push', self::class, [
-                $query,
-            ]);
             $this->initClient();
             $this->result = $this->rpc()
                 ->action('Push')
