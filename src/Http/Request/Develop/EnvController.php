@@ -3,17 +3,9 @@
 namespace Poppy\MgrPage\Http\Request\Develop;
 
 use DB;
-use Eloquent;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\View\View;
-use phpDocumentor\Reflection\DocBlock\Tags\Property;
-use phpDocumentor\Reflection\DocBlockFactory;
-use Poppy\Core\Classes\PyCoreDef;
 use Poppy\Core\Classes\Traits\CoreTrait;
-use Poppy\Framework\Classes\Resp;
-use Poppy\System\Classes\PySystemDef;
-use ReflectionClass;
-use Throwable;
 
 // todo 赵殿有
 
@@ -32,74 +24,6 @@ class EnvController extends DevelopController
     {
         return view('py-mgr-page::develop.env.phpinfo');
     }
-
-
-    /**
-     * 模型注释
-     */
-    public function model()
-    {
-
-        $items = sys_cache('py-system')->remember(PySystemDef::ckModelComment(), PyCoreDef::MIN_HALF_DAY * 60, function () {
-            $files   = app('files')->glob(base_path('modules/*/src/models/*.php'));
-            $modules = [];
-            foreach ($files as $file) {
-                if (preg_match('/modules\/([a-zA-Z]*)\/src/i', $file, $match)) {
-                    $slug = $match[1];
-                    if (!isset($modules[$slug])) {
-                        $manifest       = app('poppy')->getManifest($slug);
-                        $modules[$slug] = [
-                            'slug'        => $slug,
-                            'tables'      => [],
-                            'description' => $manifest['name'],
-                        ];
-                    }
-                    try {
-                        $class = poppy_class($slug, 'Models\\' . basename($file, '.php'));
-                        $Ref   = new ReflectionClass($class);
-                        /** @var Eloquent $Model */
-                        $Model = new $class;
-                        $table = $Model->getTable();
-                    } catch (Throwable $e) {
-                        continue;
-                    }
-
-                    $comment = $Ref->getDocComment();
-
-                    $factory  = DocBlockFactory::createInstance();
-                    $docBlock = $factory->create($comment);
-
-                    /** @var Property $property */
-                    $properties = $docBlock->getTagsByName('property');
-
-
-                    $summary = $docBlock->getSummary();
-                    if (!$summary) {
-                        return Resp::error('你需要先设定 `' . $class . '` 的表描述');
-                    }
-
-                    $fields = [];
-                    foreach ($properties as $property) {
-                        $fields[] = [
-                            'type'        => (string) $property->getType(),
-                            'variable'    => $property->getVariableName(),
-                            'description' => $property->getDescription()->render(),
-                        ];
-                    }
-                    $modules[$slug]['tables'][] = [
-                        'table'       => $table,
-                        'description' => $summary,
-                        'fields'      => $fields,
-                    ];
-                }
-            }
-            return $modules;
-        });
-        return view('py-mgr-page::develop.env.model', [
-            'items' => $items,
-        ]);
-    }
-
 
     /**
      * 检查数据库设计

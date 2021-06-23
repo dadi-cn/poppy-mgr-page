@@ -17,8 +17,6 @@ Route::group([
         ->name('py-mgr-page:develop.env.phpinfo');
     $router->get('env/db', 'EnvController@db')
         ->name('py-mgr-page:develop.env.db');
-    $router->get('env/model', 'EnvController@model')
-        ->name('py-mgr-page:develop.env.model');
 
     /* Log
      * ---------------------------------------- */
