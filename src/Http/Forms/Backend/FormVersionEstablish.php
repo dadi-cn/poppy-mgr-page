@@ -57,7 +57,6 @@ class FormVersionEstablish extends FormWidget
     public function handle()
     {
         $Version = new Version();
-        $Version->setPam($this->pam);
         if (is_post()) {
             if (!$Version->establish(input(), input('id'))) {
                 return Resp::error($Version->getError());
@@ -65,7 +64,7 @@ class FormVersionEstablish extends FormWidget
             return Resp::success('操作成功', '_top_reload|1');
         }
 
-        $this->id && $Version->init($this->id) && $Version->share();
+        $this->id && $Version->init($this->id);
     }
 
     public function data(): array

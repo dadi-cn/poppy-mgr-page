@@ -1,21 +1,23 @@
 <?php namespace Poppy\Version\Action;
 
 use Exception;
+use Poppy\Core\Redis\RdsDb;
 use Poppy\Framework\Classes\Traits\AppTrait;
 use Poppy\Framework\Validation\Rule;
-use Poppy\System\Classes\Traits\PamTrait;
+use Poppy\Version\Classes\PyVersionDef;
 use Poppy\Version\Models\SysAppVersion;
 use Validator;
-use View;
 
 /**
  * App 版本
  */
 class Version
 {
-    use AppTrait, PamTrait;
+    use AppTrait;
 
-    /** @var SysAppVersion */
+    /**
+     * @var SysAppVersion
+     */
     protected $item;
 
     /**
@@ -23,7 +25,9 @@ class Version
      */
     protected $table;
 
-    /** @var int $id */
+    /**
+     * @var int $id
+     */
     protected $id;
 
     public function __construct()
@@ -33,14 +37,10 @@ class Version
 
     public function establish($data, $id = null): bool
     {
-        if (!$this->checkPam()) {
-            return false;
-        }
-
         $initDb = [
-            'title'        => (string) sys_get($data, 'title', ''),
-            'download_url' => (string) sys_get($data, 'download_url', ''),
-            'description'  => (string) sys_get($data, 'description', ''),
+            'title'        => (string) sys_get($data, 'title'),
+            'download_url' => (string) sys_get($data, 'download_url'),
+            'description'  => (string) sys_get($data, 'description'),
             'is_upgrade'   => (int) sys_get($data, 'is_upgrade', 0),
             'platform'     => sys_get($data, 'platform', SysAppVersion::PLATFORM_ANDROID),
         ];
@@ -96,7 +96,7 @@ class Version
             $appVersion = SysAppVersion::create($initDb);
             $this->item = $appVersion;
         }
-
+        $this->clearCache($this->item->platform);
         return true;
     }
 
@@ -107,14 +107,12 @@ class Version
      */
     public function delete($id)
     {
-        if (!$this->checkPam()) {
-            return false;
-        }
         if ($id && !$this->init($id)) {
             return false;
         }
 
         try {
+            $this->clearCache($this->item->platform);
             return $this->item->delete();
         } catch (Exception $e) {
             return $this->setError($e->getMessage());
@@ -126,26 +124,19 @@ class Version
      * @param int $id 版本ID
      * @return bool
      */
-    public function init($id)
+    public function init($id): bool
     {
         try {
             $this->item = SysAppVersion::findOrFail($id);
             $this->id   = $this->item->id;
-
             return true;
         } catch (Exception $e) {
             return $this->setError('ID 不合法, 不存在此数据');
         }
     }
 
-    /**
-     * 共享变量
-     */
-    public function share()
+    private function clearCache($platform)
     {
-        View::share([
-            'item' => $this->item,
-            'id'   => $this->item->id,
-        ]);
+        RdsDb::instance()->hDel(PyVersionDef::ckTagMaxVersion(), $platform);
     }
 }

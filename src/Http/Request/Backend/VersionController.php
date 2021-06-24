@@ -2,6 +2,9 @@
 
 namespace Poppy\Version\Http\Request\Backend;
 
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Poppy\Framework\Classes\Resp;
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\MgrPage\Http\Request\Backend\BackendController;
@@ -10,6 +13,8 @@ use Poppy\Version\Action\Version;
 use Poppy\Version\Http\Forms\Backend\FormVersionEstablish;
 use Poppy\Version\Http\Lists\Backend\ListAppVersion;
 use Poppy\Version\Models\SysAppVersion;
+use Response;
+use Throwable;
 
 /**
  * 版本管理控制器
@@ -24,6 +29,10 @@ class VersionController extends BackendController
         ];
     }
 
+    /**
+     * @throws Throwable
+     * @throws ApplicationException
+     */
     public function index()
     {
         $grid = new Grid(new SysAppVersion());
@@ -47,11 +56,11 @@ class VersionController extends BackendController
     /**
      * 删除
      * @param $id
-     * @throws \Exception
+     * @return array|JsonResponse|RedirectResponse|\Illuminate\Http\Response|Redirector|Resp|Response
      */
     public function delete($id)
     {
-        $Version = (new Version())->setPam($this->pam);
+        $Version = new Version();
         if (!$Version->delete($id)) {
             return Resp::error('删除失败');
         }

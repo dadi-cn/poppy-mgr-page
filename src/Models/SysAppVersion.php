@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Poppy\Version\Models;
 
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
+use Poppy\Core\Redis\RdsDb;
+use Poppy\Version\Classes\PyVersionDef;
 
 /**
  * User\Models\AppVersion
@@ -57,23 +60,30 @@ class SysAppVersion extends Eloquent
 
     /**
      * 返回版本
-     * @param string $platform   操作平台
-     * @param bool   $is_version 是否默认版本
+     * @param string $platform 操作平台
      * @return string|array
      */
-    public static function latestVersion($platform = self::PLATFORM_ANDROID, $is_version = true)
+    public static function latestVersion(string $platform = self::PLATFORM_ANDROID)
     {
-        /** @var Collection $versions */
-        $versions = self::where('platform', $platform)->orderBy('created_at', 'desc')->get();
-        if ($versions->count()) {
-            $version = $versions->toArray();
-            usort($version, function ($v1, $v2) {
-                return version_compare($v1['title'], $v2['title']);
-            });
-            $maxVersion = array_pop($version);
 
-            return $is_version ? $maxVersion['title'] : $maxVersion;
+        $version = RdsDb::instance()->hGet(PyVersionDef::ckTagMaxVersion(), $platform);
+        if (!$version) {
+            $versions = self::where('platform', $platform)->orderBy('created_at', 'desc')->get();
+            if ($versions->count()) {
+                $version = $versions->toArray();
+                usort($version, function ($v1, $v2) {
+                    return version_compare($v1['title'], $v2['title']);
+                });
+                $version = array_pop($version);
+            }
+            else {
+                $version = [
+                    'title'       => '1.0.0',
+                    'description' => '默认版本',
+                ];
+            }
+            RdsDb::instance()->hSet(PyVersionDef::ckTagMaxVersion(), $platform, $version);
         }
-        return $is_version ? '1.0.0' : [];
+        return $version;
     }
 }
