@@ -2,6 +2,8 @@
 
 > Poppy 核心模块, system 基于本模块
 
+## 命令行
+
 ### 权限操作
 
 ```
@@ -36,7 +38,6 @@ $ composer global require overtrue/phplint -vvv
 $ php artisan py-core:doc lint
 $ phplint /path/of/code -c /framework/path/.phplint.yml
 ```
-
 
 ### 检查代码
 
@@ -97,3 +98,106 @@ return [
     ...
 ]
 ```
+
+## 持久化
+
+持久化的流程是将数据放入到缓存, 然后所有的操作都会缓存起来, 然后通过计划任务将数据同步到数据库
+
+### 缓存
+
+持久化使用的缓存是 `tag:py-core:persist` KEY
+
+```
+tag:py-core:persist:
+    {table}_insert : redis 列表
+        [{
+            key,    # id 
+            insert  # 插入的条件语句
+        }]
+    {table}_update : redis hash
+        [{
+            where,  # 查询条件
+            update  # 更新内容
+        }]
+```
+
+### insert 持久化
+
+这里适用的场景是单条插入可以延迟的情况采用统一插入
+
+```
+RdsPersist::insert('pam_log', $items);
+```
+
+### update 持久化
+
+这里支持从数据库初始化数据, 如果数据不存在, 则创建一条数据并初始化到缓存中
+
+| 2.24.1 版本之后持久化数据可以不进行初始化, 默认必须初始化
+
+```
+RdsPersist::update('gift_collection', $where, [
+    'gift_num[+]' => 8,
+]);
+```
+
+持久化使用的基本用法, 因为 persist 加入 facade, 所以可以使用 `Persist` 全局 Facade 来进行使用
+
+```
+$init = [
+    'add' => 0,
+];
+
+$update = [
+    'append' => 5,
+];
+$result = RdsPersist::calcUpdate($init, $update);
+```
+
+另外这里 update 支持额外的语法
+
+```
+<?php
+$init = [
+    'add'      => 0,
+    'subtract' => 0,
+    'preserve' => 0,
+    'force'    => 0,
+];¶
+
+$update = [
+    'add[+]'      => 5,   # 加语法, 保留两位小数, 使用 Number 来计算
+    'subtract[-]' => 5,   # 减语法, 保留两位小数, 使用 Number 来计算
+    'force'       => 8,   # 覆盖语法, 覆盖之前数据
+                            # 不传值代表保留
+];
+
+$result = RdsPersist::calcUpdate($init, $update);
+$result = [
+    "add" => "5.00"
+    "subtract" => "-5.00"
+    "preserve" => 0
+    "force" => 8
+]
+
+```
+
+### 持久化到数据库
+
+如果需要持久化到数据库则需要执行相关命令
+
+Usage:
+py-core:persist `<table>`
+
+Arguments:
+table Table to exec. [pam_log...|all]
+
+```
+$this->app['events']->listen('console.schedule', function (Schedule $schedule) {
+    ...
+    $schedule->command('py-core:persist', ['chat_room'])
+        ->daily()->appendOutputTo($this->consoleLog());
+    ...
+})
+```
+

@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use DB;
 use Poppy\Core\Redis\RdsPersist;
 use Poppy\Framework\Application\TestCase;
+use Poppy\Framework\Exceptions\ApplicationException;
+use Poppy\Framework\Exceptions\TransactionException;
 
 /**
  * 内存持久化测试
@@ -26,7 +28,7 @@ class RdsPersistTest extends TestCase
 {
     /**
      * 写入单条测试
-     * @throws \Poppy\Framework\Exceptions\TransactionException
+     * @throws TransactionException
      */
     public function testInsert()
     {
@@ -56,8 +58,8 @@ class RdsPersistTest extends TestCase
 
     /**
      * 修改测试
-     * @throws \Poppy\Framework\Exceptions\TransactionException
-     * @throws \Poppy\Framework\Exceptions\ApplicationException
+     * @throws TransactionException
+     * @throws ApplicationException
      */
     public function testUpdate()
     {
@@ -113,7 +115,7 @@ class RdsPersistTest extends TestCase
     }
 
     /**
-     * @throws \Poppy\Framework\Exceptions\ApplicationException
+     * @throws ApplicationException
      */
     public function testUpdateMoreFields()
     {

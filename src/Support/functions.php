@@ -17,7 +17,7 @@ if (!function_exists('sys_cache')) {
      * @param string|null $tag 标签, 支持字串, 支持类名
      * @return Cache|TaggedCache
      */
-    function sys_cache($tag = null)
+    function sys_cache(string $tag = null)
     {
         $cache = app('cache');
         if ($tag && ($cache->getStore() instanceof TaggableStore)) {
@@ -41,7 +41,7 @@ if (!function_exists('sys_cacher')) {
      * @param int    $second
      * @return mixed
      */
-    function sys_cacher(string $key, $value, $second = 30)
+    function sys_cacher(string $key, $value, int $second = 30)
     {
         return RdsStore::seconds($key, $value, $second);
     }
@@ -95,7 +95,7 @@ if (!function_exists('sys_mark')) {
      * @param bool          $with_time
      * @return string
      */
-    function sys_mark($object, string $class, $append = '', $with_time = false): string
+    function sys_mark($object, string $class, $append = '', bool $with_time = false): string
     {
         $suffix = static function ($string) {
             return trim(substr(strrchr($string, '\\'), 1));
@@ -116,7 +116,6 @@ if (!function_exists('sys_mark')) {
                     $type   = $uf;
                     $doName = substr($doName, 0, strpos($doName, $uf));
                     $isFind = true;
-                    continue;
                 }
             }
             if ($type) {
@@ -151,9 +150,9 @@ if (!function_exists('sys_mark')) {
 if (!function_exists('sys_error')) {
     /**
      * alias for \Log::error()
-     * @param mixed  $object
-     * @param string $class
-     * @param string $append
+     * @param mixed        $object
+     * @param string       $class
+     * @param string|array $append
      */
     function sys_error($object, string $class, $append = '')
     {
@@ -163,12 +162,13 @@ if (!function_exists('sys_error')) {
 
 if (!function_exists('sys_success')) {
     /**
-     * 开发环境下记录成功信息, 便于错误调试
-     * @param mixed  $object
-     * @param string $class
-     * @param string $append
+     * 记录成功信息
+     * @param mixed        $object
+     * @param string       $class
+     * @param string|array $append
      * @deprecated 3.1
      * @removed    4.0
+     * @see        sys_info()
      */
     function sys_success($object, string $class, $append = '')
     {
@@ -179,9 +179,9 @@ if (!function_exists('sys_success')) {
 if (!function_exists('sys_debug')) {
     /**
      * 开发环境下记录成功信息, 便于错误调试
-     * @param mixed  $object
-     * @param string $class
-     * @param string $append
+     * @param mixed        $object
+     * @param string       $class
+     * @param string|array $append
      * @since 3.1
      */
     function sys_debug($object, string $class, $append = '')
@@ -195,10 +195,10 @@ if (!function_exists('sys_debug')) {
 
 if (!function_exists('sys_info')) {
     /**
-     * 永远记录错误信息
-     * @param mixed  $object
-     * @param string $class
-     * @param string $append
+     * 记录信息
+     * @param mixed        $object
+     * @param string       $class
+     * @param string|array $append
      */
     function sys_info($object, string $class, $append = '')
     {

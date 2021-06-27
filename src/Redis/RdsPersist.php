@@ -55,7 +55,7 @@ class RdsPersist
     /**
      * 将redis中的所有数据持久化到数据库
      * 执行将所有表的数据都写入数据库中可使用该方法
-     * @throws \Poppy\Framework\Exceptions\TransactionException
+     * @throws TransactionException
      */
     public static function exec()
     {
@@ -87,7 +87,7 @@ class RdsPersist
      * 将redis中的指定表的数据持久化到数据库
      * 单独持久化某个表的时候可以使用该方法
      * @param string $table
-     * @throws \Poppy\Framework\Exceptions\TransactionException
+     * @throws TransactionException
      */
     public static function execTable(string $table = '')
     {
@@ -263,7 +263,7 @@ class RdsPersist
     /**
      * 将类型为新增的数据持久化到数据库
      * @param array $insert_keys 类型为新增的数据的keys,二维数组
-     * @throws \Poppy\Framework\Exceptions\TransactionException
+     * @throws TransactionException
      */
     private static function execInsert(array $insert_keys = [])
     {
@@ -296,7 +296,7 @@ class RdsPersist
     /**
      * 将类型为修改的数据持久化到数据库
      * @param array $update_keys 类型为修改的数据的keys,二维数组
-     * @throws \Poppy\Framework\Exceptions\TransactionException
+     * @throws TransactionException
      */
     private static function execUpdate(array $update_keys = [])
     {

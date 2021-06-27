@@ -1,10 +1,10 @@
 <?php
 
-namespace Poppy\Core;
-
 /**
  * Copyright (C) Update For IDE
  */
+
+namespace Poppy\Core;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Poppy\Core\Listeners\PoppyOptimized\ClearCacheListener;
@@ -12,9 +12,6 @@ use Poppy\Framework\Events\PoppyOptimized as PoppyOptimizedEvent;
 use Poppy\Framework\Exceptions\ModuleNotFoundException;
 use Poppy\Framework\Support\PoppyServiceProvider;
 
-/**
- * @property $listens;
- */
 class ServiceProvider extends PoppyServiceProvider
 {
     /**
@@ -28,8 +25,6 @@ class ServiceProvider extends PoppyServiceProvider
             ClearCacheListener::class,
         ],
     ];
-
-    protected $policies = [];
 
     /**
      * Bootstrap the module services.
@@ -63,12 +58,6 @@ class ServiceProvider extends PoppyServiceProvider
         $this->registerSchedule();
     }
 
-    public function provides(): array
-    {
-        return [
-
-        ];
-    }
 
     private function registerSchedule()
     {

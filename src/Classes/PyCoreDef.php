@@ -22,7 +22,7 @@ class PyCoreDef
      */
     public static function ckTagPersist(string $key): string
     {
-        return 'py-core:persist:' . $key;
+        return 'tag:py-core:persist:' . $key;
     }
 
     /**
