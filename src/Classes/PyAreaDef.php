@@ -20,7 +20,7 @@ class PyAreaDef
      * @param string $suffix
      * @return string
      */
-    public static function ckArea($suffix = ''): string
+    public static function ckArea(string $suffix = ''): string
     {
         return 'area' . ($suffix ? '-' . $suffix : '');
     }
@@ -30,7 +30,7 @@ class PyAreaDef
      * @param string $suffix
      * @return string
      */
-    public static function ckCountry($suffix = ''): string
+    public static function ckCountry(string $suffix = ''): string
     {
         return 'country' . ($suffix ? '-' . $suffix : '');
     }
