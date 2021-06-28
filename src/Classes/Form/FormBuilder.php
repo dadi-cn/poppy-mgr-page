@@ -9,6 +9,7 @@ use Poppy\Core\Classes\Traits\CoreTrait;
 use Poppy\Framework\Helper\FileHelper;
 use Poppy\Framework\Helper\TreeHelper;
 use Poppy\System\Classes\Contracts\ApiSignContract;
+use Poppy\System\Classes\Uploader\Uploader;
 use Poppy\System\Models\PamAccount;
 
 /**
@@ -338,7 +339,7 @@ CONTENT;
             $type = 'images';
         }
         $token = $pam ? app('tymon.jwt.auth')->fromUser($pam) : '';
-
+        $exts  = implode('|', $options['exts'] ?? Uploader::kvExt($type));
         /* 进行赋值
          * ---------------------------------------- */
         switch ($type) {
@@ -393,6 +394,7 @@ layui.upload.render({
     elem: '#{$id}',
     url: '{$uploadUrl}',
     accept : '{$type}',
+    exts : '{$exts}',
     field : 'file',
     size : 100000,
     data : {
