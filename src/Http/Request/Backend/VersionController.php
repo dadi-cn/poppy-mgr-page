@@ -10,6 +10,7 @@ use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\MgrPage\Http\Request\Backend\BackendController;
 use Poppy\System\Classes\Grid;
 use Poppy\Version\Action\Version;
+use Poppy\Version\Http\Forms\Backend\FormSettingVersion;
 use Poppy\Version\Http\Forms\Backend\FormVersionEstablish;
 use Poppy\Version\Http\Lists\Backend\ListAppVersion;
 use Poppy\Version\Models\SysAppVersion;
@@ -47,9 +48,18 @@ class VersionController extends BackendController
      */
     public function establish($id = null)
     {
-        $form = (new FormVersionEstablish())->setPam($this->pam);
+        $form = new FormVersionEstablish();
         $form->setPlatform(input('platform'));
         $form->setId($id);
+        return $form->render();
+    }
+
+    /**
+     * 设置
+     */
+    public function setting()
+    {
+        $form = new FormSettingVersion();
         return $form->render();
     }
 

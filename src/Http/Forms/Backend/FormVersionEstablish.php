@@ -4,9 +4,11 @@ namespace Poppy\Version\Http\Forms\Backend;
 
 use Poppy\Framework\Classes\Resp;
 use Poppy\Framework\Exceptions\ApplicationException;
+use Poppy\Framework\Helper\UtilHelper;
 use Poppy\Framework\Validation\Rule;
 use Poppy\System\Classes\Traits\PamTrait;
 use Poppy\System\Classes\Widgets\FormWidget;
+use Poppy\System\Models\SysConfig;
 use Poppy\Version\Action\Version;
 use Poppy\Version\Models\SysAppVersion;
 
@@ -58,6 +60,9 @@ class FormVersionEstablish extends FormWidget
     {
         $Version = new Version();
         if (is_post()) {
+            if (input('is_cover')) {
+                $Version->allowCopy();
+            }
             if (!$Version->establish(input(), input('id'))) {
                 return Resp::error($Version->getError());
             }
@@ -69,21 +74,28 @@ class FormVersionEstablish extends FormWidget
 
     public function data(): array
     {
+        $default = [
+            'is_cover' => SysConfig::NO,
+        ];
         if ($this->id) {
-            return [
+            return array_merge($default, [
                 'id'           => $this->item->id,
                 'title'        => $this->item->title,
                 'platform'     => $this->item->platform,
                 'description'  => $this->item->description,
                 'is_upgrade'   => $this->item->is_upgrade,
                 'download_url' => $this->item->download_url,
-            ];
+            ]);
         }
-        return [];
+        return $default;
     }
 
     public function form()
     {
+        $sizeMax  = UtilHelper::sizeToBytes(ini_get('upload_max_filesize'));
+        $sizePost = UtilHelper::sizeToBytes(ini_get('post_max_size'));
+
+        $min = UtilHelper::formatBytes(min($sizeMax, $sizePost));
         if ($this->id) {
             $this->hidden('id', 'ID');
 
@@ -92,12 +104,13 @@ class FormVersionEstablish extends FormWidget
         $this->text('title', '版本号')->rules([
             Rule::required(),
         ]);
-        $this->url('download_url', '下载地址')->rules([
+        $this->file('download_url', '下载地址')->rules([
             Rule::nullable(),
-        ]);
+        ])->file()->exts(['apk', 'ipa'])->help('最大上传文件大小 ' . $min);
         $this->textarea('description', '描述')->rules([
             Rule::required(),
         ]);
         $this->switch('is_upgrade', '是否强制升级');
+        $this->switch('is_cover', '覆盖新版文件');
     }
 }

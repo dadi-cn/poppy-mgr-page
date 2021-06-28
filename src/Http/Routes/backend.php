@@ -9,6 +9,8 @@ Route::group([
         ->name('py-version:backend.version.index');
     $router->any('version/establish/{id?}', 'VersionController@establish')
         ->name('py-version:backend.version.establish');
+    $router->any('version/setting', 'VersionController@setting')
+        ->name('py-version:backend.version.setting');
     $router->any('version/delete/{id}', 'VersionController@delete')
         ->name('py-version:backend.version.delete');
 });

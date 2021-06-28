@@ -8,6 +8,7 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Poppy\Core\Redis\RdsDb;
+use Poppy\System\Classes\Uploader\Uploader;
 use Poppy\Version\Classes\PyVersionDef;
 
 /**
@@ -48,7 +49,7 @@ class SysAppVersion extends Eloquent
      * @param bool        $check_key
      * @return array|string
      */
-    public static function kvType($key = null, $check_key = false)
+    public static function kvType(string $key = null, bool $check_key = false)
     {
         $desc = [
             self::PLATFORM_ANDROID => '安卓',
@@ -85,5 +86,42 @@ class SysAppVersion extends Eloquent
             RdsDb::instance()->hSet(PyVersionDef::ckTagMaxVersion(), $platform, $version);
         }
         return $version;
+    }
+
+    /**
+     * 存储的路径
+     * @param string $type 类型
+     * @return string
+     */
+    public static function path(string $type = self::PLATFORM_ANDROID): string
+    {
+        if ($type === self::PLATFORM_ANDROID) {
+            $extension = 'apk';
+        }
+        else {
+            $extension = 'ipa';
+        }
+        return trim(sys_setting('py-version::setting.path', 'static/app/'), '/') . '/' .
+            trim(sys_setting('py-version::setting.latest_name', 'latest')) . '.' . $extension;
+    }
+
+
+    /**
+     * 平台 Url
+     * @param string $type 类型
+     * @return mixed|string
+     */
+    public static function platformUrl(string $type = self::PLATFORM_ANDROID)
+    {
+        if (
+            // android
+            $type === self::PLATFORM_ANDROID
+            ||
+            // 开发状态下的IOS
+            ($type === self::PLATFORM_IOS && !sys_setting('py-version:setting.ios_is_prod'))
+        ) {
+            return Uploader::prefix() . self::path($type);
+        }
+        return sys_setting('py-version:setting.ios_store_url');
     }
 }

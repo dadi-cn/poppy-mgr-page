@@ -4,6 +4,8 @@ use Exception;
 use Poppy\Core\Redis\RdsDb;
 use Poppy\Framework\Classes\Traits\AppTrait;
 use Poppy\Framework\Validation\Rule;
+use Poppy\System\Classes\Contracts\UploadContract;
+use Poppy\System\Jobs\DeleteUploadFileJob;
 use Poppy\Version\Classes\PyVersionDef;
 use Poppy\Version\Models\SysAppVersion;
 use Validator;
@@ -30,9 +32,20 @@ class Version
      */
     protected $id;
 
+    /**
+     * 是否允许覆盖
+     * @var bool
+     */
+    private $allowCopy = false;
+
     public function __construct()
     {
         $this->table = (new SysAppVersion())->getTable();
+    }
+
+    public function allowCopy()
+    {
+        $this->allowCopy = true;
     }
 
     public function establish($data, $id = null): bool
@@ -96,6 +109,9 @@ class Version
             $appVersion = SysAppVersion::create($initDb);
             $this->item = $appVersion;
         }
+
+        $this->copyTo();
+
         $this->clearCache($this->item->platform);
         return true;
     }
@@ -113,6 +129,7 @@ class Version
 
         try {
             $this->clearCache($this->item->platform);
+            dispatch(new DeleteUploadFileJob($this->item->download_url));
             return $this->item->delete();
         } catch (Exception $e) {
             return $this->setError($e->getMessage());
@@ -133,6 +150,22 @@ class Version
         } catch (Exception $e) {
             return $this->setError('ID 不合法, 不存在此数据');
         }
+    }
+
+    /**
+     * 复制到另外一个文件路径
+     */
+    private function copyTo()
+    {
+        if (!$this->allowCopy) {
+            return;
+        }
+        /** @var UploadContract $Upload */
+        $Upload   = app(UploadContract::class);
+        $distPath = parse_url($this->item->download_url)['path'] ?? '';
+        $Upload->setDestination($distPath);
+        $latestFilename = SysAppVersion::path($this->item->platform);
+        $Upload->copyTo($latestFilename);
     }
 
     private function clearCache($platform)
