@@ -456,6 +456,25 @@ class UtilHelper
     }
 
     /**
+     * 可识别的大小转换为 bytes
+     * @param string $size
+     * @return int
+     */
+    public static function sizeToBytes(string $size): int
+    {
+        $size = strtoupper($size);
+        $base = [['KB', 'K'], ['MB', 'M'], ['GB', 'G'], ['TB', 'T']];
+        $sum  = 1;
+        for ($i = 0; $i < 4; $i++) {
+            if (stripos($size, $base[$i][0]) || stripos($size, $base[$i][1])) {
+                return $sum * ((float) str_ireplace($base[$i], '', $size)) * 1024;
+            }
+            $sum *= 1024;
+        }
+        return 0;
+    }
+
+    /**
      * 检测是不是正规版本号
      * @param string $version 版本
      * @return int

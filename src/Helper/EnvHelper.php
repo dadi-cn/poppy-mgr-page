@@ -203,11 +203,30 @@ class EnvHelper
     }
 
     /**
+     * 最大上传的文件大小
+     * @param bool $format 是否格式化
+     * @return mixed|string
+     */
+    public static function maxUploadSize(bool $format = true)
+    {
+        $sizeMax  = UtilHelper::sizeToBytes(ini_get('upload_max_filesize'));
+        $sizePost = UtilHelper::sizeToBytes(ini_get('post_max_size'));
+
+        $min = min($sizeMax, $sizePost);
+        if ($format) {
+            return UtilHelper::formatBytes($min);
+        }
+        else {
+            return $min;
+        }
+    }
+
+    /**
      * IP 是否是内网地址
      * @param string $ip
      * @return bool
      */
-    public static function isInternalIp(string $ip):bool
+    public static function isInternalIp(string $ip): bool
     {
         $ip = ip2long($ip);
         if (!$ip) {

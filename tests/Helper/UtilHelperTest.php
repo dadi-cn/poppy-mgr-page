@@ -19,6 +19,13 @@ class UtilHelperTest extends TestCase
         $this->assertEquals('3.22 MB', $format);
     }
 
+    public function testSizeToBytes()
+    {
+        $size = '3.22 K';
+        $bytes = UtilHelper::sizeToBytes($size);
+        $this->assertEquals(3297, $bytes);
+    }
+
     /**
      * 验证身份证号
      */
