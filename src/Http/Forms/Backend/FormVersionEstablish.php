@@ -104,9 +104,19 @@ class FormVersionEstablish extends FormWidget
         $this->text('title', '版本号')->rules([
             Rule::required(),
         ]);
-        $this->file('download_url', '下载地址')->rules([
-            Rule::nullable(),
-        ])->file()->exts(['apk', 'ipa'])->help('最大上传文件大小 ' . $min);
+        if (sys_setting('py-version::setting.is_upload')) {
+            $this->file('download_url', '下载地址')->rules([
+                Rule::nullable(),
+            ])->file()->exts(['apk', 'ipa'])->help('最大上传文件大小 ' . $min);
+        }
+        else {
+            $this->text('download_url', '下载地址')->rules([
+                Rule::required(),
+                Rule::url(),
+            ]);
+        }
+
+
         $this->textarea('description', '描述')->rules([
             Rule::required(),
         ]);
