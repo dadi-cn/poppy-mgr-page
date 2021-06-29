@@ -42,11 +42,11 @@ class RdsFieldExpired
         self::initHandler();
 
         // 需要清理的field
-        $fields = self::$expireHandler->zrangebyscore(PyCoreDef::ckRdsKeyFieldExpired(), 0, time());
+        $fields = self::$expireHandler->zrangebyscore(PyCoreDef::ckTagRdsKeyFieldExpired(), 0, time());
 
         $this->convertClearFields($fields);
         if ($fields) {
-            self::$expireHandler->zrem(PyCoreDef::ckRdsKeyFieldExpired(), $fields);
+            self::$expireHandler->zrem(PyCoreDef::ckTagRdsKeyFieldExpired(), $fields);
         }
 
         return true;
@@ -81,7 +81,7 @@ class RdsFieldExpired
         $index = implode(self::$stripTag, [$database, $key, $field, $type]);
 
         $expiredAt = time() + $expireTime;
-        self::$expireHandler->zadd(PyCoreDef::ckRdsKeyFieldExpired(), [
+        self::$expireHandler->zadd(PyCoreDef::ckTagRdsKeyFieldExpired(), [
             $index => $expiredAt,
         ]);
 

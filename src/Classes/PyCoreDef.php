@@ -87,8 +87,8 @@ class PyCoreDef
      * 过期的KEY/Field
      * @return string
      */
-    public static function ckRdsKeyFieldExpired(): string
+    public static function ckTagRdsKeyFieldExpired(): string
     {
-        return 'rds-key-field-expired';
+        return 'tag:py-core:rds-key-field-expired';
     }
 }

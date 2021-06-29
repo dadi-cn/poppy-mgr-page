@@ -67,11 +67,11 @@ class RdsFieldExpiredTest extends RdsBaseTest
     {
         $cache = new Client(config('database.redis.default'));
         $cache->multi();
-        $beforeCount = $cache->zcard(PyCoreDef::ckRdsKeyFieldExpired());
+        $beforeCount = $cache->zcard(PyCoreDef::ckTagRdsKeyFieldExpired());
 
         (new RdsFieldExpired)->clearExpiredField();
 
-        $afterCount = $cache->zcard(PyCoreDef::ckRdsKeyFieldExpired());
+        $afterCount = $cache->zcard(PyCoreDef::ckTagRdsKeyFieldExpired());
 
         $cache->exec();
         $this->assertGreaterThanOrEqual($beforeCount, $afterCount);
