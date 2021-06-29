@@ -12,6 +12,6 @@ class PyVersionDef
      */
     public static function ckTagMaxVersion(): string
     {
-        return 'py-version:max-version';
+        return 'tag:py-version:max-version';
     }
 }
