@@ -17,12 +17,12 @@ class SearchCache
     {
         $Rds = new RdsDb();
         if (function_exists('ext_pinyin_abbr')) {
-            if ($py = $Rds->hget(PyMgrPageDef::ckSearchPy(), $text)) {
+            if ($py = $Rds->hget(PyMgrPageDef::ckTagSearchPy(), $text)) {
                 return $py;
             }
             /** @var  $pinYin */
             $py = ext_pinyin_abbr($text);
-            $Rds->hset(PyMgrPageDef::ckSearchPy(), $text, $py);
+            $Rds->hset(PyMgrPageDef::ckTagSearchPy(), $text, $py);
             return $py;
         }
         return '';

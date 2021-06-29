@@ -9,8 +9,8 @@ class PyMgrPageDef
      * 拼音的缓存KEY
      * @return string
      */
-    public static function ckSearchPy(): string
+    public static function ckTagSearchPy(): string
     {
-        return 'py-mgr-page:search-py';
+        return 'tag:py-mgr-page:search-py';
     }
 }
