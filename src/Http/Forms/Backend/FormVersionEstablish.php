@@ -4,6 +4,7 @@ namespace Poppy\Version\Http\Forms\Backend;
 
 use Poppy\Framework\Classes\Resp;
 use Poppy\Framework\Exceptions\ApplicationException;
+use Poppy\Framework\Helper\EnvHelper;
 use Poppy\Framework\Helper\UtilHelper;
 use Poppy\Framework\Validation\Rule;
 use Poppy\System\Classes\Traits\PamTrait;
@@ -92,13 +93,8 @@ class FormVersionEstablish extends FormWidget
 
     public function form()
     {
-        $sizeMax  = UtilHelper::sizeToBytes(ini_get('upload_max_filesize'));
-        $sizePost = UtilHelper::sizeToBytes(ini_get('post_max_size'));
-
-        $min = UtilHelper::formatBytes(min($sizeMax, $sizePost));
         if ($this->id) {
             $this->hidden('id', 'ID');
-
         }
         $this->hidden('platform', $this->platform)->default($this->platform);
         $this->text('title', '版本号')->rules([
@@ -107,7 +103,7 @@ class FormVersionEstablish extends FormWidget
         if (sys_setting('py-version::setting.is_upload')) {
             $this->file('download_url', '下载地址')->rules([
                 Rule::nullable(),
-            ])->file()->exts(['apk', 'ipa'])->help('最大上传文件大小 ' . $min);
+            ])->file()->exts(['apk', 'ipa'])->help('最大上传文件大小 ' . EnvHelper::maxUploadSize());
         }
         else {
             $this->text('download_url', '下载地址')->rules([
