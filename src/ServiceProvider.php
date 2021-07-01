@@ -72,7 +72,6 @@ class ServiceProvider extends ModuleServiceProviderBase
             config([
                 'poppy.sms.send_type'      => sys_setting('py-sms::sms.send_type'),
                 'poppy.sms.sign'           => sys_setting('py-sms::sms.sign'),
-                'poppy.sms.expired_minute' => sys_setting('py-sms::sms.expired_minute'),
             ]);
         }
 

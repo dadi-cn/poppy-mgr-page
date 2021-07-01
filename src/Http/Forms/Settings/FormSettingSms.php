@@ -21,9 +21,6 @@ class FormSettingSms extends FormSettingBase
             Rule::string(),
             Rule::required(),
         ])->default('local')->help('选择本地则文件存储在日志中, 需要自行查看');
-        $this->text('expired_minute', '验证码有效期')->rules([
-            Rule::nullable(),
-        ])->default(5)->help('单位(分钟)');
         $this->text('sign', '默认签名')->rules([
             Rule::nullable(),
         ]);
