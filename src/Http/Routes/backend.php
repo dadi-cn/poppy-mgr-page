@@ -50,6 +50,10 @@ Route::group([
         ->name('py-mgr-page:backend.ban.index');
     $router->any('ban/establish/{id?}', 'BanController@establish')
         ->name('py-mgr-page:backend.ban.establish');
+    $router->any('ban/status', 'BanController@status')
+        ->name('py-mgr-page:backend.ban.status');
+    $router->any('ban/type', 'BanController@type')
+        ->name('py-mgr-page:backend.ban.type');
     $router->any('ban/delete/{id}', 'BanController@delete')
         ->name('py-mgr-page:backend.ban.delete');
 

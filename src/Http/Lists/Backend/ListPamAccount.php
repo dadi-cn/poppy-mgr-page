@@ -41,7 +41,7 @@ class ListPamAccount extends ListBase
     public function filter(): Closure
     {
         return function (Filter $filter) {
-            $type  = input('_scope', PamAccount::TYPE_BACKEND);
+            $type  = input(Filter\Scope::QUERY_NAME, PamAccount::TYPE_BACKEND);
             $roles = PamRole::getLinear($type);
             $filter->column(1 / 12, function (Filter $ft) {
                 $ft->where(function ($query) {
@@ -73,16 +73,31 @@ class ListPamAccount extends ListBase
      */
     public function actions()
     {
-        $Action = $this;
+        $pam = $this->pam;
         $this->addColumn(Column::NAME_ACTION, '操作')
             ->displayUsing(Actions::class, [
-                function (Actions $actions) use ($Action) {
+                function (Actions $actions) use ($pam) {
+                    /** @var PamAccount $item */
                     $item = $actions->row;
                     $actions->append([
-                        $Action->password($item),
-                        $Action->disable($item),
-                        $Action->enable($item),
-                        $Action->edit($item),
+                        new BaseButton('<i class="fa fa-key"></i>', route('py-mgr-page:backend.pam.password', [$item->id]), [
+                            'title' => "修改密码",
+                            'class' => 'J_iframe',
+                        ]),
+                        $pam->can('disable', $item) ?
+                            new BaseButton('<i class="fa fa-unlock text-success"></i>', route_url('py-mgr-page:backend.pam.disable', [$item->id]), [
+                                'title' => '当前启用, 点击禁用',
+                                'class' => 'J_iframe',
+                            ]) : null,
+                        $pam->can('enable', $item) ?
+                            new BaseButton('<i class="fa fa-lock"></i>', route_url('py-mgr-page:backend.pam.enable', [$item->id]), [
+                                'title' => '当前禁用, 点击启用',
+                                'class' => 'J_iframe',
+                            ]) : null,
+                        new BaseButton('<i class="fa fa-edit"></i>', route('py-mgr-page:backend.pam.establish', [$item->id]), [
+                            'title' => "编辑[{$item->username}]",
+                            'class' => 'J_iframe',
+                        ]),
                     ]);
                 },
             ]);
@@ -91,108 +106,20 @@ class ListPamAccount extends ListBase
 
     public function quickButtons(): array
     {
+        $scope = input(Filter\Scope::QUERY_NAME);
         return [
-            $this->ban(),
-            $this->token(),
-            $this->create(input(Filter\Scope::QUERY_NAME)),
+            new BaseButton('<i class="fa fa-ban"></i> 封禁管理', route_url('py-mgr-page:backend.ban.index', null, [Filter\Scope::QUERY_NAME => $scope]), [
+                'title' => "封禁管理",
+                'class' => 'layui-btn layui-btn-sm',
+            ]),
+            new BaseButton('<i class="fa fa-map-signs"></i> 登录用户', route('py-mgr-page:backend.pam.token'), [
+                'title' => "登录用户管理",
+                'class' => 'layui-btn layui-btn-sm',
+            ]),
+            new BaseButton('<i class="fa fa-plus"></i> 新增', route_url('py-mgr-page:backend.pam.establish', null, ['type' => $scope]), [
+                'title' => "新增账号",
+                'class' => 'J_iframe layui-btn layui-btn-sm',
+            ]),
         ];
     }
-
-
-    /**
-     * 创建
-     * @param $type
-     * @return BaseButton
-     */
-    public function create($type): BaseButton
-    {
-        return new BaseButton('<i class="fa fa-plus"></i> 新增', route_url('py-mgr-page:backend.pam.establish', null, ['type' => $type]), [
-            'title' => "新增账号",
-            'class' => 'J_iframe layui-btn layui-btn-sm',
-        ]);
-    }
-
-    /**
-     * 修改密码
-     * @param $item
-     * @return BaseButton
-     */
-    public function password($item): BaseButton
-    {
-        return new BaseButton('<i class="fa fa-key"></i>', route('py-mgr-page:backend.pam.password', [$item->id]), [
-            'title' => "修改密码",
-            'class' => 'J_iframe',
-        ]);
-    }
-
-
-    /**
-     * 编辑
-     * @param $item
-     * @return BaseButton
-     */
-    public function edit($item): BaseButton
-    {
-        return new BaseButton('<i class="fa fa-edit"></i>', route('py-mgr-page:backend.pam.establish', [$item->id]), [
-            'title' => "编辑[{$item->username}]",
-            'class' => 'J_iframe',
-        ]);
-    }
-
-    /**
-     * Token 管理
-     * @return BaseButton
-     */
-    public function token(): BaseButton
-    {
-        return new BaseButton('<i class="fa fa-map-signs"></i> 登录用户', route('py-mgr-page:backend.pam.token'), [
-            'title' => "登录用户管理",
-            'class' => 'layui-btn layui-btn-sm',
-        ]);
-    }
-
-    /**
-     * 编辑
-     * @return BaseButton
-     */
-    public function ban(): BaseButton
-    {
-        return new BaseButton('<i class="fa fa-ban"></i> 封禁管理', route('py-mgr-page:backend.ban.index'), [
-            'title' => "封禁管理",
-            'class' => 'layui-btn layui-btn-sm',
-        ]);
-    }
-
-    /**
-     * 禁用
-     * @param $item
-     * @return BaseButton|null
-     */
-    public function disable($item): ?BaseButton
-    {
-        if ($this->pam->can('disable', $item)) {
-            return new BaseButton('<i class="fa fa-unlock text-success"></i>', route_url('py-mgr-page:backend.pam.disable', [$item->id]), [
-                'title' => '当前启用, 点击禁用',
-                'class' => 'J_iframe',
-            ]);
-        }
-        return null;
-    }
-
-    /**
-     * 启用
-     * @param $item
-     * @return BaseButton|null
-     */
-    public function enable($item): ?BaseButton
-    {
-        if ($this->pam->can('enable', $item)) {
-            return new BaseButton('<i class="fa fa-lock"></i>', route_url('py-mgr-page:backend.pam.enable', [$item->id]), [
-                'title' => '当前禁用, 点击启用',
-                'class' => 'J_iframe',
-            ]);
-        }
-        return null;
-    }
-
 }

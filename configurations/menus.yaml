@@ -46,6 +46,12 @@ backend:
               title: 登录日志
               route: py-mgr-page:backend.pam.log
               permission: backend:py-system.pam.log
+            -
+              title: 风险拦截
+              route: py-mgr-page:backend.ban.index
+              param:
+                _scope: 'user'
+              permission: backend:py-system.pam.manage
 develop:
   title: 核心开发
   groups:

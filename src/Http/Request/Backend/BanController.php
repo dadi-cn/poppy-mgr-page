@@ -11,7 +11,9 @@ use Poppy\MgrPage\Http\Lists\Backend\ListPamBan;
 use Poppy\System\Action\Ban;
 use Poppy\System\Classes\Grid;
 use Poppy\System\Http\Forms\Backend\FormBanEstablish;
+use Poppy\System\Models\PamAccount;
 use Poppy\System\Models\PamBan;
+use Poppy\System\Models\SysConfig;
 use Response;
 use Throwable;
 
@@ -29,6 +31,25 @@ class BanController extends BackendController
         return $grid->render();
     }
 
+
+    public function status()
+    {
+        $type   = input('type');
+        $key    = 'py-mgr-page::ban.status-' . $type;
+        $status = sys_setting($key, SysConfig::NO);
+        app('poppy.system.setting')->set($key, $status ? SysConfig::NO : SysConfig::YES);
+        return Resp::success('已切换', '_reload|1');
+    }
+
+    public function type()
+    {
+        $type    = input('type');
+        $key     = 'py-mgr-page::ban.type-' . $type;
+        $isBlank = sys_setting($key, PamBan::WB_TYPE_BLACK) === PamBan::WB_TYPE_BLACK;
+        app('poppy.system.setting')->set($key, $isBlank ? PamBan::WB_TYPE_WHITE : PamBan::WB_TYPE_BLACK);
+        return Resp::success('已切换封禁模式', '_reload|1');
+    }
+
     /**
      * 创建/编辑
      * @param null $id
@@ -39,6 +60,7 @@ class BanController extends BackendController
     {
         $form = new FormBanEstablish();
         $form->setId($id);
+        $form->setAccountType(input('type', PamAccount::TYPE_USER));
         return $form->render();
     }
 
