@@ -441,6 +441,9 @@ CONTENT;
         $type     = $options['type'] ?? 'image';
         $sequence = $options['sequence'] ?? false;
         $pam      = $options['pam'] ?? false;
+        if (!$pam) {
+            $pam = app('auth')->guard(PamAccount::TYPE_BACKEND)->user();
+        }
         $ext      = 'jpg|png|gif|jpeg|webp';
         if ($type === 'video') {
             $ext = 'mp4';
