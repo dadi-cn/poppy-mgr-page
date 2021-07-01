@@ -18,7 +18,7 @@ class BindTag extends BaseClient
      * @param string|array $client_key  客户端代码
      * @return bool
      */
-    public function bindDevice(string $device_type, string $tag, $client_key)
+    public function bindDevice(string $device_type, string $tag, $client_key):bool
     {
         $device_type = strtolower($device_type);
 
@@ -34,7 +34,7 @@ class BindTag extends BaseClient
         }
         try {
             $this->initClient();
-            $result = $this->rpc()
+            $this->result = $this->rpc()
                 ->action('BindTag')
                 ->options([
                     'query' => [
@@ -45,7 +45,6 @@ class BindTag extends BaseClient
                     ],
                 ])
                 ->request();
-            $this->saveResult($result);
             return true;
         } catch (ClientException | ServerException $e) {
             return $this->setError($e->getErrorMessage());
