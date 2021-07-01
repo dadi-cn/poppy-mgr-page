@@ -62,6 +62,12 @@ class UtilHelperTest extends TestCase
     {
         $ip = UtilHelper::isIp('127.0.0.1');
         $this->assertEquals(true, $ip);
+        $ip = UtilHelper::isIp('127.0.0.1/24');
+        $this->assertEquals(false, $ip);
+        $ip = UtilHelper::isIp('10.148.167.1/24');
+        $this->assertEquals(false, $ip);
+        $ip = UtilHelper::isIp('192.168.41.*');
+        $this->assertEquals(false, $ip);
     }
 
     public function testIsMd5(): void
