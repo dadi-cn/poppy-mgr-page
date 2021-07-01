@@ -20,5 +20,5 @@ Route::group([
     'middleware' => ['api-sso'],
     'namespace'  => 'Demo\Http\Request\Api\Web',
 ], function (Illuminate\Routing\Router $route) {
-    $route->get('sso/access', 'SsoController@access');
+    $route->post('sso/access', 'SsoController@access');
 });
