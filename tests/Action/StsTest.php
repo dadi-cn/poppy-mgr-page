@@ -1,11 +1,11 @@
 <?php
 
-namespace Poppy\AliyunOss\Tests;
+namespace Poppy\AliyunOss\Tests\Action;
 
-use Poppy\AliyunOss\Action\ActSts;
+use Poppy\AliyunOss\Action\Sts;
 use Poppy\System\Tests\Base\SystemTestCase;
 
-class ActStsTest extends SystemTestCase
+class StsTest extends SystemTestCase
 {
     /**
      * @var array config
@@ -21,7 +21,7 @@ class ActStsTest extends SystemTestCase
     public function testTempKey()
     {
         $config = $this->config;
-        $Sts    = new ActSts();
+        $Sts    = new Sts();
         $Sts->setConfig($config['temp_key'], $config['temp_secret'], $config['bucket'], $config['endpoint'], $config['arn'], $config['url']);
         if ($Sts->tempOss()) {
             $temp = $Sts->getTempKey();
