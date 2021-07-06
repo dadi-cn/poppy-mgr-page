@@ -97,6 +97,9 @@ class ApiController extends DevelopController
         $tokenGet = function ($key) use ($type) {
             if (Session::has($key)) {
                 $token = Session::get($key);
+                if (!Str::contains($token, '.')) {
+                    return $token;
+                }
                 if (in_array($type, ['web', 'backend'])) {
                     // check token is valid
 
