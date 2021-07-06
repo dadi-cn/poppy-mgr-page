@@ -209,7 +209,11 @@ class ApiController extends DevelopController
         $type = input('guard');
 
         if (is_post()) {
-            $data = $this->postWithSign(route_url('py-system:pam.auth.login'), input());
+            $input = array_merge(input(), [
+                'device_id'   => uniqid(),
+                'device_type' => 'webapp',
+            ]);
+            $data  = $this->postWithSign(route_url('py-system:pam.auth.login'), $input);
 
             if ($this->curl->httpStatusCode === 200) {
                 if ((int) $data->status === Resp::SUCCESS) {
