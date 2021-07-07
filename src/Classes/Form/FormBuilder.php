@@ -264,6 +264,7 @@ TIP;
         }
         $display_str = $value ? 'form_thumb-success' : '';
         $sizeClass   = $options['sizeClass'] ?? 'form_thumb-normal';
+        $readonly    = $options['readonly'] ?? false;
         $uploadUrl   = route('py-system:api_v1.upload.image');
         $timestamp   = Carbon::now()->timestamp;
         /** @var ApiSignContract $Sign */
@@ -272,6 +273,9 @@ TIP;
             'token'     => $token,
             'timestamp' => $timestamp,
         ]);
+        $iconStr = $readonly ? '' : <<<CONTENT
+ <i id="{$id}_del" class="fa fa-times-circle"></i>
+CONTENT;
         return /** @lang text */
             <<<CONTENT
 <div class="layui-form-thumb {$display_str} {$sizeClass}" id="{$id}_wrap">
@@ -281,7 +285,7 @@ TIP;
     <div class="form_thumb-ctr" id="{$id}_ctr">
         <input type="hidden" name="{$name}" value="{$value}" id="{$id}_url"/>
         <img id="{$id}_preview" class="J_image_preview J_tooltip" title="点击预览" src="{$value}"/>
-        <i id="{$id}_del" class="fa fa-times-circle"></i>
+        {$iconStr}
     </div>
 </div>
 <script>
