@@ -11,3 +11,7 @@ $ php artisan vendor:publish
 ## 开发注意
 
 在提交版本前需要验证 开发的mix 文件和 publish 文件是否一致, 不一致, 则需要重新生成并复制进项目中
+
+## 更新记录
+
+查看 [build.md](./docs/build.md)

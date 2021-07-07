@@ -433,7 +433,7 @@ CONTENT;
      * @param array  $options 选项
      * @return string
      */
-    public function multiThumb(string $name, $value = null, $options = []): string
+    public function multiThumb(string $name, $value = null, array $options = []): string
     {
         $id       = $this->getIdAttribute($name, $options) ?? 'multi_thumb_' . Str::random(6);
         $number   = $options['number'] ?? 3;
@@ -444,7 +444,11 @@ CONTENT;
         if (!$pam) {
             $pam = app('auth')->guard(PamAccount::TYPE_BACKEND)->user();
         }
-        $ext      = 'jpg|png|gif|jpeg|webp';
+        $token = $pam ? app('tymon.jwt.auth')->fromUser($pam) : '';
+        if (!$token) {
+            $token = $options['token'] ?? '';
+        }
+        $ext = 'jpg|png|gif|jpeg|webp';
         if ($type === 'video') {
             $ext = 'mp4';
         }
@@ -454,11 +458,6 @@ CONTENT;
         $value = (array) $this->getValueAttribute($name, $value);
         if (strpos($name, '[]') === false) {
             $name .= '[]';
-        }
-
-        $token = $pam ? app('tymon.jwt.auth')->fromUser($pam) : '';
-        if (!$token) {
-            $token = $options['token'] ?? '';
         }
 
         /** @var ApiSignContract $Sign */
