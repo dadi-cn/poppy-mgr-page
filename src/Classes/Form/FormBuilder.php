@@ -79,7 +79,7 @@ class FormBuilder extends CollectiveFormBuilder
         $str       = '';
         $arrValues = [];
         if (!$value) {
-            $value = (string) $this->getValueAttribute($name, $value);
+            $value = $this->getValueAttribute($name, $value);
         }
         if (is_array($value)) {
             $arrValues = array_values($value);
