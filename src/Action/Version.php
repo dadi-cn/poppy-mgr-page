@@ -110,7 +110,9 @@ class Version
             $this->item = $appVersion;
         }
 
-        $this->copyTo();
+        if (!$this->copyTo()){
+            return false;
+        }
 
         $this->clearCache($this->item->platform);
         return true;
@@ -155,17 +157,20 @@ class Version
     /**
      * 复制到另外一个文件路径
      */
-    private function copyTo()
+    private function copyTo(): bool
     {
         if (!$this->allowCopy) {
-            return;
+            return true;
         }
-        /** @var UploadContract $Upload */
+        /** @var UploadContract|AppTrait $Upload */
         $Upload   = app(UploadContract::class);
         $distPath = parse_url($this->item->download_url)['path'] ?? '';
         $Upload->setDestination($distPath);
         $latestFilename = SysAppVersion::path($this->item->platform);
-        $Upload->copyTo($latestFilename);
+        if (!$Upload->copyTo($latestFilename)) {
+            return $this->setError($Upload->getError());
+        }
+        return true;
     }
 
     private function clearCache($platform)
