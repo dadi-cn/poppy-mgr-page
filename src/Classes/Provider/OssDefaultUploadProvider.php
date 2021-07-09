@@ -88,6 +88,7 @@ class OssDefaultUploadProvider extends DefaultUploadProvider
             self::$client->deleteObject($this->bucket, $dist);
         }
         try {
+            $this->destination = ltrim($this->destination, '/');
             self::$client->copyObject($this->bucket, $this->destination, $this->bucket, $dist);
             return true;
         } catch (Throwable $e) {
