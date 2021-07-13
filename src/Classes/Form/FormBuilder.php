@@ -928,17 +928,33 @@ HTML;
             $value = explode(',', $value);
         }
 
-        $data = collect($lists)->map(function ($item, $key) use ($value) {
-            $selected = false;
-            if ($value && in_array($key, $value, false)) {
-                $selected = true;
-            }
-            return [
-                'name'     => $item,
-                'value'    => $key,
-                'selected' => $selected,
-            ];
-        })->values()->toJson(JSON_UNESCAPED_UNICODE);
+        // 带分组模式
+        // https://maplemei.gitee.io/xm-select/#/basic/optgroup
+        if (isset($lists[0]['children'])) {
+            $data = collect($lists)->map(function ($items) use ($value) {
+                $items['children'] = collect($items['children'])->map(function ($item) use ($value) {
+                    // var_dump($item);
+                    return array_merge($item, [
+                        'selected' => in_array($item['value'] ?? '', $value, false),
+                    ]);
+                });
+                return $items;
+            })->toJson(JSON_UNESCAPED_UNICODE);
+        }
+        else {
+            // kv 模式
+            $data = collect($lists)->map(function ($item, $key) use ($value) {
+                $selected = false;
+                if ($value && in_array($key, $value, false)) {
+                    $selected = true;
+                }
+                return [
+                    'name'     => $item,
+                    'value'    => $key,
+                    'selected' => $selected,
+                ];
+            })->values()->toJson(JSON_UNESCAPED_UNICODE);
+        }
 
         if (!$loaded) {
             $script = '<script src="/assets/libs/layui/plugin/xm-select/xm-select.js"></script>';
