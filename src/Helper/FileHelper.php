@@ -83,15 +83,17 @@ class FileHelper
      */
     public static function size(string $directory, $format = true, $precision = 2)
     {
+        $fileSize = 0;
         if (file_exists($directory) && is_dir($directory)) {
-            $fileSize = 0;
+
             foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory)) as $file) {
+                if ($file->getFilename() === '.' || $file->getFilename() === '..') {
+                    continue;
+                }
                 $fileSize += $file->getSize();
             }
         }
-        else {
-            return '0B';
-        }
+
         if ($format) {
             return UtilHelper::formatBytes($fileSize, $precision);
         }
