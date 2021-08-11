@@ -63,7 +63,7 @@ class ArrayHelper
             foreach ($array as $key => $value) {
                 if (is_array($value)) {
                     ksort($value);
-                    $return .= $key . '=' . json_encode($value) . $join;
+                    $return .= $key . '=' . json_encode($value, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . $join;
                 }
                 else {
                     $return .= $key . '=' . $value . $join;
