@@ -5,8 +5,6 @@ namespace Demo\Http\Lists;
 use Closure;
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\Framework\Helper\StrHelper;
-use Poppy\System\Classes\Grid\Column;
-use Poppy\System\Classes\Grid\Displayer\Actions;
 use Poppy\System\Classes\Grid\Filter;
 use Poppy\System\Classes\Grid\Tools\BaseButton;
 use Poppy\System\Http\Lists\ListBase;
@@ -59,7 +57,7 @@ class ListPoppyDemo extends ListBase
 
         // 组合字段显示
         $this->column('full_name', '组合多字段(自定义渲染)')->width(180)->display(function () {
-            return data_get($this, 'first_name').' - '.data_get($this, 'last_name');
+            return data_get($this, 'first_name') . ' - ' . data_get($this, 'last_name');
         });
     }
 
@@ -73,6 +71,9 @@ class ListPoppyDemo extends ListBase
         return function (Filter $filter) {
             $filter->column(1 / 12, function (Filter $filter) {
                 $filter->like('username', 'username');
+                $filter->where(function ($query) {
+                    // this custom query
+                }, 'area_id', 'username')->setPresenter(new \Poppy\Area\Classes\Grid\Filter\Presenter\Area());
             });
             $filter->column(1 / 12, function (Filter $filter) {
                 $filter->equal('status')->integer();

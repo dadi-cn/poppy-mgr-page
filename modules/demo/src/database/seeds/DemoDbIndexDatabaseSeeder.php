@@ -5,7 +5,7 @@ namespace Demo\Database\Seeds;
 use Demo\Models\DemoDb;
 use Illuminate\Database\Seeder;
 
-class DemoDbDatabaseSeeder extends Seeder
+class DemoDbIndexDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.

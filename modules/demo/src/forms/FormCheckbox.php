@@ -27,6 +27,9 @@ class FormCheckbox extends FormBaseWidget
      */
     public function form()
     {
+        $this->checkbox('check_range', 'Check(Range)')->options(range(1, 10))->rules([
+            Rule::required(),
+        ])->help('一系列数据, 没有默认选择');
         $this->checkbox('checkbox_required', 'Checkbox')->options([
             'a' => 'Name',
             'b' => 'Name2',

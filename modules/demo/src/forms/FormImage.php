@@ -76,7 +76,7 @@ CODE;
         $this->code('image_square-code', 'Code@图片标准组件')->default($code);
         $this->divider();
 
-        $this->image('image_rec', '图片大组件')
+        $this->image('image_rec', '图片大组件')->readonly()
             ->size('large')
             ->help('未设置Token, 无法上传; 默认横向图片比较宽, 图片展示组件是大型 : large');
         // 添加 code 代码
