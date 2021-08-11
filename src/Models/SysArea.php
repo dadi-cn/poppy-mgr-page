@@ -69,7 +69,7 @@ class SysArea extends Eloquent
      * @param string $code 4位长度, 匹配身份证省份/城市
      * @return mixed
      */
-    public static function kvCity(string $code = ''): string
+    public static function kvCity(string $code = '')
     {
         static $cache;
         if (!$cache) {
@@ -86,7 +86,7 @@ class SysArea extends Eloquent
      * @param string $id ID : Title
      * @return mixed
      */
-    public static function kvArea(string $id = ''): string
+    public static function kvArea(string $id = '')
     {
         static $cache;
         if (!$cache) {
@@ -103,7 +103,7 @@ class SysArea extends Eloquent
      * @param string $code 2位长度, 匹配身份证省份/城市
      * @return mixed
      */
-    public static function kvProvince(string $code = ''): string
+    public static function kvProvince(string $code = '')
     {
         static $cache;
         if (!$cache) {
