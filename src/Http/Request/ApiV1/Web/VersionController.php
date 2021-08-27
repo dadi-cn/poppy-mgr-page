@@ -50,7 +50,7 @@ class VersionController extends WebApiController
         }
 
         // ios 开启是否线上地址
-        if (sys_setting('py-version::setting.ios_is_prod')) {
+        if ($os === SysAppVersion::PLATFORM_IOS && sys_setting('py-version::setting.ios_is_prod')) {
             return Resp::success('获取版本成功', [
                 'download_url' => sys_setting('py-version::setting.ios_store_url'),
                 'description'  => '',
