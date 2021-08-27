@@ -7,7 +7,6 @@ use Poppy\Core\Classes\Traits\CoreTrait;
 use Poppy\Core\Services\Contracts\ServiceArray;
 use Poppy\Core\Services\Contracts\ServiceForm;
 use Poppy\Core\Services\Contracts\ServiceHtml;
-use Poppy\Framework\Exceptions\ApplicationException;
 
 /**
  * 服务工厂
@@ -21,7 +20,6 @@ class ServiceFactory
      * @param string $id     钩子标示符
      * @param array  $params 参数
      * @return null
-     * @throws ApplicationException
      */
     public function parse(string $id, $params = [])
     {
@@ -31,9 +29,8 @@ class ServiceFactory
         }
         $hooks  = $this->coreModule()->hooks()->get($id);
         $method = 'parse' . Str::studly($service['type']);
-
         if (!$hooks) {
-            throw new ApplicationException('Hooks Id 不存在, 请检查拼写/类型/注册 或者缓存是否清除');
+            return null;
         }
 
         if (is_callable([$this, $method])) {
