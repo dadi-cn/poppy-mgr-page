@@ -34,24 +34,35 @@ class VersionController extends WebApiController
         $os = x_app('os') ?: 'android';
 
         if ($os === SysAppVersion::PLATFORM_ANDROID) {
-            $latestVersion = SysAppVersion::latestVersion(SysAppVersion::PLATFORM_ANDROID, false);
+            $latestVersion = SysAppVersion::latestVersion(SysAppVersion::PLATFORM_ANDROID);
         }
 
         if ($os === SysAppVersion::PLATFORM_IOS) {
-            $latestVersion = SysAppVersion::latestVersion(SysAppVersion::PLATFORM_IOS, false);
+            $latestVersion = SysAppVersion::latestVersion(SysAppVersion::PLATFORM_IOS);
         }
 
         if (empty($latestVersion)) {
             return Resp::error('当前已是最新版本!');
         }
+
         if (version_compare($current, $latestVersion['title'], '>=')) {
             return Resp::error('您当前的版本是最新版本');
         }
 
+        // ios 开启是否线上地址
+        if (sys_setting('py-version::setting.ios_is_prod')) {
+            return Resp::success('获取版本成功', [
+                'download_url' => sys_setting('py-version::setting.ios_store_url'),
+                'description'  => '',
+                'version'      => '',
+                'is_upgrade'   => 'Y',
+            ]);
+        }
+
         return Resp::success('获取版本成功', [
-            'download_url' => sys_get($latestVersion, 'download_url', ''),
-            'description'  => sys_get($latestVersion, 'description', ''),
-            'version'      => sys_get($latestVersion, 'title', ''),
+            'download_url' => sys_get($latestVersion, 'download_url'),
+            'description'  => sys_get($latestVersion, 'description'),
+            'version'      => sys_get($latestVersion, 'title'),
             'is_upgrade'   => sys_get($latestVersion, 'is_upgrade') ? 'Y' : 'N',
         ]);
     }

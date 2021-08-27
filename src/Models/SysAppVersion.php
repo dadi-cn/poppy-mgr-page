@@ -66,7 +66,6 @@ class SysAppVersion extends Eloquent
      */
     public static function latestVersion(string $platform = self::PLATFORM_ANDROID)
     {
-
         $version = RdsDb::instance()->hGet(PyVersionDef::ckTagMaxVersion(), $platform);
         if (!$version) {
             $versions = self::where('platform', $platform)->orderBy('created_at', 'desc')->get();
