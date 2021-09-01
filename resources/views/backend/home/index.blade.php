@@ -33,7 +33,7 @@
 
             // 默认加载主页
             layui.index.loadHome({
-                menuPath : '{!! route('py-mgr-page:backend.home.cp') !!}',
+                menuPath : '{!! $main !!}',
                 menuName : '<i class="layui-icon layui-icon-home"></i>'
             });
 
