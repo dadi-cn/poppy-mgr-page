@@ -24,7 +24,7 @@ class FunctionTest extends TestCase
     {
         $user = PamAccount::where('type', PamAccount::TYPE_USER)->where('mobile', '!=', '')->pluck('id', 'mobile');
         if (!$user) {
-            $this->assertTrue(false, '无用户信息');
+            $this->fail('无用户信息');
         }
         collect($user)->map(function ($id, $mobile) {
             PamAccount::where('id', $id)->update([
