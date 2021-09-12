@@ -1,0 +1,27 @@
+{
+    "name": "poppy/sensitive-word",
+    "description": "An sensitive words component.",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Mark Zhao",
+            "email": "zhaody901@126.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Poppy\\SensitiveWord\\": "src/",
+            "Poppy\\SensitiveWord\\Tests\\": "tests/"
+        },
+        "files": [
+            "src/Support/functions.php"
+        ]
+    },
+    "config": {
+        "preferred-install": "dist"
+    },
+    "minimum-stability": "dev"
+}
