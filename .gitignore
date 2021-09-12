@@ -1,5 +1,5 @@
 /.idea
-/vendor
-/tests/config/account.json
+/vendor/*
+composer.phar
+composer.lock
 !/vendor/.gitkeep
-/composer.lock
