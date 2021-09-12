@@ -1,24 +1,38 @@
-# Poppy Sms 扩展包
+## Ip 库说明
 
-## 安装
+支持的IP类型, mon17是最全面的, 默认是这种类型
 
-```
-composer require poppy/sms 3.0.x-dev 
-```
-
-## 安装附加扩展
-
-因为此扩展包仅仅为了封装 poppy framework 使用, 并没有附带的 composer 包, 所以需要功能正确执行, 需要自行安装
-
-**Aliyun**
 
 ```
-    ...
-    "alibabacloud/client": "^1.5",
-    "alibabacloud/dysmsapi": "1.8.*",
-    ...
+qqwry   :  http://www.cz88.net/
+mon17   :  https://www.ipip.net/
 ```
 
-## 更新相关包或者重新安装
+## 配置
+本扩展拓展于 `poppy/framework` 框架. 添加/更改配置
 
-更新你的依赖包 `composer update` 或者全新安装 `composer install`。
+
+```
+// extension.php
+'ip_store' => [
+    'type' => 'mon17'
+]
+```
+
+## For Laravel 
+
+如果 Laravel 中使用, 需要添加 Service Provider 到 app providers 数组
+
+```
+Poppy\Extension\IpStore\ExtensionServiceProvider.php
+```
+
+你可以加入 facade 或者直接使用这个函数
+
+```
+app('ext.ip_store')->area('39.71.122.222')
+```
+
+### License
+
+The  plugin is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
