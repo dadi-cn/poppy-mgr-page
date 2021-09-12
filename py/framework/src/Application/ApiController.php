@@ -7,12 +7,12 @@ namespace Poppy\Framework\Application;
  */
 class ApiController extends Controller
 {
-	/**
-	 * ApiController constructor.
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-		py_container()->setExecutionContext('api');
-	}
+    /**
+     * ApiController constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        py_container()->setExecutionContext('api');
+    }
 }
