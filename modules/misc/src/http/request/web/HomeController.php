@@ -8,6 +8,10 @@ class HomeController extends WebController
 {
     public function index()
     {
-        return 'poppy framework';
+        return view('misc::web.home.index');
+    }
+    public function intro()
+    {
+        return view('misc::web.home.intro');
     }
 }

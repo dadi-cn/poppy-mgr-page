@@ -11,7 +11,7 @@
 ], function (Illuminate\Routing\Router $route) {
     // home
     $route->get('/', 'HomeController@index')
-        ->name('web:home.index');
+        ->name('misc:web.home.index');
     $route->get('home/vue', 'HomeController@vue')
         ->name('misc:web.home.vue');
 

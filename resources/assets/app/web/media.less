@@ -1,0 +1,66 @@
+@import "./vars";
+
+.x--header {
+	@media (max-width: 767px) {
+		.header-intro {
+			h2 {
+				margin-bottom: 20px;
+			}
+			img {
+				max-width: 140px;
+			}
+		}
+		.header-left {
+			flex: auto;
+			width: 60%;
+		}
+		.header-right {
+			flex: auto;
+			width: 30%;
+		}
+	}
+	@media (max-width: 480px) {
+		.header-intro {
+			h2 {
+				margin-bottom: 20px;
+			}
+			img {
+				max-width: 140px;
+			}
+		}
+		.header-left {
+			flex: auto;
+			width: 60%;
+		}
+		.header-right {
+			flex: auto;
+			width: 30%;
+		}
+	}
+	@media (min-width: 768px) and (max-width: 979px) {
+		.header-intro {
+			h2 {
+				margin-bottom: 20px;
+			}
+			img {
+				max-width: 240px;
+			}
+		}
+		.header-left {
+			flex: auto;
+			width: 60%;
+		}
+		.header-right {
+			flex: auto;
+			width: 30%;
+		}
+	}
+}
+
+.x--prod {
+	@media (max-width: 979px) {
+		.prod-spec-item {
+			margin-bottom: 30px;
+		}
+	}
+}

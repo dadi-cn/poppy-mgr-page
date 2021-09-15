@@ -6,5 +6,5 @@
 |
 */
 return [
-
+    'web_home_index' => '首页',
 ];

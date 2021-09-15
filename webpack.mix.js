@@ -2,13 +2,8 @@ let mix = require('laravel-mix');
 
 /*
  |--------------------------------------------------------------------------
- | Mix Asset Management
+ | Web Url : https://laravel-mix.com
  |--------------------------------------------------------------------------
- |
- | Mix provides a clean, fluent API for defining some Webpack build steps
- | for your Laravel application. By default, we are compiling the Sass
- | file for the application as well as bundling up all the JS files.
- |
  */
 mix
     .browserSync({
@@ -30,26 +25,30 @@ mix
     /* 开发使用[便于文件加载]
      * ---------------------------------------- */
     // develop
-    .sass(
-        'resources/assets/scss/mgr-page.scss',
+    .less(
+        'resources/assets/app/web.less',
+        'public/app/css/web.css'
+    )
+    .less(
+        'resources/assets/poppy/less/mgr-page.less',
         'public/assets/libs/boot/style.css'
     )
-    .combine([
-            'resources/assets/libs/poppy/util.js',
-            'resources/assets/libs/poppy/cp.js',
-            'resources/assets/libs/poppy/mgr-page/cp.js'
+    .scripts([
+            'resources/assets/poppy/libs/poppy/util.js',
+            'resources/assets/poppy/libs/poppy/cp.js',
+            'resources/assets/poppy/libs/poppy/mgr-page/cp.js'
         ],
         'public/assets/libs/boot/poppy.mgr.min.js'
     )
-    .combine([
-            'resources/assets/libs/jquery/2.2.4/jquery.min.js',
-            'resources/assets/libs/jquery/form/jquery.form.js',
-            'resources/assets/libs/jquery/pjax/jquery.pjax.js',
-            'resources/assets/libs/jquery/poshytip/jquery.poshytip.js',
-            'resources/assets/libs/jquery/validation/jquery.validation.js',
-            'resources/assets/libs/jquery/drag-arrange/drag-arrange.js',
-            'resources/assets/libs/jquery/tokenize2/jquery.tokenize2.js',
-            'resources/assets/libs/clipboard/clipboard.min.js'
+    .scripts([
+            'resources/assets/poppy/libs/jquery/2.2.4/jquery.min.js',
+            'resources/assets/poppy/libs/jquery/form/jquery.form.js',
+            'resources/assets/poppy/libs/jquery/pjax/jquery.pjax.js',
+            'resources/assets/poppy/libs/jquery/poshytip/jquery.poshytip.js',
+            'resources/assets/poppy/libs/jquery/validation/jquery.validation.js',
+            'resources/assets/poppy/libs/jquery/drag-arrange/drag-arrange.js',
+            'resources/assets/poppy/libs/jquery/tokenize2/jquery.tokenize2.js',
+            'resources/assets/poppy/libs/clipboard/clipboard.min.js'
         ],
         'public/assets/libs/boot/vendor.min.js'
     )
