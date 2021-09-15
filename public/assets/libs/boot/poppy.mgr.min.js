@@ -689,8 +689,14 @@ if (typeof Util !== 'object') {
             ignore : '.ignore,[contenteditable=\'true\']',
             // debug : true,
             submitHandler : function(form) {
+                layer.load(3, {
+                    shade : [0.03, '#000000']
+                });
                 $(form).ajaxSubmit({
-                    success : Util.splash
+                    success : function(resp) {
+                        layer.closeAll();
+                        Util.splash(resp);
+                    }
                 });
             },
             // errorClass : 'error',

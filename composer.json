@@ -93,7 +93,7 @@
             "Poppy\\CanalEs\\": "poppy/canal-es/src/",
             "Poppy\\CanalEs\\Tests\\": "poppy/canal-es/tests/",
             "Php\\Tests\\": "modules/php/tests",
-            "Site\\Tests\\": "modules/site/tests"
+            "Misc\\Tests\\": "modules/misc/tests"
         },
         "files": [
             "poppy/framework/src/Support/functions.php",

@@ -1,9 +1,3 @@
-/*
- * Copyright (C) 2013-2017 Shandong Liexiang Tec, Inc - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- */
-
 let mix = require('laravel-mix');
 
 /*
