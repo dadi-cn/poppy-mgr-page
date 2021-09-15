@@ -13,55 +13,67 @@
 
 /* paddings , margins
  -------------------------------------------- */
-@for $i from 0 through 100 {
-	// padding
-	.pd#{$i*1} {
-		padding: 1px * $i !important;
+
+._loopMarginPadding(@counter) when (@counter >= 0) {
+	._loopMarginPadding((@counter - 1));
+
+	/* Margin
+	 * ---------------------------------------- */
+	.mg@{counter} {
+		margin: (1px * @counter);
 	}
-	.pt#{$i*1} {
-		padding-top: 1px * $i !important;
+	.mt@{counter} {
+		margin-top: (1px * @counter);
 	}
-	.pl#{$i*1} {
-		padding-left: 1px * $i !important;
+	.mr@{counter} {
+		margin-right: (1px * @counter);
 	}
-	.pb#{$i*1} {
-		padding-bottom: 1px * $i !important;
+	.ml@{counter} {
+		margin-left: (1px * @counter);
 	}
-	.pr#{$i*1} {
-		padding-right: 1px * $i !important;
+	.mb@{counter} {
+		margin-bottom: (1px * @counter);
 	}
-	// margin
-	.mg#{$i*1} {
-		margin-top: 1px * $i !important;
+
+	/* Padding
+	 * ---------------------------------------- */
+	.pd@{counter} {
+		padding: (1px * @counter);
 	}
-	.mt#{$i*1} {
-		margin-top: 1px * $i !important;
+	.pt@{counter} {
+		padding-top: (1px * @counter);
 	}
-	.ml#{$i*1} {
-		margin-left: 1px * $i !important;
+	.pr@{counter} {
+		padding-right: (1px * @counter);
 	}
-	.mb#{$i*1} {
-		margin-bottom: 1px * $i !important;
+	.pl@{counter} {
+		padding-left: (1px * @counter);
 	}
-	.mr#{$i*1} {
-		margin-right: 1px * $i !important;
+	.pb@{counter} {
+		padding-bottom: (1px * @counter);
 	}
 }
 
-/* width .w12 - .w1200
- -------------------------------------------- */
-@for $i from 1 through 100 {
-	.w#{$i*12} {
-		width: 12px * $i !important;
+
+/* 宽度 12x
+ * ---------------------------------------- */
+._loopWidth12(@counter) when (@counter >= 0) {
+	._loopWidth12((@counter - 1));
+	.w@{counter} {
+		width: (12px * @counter);
 	}
 }
 
-@for $i from 1 through 100 {
-	.w#{$i}p {
-		width: 1% * $i !important;
+._loopWidthPercent(@counter) when (@counter >= 0) {
+	._loopWidthPercent((@counter - 1));
+	.w@{counter}p {
+		width: (1% * @counter);
 	}
 }
 
+._loopMarginPadding(100);
+._loopWidth12(100);
+._loopWidthPercent(100);
 /* clearfix
  -------------------------------------------- */
 .clearfix {
