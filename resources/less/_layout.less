@@ -15,40 +15,40 @@
  -------------------------------------------- */
 
 ._loopMarginPadding(@counter) when (@counter >= 0) {
-	._loopMarginPadding((@counter - 3));
+	._loopMarginPadding((@counter - 1));
 
 	/* Margin
 	 * ---------------------------------------- */
 	.mg@{counter} {
-		margin: (1px * @counter);
+		margin: (1px * @counter) !important;
 	}
 	.mt@{counter} {
-		margin-top: (1px * @counter);
+		margin-top: (1px * @counter) !important;
 	}
 	.mr@{counter} {
-		margin-right: (1px * @counter);
+		margin-right: (1px * @counter) !important;
 	}
 	.ml@{counter} {
-		margin-left: (1px * @counter);
+		margin-left: (1px * @counter) !important;
 	}
 	.mb@{counter} {
-		margin-bottom: (1px * @counter);
+		margin-bottom: (1px * @counter) !important;
 	}
 
 	.pd@{counter} {
-		padding: (1px * @counter);
+		padding: (1px * @counter) !important;
 	}
 	.pt@{counter} {
-		padding-top: (1px * @counter);
+		padding-top: (1px * @counter) !important;
 	}
 	.pr@{counter} {
-		padding-right: (1px * @counter);
+		padding-right: (1px * @counter) !important;
 	}
 	.pl@{counter} {
-		padding-left: (1px * @counter);
+		padding-left: (1px * @counter) !important;
 	}
 	.pb@{counter} {
-		padding-bottom: (1px * @counter);
+		padding-bottom: (1px * @counter) !important;
 	}
 }
 
@@ -58,18 +58,18 @@
 ._loopWidth12(@counter) when (@counter >= 0) {
 	._loopWidth12((@counter - 12));
 	.w@{counter} {
-		width: (1px * @counter);
+		width: (1px * @counter) !important;
 	}
 }
 
 ._loopWidthPercent(@counter) when (@counter >= 0) {
 	._loopWidthPercent((@counter - 1));
 	.w@{counter}p {
-		width: (1% * @counter);
+		width: (1% * @counter) !important;
 	}
 }
 
-._loopMarginPadding(60);
+._loopMarginPadding(20);
 ._loopWidth12(1200);
 ._loopWidthPercent(100);
 /* clearfix
