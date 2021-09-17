@@ -15,7 +15,7 @@
  -------------------------------------------- */
 
 ._loopMarginPadding(@counter) when (@counter >= 0) {
-	._loopMarginPadding((@counter - 1));
+	._loopMarginPadding((@counter - 3));
 
 	/* Margin
 	 * ---------------------------------------- */
@@ -35,8 +35,6 @@
 		margin-bottom: (1px * @counter);
 	}
 
-	/* Padding
-	 * ---------------------------------------- */
 	.pd@{counter} {
 		padding: (1px * @counter);
 	}
@@ -58,9 +56,9 @@
 /* 宽度 12x
  * ---------------------------------------- */
 ._loopWidth12(@counter) when (@counter >= 0) {
-	._loopWidth12((@counter - 1));
+	._loopWidth12((@counter - 12));
 	.w@{counter} {
-		width: (12px * @counter);
+		width: (1px * @counter);
 	}
 }
 
@@ -71,8 +69,8 @@
 	}
 }
 
-._loopMarginPadding(100);
-._loopWidth12(100);
+._loopMarginPadding(60);
+._loopWidth12(1200);
 ._loopWidthPercent(100);
 /* clearfix
  -------------------------------------------- */
