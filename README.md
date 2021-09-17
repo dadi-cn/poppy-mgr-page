@@ -91,3 +91,11 @@ py-system::permission.prefix
 order::over.hour
 ```
 
+
+## 子树更新 demo
+
+```
+git remote add -f gh-module-demo git@github.com:imvkmark/poppy-module-demo.git
+
+git subtree push --prefix=modules/demo gh-module-demo 3.1
+```
