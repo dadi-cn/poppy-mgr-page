@@ -14,7 +14,6 @@ if (typeof Util !== 'object') {
     if (typeof $.validator !== 'undefined') {
 
         $.validator.addMethod("mobile", function(phone_number, element) {
-            phone_number = phone_number.replace(/\(|\)|\s+|-/g, "");
             return this.optional(element) || Util.isMobile(phone_number);
         }, "Please specify a valid mobile number");
 
@@ -813,8 +812,8 @@ if (typeof Util !== 'object') {
      * @returns {boolean|Array|{index: number, input: string}}
      */
     Util.isMobile = function(str) {
-        let phone_number = str.replace(/\(|\)|\s+|-/g, "");
-        return phone_number.length > 10 && phone_number.match(/^1[3|4|5|6|8|7|9][0-9]\d{4,8}$/);
+        let phone_number = str.replace(/\(|\)|\s+|/g, "");
+        return phone_number.length > 10 && phone_number.match(/^(\d{1,5}\-)?1[3|4|5|6|8|7|9][0-9]\d{4,8}$/);
     };
 
     /**
