@@ -1,42 +1,42 @@
 {
-	"name": "poppy/ext-pinyin",
-	"description": "Chinese to Pinyin translator.",
-	"keywords": [
-		"laravel",
-		"pinyin",
-		"chinese",
-		"overtrue"
-	],
-	"require": {
-		"overtrue/pinyin": "~4.0"
-	},
-	"autoload": {
-		"psr-4": {
-			"Poppy\\Extension\\Pinyin\\": "src/"
-		},
-		"files": [
-			"src/Support/functions.php"
-		]
-	},
-	"extra": {
-		"laravel": {
-			"providers": [
-				"Poppy\\Extension\\Pinyin\\ExtensionServiceProvider"
-			],
-			"aliases": {
-				"Pinyin": "Poppy\\Extension\\Pinyin\\Facades\\Pinyin"
-			}
-		}
-	},
-	"license": "MIT",
-	"authors": [
-		{
-			"name": "duoli",
-			"email": "zhaody901@126.com"
-		},
-		{
-			"name": "overtrue",
-			"email": "anzhengchao@gmail.com"
-		}
-	]
+    "name": "poppy/ext-pinyin",
+    "description": "Chinese to Pinyin translator.",
+    "keywords": [
+        "laravel",
+        "pinyin",
+        "chinese",
+        "overtrue"
+    ],
+    "require": {
+        "overtrue/pinyin": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Poppy\\Extension\\Pinyin\\": "src/"
+        },
+        "files": [
+            "src/Support/functions.php"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Poppy\\Extension\\Pinyin\\ExtensionServiceProvider"
+            ],
+            "aliases": {
+                "Pinyin": "Poppy\\Extension\\Pinyin\\Facades\\Pinyin"
+            }
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "duoli",
+            "email": "zhaody901@126.com"
+        },
+        {
+            "name": "overtrue",
+            "email": "anzhengchao@gmail.com"
+        }
+    ]
 }

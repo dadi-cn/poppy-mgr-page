@@ -8,7 +8,7 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.4",
         "ext-dom": "*",
         "ext-json": "*",
         "ext-simplexml": "*",
@@ -22,27 +22,22 @@
         "ext-libxml": "*",
         "ext-xml": "*",
         "symfony/console": "4.*",
-        "laravel/tinker": "2.*",
         "symfony/finder": "4.*",
         "symfony/yaml": "4.*",
         "elasticsearch/elasticsearch": "7.*",
         "jenssegers/date": "^4.0",
-        "laravel/framework": "6.0.*",
+        "laravel/framework": "6.*",
         "maatwebsite/excel": "^3.0",
         "intervention/image": "2.*",
         "laravelcollective/html": "^6.0",
         "mews/captcha": "3.*",
         "predis/predis": "~1.1",
-        "guzzlehttp/guzzle": "6.*",
-        "erusev/parsedown": "^1.7",
         "sunra/php-simple-html-dom-parser": "1.5.2",
         "aliyuncs/oss-sdk-php": "^2.3",
-        "comodojo/xmlrpc": "^1.1",
-        "centrifugal/phpcent": "~3.0",
-        "tucker-eric/eloquentfilter": "^2",
+        "tucker-eric/eloquentfilter": "^3",
         "tymon/jwt-auth": "1.0.*",
         "hieu-le/active": "4.0.*",
-        "php-curl-class/php-curl-class": "8.*",
+        "php-curl-class/php-curl-class": "9.*",
         "alibabacloud/client": "^1.5",
         "alibabacloud/push": "^1.8",
         "alibabacloud/dysmsapi": "^1.8",
@@ -53,9 +48,9 @@
         "mlocati/ip-lib": "^1.16"
     },
     "require-dev": {
-        "itsgoingd/clockwork": "~4.0",
-        "barryvdh/laravel-ide-helper": "~2.7",
-        "doctrine/dbal": "^2.5"
+        "itsgoingd/clockwork": "~5.0",
+        "barryvdh/laravel-ide-helper": "2.*",
+        "doctrine/dbal": "^3"
     },
     "autoload": {
         "psr-4": {
@@ -112,38 +107,34 @@
     },
     "scripts": {
         "coding": [
-            "git subtree push --prefix=poppy/framework  coding-framework 3.1",
-            "git subtree push --prefix=poppy/mgr-page  coding-mgr-page 3.1",
-            "git subtree push --prefix=poppy/core  coding-core 3.1",
-            "git subtree push --prefix=poppy/system  coding-system 3.1",
-    
-            "git subtree push --prefix=poppy/faker  coding-faker 3.1",
-    
-            "git subtree push --prefix=poppy/version  coding-version 3.1",
-            "git subtree push --prefix=poppy/aliyun-oss  coding-aliyun-oss 3.1",
+            "git subtree push --prefix=poppy/framework  coding-framework 3.2",
+            "git subtree push --prefix=poppy/mgr-page  coding-mgr-page 3.2",
+            "git subtree push --prefix=poppy/core  coding-core 3.2",
+            "git subtree push --prefix=poppy/system  coding-system 3.2",
+            "git subtree push --prefix=poppy/faker  coding-faker 3.2",
+            "git subtree push --prefix=poppy/version  coding-version 3.2",
+            "git subtree push --prefix=poppy/aliyun-oss  coding-aliyun-oss 3.2",
             "git subtree push --prefix=poppy/aliyun-push  coding-aliyun-push 3.2",
-            "git subtree push --prefix=poppy/area  coding-area 3.1",
-            "git subtree push --prefix=poppy/sensitive-word  coding-sensitive-word 3.1",
-            "git subtree push --prefix=poppy/sms  coding-sms 3.1",
-    
-            "git subtree push --prefix=poppy/ext-alipay  coding-ext-alipay 3.1",
-            "git subtree push --prefix=poppy/ext-ip_store  coding-ext-ip_store 3.1",
-            "git subtree push --prefix=poppy/ext-pinyin  coding-ext-pinyin 3.1",
-    
-            "git subtree push --prefix=poppy/ext-wxpay  coding-ext-wxpay 3.1",
-            "git subtree push --prefix=poppy/ad  coding-ad 3.1",
-            "git subtree push --prefix=poppy/canal-es  coding-canal-es 3.1"
+            "git subtree push --prefix=poppy/area  coding-area 3.2",
+            "git subtree push --prefix=poppy/sensitive-word  coding-sensitive-word 3.2",
+            "git subtree push --prefix=poppy/sms  coding-sms 3.2",
+            "git subtree push --prefix=poppy/ext-alipay  coding-ext-alipay 3.2",
+            "git subtree push --prefix=poppy/ext-ip_store  coding-ext-ip_store 3.2",
+            "git subtree push --prefix=poppy/ext-pinyin  coding-ext-pinyin 3.2",
+            "git subtree push --prefix=poppy/ext-wxpay  coding-ext-wxpay 3.2",
+            "git subtree push --prefix=poppy/ad  coding-ad 3.2",
+            "git subtree push --prefix=poppy/canal-es  coding-canal-es 3.2"
         ],
         "github": [
-            "git subtree push --prefix=poppy/system  gh-system 3.1",
-            "git subtree push --prefix=poppy/mgr-page  gh-mgr-page 3.1",
-            "git subtree push --prefix=poppy/core  gh-core 3.1",
-            "git subtree push --prefix=poppy/framework  gh-framework 3.1",
-            "git subtree push --prefix=poppy/aliyun-oss  gh-aliyun-oss 3.1",
-            "git subtree push --prefix=poppy/faker  gh-faker 3.1",
-            "git subtree push --prefix=poppy/sensitive-word  gh-sensitive-word 3.1",
-            "git subtree push --prefix=poppy/ext-ip_store  gh-ext-ip_store 3.1",
-            "git subtree push --prefix=poppy/ext-pinyin  gh-ext-pinyin 3.1"
+            "git subtree push --prefix=poppy/system  gh-system 3.2",
+            "git subtree push --prefix=poppy/mgr-page  gh-mgr-page 3.2",
+            "git subtree push --prefix=poppy/core  gh-core 3.2",
+            "git subtree push --prefix=poppy/framework  gh-framework 3.2",
+            "git subtree push --prefix=poppy/aliyun-oss  gh-aliyun-oss 3.2",
+            "git subtree push --prefix=poppy/faker  gh-faker 3.2",
+            "git subtree push --prefix=poppy/sensitive-word  gh-sensitive-word 3.2",
+            "git subtree push --prefix=poppy/ext-ip_store  gh-ext-ip_store 3.2",
+            "git subtree push --prefix=poppy/ext-pinyin  gh-ext-pinyin 3.2"
         ],
         "post-install-cmd": [
             "php artisan clear-compiled",

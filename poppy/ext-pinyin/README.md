@@ -5,7 +5,7 @@ Chinese to Pinyin translator for Laravel / Lumen based on [overtrue/pinyin](http
 ## Install
 
 ```shell
-composer require "poppy/ext-pinyin:3.1.x-dev"
+composer require "poppy/ext-pinyin:3.2.x-dev"
 ```
 
 ## Usage
