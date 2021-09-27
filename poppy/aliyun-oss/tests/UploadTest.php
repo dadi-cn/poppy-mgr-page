@@ -2,7 +2,7 @@
 
 namespace Poppy\AliyunOss\Tests;
 
-use Poppy\AliyunOss\Action\OssDefaultUploadProvider;
+use Poppy\AliyunOss\Classes\Provider\OssDefaultUploadProvider;
 use Poppy\Framework\Application\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Throwable;

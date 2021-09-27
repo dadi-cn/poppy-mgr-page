@@ -18,19 +18,17 @@ class Ad
     use AppTrait, PamTrait;
 
     /**
+     * @var string
+     */
+    protected $adTable;
+    /**
      * @var AdContent $adContent
      */
     private $adContent;
-
     /**
      * @var int $id
      */
     private $id;
-
-    /**
-     * @var string
-     */
-    protected $adTable;
 
     public function __construct()
     {
@@ -193,17 +191,13 @@ class Ad
             return false;
         }
 
-        try {
-            if ($this->adContent->status) {
-                $this->adContent->status = AdContent::STATUS_NO;
-            }
-            else {
-                $this->adContent->status = AdContent::STATUS_YES;
-            }
-            $this->adContent->save();
-        } catch (Throwable $e) {
-            return $this->setError($e->getMessage());
+        if ($this->adContent->status) {
+            $this->adContent->status = AdContent::STATUS_NO;
         }
+        else {
+            $this->adContent->status = AdContent::STATUS_YES;
+        }
+        $this->adContent->save();
 
         return true;
     }

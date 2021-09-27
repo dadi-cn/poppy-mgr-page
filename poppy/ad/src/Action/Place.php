@@ -16,19 +16,17 @@ class Place
     use AppTrait, PamTrait;
 
     /**
+     * @var string
+     */
+    protected $placeTable;
+    /**
      * @var AdPlace $adPlace
      */
     private $adPlace;
-
     /**
      * @var int $id
      */
     private $id;
-
-    /**
-     * @var string
-     */
-    protected $placeTable;
 
     public function __construct()
     {

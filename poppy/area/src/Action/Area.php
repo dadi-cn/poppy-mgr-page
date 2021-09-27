@@ -294,7 +294,7 @@ class Area
 
             return true;
         } catch (Throwable $e) {
-            return $this->setError(trans('py-area::action.area.undefined_error'));
+            return $this->setError(trans('ID 不合法, 不存在此数据'));
         }
     }
 

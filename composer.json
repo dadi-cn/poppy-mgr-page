@@ -45,7 +45,8 @@
         "overtrue/pinyin": "^4.0",
         "overtrue/wechat": "~4.0",
         "xingwenge/canal_php": "^1.0",
-        "mlocati/ip-lib": "^1.16"
+        "mlocati/ip-lib": "^1.16",
+        "sentry/sentry-laravel": "^2.8"
     },
     "require-dev": {
         "itsgoingd/clockwork": "~5.0",
@@ -54,6 +55,7 @@
     },
     "autoload": {
         "psr-4": {
+            "Misc\\Foundation\\": "modules/misc/src/foundation",
             "Poppy\\Extension\\Alipay\\": "poppy/ext-alipay/src",
             "Poppy\\Extension\\Alipay\\Tests\\": "poppy/ext-alipay/tests",
             "Poppy\\Extension\\IpStore\\": "poppy/ext-ip_store/src",

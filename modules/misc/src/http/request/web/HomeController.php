@@ -10,6 +10,7 @@ class HomeController extends WebController
     {
         return view('misc::web.home.index');
     }
+
     public function intro()
     {
         return view('misc::web.home.intro');
