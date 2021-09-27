@@ -14,9 +14,10 @@ class Handler extends \Poppy\System\Http\Exception\Handler
     public function report(Exception $exception)
     {
         if (app()->bound('sentry') && $this->shouldReport($exception)) {
-            app('sentry')->captureException($exception);
+            if (!in_array(config('app.env'), ['local', 'test'])){
+                app('sentry')->captureException($exception);
+            }
         }
-
         parent::report($exception);
     }
 
