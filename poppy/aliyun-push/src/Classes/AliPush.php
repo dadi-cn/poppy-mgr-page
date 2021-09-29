@@ -96,14 +96,14 @@ class AliPush
         $iosPushType = strtoupper($devices['ios'] ?? '');
         $iosIds      = $registrationIds['ios'] ?? [];
         $broadcasts  = [];
-        if ($iosPushType && config('poppy.aliyun-push.ios_is_open')) {
+        if ($iosPushType && config('poppy.aliyun-push.ios_is_open') && $iosIds) {
             $broadcasts = array_merge($broadcasts, $this->toBatches($iosPushType, $iosIds, PushMessage::DEVICE_TYPE_IOS));
         }
 
         // send android
         $androidPushType = strtoupper($devices['android'] ?? '');
         $androidIds      = $registrationIds['android'] ?? [];
-        if ($androidPushType && config('poppy.aliyun-push.android_is_open')) {
+        if ($androidPushType && config('poppy.aliyun-push.android_is_open') && $androidIds) {
             $broadcasts = array_merge($broadcasts, $this->toBatches($androidPushType, $androidIds, PushMessage::DEVICE_TYPE_ANDROID));
         }
 
