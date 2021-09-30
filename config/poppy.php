@@ -38,7 +38,7 @@ return [
         |
         */
         'cross_headers'  => [
-            'x-app',
+            'x-app', 'sentry-trace',
         ],
 
         /*
