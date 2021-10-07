@@ -1,50 +1,49 @@
+<nav class="navbar navbar-expand x--nav fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="/" title="{!! sys_setting('py-system::site.name') !!}"> &nbsp; </a>
+        <ul class="navbar-nav me-auto mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link {!! active_class(if_route(['misc:web.home.index'])) !!}"
+                    href="/">
+                    首页
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://wulicode.com/note">
+                    笔记
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://wulicode.com/lang">
+                    语言
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://wulicode.com/man">
+                    Man
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://wulicode.com/doc">
+                    Poppy 文档
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
 <div class="x--header @if (($type??'') === 'intro') header-about @endif">
-    <nav class="navbar navbar-expand x--nav">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/" title="{!! sys_setting('py-system::site.name') !!}"> &nbsp; </a>
-            <ul class="navbar-nav me-auto mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link {!! active_class(if_route(['misc:web.home.index'])) !!}"
-                        href="/">
-                        首页
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://wulicode.com/note">
-                        笔记
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://wulicode.com/lang">
-                        语言
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://wulicode.com/man">
-                        Man
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://wulicode.com/doc">
-                        Poppy 文档
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
     @if ( ($type??'') === 'home')
         <div class="container header-intro">
             <div class="header-left d-flex flex-wrap flex-column justify-content-center">
-                <h2>小有笔记 - 小有的代码旅程</h2>
+                <h2>Wulicode - 学习代码的旅途笔记</h2>
                 <p>
-                    - Poppy Framework 介绍以及文档<br>
+                    - Poppy Framework<br>
                     - 开发笔记 <br>
-                    - 学习笔记 <br>
                     - 常用工具
                 </p>
             </div>
             <div class="header-right d-flex justify-content-end align-items-center">
-                <img src="/app/images/prod/earth.png" alt="Wulicode">
+                <img src="/app/images/prod/time.png" alt="Wulicode">
             </div>
         </div>
     @endif

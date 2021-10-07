@@ -1,19 +1,22 @@
+:root {
+  --prod-bg: #F9FAFE;
+}
 .container {
   width: 1180px !important;
   max-width: 1180px !important;
 }
 .x--header {
+  color: #212529;
+  padding-top: 64px;
   height: 504px;
-  background: url("/app/images/prod/bg.png") top center;
 }
 .x--header.header-about {
   position: relative;
   height: 426px;
-  background: url("/app/images/base/bg-about.png") top center;
+  background: #eeeeee url("/app/images/base/bg-about.png") top center no-repeat;
 }
 .x--header .header-intro {
   display: flex;
-  color: #fff;
 }
 .x--header .header-intro h2 {
   margin-bottom: 20px;
@@ -73,11 +76,19 @@
   color: #E5E8F1;
 }
 .x--nav {
-  background: rgba(255, 255, 255, 0.05);
   height: 64px;
   line-height: 64px;
   padding: 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.1);
+}
+.x--nav .nav-item a {
+  color: #212529;
+}
+.x--nav .nav-cp .btn-link {
+  color: #212529;
 }
 .x--nav .navbar-brand {
   background: url("/app/images/logo.png") center center no-repeat;
@@ -100,7 +111,7 @@
   padding-bottom: 60px;
 }
 .x--block.block-light {
-  background: #F9FAFE;
+  background: var(--prod-bg);
 }
 .x--block.block-dark {
   background: #EAEDF5;
@@ -122,6 +133,44 @@
   font-size: 22px;
   text-align: center;
   font-weight: lighter;
+}
+.x--block .block-sub-wrapper {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.x--block .block-sub-wrapper .block-sub-content {
+  width: 50%;
+  padding: 15px 20px;
+}
+.x--block .block-sub-wrapper .block-sub-image {
+  padding: 15px 20px;
+  max-width: 50%;
+}
+.x--block .block-sub-left,
+.x--block .block-sub-right {
+  border-bottom: 5px solid var(--prod-bg);
+  background: #fff;
+  width: 85%;
+}
+.x--block .block-sub-left img,
+.x--block .block-sub-right img {
+  max-width: 80%;
+}
+.x--block .block-sub-left h3,
+.x--block .block-sub-right h3 {
+  font-size: 20px;
+  line-height: 2rem;
+}
+.x--block .block-sub-left h4,
+.x--block .block-sub-right h4 {
+  font-size: 18px;
+  line-height: 1.8rem;
+}
+.x--block .block-sub-left p,
+.x--block .block-sub-right p {
+  font-size: 14px;
 }
 .x--safe {
   height: 186px;
