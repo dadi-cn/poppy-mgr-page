@@ -14,8 +14,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="https://wulicode.com/lang">
-                    语言
+                <a class="nav-link" href="https://wulicode.com/webapp">
+                    Tools
                 </a>
             </li>
             <li class="nav-item">
@@ -25,7 +25,12 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="https://wulicode.com/doc">
-                    Poppy 文档
+                    Poppy Framework
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://wulicode.com/lang">
+                    语言
                 </a>
             </li>
         </ul>
