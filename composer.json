@@ -133,10 +133,12 @@
             "git subtree push --prefix=poppy/core  gh-core 3.2",
             "git subtree push --prefix=poppy/framework  gh-framework 3.2",
             "git subtree push --prefix=poppy/aliyun-oss  gh-aliyun-oss 3.2",
+            "git subtree push --prefix=poppy/aliyun-push  gh-aliyun-push 3.2",
             "git subtree push --prefix=poppy/faker  gh-faker 3.2",
             "git subtree push --prefix=poppy/sensitive-word  gh-sensitive-word 3.2",
             "git subtree push --prefix=poppy/ext-ip_store  gh-ext-ip_store 3.2",
-            "git subtree push --prefix=poppy/ext-pinyin  gh-ext-pinyin 3.2"
+            "git subtree push --prefix=poppy/ext-pinyin  gh-ext-pinyin 3.2",
+            "git subtree push --prefix=poppy/ext-alipay  gh-ext-alipay 3.2"
         ],
         "post-install-cmd": [
             "php artisan clear-compiled",

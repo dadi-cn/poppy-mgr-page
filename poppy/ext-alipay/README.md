@@ -1,12 +1,14 @@
-# Alipay 在 Laravel 5 的封装包
+# Poppy Alipay 模块
 
 ## 安装
 
 ```
-composer require poppy/ext-alipay 2.0
+composer require poppy/ext-alipay 3.2
 ```
 
 更新你的依赖包 `composer update` 或者全新安装 `composer install`
+
+## 使用
 
 ```
 $Aop = new AopCertClient();
@@ -22,6 +24,10 @@ return $Aop;
 ```
 
 ## Change Log
+
+**3.2**
+
+- 支持 composer 2.x
 
 **3.0**
 
