@@ -268,8 +268,8 @@ TIP;
         $uploadUrl   = route('py-system:api_v1.upload.image');
         $timestamp   = Carbon::now()->timestamp;
         /** @var ApiSignContract $Sign */
-        $Sign = app(ApiSignContract::class);
-        $sign = $Sign->sign([
+        $Sign    = app(ApiSignContract::class);
+        $sign    = $Sign->sign([
             'token'     => $token,
             'timestamp' => $timestamp,
         ]);
@@ -518,7 +518,7 @@ HAHA;
         <input type="checkbox" name="________mark" lay-ignore>
         <input type="checkbox" class="j_img_value" checked name="{$name}" style="display:none" value="{{  d.result }}" lay-ignore>
         {{#  if(d.type === 'image'){ }}
-        <img src="{{  d.result }}" alt="{{ d.name }}" class="layui-upload-img J_image_preview" data-width="{{ $pop_size }}px" data-height="{{ $pop_size }}px">
+        <img src="{{  d.result }}" alt="{{ d.name }}" class="layui-upload-img" data-width="{{ $pop_size }}px" data-height="{{ $pop_size }}px">
         {{# } else { }}
         <video controls class="layui-upload-img">
             <source src="{{  d.result }}" type="video/mp4">
@@ -589,6 +589,10 @@ $(function(){
             });
          }, 
         before: function (obj) { //上传前回函数
+           if ($('#{$id}_container div').length>={$number}){
+                top.layer.msg('添加的图片不能多于 {$number} 张');
+                return false;
+            }
             if (!Object.keys({$id}_files).length){
                  top.layer.msg("无可以上传文件, 请选择文件！");
                  return;

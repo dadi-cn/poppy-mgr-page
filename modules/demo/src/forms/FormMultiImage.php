@@ -30,7 +30,7 @@ class FormMultiImage extends FormBaseWidget
         $token = app('tymon.jwt.auth')->fromUser(PamAccount::first());
         $this->multiImage('image', '图片, 默认, 可上传')->rules([
             Rule::required(),
-        ])->token($token);
+        ])->token($token)->auto(true);
         // 添加 code 代码
         $code = <<<CODE
 \$token = app('tymon.jwt.auth')->fromUser(PamAccount::first());
