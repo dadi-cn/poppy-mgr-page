@@ -82,8 +82,18 @@
             if (!title) {
                 title = $(this).attr('data-original-title') ? $(this).attr('data-original-title') : $(this).html();
             }
-            let width       = parseInt($(this).attr('data-width')) ? parseInt($(this).attr('data-width')) : '500';
-            let height      = parseInt($(this).attr('data-height')) ? parseInt($(this).attr('data-height')) : '500';
+
+            let windowWidth  = $(window).width();
+            let windowHeight = $(window).height();
+
+            let width  = parseInt($(this).attr('data-width')) ? parseInt($(this).attr('data-width')) : '500';
+            let height = parseInt($(this).attr('data-height')) ? parseInt($(this).attr('data-height')) : '500';
+            if (width > windowWidth) {
+                width = windowWidth * 0.9;
+            }
+            if (height > windowHeight) {
+                height = windowHeight * 0.9;
+            }
             let shade_close = $(this).attr('data-shade_close') !== 'false';
             let append      = $this.attr('data-append');
             let data        = Util.appendToObj(append);
