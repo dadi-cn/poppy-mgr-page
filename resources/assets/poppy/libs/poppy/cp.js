@@ -139,15 +139,15 @@
         $body.on('click', '.J_image_preview', function(e) {
             //loading层
             let _src = $(this).attr('src');
-            if (typeof _src !== 'undefined' && _src.indexOf('nopic') >= 0) {
+            if (!_src) {
+                _src = $(this).attr('data-src');
+            }
+            if (!_src){
                 Util.splash({
                     status : 1,
                     message : '没有图像文件!'
                 })
                 return;
-            }
-            if (!_src) {
-                _src = $(this).attr('data-src');
             }
             if (e.ctrlKey) {
                 window.open($(this).attr('src'), '_blank')
@@ -177,6 +177,7 @@
                     anim : 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
                 });
             }
+            e.stopPropagation();
         });
 
         // reload
