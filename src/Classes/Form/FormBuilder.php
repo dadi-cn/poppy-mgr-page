@@ -519,6 +519,7 @@ HAHA;
         <input type="checkbox" class="j_img_value" checked name="{$name}" style="display:none" value="{{  d.result }}" lay-ignore>
         {{#  if(d.type === 'image'){ }}
         <img src="{{  d.result }}" alt="{{ d.name }}" class="layui-upload-img" data-width="{{ $pop_size }}px" data-height="{{ $pop_size }}px">
+        <i class="fa fa-search J_image_preview" data-src="{{  d.result }}" style="display:none;"></i>
         {{# } else { }}
         <video controls class="layui-upload-img">
             <source src="{{  d.result }}" type="video/mp4">
@@ -609,6 +610,7 @@ $(function(){
             
             ctr.find('img').attr('src', res.data.url[0]);
             ctr.find('.j_img_value').attr('value', res.data.url[0]);
+            ctr.find('.fa-search').attr('data-src', res.data.url[0]);
             ctr.addClass('multi-uploaded');
             layer.closeAll('loading'); //关闭loading
             top.layer.msg("上传成功！");
