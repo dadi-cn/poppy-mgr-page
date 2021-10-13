@@ -9,27 +9,15 @@ class FormSettingOp extends FormSettingBase
 {
     protected $title = '运维配置';
 
-	protected $group = 'op::maintain';
+    protected $group = 'op::maintain';
 
-	/**
-	 * Build a form here.
-	 */
-	public function form()
-	{
-		$this->text('token', '对接 Token')->rules([
-			Rule::required(),
-		]);
-		$this->text('aliyun_access_key', 'Aliyun Access Key')->rules([
-			Rule::required(),
-		]);
-		$this->text('aliyun_access_secret', 'Aliyun Access Secret')->rules([
-			Rule::required(),
-		]);
-		$this->text('aliyun_huowan_access_key', 'Aliyun HuoWan Key')->rules([
-			Rule::required(),
-		]);
-		$this->text('aliyun_huowan_access_secret', 'Aliyun HuoWan Secret')->rules([
-			Rule::required(),
-		]);
-	}
+    /**
+     * Build a form here.
+     */
+    public function form()
+    {
+        $this->text('token', '对接 Token')->rules([
+            Rule::required(),
+        ]);
+    }
 }
