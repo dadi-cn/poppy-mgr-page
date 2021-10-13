@@ -17,4 +17,5 @@ Route::group([
     'namespace'  => 'Op\Http\Request\ApiV1\Maintain',
 ], function (Illuminate\Routing\Router $route) {
     $route->any('mail/send', 'MailController@send');
+    $route->any('mail/group', 'MailController@group');
 });

@@ -19,5 +19,8 @@ class FormSettingOp extends FormSettingBase
         $this->text('token', '对接 Token')->rules([
             Rule::required(),
         ]);
+        $this->text('dadi-group', 'Dadi 群组邮件')->rules([
+            Rule::required(),
+        ]);
     }
 }
