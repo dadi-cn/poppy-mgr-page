@@ -2,6 +2,7 @@
 
 namespace Op\Commands;
 
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Mail;
 use Op\Classes\OpDef;
@@ -32,14 +33,11 @@ class SendMailCommand extends Command
         $lists = RdsDb::instance()->hGetAll($key);
 
         $content = '';
-        $title   = '';
         if (count($lists)) {
             foreach ($lists as $_title => $list) {
-                $title   .= $_title . '|';
                 $content .= "<h3>{$_title}</h3>";
                 $content .= "<div>{$list}</div>";
             }
-            $title = rtrim($title, '|');
         }
         $mail = sys_setting('op::maintain.' . $group . '-group');
         if (!$mail) {
@@ -54,7 +52,7 @@ class SendMailCommand extends Command
 
         try {
             $mails = StrHelper::separate(',', $mail);
-            Mail::to($mails)->send(new MaintainMail($title, $content));
+            Mail::to($mails)->send(new MaintainMail('慢日志@' . Carbon::now()->toDateTimeString(), $content));
             RdsDb::instance()->del($key);
             $this->info(sys_mark('op', __CLASS__, '组 `' . $group . '` 邮件已发送', true));
         } catch (Throwable $e) {
