@@ -27,15 +27,14 @@ class OpToolAction
 
         $arrResult = json_decode($json_result, true);
         $formatRes = $this->firstElement($arrResult);
-        $json  = json_encode($formatRes, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-        $lines = explode(PHP_EOL, $json);
-        $res   = '';
+        $json      = json_encode($formatRes, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        $lines     = explode(PHP_EOL, $json);
+        $res       = '';
         foreach ($lines as $line) {
             $res .= ' * ' . $line . PHP_EOL;
         }
 
-        $res = rtrim($res, PHP_EOL);
-        return $res;
+        return rtrim($res, PHP_EOL);
     }
 
     private function firstElement($result)

@@ -49,7 +49,7 @@ class ServiceProvider extends ModuleServiceProviderBase
     {
         app('events')->listen('console.schedule', function (Schedule $schedule) {
             $schedule->command('op:send-mail', ['dadi'])
-                // ->everyFifteenMinutes()
+                ->everyFifteenMinutes()
                 ->appendOutputTo($this->consoleLog());
         });
     }
