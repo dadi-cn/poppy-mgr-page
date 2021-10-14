@@ -17,6 +17,7 @@
     "apidoc": {
         "title": "Poppy 接口文档",
         "url": "{{domain}}/",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "sampleUrl": false
     }
 }
