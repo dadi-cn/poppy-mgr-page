@@ -51,7 +51,7 @@
     "require-dev": {
         "itsgoingd/clockwork": "~5.0",
         "barryvdh/laravel-ide-helper": "2.*",
-        "doctrine/dbal": "^3"
+        "doctrine/dbal": "^2.6"
     },
     "autoload": {
         "psr-4": {

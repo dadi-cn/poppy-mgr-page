@@ -10,6 +10,8 @@ Route::group([
 ], function (Illuminate\Routing\Router $route) {
     $route->any('ip/query', 'IpController@query');
     $route->any('tool/apidoc', 'ToolController@apidoc');
+
+    $route->any('qq/auth', 'QqController@auth');
 });
 
 Route::group([
