@@ -46,7 +46,7 @@ class ToolController extends WebApiController
             $strContent .= PHP_EOL . ' * @apiSuccessExample {json} data:' . PHP_EOL . $result;
         }
 
-        $prefix = '/**
+        $prefix = '/' . '*' . '*
  * @api {post}       /  
  * @apiDescription   |
  * @apiName          |
