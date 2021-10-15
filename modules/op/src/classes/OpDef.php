@@ -16,4 +16,15 @@ class OpDef
     {
         return 'op:mail-group-' . $type;
     }
+
+    /**
+     * 用户角色缓存
+     * @param $id
+     * @param $type
+     * @return string
+     */
+    public static function ckQqKoa($id, $type): string
+    {
+        return 'op:qq-koa-' . $id . ':' . $type;
+    }
 }

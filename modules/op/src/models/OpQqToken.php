@@ -16,25 +16,38 @@ use Illuminate\Support\Carbon;
  * @property string      $access_token Access Token
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property string      $device_info  设备信息|Demo
+ * @property string      $oauth        临时授权信息
  * @method static Builder|OpQqToken newModelQuery()
  * @method static Builder|OpQqToken newQuery()
  * @method static Builder|OpQqToken query()
- * @method static Builder|OpQqToken whereAccessToken($value)
- * @method static Builder|OpQqToken whereAppid($value)
- * @method static Builder|OpQqToken whereCreatedAt($value)
- * @method static Builder|OpQqToken whereId($value)
- * @method static Builder|OpQqToken whereOpenId($value)
- * @method static Builder|OpQqToken whereUpdatedAt($value)
  * @mixin Eloquent
  */
 class OpQqToken extends Model
 {
     protected $table = 'op_qq_token';
 
+    protected $casts = [
+        'oauth'       => 'array',
+        'device_info' => 'array',
+    ];
+
     protected $fillable = [
         'appid',
         'open_id',
+        'oauth',
+        'device_info',
         'access_token',
     ];
 
+
+    public function setOauthAttribute($option)
+    {
+        $this->attributes['oauth'] = json_encode($option, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    }
+
+    public function setDeviceInfoAttribute($option)
+    {
+        $this->attributes['device_info'] = json_encode($option, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    }
 }

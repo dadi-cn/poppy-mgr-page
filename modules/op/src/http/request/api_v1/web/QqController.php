@@ -11,7 +11,7 @@ class QqController extends WebApiController
 {
 
     /**
-     * @api                 {get} api_v1/op/qq/auth 保存授权Url
+     * @api                 {get} /api_v1/op/qq/auth 保存授权Url
      * @apiDescription      授权Url
      * @apiVersion          1.0.0
      * @apiName             QqAuth
