@@ -13,27 +13,34 @@ class QqKoaClient
 {
     use AppTrait;
 
-    private array $result = [];
-
-    /**
-     * @var string 王者荣耀游戏ID
-     */
-    private string $gameId = '20001';
-
     /**
      * 游戏版本号
      * @var string
      */
-    private string $clientCode = '57110121091573';
+    public static string $clientCode = '57110121091573';
 
     /**
      * 游戏版本ID
      * @var string
      */
-    private string $clientVersion = '5.71.101';
+    public static string $clientVersion = '5.71.101';
 
+    /**
+     * @var string 王者荣耀游戏ID
+     */
+    public static string $gameId = '20001';
 
-    private ?Client $client = null;
+    /**
+     * 当前获取
+     * @var array
+     */
+    private array $result = [];
+
+    /**
+     * 客户端
+     * @var Client
+     */
+    private Client $client;
 
     public function __construct()
     {
@@ -158,6 +165,23 @@ class QqKoaClient
     }
 
     /**
+     * 用户基础数据查询
+     */
+    public function gameBattleProfile($input, $xToken, $role, $friendUserId): bool
+    {
+        try {
+            [$headers, $params] = $this->buildRole($xToken, $role);
+            $params['friendUserId'] = $friendUserId;
+            $resp                   = $this->client->post('game/battleprofile', $this->buildOptions($input, $headers, $params));
+        } catch (GuzzleException $e) {
+            return $this->setError($e);
+        }
+        $con          = $resp->getBody()->getContents();
+        $this->result = json_decode($con, true);
+        return true;
+    }
+
+    /**
      * 英雄皮肤列表
      */
     public function playH5GetHeroSkinList($input, $xToken, $role): bool
@@ -173,9 +197,32 @@ class QqKoaClient
         return true;
     }
 
+
     public function getResult(): array
     {
         return $this->result;
+    }
+
+    public static function buildKeys($params): array
+    {
+        $device   = data_get($params, 'device');
+        $deviceId = data_get($device, 'id');
+        return [
+            'key1'  => $deviceId,
+            'key6'  => '414',
+            'key7'  => '896',
+            'key9'  => 'iPhone',
+            'key10' => '3948838912',
+            'key11' => 'ARM64',
+            'key13' => 'WiFi',
+            'key14' => '',
+            'key15' => '00000000-0000-0000-0000-000000000000',
+            'key18' => 'iPhone11,6',
+            'key19' => '0.000000',
+            'key20' => '0.000000',
+            'key21' => 'cgameid: ' . self::$gameId,
+            'key22' => '',
+        ];
     }
 
     private function buildRole($xToken, $role): array
@@ -184,7 +231,7 @@ class QqKoaClient
         $areaId   = data_get($role, 'areaId');
         $serverId = data_get($role, 'serverId');
         $roleId   = data_get($role, 'roleId');
-        $sex      = data_get($xToken, 'sex');
+        $sex      = data_get($role, '0');
 
         [$headers, $params] = $this->buildUserToken($xToken);
         return [
@@ -202,28 +249,6 @@ class QqKoaClient
                 'gameUserSex'  => $sex,
                 'roleId'       => $roleId,
             ], $params),
-        ];
-    }
-
-    private function buildKeys($params): array
-    {
-        $device   = data_get($params, 'device');
-        $deviceId = data_get($device, 'id');
-        return [
-            'key1'  => $deviceId,
-            'key6'  => '414',
-            'key7'  => '896',
-            'key9'  => 'iPhone',
-            'key10' => '3948838912',
-            'key11' => 'ARM64',
-            'key13' => 'WiFi',
-            'key14' => '',
-            'key15' => '00000000-0000-0000-0000-000000000000',
-            'key18' => 'iPhone11,6',
-            'key19' => '0.000000',
-            'key20' => '0.000000',
-            'key21' => 'cgameid: ' . $this->gameId,
-            'key22' => '',
         ];
     }
 
@@ -264,18 +289,18 @@ class QqKoaClient
         $oSex         = data_get($oauth, 'sex');
 
         $clientRequestTime = (int) microtime(true) * 1000;
-        $keys              = $this->buildKeys($params);
+        $keys              = self::buildKeys($params);
         $headers           = array_merge([
             'gameopenid'         => '',
-            'ccurrentgameid'     => $this->gameId,
+            'ccurrentgameid'     => self::$gameId,
             'cchannelid'         => '0',
             'cgzi'               => '',
             'noencrypt'          => '1',
             'crand'              => $clientRequestTime,
             'gameserverid'       => '0',
             'user-agent'         => 'SmobaHelper/5.71.101 (iPhone; iOS 14.6; Scale/3.00)',
-            'cclientversioncode' => $this->clientCode,
-            'cclientversionname' => $this->clientVersion,
+            'cclientversioncode' => self::$clientCode,
+            'cclientversionname' => self::$clientVersion,
             'csystemversionname' => 'iOS',
             'csystemversioncode' => '14.6',
             'csystem'            => 'ios',
@@ -290,10 +315,10 @@ class QqKoaClient
             "accessToken"        => $oAccessToken,
             "avatar"             => $oAvatar,
             "cChannelId"         => "0",
-            "cClientVersionCode" => $this->clientCode,
-            "cClientVersionName" => $this->clientVersion,
-            "cCurrentGameId"     => $this->gameId,
-            "cGameId"            => $this->gameId,
+            "cClientVersionCode" => self::$clientCode,
+            "cClientVersionName" => self::$clientVersion,
+            "cCurrentGameId"     => self::$gameId,
+            "cGameId"            => self::$gameId,
             "cGzip"              => "1",
             "cRand"              => $clientRequestTime,
             "cSystem"            => "ios",
@@ -301,7 +326,7 @@ class QqKoaClient
             "cSystemVersionName" => "iOS",
             "delOldUser"         => "0",
             "gameAreaId"         => "0",
-            "gameId"             => $this->gameId,
+            "gameId"             => self::$gameId,
             "gameOpenId"         => "",
             "gameRoleId"         => "",
             "gameServerId"       => "0",

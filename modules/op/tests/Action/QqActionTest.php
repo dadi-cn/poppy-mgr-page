@@ -54,6 +54,30 @@ class QqActionTest extends TestCase
         $this->outputVariables($skin);
     }
 
+    public function testUserUserAdapter()
+    {
+
+    }
+
+    public function testSearchCampId()
+    {
+        $token = $this->user();
+        $OAuth = new QqAction();
+        $roles = $OAuth->gameChatRoles($token);
+        if (!count($roles)) {
+            $this->outputVariables('无相关角色, 不进行查询');
+            return;
+        }
+        $role      = collect($roles)->shuffle()->first();
+        $campRoles = $OAuth->campRoles($token, $role, '1874910710');
+        $this->outputVariables($campRoles);
+        $campRole = collect($campRoles)->shuffle()->first();
+
+        // 获取角色的详情
+        $campSkins = $OAuth->playH5GetHeroSkinList($token, $campRole);
+        $this->outputVariables($campSkins);
+    }
+
     /**
      * 获取用户
      * @return OpQqToken|null

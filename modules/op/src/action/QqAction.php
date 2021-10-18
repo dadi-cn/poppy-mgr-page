@@ -137,6 +137,30 @@ class QqAction
     }
 
     /**
+     * 获取王者营地的基础信息
+     * @param OpQqToken $user
+     * @param           $role
+     * @param           $friendUserId
+     * @return array
+     */
+    public function campRoles(OpQqToken $user, $role, $friendUserId): array
+    {
+        $xToken       = $this->getXToken($user);
+        $rolesKey     = OpDef::ckQqKoa('camp-' . $friendUserId, 'roles');
+        $koaClient    = new QqKoaClient();
+        $rolesContent = RdsDb::instance()->get($rolesKey, false);
+        if (!$rolesContent) {
+            // 所有角色列表
+            if ($koaClient->gameBattleProfile($this->baseParams($user), $xToken, $role, $friendUserId)) {
+                $result       = $koaClient->getResult();
+                $rolesContent = $this->encode(data_get($result, 'data.rolelist'));
+                RdsDb::instance()->set($rolesKey, $rolesContent);
+            }
+        }
+        return json_decode($rolesContent, true);
+    }
+
+    /**
      * 获取我的所有的英雄/皮肤列表
      * @param OpQqToken $user
      * @param           $role
