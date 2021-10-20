@@ -106,7 +106,7 @@ class QqAction
             ])) {
                 $result  = $koaClient->getResult();
                 $content = data_get($result, 'data');
-                RdsDb::instance()->set($tokenKey, $this->encode($content), 'EX', 60);
+                RdsDb::instance()->set($tokenKey, $this->encode($content), 'EX', 86400);
                 return $content;
             }
         }
@@ -220,6 +220,32 @@ class QqAction
             ];
         }
         else {
+            return $this->setError($koaClient->getError());
+        }
+    }
+
+    /**
+     * 获取我的所有的英雄/皮肤列表
+     * @param OpQqToken $user
+     * @param           $role
+     * @param           $friendUserId
+     * @return array|bool
+     */
+    public function playH5GetHeroSkinList2(OpQqToken $user, $role,$friendUserId)
+    {
+        $xToken = $this->getXToken($user);
+
+        $allKey     = OpDef::ckQqKoa('camp-' . $friendUserId, 'all');
+
+
+        $koaClient = new QqKoaClient();
+        if ($koaClient->playH5GetHeroSkinList($this->baseParams($user), $xToken, $role)) {
+            $result = $koaClient->getResult();
+
+            RdsDb::instance()->set($allKey, $this->encode($result));
+        }
+        else {
+            \Log::error($koaClient->getError());
             return $this->setError($koaClient->getError());
         }
     }
