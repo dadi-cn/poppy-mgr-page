@@ -7,6 +7,7 @@ namespace Op;
  */
 
 use Illuminate\Console\Scheduling\Schedule;
+use Op\Commands\QqCommand;
 use Op\Commands\SendMailCommand;
 use Op\Commands\TestCommand;
 use Op\Http\MiddlewareServiceProvider;
@@ -59,6 +60,7 @@ class ServiceProvider extends ModuleServiceProviderBase
         $this->commands([
             SendMailCommand::class,
             TestCommand::class,
+            QqCommand::class,
         ]);
     }
 
