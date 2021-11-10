@@ -23,7 +23,7 @@ class ChuanglanSms extends BaseSms implements SmsContract
 
         $msg = sys_trans($this->sms['code'], $params);
         // 拼接签名
-        $msg = '【' . trim(trim($this->sign, '【'), '】') . '】' . $msg;
+        $msg = '【' . str_replace(['【', '】', '[', ']'], '', $this->sign) . '】' . $msg;
 
         $result = UtilHelper::isChMobile($mobile)
             ? $this->clApi->sendSms($mobile, $msg)
