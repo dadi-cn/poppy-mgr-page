@@ -30,25 +30,25 @@ mix
         'public/app/css/web.css'
     )
     .less(
-        'resources/assets/poppy/less/mgr-page.less',
+        'poppy/mgr-page/resources/less/mgr-page.less',
         'public/assets/libs/boot/style.css'
     )
     .scripts([
-            'resources/assets/poppy/libs/poppy/util.js',
-            'resources/assets/poppy/libs/poppy/cp.js',
-            'resources/assets/poppy/libs/poppy/mgr-page/cp.js'
+            'poppy/mgr-page/resources/libs/poppy/util.js',
+            'poppy/mgr-page/resources/libs/poppy/cp.js',
+            'poppy/mgr-page/resources/libs/poppy/mgr-page/cp.js'
         ],
         'public/assets/libs/boot/poppy.mgr.min.js'
     )
     .scripts([
-            'resources/assets/poppy/libs/jquery/2.2.4/jquery.min.js',
-            'resources/assets/poppy/libs/jquery/form/jquery.form.js',
-            'resources/assets/poppy/libs/jquery/pjax/jquery.pjax.js',
-            'resources/assets/poppy/libs/jquery/poshytip/jquery.poshytip.js',
-            'resources/assets/poppy/libs/jquery/validation/jquery.validation.js',
-            'resources/assets/poppy/libs/jquery/drag-arrange/drag-arrange.js',
-            'resources/assets/poppy/libs/jquery/tokenize2/jquery.tokenize2.js',
-            'resources/assets/poppy/libs/clipboard/clipboard.min.js'
+            'poppy/mgr-page/resources/libs/jquery/2.2.4/jquery.min.js',
+            'poppy/mgr-page/resources/libs/jquery/form/jquery.form.js',
+            'poppy/mgr-page/resources/libs/jquery/pjax/jquery.pjax.js',
+            'poppy/mgr-page/resources/libs/jquery/poshytip/jquery.poshytip.js',
+            'poppy/mgr-page/resources/libs/jquery/validation/jquery.validation.js',
+            'poppy/mgr-page/resources/libs/jquery/drag-arrange/drag-arrange.js',
+            'poppy/mgr-page/resources/libs/jquery/tokenize2/jquery.tokenize2.js',
+            'poppy/mgr-page/resources/libs/clipboard/clipboard.min.js'
         ],
         'public/assets/libs/boot/vendor.min.js'
     )
