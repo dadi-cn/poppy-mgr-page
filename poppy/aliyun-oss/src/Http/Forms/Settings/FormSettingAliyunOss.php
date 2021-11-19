@@ -45,5 +45,8 @@ class FormSettingAliyunOss extends FormSettingBase
         $this->text('temp_app_secret', '授权secret')->rules([
             Rule::nullable(),
         ]);
+        $this->image('watermark', '水印')->rules([
+            Rule::url(),
+        ]);
     }
 }

@@ -117,6 +117,9 @@ class OssDefaultUploadProvider extends DefaultUploadProvider
     {
         try {
             self::$client->putObject($this->bucket, $this->destination, $this->storage()->get($this->destination));
+
+            $this->reWatermark();
+
             if ($delete_local) {
                 return $this->storage()->delete($this->destination);
             }
@@ -124,5 +127,23 @@ class OssDefaultUploadProvider extends DefaultUploadProvider
         } catch (Exception $e) {
             return $this->setError($e->getMessage());
         }
+    }
+
+    private function reWatermark()
+    {
+        if (!$this->watermark) {
+            return;
+        }
+        // 完整的Url
+        $watermark = config('poppy.aliyun-oss.watermark');
+        if (!$watermark) {
+            return;
+        }
+        $wmPath       = str_replace($this->getReturnUrl(), '', $watermark);
+        $base64       = base64_encode($wmPath);
+        $append       = "?x-oss-process=image/watermark,image_{$base64},g_center,P_80";
+        $watermarkUrl = $this->getReturnUrl() . $this->destination . $append;
+        $content      = file_get_contents($watermarkUrl);
+        self::$client->putObject($this->bucket, $this->destination, $content);
     }
 }

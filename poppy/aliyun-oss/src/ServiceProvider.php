@@ -55,6 +55,7 @@ class ServiceProvider extends ModuleServiceProviderBase
                 'poppy.aliyun-oss.role_arn'      => sys_setting('py-aliyun-oss::oss.role_arn'),
                 'poppy.aliyun-oss.temp_key'      => sys_setting('py-aliyun-oss::oss.temp_app_key'),
                 'poppy.aliyun-oss.temp_secret'   => sys_setting('py-aliyun-oss::oss.temp_app_secret'),
+                'poppy.aliyun-oss.watermark'     => sys_setting('py-aliyun-oss::oss.watermark'),
             ]);
         }
     }
