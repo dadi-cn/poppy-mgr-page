@@ -140,8 +140,9 @@ class OssDefaultUploadProvider extends DefaultUploadProvider
             return;
         }
         $wmPath       = str_replace($this->getReturnUrl(), '', $watermark);
-        $base64       = base64_encode($wmPath);
-        $append       = "?x-oss-process=image/watermark,image_{$base64},g_center,P_80";
+        $wmDef        = "$wmPath?x-oss-process=image/resize,P_80";
+        $base64       = rtrim(str_replace(['+', '/'], ['-', '_'], base64_encode($wmDef)), '=');
+        $append       = "?x-oss-process=image/watermark,image_{$base64},g_center";
         $watermarkUrl = $this->getReturnUrl() . $this->destination . $append;
         $content      = file_get_contents($watermarkUrl);
         self::$client->putObject($this->bucket, $this->destination, $content);
