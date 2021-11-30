@@ -13,6 +13,7 @@ use Poppy\Framework\Classes\Resp;
 use Poppy\Framework\Classes\Traits\PoppyTrait;
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\Framework\Helper\ArrayHelper;
+use Poppy\MgrApp\Form\Field\Checkbox;
 use Poppy\MgrApp\Form\Field\Number;
 use Poppy\MgrApp\Form\Field\Radio;
 use Poppy\MgrApp\Form\Field\Text;
@@ -27,6 +28,7 @@ use Poppy\MgrApp\Form\FormItem;
  * @method Textarea textarea($name, $label = '')
  * @method Number number($name, $label = '')
  * @method Radio radio($name, $label = '')
+ * @method Checkbox checkbox($name, $label = '')
  */
 abstract class FormWidget
 {

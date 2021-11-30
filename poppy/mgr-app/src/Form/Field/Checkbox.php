@@ -2,126 +2,43 @@
 
 namespace Poppy\MgrApp\Form\Field;
 
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
-class Checkbox extends MultipleSelect
+class Checkbox extends Radio
 {
-    /**
-     * 是否行内显示
-     * @var bool
-     */
-    protected $inline = true;
 
-
-    /**
-     * 默认值
-     * @var array
-     */
-    protected $default = [];
-
-    /**
-     * 是否可以全选
-     * @var bool
-     */
-    protected $canCheckAll = false;
-
-    /**
-     * @inheritDoc
-     */
-    public function fill($data)
+    public function default($value): self
     {
-        $value       = Arr::get($data, $this->column);
-        $this->value = is_null($value) ? $this->default : $value;
+        $value = is_array($value) ?: [$value];
+        return parent::default($value);
     }
 
     /**
-     * Set options.
-     *
-     * @param array|callable|string $options
-     *
+     * 匹配 max 规则
+     * @return object
+     */
+    protected function attributes(): object
+    {
+        // 解析 max 规则, 匹配属性
+        collect($this->rules)->each(function ($rule) {
+            if (Str::startsWith($rule, 'max')) {
+                $max = Str::after($rule, 'max:');
+                $this->setAttribute('max', (int) $max);
+            }
+            if (Str::startsWith($rule, 'min')) {
+                $min = Str::after($rule, 'min:');
+                $this->setAttribute('min', (int) $min);
+            }
+        });
+        return parent::attributes();
+    }
+
+    /**
      * @return $this
      */
-    public function options($options = [])
+    public function checkAll(): self
     {
-        if ($options instanceof Arrayable) {
-            $options = $options->toArray();
-        }
-
-        if (is_callable($options)) {
-            $this->options = $options;
-        }
-        else {
-            $this->options = (array) $options;
-        }
-
-        return $this;
-    }
-
-    /**
-     * 默认值, 当没有数据做填充的时候会取这个默认值(null 值的时候)
-     * @param array|callable|string $default
-     * @return $this
-     */
-    public function default($default)
-    {
-        $this->default = (array) $default;
-        return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function render()
-    {
-        $this->addVariables([
-            'inline'      => $this->inline,
-            'canCheckAll' => $this->canCheckAll,
-        ]);
-        return parent::render();
-    }
-
-    public function skeleton(): array
-    {
-        return [
-            'display'   => $this->inline ? 'inline' : 'stack',
-            'check_all' => $this->canCheckAll ? 'Y' : 'N',
-        ];
-    }
-
-    /**
-     * Add a checkbox above this component, so you can select all checkboxes by click on it.
-     *
-     * @return $this
-     */
-    public function canCheckAll()
-    {
-        $this->canCheckAll = true;
-
-        return $this;
-    }
-
-    /**
-     * Draw inline checkboxes.
-     *
-     * @return $this
-     */
-    public function inline()
-    {
-        $this->inline = true;
-
-        return $this;
-    }
-
-    /**
-     * Draw stacked checkboxes.
-     *
-     * @return $this
-     */
-    public function stacked()
-    {
-        $this->inline = false;
-
+        $this->setAttribute('check-all', true);
         return $this;
     }
 }
