@@ -14,6 +14,8 @@ Route::group([
     $route->get('resp/error', 'RespController@error');
     $route->get('resp/401', 'RespController@unAuth');
     $route->get('resp/header', 'RespController@header');
+    // form 数据
+    $route->any('form/{auto}', 'FormController@auto');
 });
 
 Route::group([

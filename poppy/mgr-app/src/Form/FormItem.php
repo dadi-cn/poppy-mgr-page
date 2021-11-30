@@ -2,10 +2,10 @@
 
 namespace Poppy\MgrApp\Form;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
 use Poppy\Framework\Helper\StrHelper;
-use Poppy\Framework\Validation\Rule;
 
 /**
  * 表单条目
@@ -19,10 +19,10 @@ abstract class FormItem
     protected $default;
 
     /**
-     * 表单条目属性
-     * @var Fluent
+     * 规则
+     * @var array
      */
-    private Fluent $itemAttr;
+    protected array $rules = [];
 
     /**
      * 字段的属性
@@ -44,10 +44,14 @@ abstract class FormItem
     private string $type;
 
     /**
-     * 规则
-     * @var array
+     * @var string 标签
      */
-    private array $rules = [];
+    private string $label;
+
+    /**
+     * 验证器
+     */
+    private $validator;
 
     /**
      * 表单条目
@@ -56,14 +60,12 @@ abstract class FormItem
      */
     public function __construct(string $name, string $label)
     {
-        $this->itemAttr  = new Fluent();
         $this->fieldAttr = new Fluent();
 
-        $this->name = $name;
+        $this->name  = $name;
+        $this->label = $label;
 
         // element
-        $this->fieldAttr->offsetSet('name', $name);
-        $this->itemAttr->offsetSet('label', $label);
         $this->type = StrHelper::slug(Str::afterLast(get_called_class(), '\\'));
     }
 
@@ -71,22 +73,19 @@ abstract class FormItem
      * 字段属性
      * @param $attr
      * @param $value
-     */
-    public function fieldAttr($attr, $value)
-    {
-        $this->fieldAttr->offsetSet($attr, $value);
-    }
-
-    /**
-     * 标签的宽度
-     * @param mixed $width 宽度, 例如 50px|auto|50
      * @return $this
      */
-    public function itemLabelWidth($width): self
+    public function setAttribute($attr, $value): self
     {
-        $this->itemAttr->offsetSet('label-width', $width);
+        $this->fieldAttr->offsetSet($attr, $value);
         return $this;
     }
+
+    public function getAttribute($attr)
+    {
+        return $this->fieldAttr->offsetGet($attr);
+    }
+
 
     /**
      * 设置验证规则
@@ -95,40 +94,7 @@ abstract class FormItem
      */
     public function rules(array $value): self
     {
-        $this->rules = $value;
-        return $this;
-    }
-
-    /**
-     * 字段错误信息, 验证错误显示的信息
-     * @param string $value
-     * @return $this
-     */
-    public function itemError(string $value): self
-    {
-        $this->itemAttr->offsetSet('error', $value);
-        return $this;
-    }
-
-    /**
-     * 是否显示错误信息
-     * @param bool $value
-     * @return $this
-     */
-    public function itemShowMessage(bool $value): self
-    {
-        $this->itemAttr->offsetSet('show-message', $value);
-        return $this;
-    }
-
-    /**
-     * 是否在行内显示错误信息
-     * @param bool $value
-     * @return $this
-     */
-    public function itemInlineMessage(bool $value): self
-    {
-        $this->itemAttr->offsetSet('inline-message', $value);
+        $this->rules = array_merge($value, $this->rules);
         return $this;
     }
 
@@ -154,9 +120,37 @@ abstract class FormItem
      * 校验规则
      * @return array
      */
-    public function getRules():array
+    public function getRules(): array
     {
         return $this->rules;
+    }
+
+
+    /**
+     * Get validator for this field.
+     *
+     * @param array $input
+     *
+     * @return bool|Validator|mixed
+     */
+    public function getValidator(array $input)
+    {
+        if ($this->validator) {
+            return $this->validator->call($this, $input);
+        }
+
+        $rules = $attributes = [];
+
+        if (!$fieldRules = $this->getRules()) {
+            return false;
+        }
+
+        if (is_string($this->name)) {
+            $rules[$this->name]      = $fieldRules;
+            $attributes[$this->name] = $this->label;
+        }
+
+        return validator($input, $rules, [], $attributes);
     }
 
     /**
@@ -167,8 +161,21 @@ abstract class FormItem
     {
         return [
             'type'  => $this->type,
-            'item'  => $this->itemAttr->toArray(),
-            'field' => $this->fieldAttr->toArray(),
+            'name'  => $this->name,
+            'label' => $this->label,
+            'field' => $this->attributes(),
+            'rules' => collect($this->rules)->map(function ($rule) {
+                return (string) $rule;
+            })->toArray(),
         ];
+    }
+
+    /**
+     * 获取属性列表
+     * @return object
+     */
+    protected function attributes(): object
+    {
+        return (object) $this->fieldAttr->toArray();
     }
 }

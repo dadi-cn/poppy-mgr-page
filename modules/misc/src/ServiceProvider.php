@@ -59,6 +59,7 @@ class ServiceProvider extends ModuleServiceProviderBase
     private function registerCommand()
     {
         $this->commands([
+            Commands\YuqueCommand::class,
             Commands\ExtCommand::class,
             Commands\QijiaCommand::class,
             Commands\NjgjCommand::class,

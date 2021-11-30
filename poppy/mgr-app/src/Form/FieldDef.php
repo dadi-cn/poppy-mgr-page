@@ -97,15 +97,6 @@ class FieldDef
      * @var []Closure
      */
     protected static $initCallbacks;
-    /**
-     * Available fields.
-     *
-     * @var array
-     */
-    private static array $available = [
-        'text'   => Field\Text::class,
-        'hidden' => Field\Hidden::class,
-    ];
 
     /**
      * Create a new form instance.
@@ -804,12 +795,10 @@ class FieldDef
      */
     public static function create(string $type, string $name, string $label): ?FormItem
     {
-        if (!self::exist($type)) {
+        $class = __NAMESPACE__ . '\\Field\\' . Str::ucfirst($type);
+        if (!class_exists($class)) {
             return null;
         }
-
-        $class = FieldDef::$available[$type];
-
         return new $class($name, $label);
     }
 
