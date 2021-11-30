@@ -7,12 +7,6 @@ use Illuminate\Support\Str;
 
 trait UseInput
 {
-    public function disabled(): self
-    {
-        $this->setAttribute('disabled', true);
-        return $this;
-    }
-
 
     public function placeholder($ph): self
     {

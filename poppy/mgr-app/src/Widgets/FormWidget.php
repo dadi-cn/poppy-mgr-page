@@ -14,6 +14,7 @@ use Poppy\Framework\Classes\Traits\PoppyTrait;
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\Framework\Helper\ArrayHelper;
 use Poppy\MgrApp\Form\Field\Number;
+use Poppy\MgrApp\Form\Field\Radio;
 use Poppy\MgrApp\Form\Field\Text;
 use Poppy\MgrApp\Form\Field\Textarea;
 use Poppy\MgrApp\Form\FieldDef;
@@ -25,6 +26,7 @@ use Poppy\MgrApp\Form\FormItem;
  * @method Text text($name, $label = '')
  * @method Textarea textarea($name, $label = '')
  * @method Number number($name, $label = '')
+ * @method Radio radio($name, $label = '')
  */
 abstract class FormWidget
 {
@@ -220,7 +222,7 @@ abstract class FormWidget
             $this->items->each(function (FormItem $item) use ($items, $model) {
                 $struct = $item->struct();
                 $items->push($struct);
-                $model->offsetSet($item->name(), $this->model[$item->name()] ?? $item->default());
+                $model->offsetSet($item->getName(), $this->model[$item->getName()] ?? $item->getDefault());
             });
             return Resp::success('结构化数据', [
                 'title'       => $this->title,

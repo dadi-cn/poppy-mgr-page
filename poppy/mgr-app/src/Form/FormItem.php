@@ -2,6 +2,8 @@
 
 namespace Poppy\MgrApp\Form;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Validation\Factory;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
@@ -50,6 +52,7 @@ abstract class FormItem
 
     /**
      * 验证器
+     * @var mixed
      */
     private $validator;
 
@@ -70,6 +73,35 @@ abstract class FormItem
     }
 
     /**
+     * 设置验证规则
+     * @param array $value
+     * @return $this
+     */
+    public function rules(array $value): self
+    {
+        $this->rules = array_merge($value, $this->rules);
+        return $this;
+    }
+
+
+    /**
+     * 设置默认值, 当返回数据无此字段时候选择此值作为默认值
+     * @param $value
+     * @return FormItem
+     */
+    public function default($value): self
+    {
+        $this->default = $value;
+        return $this;
+    }
+
+    public function disabled(): self
+    {
+        $this->setAttribute('disabled', true);
+        return $this;
+    }
+
+    /**
      * 字段属性
      * @param $attr
      * @param $value
@@ -81,57 +113,22 @@ abstract class FormItem
         return $this;
     }
 
-    public function getAttribute($attr)
-    {
-        return $this->fieldAttr->offsetGet($attr);
-    }
-
-
-    /**
-     * 设置验证规则
-     * @param array $value
-     * @return $this
-     */
-    public function rules(array $value): self
-    {
-        $this->rules = array_merge($value, $this->rules);
-        return $this;
-    }
 
     /**
      * 获取字段名字
      * @return string
      */
-    public function name(): string
+    public function getName(): string
     {
         return $this->name;
     }
-
-    /**
-     * 默认数据值
-     * @return mixed
-     */
-    public function default()
-    {
-        return $this->default;
-    }
-
-    /**
-     * 校验规则
-     * @return array
-     */
-    public function getRules(): array
-    {
-        return $this->rules;
-    }
-
 
     /**
      * Get validator for this field.
      *
      * @param array $input
      *
-     * @return bool|Validator|mixed
+     * @return false|Application|Factory|Validator
      */
     public function getValidator(array $input)
     {
@@ -168,6 +165,34 @@ abstract class FormItem
                 return (string) $rule;
             })->toArray(),
         ];
+    }
+
+    /**
+     * 默认数据值
+     * @return mixed
+     */
+    public function getDefault()
+    {
+        return $this->default;
+    }
+
+    /**
+     * 校验规则
+     * @return array
+     */
+    protected function getRules(): array
+    {
+        return $this->rules;
+    }
+
+    /**
+     * 获取属性
+     * @param $attr
+     * @return mixed
+     */
+    protected function getAttribute($attr)
+    {
+        return $this->fieldAttr->offsetGet($attr);
     }
 
     /**
