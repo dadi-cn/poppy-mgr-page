@@ -2,16 +2,18 @@
 
 namespace Poppy\MgrApp\Form\Field;
 
-class Time extends Date
+use Poppy\MgrApp\Form\FormItem;
+use Poppy\MgrApp\Form\Traits\UsePlaceholder;
+
+class Time extends FormItem
 {
+    use UsePlaceholder;
 
-    protected $options = [
-        'layui-type' => 'time',
-    ];
+    protected string $format = 'HH:mm:ss';
 
-    public function render()
+    public function __construct(string $name, string $label)
     {
-        $this->prepend('<i class="fa fa-clock-o fa-fw"></i>');
-        return parent::render();
+        parent::__construct($name, $label);
+        $this->setAttribute('format', $this->format);
     }
 }

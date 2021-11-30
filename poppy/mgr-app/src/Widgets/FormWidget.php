@@ -16,11 +16,18 @@ use Poppy\Framework\Helper\ArrayHelper;
 use Poppy\MgrApp\Form\Field\Checkbox;
 use Poppy\MgrApp\Form\Field\Color;
 use Poppy\MgrApp\Form\Field\Date;
+use Poppy\MgrApp\Form\Field\DateRange;
+use Poppy\MgrApp\Form\Field\Datetime;
+use Poppy\MgrApp\Form\Field\DatetimeRange;
+use Poppy\MgrApp\Form\Field\Month;
+use Poppy\MgrApp\Form\Field\MonthRange;
 use Poppy\MgrApp\Form\Field\Number;
 use Poppy\MgrApp\Form\Field\Radio;
 use Poppy\MgrApp\Form\Field\Text;
 use Poppy\MgrApp\Form\Field\Textarea;
-use Poppy\MgrApp\Form\Field\Week;
+use Poppy\MgrApp\Form\Field\Time;
+use Poppy\MgrApp\Form\Field\TimeRange;
+use Poppy\MgrApp\Form\Field\Year;
 use Poppy\MgrApp\Form\FieldDef;
 use Poppy\MgrApp\Form\FormItem;
 
@@ -33,8 +40,15 @@ use Poppy\MgrApp\Form\FormItem;
  * @method Radio radio($name, $label = '')
  * @method Checkbox checkbox($name, $label = '')
  * @method Color color($name, $label = '')
+ * @method Year year($name, $label = '')
+ * @method Month month($name, $label = '')
  * @method Date date($name, $label = '')
- * @method Week week($name, $label = '')
+ * @method Datetime datetime($name, $label = '')
+ * @method Time time($name, $label = '')
+ * @method DateRange dateRange($name, $label = '')
+ * @method MonthRange monthRange($name, $label = '')
+ * @method DatetimeRange datetimeRange($name, $label = '')
+ * @method TimeRange timeRange($name, $label = '')
  */
 abstract class FormWidget
 {

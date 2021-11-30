@@ -2,16 +2,26 @@
 
 namespace Poppy\MgrApp\Form\Field;
 
-class DateRange extends Date
+use Poppy\MgrApp\Form\FormItem;
+
+class DateRange extends FormItem
 {
-    /**
-     * @inheritDoc
-     */
-    public function render()
+
+    protected string $type   = 'daterange';
+    protected string $format = 'YYYY-MM-DD';
+
+    public function __construct(string $name, string $label)
     {
-        $this->options([
-            'layui-range' => true,
-        ]);
-        return parent::render();
+        parent::__construct($name, $label);
+        $this->setAttribute('type', $this->type);
+        $this->setAttribute('format', $this->format);
+    }
+
+
+    public function placeholders($start, $end): self
+    {
+        $this->setAttribute('start-placeholder', $start);
+        $this->setAttribute('end-placeholder', $end);
+        return $this;
     }
 }

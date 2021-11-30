@@ -2,13 +2,23 @@
 
 namespace Poppy\MgrApp\Form\Field;
 
-class TimeRange extends Time
+use Poppy\MgrApp\Form\FormItem;
+
+class TimeRange extends FormItem
 {
-	public function render()
-	{
-		$this->options([
-			'range' => true,
-		]);
-		return parent::render();
-	}
+
+    protected string $format = 'HH:mm:ss';
+
+    public function __construct(string $name, string $label)
+    {
+        parent::__construct($name, $label);
+        $this->setAttribute('format', $this->format);
+    }
+
+    public function placeholders($start, $end): self
+    {
+        $this->setAttribute('start-placeholder', $start);
+        $this->setAttribute('end-placeholder', $end);
+        return $this;
+    }
 }

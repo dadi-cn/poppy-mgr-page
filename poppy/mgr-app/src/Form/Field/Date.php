@@ -16,7 +16,7 @@ class Date extends FormItem
     public function __construct(string $name, string $label)
     {
         parent::__construct($name, $label);
-        $this->setAttribute('date-type', $this->type);
+        $this->setAttribute('type', $this->type);
         $this->setAttribute('format', $this->format);
     }
 }

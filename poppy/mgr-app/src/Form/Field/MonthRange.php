@@ -2,9 +2,9 @@
 
 namespace Poppy\MgrApp\Form\Field;
 
-class Month extends Date
+class MonthRange extends DateRange
 {
-    protected string $type = 'month';
+    protected string $type = 'monthrange';
 
     protected string $format = 'YYYY-MM';
 }
