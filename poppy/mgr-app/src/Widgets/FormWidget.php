@@ -14,10 +14,13 @@ use Poppy\Framework\Classes\Traits\PoppyTrait;
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\Framework\Helper\ArrayHelper;
 use Poppy\MgrApp\Form\Field\Checkbox;
+use Poppy\MgrApp\Form\Field\Color;
+use Poppy\MgrApp\Form\Field\Date;
 use Poppy\MgrApp\Form\Field\Number;
 use Poppy\MgrApp\Form\Field\Radio;
 use Poppy\MgrApp\Form\Field\Text;
 use Poppy\MgrApp\Form\Field\Textarea;
+use Poppy\MgrApp\Form\Field\Week;
 use Poppy\MgrApp\Form\FieldDef;
 use Poppy\MgrApp\Form\FormItem;
 
@@ -29,6 +32,9 @@ use Poppy\MgrApp\Form\FormItem;
  * @method Number number($name, $label = '')
  * @method Radio radio($name, $label = '')
  * @method Checkbox checkbox($name, $label = '')
+ * @method Color color($name, $label = '')
+ * @method Date date($name, $label = '')
+ * @method Week week($name, $label = '')
  */
 abstract class FormWidget
 {

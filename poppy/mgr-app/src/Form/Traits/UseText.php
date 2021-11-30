@@ -5,15 +5,8 @@ namespace Poppy\MgrApp\Form\Traits;
 
 use Illuminate\Support\Str;
 
-trait UseInput
+trait UseText
 {
-
-    public function placeholder($ph): self
-    {
-        $this->setAttribute('placeholder', $ph);
-        return $this;
-    }
-
     /**
      * 显示输入字符限制
      * @return $this

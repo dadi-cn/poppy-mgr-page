@@ -3,7 +3,8 @@
 namespace Poppy\MgrApp\Form\Field;
 
 use Poppy\MgrApp\Form\FormItem;
-use Poppy\MgrApp\Form\Traits\UseInput;
+use Poppy\MgrApp\Form\Traits\UsePlaceholder;
+use Poppy\MgrApp\Form\Traits\UseText;
 
 /**
  * 文本输入框
@@ -12,7 +13,7 @@ use Poppy\MgrApp\Form\Traits\UseInput;
 class Text extends FormItem
 {
 
-    use UseInput;
+    use UseText, UsePlaceholder;
 
     /**
      * 默认数据

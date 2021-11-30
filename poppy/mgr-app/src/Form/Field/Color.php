@@ -2,24 +2,28 @@
 
 namespace Poppy\MgrApp\Form\Field;
 
-use Illuminate\Contracts\View\Factory;
-use Illuminate\View\View;
+use Poppy\MgrApp\Form\FormItem;
 
-class Color extends Text
+class Color extends FormItem
 {
 
-    protected $view = 'py-system::tpl.form.color';
+    /**
+     * @return $this
+     */
+    public function showAlpha(): self
+    {
+        $this->setAttribute('show-alpha', true);
+        return $this;
+    }
 
     /**
-     * Render this filed.
-     *
-     * @return Factory|View
+     * @return $this
      */
-    public function render()
+    public function predefine($colors): self
     {
-        $this->prepend('<i class="fa fa-palette"></i>')
-            ->defaultAttribute('style', 'width: 140px');
-
-        return parent::render();
+        $this->setAttribute('predefine', $colors);
+        return $this;
     }
+
+
 }

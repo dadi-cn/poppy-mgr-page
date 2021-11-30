@@ -3,30 +3,20 @@
 namespace Poppy\MgrApp\Form\Field;
 
 use Poppy\MgrApp\Form\FormItem;
-use Poppy\MgrApp\Form\Traits\PlainInput;
+use Poppy\MgrApp\Form\Traits\UsePlaceholder;
 
 class Date extends FormItem
 {
-    use PlainInput;
 
-    protected $options = [
-        'type' => 'date',
-    ];
+    use UsePlaceholder;
 
-    protected $itemAttr = [
-        'style' => 'width: 110px',
-    ];
+    protected string $type   = 'date';
+    protected string $format = 'YYYY-MM-DD';
 
-    protected $view = 'py-system::tpl.form.date';
-
-    public function render()
+    public function __construct(string $name, string $label)
     {
-
-        $this->prepend('<i class="fa fa-calendar fa-fw"></i>');
-        $this->addVariables([
-            'prepend' => $this->prepend,
-            'options' => $this->options,
-        ]);
-        return parent::render();
+        parent::__construct($name, $label);
+        $this->setAttribute('date-type', $this->type);
+        $this->setAttribute('format', $this->format);
     }
 }
