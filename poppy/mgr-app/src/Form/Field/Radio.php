@@ -2,28 +2,13 @@
 
 namespace Poppy\MgrApp\Form\Field;
 
-use Illuminate\Contracts\Support\Arrayable;
 use Poppy\MgrApp\Form\FormItem;
+use Poppy\MgrApp\Form\Traits\UseOptions;
 
 class Radio extends FormItem
 {
 
-    /**
-     * Set options.
-     *
-     * @param array|callable|string $options
-     * @return $this
-     */
-    public function options($options = [], $complex = false): self
-    {
-        if ($options instanceof Arrayable) {
-            $options = $options->toArray();
-        }
-
-        $this->setAttribute('options', $options);
-        $this->setAttribute('complex', $complex);
-        return $this;
-    }
+    use UseOptions;
 
     /**
      * 设置为按钮样式

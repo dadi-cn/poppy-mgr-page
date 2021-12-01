@@ -37,7 +37,6 @@ class FormFieldRadioEstablish extends FormWidget
         $this->radio('complex', '复杂组合(禁用某一个条目)')->options([
             ['value' => 'a', 'disabled' => false, 'label' => 'Label A'],
             ['value' => 'b', 'disabled' => true, 'label' => 'Label B'],
-        ], true)->default('a')->button();
-
+        ])->default('a')->button();
     }
 }

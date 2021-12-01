@@ -21,8 +21,10 @@ use Poppy\MgrApp\Form\Field\Datetime;
 use Poppy\MgrApp\Form\Field\DatetimeRange;
 use Poppy\MgrApp\Form\Field\Month;
 use Poppy\MgrApp\Form\Field\MonthRange;
+use Poppy\MgrApp\Form\Field\MultiSelect;
 use Poppy\MgrApp\Form\Field\Number;
 use Poppy\MgrApp\Form\Field\Radio;
+use Poppy\MgrApp\Form\Field\Select;
 use Poppy\MgrApp\Form\Field\Text;
 use Poppy\MgrApp\Form\Field\Textarea;
 use Poppy\MgrApp\Form\Field\Time;
@@ -39,6 +41,8 @@ use Poppy\MgrApp\Form\FormItem;
  * @method Number number($name, $label = '')
  * @method Radio radio($name, $label = '')
  * @method Checkbox checkbox($name, $label = '')
+ * @method Select select($name, $label = '')
+ * @method MultiSelect multiSelect($name, $label = '')
  * @method Color color($name, $label = '')
  * @method Year year($name, $label = '')
  * @method Month month($name, $label = '')

@@ -46,7 +46,7 @@ class FormFieldCheckboxEstablish extends FormWidget
         $this->checkbox('complex', '复杂组合(禁用某一个条目)')->options([
             ['value' => 'a', 'disabled' => false, 'label' => 'Label A'],
             ['value' => 'b', 'disabled' => true, 'label' => 'Label B'],
-        ], true)->default('a')->button();
+        ])->default('a')->button();
         $this->checkbox('range', '选择项在 2-8 之间')->options(array_combine(range('a', 'n'), range('A', 'N')))
             ->rules([
                 Rule::min(2), Rule::max(8),
