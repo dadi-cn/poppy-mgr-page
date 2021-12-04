@@ -4,15 +4,13 @@ namespace Poppy\MgrApp\Form\Field;
 
 class Url extends Text
 {
-    protected $rules = [
-        'nullable', 'url',
+    protected array $rules = [
+        'url',
     ];
 
-    public function render()
+    public function __construct(string $name, string $label)
     {
-        $this->prepend('<i class="fa fa-internet-explorer fa-fw"></i>')
-            ->defaultAttribute('type', 'url');
-
-        return parent::render();
+        parent::__construct($name, $label);
+        $this->prefixIcon('Link');
     }
 }

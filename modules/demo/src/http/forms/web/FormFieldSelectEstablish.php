@@ -70,7 +70,35 @@ class FormFieldSelectEstablish extends FormWidget
             ['value' => 'a', 'disabled' => false, 'label' => 'Label A'],
             ['value' => 'b', 'disabled' => true, 'label' => 'Label B'],
         ]);
-        $this->multiSelect('multip-group', '多选:分组')->options([
+        $this->multiSelect('multi-group', '多选:分组')->options([
+            [
+                'label'   => 'GroupA',
+                'options' => [
+                    ['value' => 'a1', 'disabled' => false, 'label' => 'A-1'],
+                    ['value' => 'a2', 'disabled' => false, 'label' => 'A-2'],
+                ],
+            ],
+            [
+                'label'   => 'GroupB',
+                'options' => [
+                    ['value' => 'b1', 'disabled' => false, 'label' => 'B-1'],
+                    ['value' => 'b2', 'disabled' => false, 'label' => 'B-2'],
+                ],
+            ],
+
+        ])->rules([
+            Rule::max(1)
+        ]);
+
+        $this->tags('tags', '标签:禁用')->options([
+            'a' => 'A',
+            'b' => 'B',
+        ]);
+        $this->tags('tags-complex', '标签:复杂模式')->options([
+            ['value' => 'a', 'disabled' => false, 'label' => 'Label A'],
+            ['value' => 'b', 'disabled' => true, 'label' => 'Label B'],
+        ]);
+        $this->tags('tags-group', '标签:分组')->options([
             [
                 'label'   => 'GroupA',
                 'options' => [

@@ -15,20 +15,30 @@ use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\Framework\Helper\ArrayHelper;
 use Poppy\MgrApp\Form\Field\Checkbox;
 use Poppy\MgrApp\Form\Field\Color;
+use Poppy\MgrApp\Form\Field\Currency;
 use Poppy\MgrApp\Form\Field\Date;
 use Poppy\MgrApp\Form\Field\DateRange;
 use Poppy\MgrApp\Form\Field\Datetime;
 use Poppy\MgrApp\Form\Field\DatetimeRange;
+use Poppy\MgrApp\Form\Field\Decimal;
+use Poppy\MgrApp\Form\Field\Email;
+use Poppy\MgrApp\Form\Field\Image;
+use Poppy\MgrApp\Form\Field\Ip;
+use Poppy\MgrApp\Form\Field\Mobile;
 use Poppy\MgrApp\Form\Field\Month;
 use Poppy\MgrApp\Form\Field\MonthRange;
 use Poppy\MgrApp\Form\Field\MultiSelect;
 use Poppy\MgrApp\Form\Field\Number;
+use Poppy\MgrApp\Form\Field\OnOff;
+use Poppy\MgrApp\Form\Field\Password;
 use Poppy\MgrApp\Form\Field\Radio;
 use Poppy\MgrApp\Form\Field\Select;
+use Poppy\MgrApp\Form\Field\Tags;
 use Poppy\MgrApp\Form\Field\Text;
 use Poppy\MgrApp\Form\Field\Textarea;
 use Poppy\MgrApp\Form\Field\Time;
 use Poppy\MgrApp\Form\Field\TimeRange;
+use Poppy\MgrApp\Form\Field\Url;
 use Poppy\MgrApp\Form\Field\Year;
 use Poppy\MgrApp\Form\FieldDef;
 use Poppy\MgrApp\Form\FormItem;
@@ -38,11 +48,19 @@ use Poppy\MgrApp\Form\FormItem;
  * @url https://element-plus.gitee.io/zh-CN/component/form.html#form-attributes
  * @method Text text($name, $label = '')
  * @method Textarea textarea($name, $label = '')
+ * @method Url url($name, $label = '')
+ * @method Password password($name, $label = '')
+ * @method Mobile mobile($name, $label = '')
+ * @method Ip ip($name, $label = '')
+ * @method Decimal decimal($name, $label = '')
+ * @method Currency currency($name, $label = '')
+ * @method Email email($name, $label = '')
  * @method Number number($name, $label = '')
  * @method Radio radio($name, $label = '')
  * @method Checkbox checkbox($name, $label = '')
  * @method Select select($name, $label = '')
  * @method MultiSelect multiSelect($name, $label = '')
+ * @method Tags tags($name, $label = '')
  * @method Color color($name, $label = '')
  * @method Year year($name, $label = '')
  * @method Month month($name, $label = '')
@@ -53,6 +71,8 @@ use Poppy\MgrApp\Form\FormItem;
  * @method MonthRange monthRange($name, $label = '')
  * @method DatetimeRange datetimeRange($name, $label = '')
  * @method TimeRange timeRange($name, $label = '')
+ * @method OnOff onOff($name, $label = '')
+ * @method Image image($name, $label = '')
  */
 abstract class FormWidget
 {

@@ -4,15 +4,13 @@ namespace Poppy\MgrApp\Form\Field;
 
 class Email extends Text
 {
-    protected $rules = [
-        'nullable', 'email',
+    protected array $rules = [
+        'email',
     ];
 
-    public function render()
+    public function __construct(string $name, string $label)
     {
-        $this->prepend('<i class="fa fa-envelope fa-fw"></i>')
-            ->defaultAttribute('type', 'email');
-
-        return parent::render();
+        parent::__construct($name, $label);
+        $this->prefixIcon('Message');
     }
 }

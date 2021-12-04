@@ -2,26 +2,12 @@
 
 namespace Poppy\MgrApp\Form\Field;
 
-class Currency extends Text
+class Currency extends Decimal
 {
-
-	/**
-	 * @inheritDoc
-	 */
-	public function prepare($value)
-	{
-		return (float) $value;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function render()
-	{
-		$this->defaultAttribute('style', 'width: 120px');
-		$this->addVariables([
-			'type' => 'number',
-		]);
-		return parent::render();
-	}
+    public function __construct(string $name, string $label)
+    {
+        parent::__construct($name, $label);
+        $this->digits(2);
+        $this->prefixIcon('Money');
+    }
 }

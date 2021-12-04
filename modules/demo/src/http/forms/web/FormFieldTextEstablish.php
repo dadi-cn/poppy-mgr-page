@@ -36,7 +36,18 @@ class FormFieldTextEstablish extends FormWidget
         $this->text('prefix-icon', '带有Icon(头部)')->prefixIcon('Search');
         $this->text('suffix-icon', '带有Icon(尾部)')->suffixIcon('Calendar');
         $this->text('max-length', '最大长度')->rules([
-            Rule::max('20')
+            Rule::max('20'),
         ])->showWordLimit();
+        $this->url('url', 'Url')->rules([
+            Rule::max('20'),
+        ]);
+        $this->password('password', 'Password');
+        $this->mobile('mobile', 'Mobile');
+        $this->ip('ip', 'Ip');
+        $this->decimal('decimal', 'Decimal(3位小数)')->rules([
+            Rule::between(0.000, 1.000),
+        ])->digits(3);
+        $this->email('email', '邮箱');
+        $this->currency('currency', '人民币');
     }
 }
