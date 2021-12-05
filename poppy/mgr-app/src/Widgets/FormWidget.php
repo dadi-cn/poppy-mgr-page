@@ -27,6 +27,7 @@ use Poppy\MgrApp\Form\Field\Ip;
 use Poppy\MgrApp\Form\Field\Mobile;
 use Poppy\MgrApp\Form\Field\Month;
 use Poppy\MgrApp\Form\Field\MonthRange;
+use Poppy\MgrApp\Form\Field\MultiImage;
 use Poppy\MgrApp\Form\Field\MultiSelect;
 use Poppy\MgrApp\Form\Field\Number;
 use Poppy\MgrApp\Form\Field\OnOff;
@@ -73,6 +74,7 @@ use Poppy\MgrApp\Form\FormItem;
  * @method TimeRange timeRange($name, $label = '')
  * @method OnOff onOff($name, $label = '')
  * @method Image image($name, $label = '')
+ * @method MultiImage multiImage($name, $label = '')
  */
 abstract class FormWidget
 {

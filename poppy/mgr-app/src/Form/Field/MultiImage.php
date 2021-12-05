@@ -2,62 +2,30 @@
 
 namespace Poppy\MgrApp\Form\Field;
 
+use Illuminate\Support\Str;
 use Poppy\MgrApp\Form\FormItem;
 
 final class MultiImage extends FormItem
 {
 
-    /**
-     * @inheritDoc
-     */
-    protected $view = 'py-system::tpl.form.multi_image';
-
-    /**
-     * Token
-     * @var string
-     */
-    private $token;
-
-    /**
-     * 上传数量
-     * @var int
-     */
-    private $number;
+    protected array $rules = [
+        'array',
+    ];
 
 
     /**
-     * @var bool 自动上传
+     * 匹配 max 规则
+     * @return object
      */
-    private $auto = false;
-
-    public function token($token): self
+    protected function attributes(): object
     {
-        $this->token = $token;
-        return $this;
-    }
-
-    /**
-     * 最大上传数量
-     * @param $number
-     */
-    public function number($number)
-    {
-        $this->number = $number;
-    }
-
-    public function auto($auto = false)
-    {
-        $this->auto = $auto;
-    }
-
-
-    public function render()
-    {
-        $this->attribute([
-            'token'  => $this->token,
-            'number' => $this->number,
-            'auto'   => $this->auto,
-        ]);
-        return parent::render();
+        // 解析 max 规则, 匹配属性
+        collect($this->rules)->each(function ($rule) {
+            if (Str::startsWith($rule, 'max')) {
+                $max = Str::after($rule, 'max:');
+                $this->setAttribute('limit', (int) $max);
+            }
+        });
+        return parent::attributes();
     }
 }
