@@ -7,11 +7,11 @@ use Poppy\Framework\Validation\Rule;
 class Mobile extends Text
 {
 
-    public function __construct($column = '', $arguments = [])
+    public function __construct($name = '', $label = '')
     {
-        parent::__construct($column, $arguments);
+        parent::__construct($name, $label);
         $this->rules([
-            Rule::mobile()
+            Rule::mobile(),
         ]);
         $this->prefixIcon('Cellphone');
     }

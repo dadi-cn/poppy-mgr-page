@@ -35,6 +35,7 @@ class FormFieldTextEstablish extends FormWidget
         $this->text('clearable', 'Clearable')->clearable();
         $this->text('prefix-icon', '带有Icon(头部)')->prefixIcon('Search');
         $this->text('suffix-icon', '带有Icon(尾部)')->suffixIcon('Calendar');
+        $this->divider('abc', '分割线');
         $this->text('max-length', '最大长度')->rules([
             Rule::max('20'),
         ])->showWordLimit();

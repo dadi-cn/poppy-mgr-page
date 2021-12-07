@@ -23,10 +23,12 @@ class FormFieldImageEstablish extends FormWidget
             'id'          => 5,
             'default'     => 'default str',
             'image'       => 'https://wulicode.com/img/200x200/duoli',
+            'image-v'       => 'https://wulicode.com/img/200x100/duoli',
             'multi-image' => [
                 'https://wulicode.com/img/200x200/duoli',
                 'https://wulicode.com/img/300x300/square',
                 'https://wulicode.com/img/300x100/hengxiang',
+                'https://wulicode.com/img/100x200/v',
                 'https://wulicode.com/img/400x400/leecode',
             ],
         ];
@@ -35,6 +37,7 @@ class FormFieldImageEstablish extends FormWidget
     public function form()
     {
         $this->image('image', '图片');
+        $this->image('image-v', '图片:竖向');
         $this->multiImage('multi-image', '多图')->rules([
             Rule::max(4),
         ]);

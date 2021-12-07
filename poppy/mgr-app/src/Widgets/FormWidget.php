@@ -21,6 +21,7 @@ use Poppy\MgrApp\Form\Field\DateRange;
 use Poppy\MgrApp\Form\Field\Datetime;
 use Poppy\MgrApp\Form\Field\DatetimeRange;
 use Poppy\MgrApp\Form\Field\Decimal;
+use Poppy\MgrApp\Form\Field\Divider;
 use Poppy\MgrApp\Form\Field\Email;
 use Poppy\MgrApp\Form\Field\Image;
 use Poppy\MgrApp\Form\Field\Ip;
@@ -75,6 +76,7 @@ use Poppy\MgrApp\Form\FormItem;
  * @method OnOff onOff($name, $label = '')
  * @method Image image($name, $label = '')
  * @method MultiImage multiImage($name, $label = '')
+ * @method Divider divider($name, $label = '')
  */
 abstract class FormWidget
 {
