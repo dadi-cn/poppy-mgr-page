@@ -65,7 +65,7 @@ class AliyunTest extends BaseSms
             $this->assertTrue(true);
         }
         else {
-            $this->assertTrue(false, $Sms->getError());
+            $this->fail($Sms->getError());
         }
     }
 
@@ -79,7 +79,7 @@ class AliyunTest extends BaseSms
             $this->assertTrue(true);
         }
         else {
-            $this->assertTrue(false, $Sms->getError());
+            $this->fail($Sms->getError());
         }
     }
 }

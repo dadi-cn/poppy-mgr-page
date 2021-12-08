@@ -29,7 +29,7 @@ class StsTest extends SystemTestCase
             $this->assertIsArray($temp);
         }
         else {
-            $this->assertTrue(false, $Sts->getError());
+            $this->fail($Sts->getError());
         }
     }
 }

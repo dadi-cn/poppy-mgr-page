@@ -3,11 +3,14 @@
 namespace Php\Commands;
 
 use Illuminate\Console\Command;
+use Notification;
 use Php\Events\EventRunEvent;
 use Php\Events\JobSmEvent;
 use Php\Jobs\DeletePhpDemoJob;
 use Php\Models\PhpDemo;
+use Php\Notifications\SystemNotification;
 use Poppy\Framework\Exceptions\FakerException;
+use Poppy\System\Models\PamAccount;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
@@ -35,11 +38,14 @@ class LaravelCommand extends Command
                 event(new EventRunEvent());
                 break;
             case 'job-sm-event':
-                $item  = PhpDemo::create([
+                $item = PhpDemo::create([
                     'title' => py_faker()->paragraph(1),
                 ]);
                 sys_debug('php', __CLASS__, "id: {$item->id}, title:{$item->title}");
                 event(new JobSmEvent($item));
+                break;
+            case 'notification':
+                Notification::send(PamAccount::first(), new SystemNotification());
                 break;
             case 'job-sm':
                 $item  = PhpDemo::create([

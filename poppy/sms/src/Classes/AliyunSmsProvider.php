@@ -10,7 +10,7 @@ use Poppy\Sms\Classes\Contracts\SmsContract;
 use Poppy\Sms\Exceptions\SmsException;
 use Throwable;
 
-class AliyunSms extends BaseSms implements SmsContract
+class AliyunSmsProvider extends BaseSms implements SmsContract
 {
     use AppTrait;
 

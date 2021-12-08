@@ -41,7 +41,7 @@ class ChuanglanTest extends BaseSms
             $this->assertTrue(true);
         }
         else {
-            $this->assertTrue(false, $Sms->getError());
+            $this->fail($Sms->getError());
         }
     }
 
@@ -55,7 +55,7 @@ class ChuanglanTest extends BaseSms
             $this->assertTrue(true);
         }
         else {
-            $this->assertTrue(false, $Sms->getError());
+            $this->fail($Sms->getError());
         }
     }
 }

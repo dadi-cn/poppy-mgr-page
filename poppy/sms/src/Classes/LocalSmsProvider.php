@@ -8,7 +8,7 @@ use Poppy\Sms\Classes\Contracts\SmsContract;
 /**
  * 本地发送短信, 记录在日志中
  */
-class LocalSms extends BaseSms implements SmsContract
+class LocalSmsProvider extends BaseSms implements SmsContract
 {
 
     /**

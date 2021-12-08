@@ -1,5 +1,6 @@
 -
   name: 'poppy.sms.send_type'
   hooks:
+    - '\Poppy\Sms\Services\SendTypeLocal'
     - '\Poppy\Sms\Services\SendTypeAliyun'
     - '\Poppy\Sms\Services\SendTypeChuanglan'

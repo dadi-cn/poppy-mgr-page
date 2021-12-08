@@ -3,6 +3,7 @@
 namespace Poppy\Sms\Services;
 
 use Poppy\Core\Services\Contracts\ServiceArray;
+use Poppy\Sms\Classes\AliyunSmsProvider;
 use Poppy\Sms\Http\Forms\Settings\FormSettingAliyun;
 
 class SendTypeAliyun implements ServiceArray
@@ -16,9 +17,10 @@ class SendTypeAliyun implements ServiceArray
     public function data()
     {
         return [
-            'title'   => '阿里云',
-            'setting' => FormSettingAliyun::class,
-            'route'   => 'py-sms:backend.store.aliyun',
+            'title'    => '阿里云',
+            'provider' => AliyunSmsProvider::class,
+            'setting'  => FormSettingAliyun::class,
+            'route'    => 'py-sms:backend.store.aliyun',
         ];
     }
 }
