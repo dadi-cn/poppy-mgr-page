@@ -49,7 +49,7 @@ class PushTest extends SystemTestCase
             Notification::send(null, new AndroidNoticeNotification());
             $this->assertTrue(true);
         } catch (Throwable $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -59,7 +59,7 @@ class PushTest extends SystemTestCase
             Notification::send(null, new AndroidAllNoticeNotification());
             $this->assertTrue(true);
         } catch (Throwable $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -69,7 +69,7 @@ class PushTest extends SystemTestCase
             Notification::send(null, new AndroidMessageNotification());
             $this->assertTrue(true);
         } catch (Throwable $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -79,7 +79,7 @@ class PushTest extends SystemTestCase
             Notification::send(null, new IosNoticeNotification());
             $this->assertTrue(true);
         } catch (Throwable $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -89,7 +89,7 @@ class PushTest extends SystemTestCase
             Notification::send(null, new IosMessageNotification());
             $this->assertTrue(true);
         } catch (Throwable $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -111,7 +111,7 @@ class PushTest extends SystemTestCase
             $Bind->bindDevice(PushMessage::DEVICE_TYPE_IOS, 'ios', $dyId);
             $this->assertTrue(true);
         } catch (Throwable $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -121,7 +121,7 @@ class PushTest extends SystemTestCase
             Notification::send(null, new IosTagGirlPushNotification());
             $this->assertTrue(true);
         } catch (Throwable $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -131,7 +131,7 @@ class PushTest extends SystemTestCase
             Notification::send(null, new IosTagIosPushNotification());
             $this->assertTrue(true);
         } catch (Throwable $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 
@@ -141,7 +141,7 @@ class PushTest extends SystemTestCase
             Notification::send(null, new IosTagBoyPushNotification());
             $this->assertTrue(true);
         } catch (Throwable $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 }

@@ -6,38 +6,54 @@ use Poppy\MgrApp\Form\FormItem;
 
 class File extends FormItem
 {
-    public function image()
+
+    public function __construct(string $name, string $label)
     {
-        $this->options['type'] = 'images';
+        parent::__construct($name, $label);
+        $this->file();
+    }
+
+    public function audio(): self
+    {
+        $extensions = ['.mp3', '.m4a', '.wav', '.aac'];
+        $this->setAttribute('accept', implode(',', $extensions));
+        $this->setAttribute('type', 'audio');
         return $this;
     }
 
-    public function file()
+    public function video(): self
     {
-        $this->options['type'] = 'file';
+        $extensions = ['.mp4', '.rm', '.rmvb', '.wmv'];
+        $this->setAttribute('accept', implode(',', $extensions));
+        $this->setAttribute('type', 'video');
         return $this;
     }
 
-    public function audio()
+    public function extensions(array $extensions = [], $type = 'file'): self
     {
-        $this->options['type'] = 'audio';
-        return $this;
-    }
-
-    public function video()
-    {
-        $this->options['type'] = 'video';
+        $extensions = collect($extensions)->map(function ($ext) {
+            return '.' . $ext;
+        });
+        $this->setAttribute('accept', implode(',', $extensions->toArray()));
+        $this->setAttribute('type', 'file');
         return $this;
     }
 
     /**
-     * 自定义扩展
-     * @param array $exts
-     * @return File
+     * @return $this
      */
-    public function exts(array $exts = [])
+    protected function image(): self
     {
-        $this->options['exts'] = $exts;
+        $extensions = ['.jpg', '.jpeg', '.png', '.gif'];
+        $this->setAttribute('accept', implode(',', $extensions));
+        $this->setAttribute('type', 'images');
         return $this;
+    }
+
+    private function file()
+    {
+        $extensions = ['.zip', '.rp', '.rplib', '.svga', '.xls', '.xlsx', '.doc', '.docx', '.ppt', '.pptx', '.pdf'];
+        $this->setAttribute('accept', implode(',', $extensions));
+        $this->setAttribute('type', 'file');
     }
 }

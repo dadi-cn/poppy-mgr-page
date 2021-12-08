@@ -22,7 +22,9 @@ use Poppy\MgrApp\Form\Field\Datetime;
 use Poppy\MgrApp\Form\Field\DatetimeRange;
 use Poppy\MgrApp\Form\Field\Decimal;
 use Poppy\MgrApp\Form\Field\Divider;
+use Poppy\MgrApp\Form\Field\Editor;
 use Poppy\MgrApp\Form\Field\Email;
+use Poppy\MgrApp\Form\Field\File;
 use Poppy\MgrApp\Form\Field\Image;
 use Poppy\MgrApp\Form\Field\Ip;
 use Poppy\MgrApp\Form\Field\Mobile;
@@ -75,8 +77,10 @@ use Poppy\MgrApp\Form\FormItem;
  * @method TimeRange timeRange($name, $label = '')
  * @method OnOff onOff($name, $label = '')
  * @method Image image($name, $label = '')
+ * @method File file($name, $label = '')
  * @method MultiImage multiImage($name, $label = '')
  * @method Divider divider($name, $label = '')
+ * @method Editor editor($name, $label = '')
  */
 abstract class FormWidget
 {

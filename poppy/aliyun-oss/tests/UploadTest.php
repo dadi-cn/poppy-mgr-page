@@ -49,10 +49,10 @@ class UploadTest extends TestCase
                 $this->assertTrue(true);
             }
             else {
-                $this->assertTrue(false, "Url {$url} 不可访问!");
+                $this->fail("Url {$url} 不可访问!");
             }
         } catch (Throwable $e) {
-            $this->assertTrue(false, $e->getMessage());
+            $this->fail($e->getMessage());
         }
     }
 }
