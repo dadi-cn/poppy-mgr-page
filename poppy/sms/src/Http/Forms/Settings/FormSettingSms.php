@@ -13,9 +13,10 @@ class FormSettingSms extends FormSettingBase
 
     public function form()
     {
+        $sendTypes = sys_hook('poppy.sms.send_type');
         $this->radio('send_type', '发送方式')->options([
-            'aliyun'    => '阿里云',
             'local'     => '本地',
+            'aliyun'    => '阿里云',
             'chuanglan' => '创蓝',
         ])->rules([
             Rule::string(),
@@ -24,23 +25,15 @@ class FormSettingSms extends FormSettingBase
         $this->text('sign', '默认签名')->rules([
             Rule::nullable(),
         ]);
-        $this->text('aliyun_access_key', '阿里云 Key')->rules([
-            Rule::nullable(),
-        ]);
-        $this->text('aliyun_access_secret', '阿里云 Secret')->rules([
-            Rule::nullable(),
-        ]);
-        $this->text('chuanglan_access_key', '创蓝 Key')->rules([
-            Rule::nullable(),
-        ]);
-        $this->text('chuanglan_access_secret', '创蓝 Secret')->rules([
-            Rule::nullable(),
-        ]);
-        $this->text('chuanglan_cty_access_key', '创蓝国际 Key')->rules([
-            Rule::nullable(),
-        ]);
-        $this->text('chuanglan_cty_access_secret', '创蓝国际 Secret')->rules([
-            Rule::nullable(),
-        ]);
+
+        foreach ($sendTypes as $desc) {
+            if (isset($desc['setting'])) {
+                $url  = route($desc['route']);
+                $link = <<<Link
+<a class="J_iframe" href="$url" data-height="600"><i class="fa fa-cogs"></i> {$desc['title']}设置</a>
+Link;
+                $this->html($link, $desc['title']);
+            }
+        }
     }
 }
