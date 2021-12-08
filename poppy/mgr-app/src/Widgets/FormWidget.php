@@ -30,6 +30,7 @@ use Poppy\MgrApp\Form\Field\Ip;
 use Poppy\MgrApp\Form\Field\Mobile;
 use Poppy\MgrApp\Form\Field\Month;
 use Poppy\MgrApp\Form\Field\MonthRange;
+use Poppy\MgrApp\Form\Field\MultiFile;
 use Poppy\MgrApp\Form\Field\MultiImage;
 use Poppy\MgrApp\Form\Field\MultiSelect;
 use Poppy\MgrApp\Form\Field\Number;
@@ -79,6 +80,7 @@ use Poppy\MgrApp\Form\FormItem;
  * @method Image image($name, $label = '')
  * @method File file($name, $label = '')
  * @method MultiImage multiImage($name, $label = '')
+ * @method MultiFile multiFile($name, $label = '')
  * @method Divider divider($name, $label = '')
  * @method Editor editor($name, $label = '')
  */
