@@ -11,11 +11,13 @@ use Php\Commands\CanalCommand;
 use Php\Commands\ExamCommand;
 use Php\Commands\LaravelCommand;
 use Php\Events\EventRunEvent;
+use Php\Events\JobSmEvent;
 use Php\Http\MiddlewareServiceProvider;
 use Php\Http\RouteServiceProvider;
 use Php\Listeners\EventRun\FirstListener;
 use Php\Listeners\EventRun\SecondListener;
 use Php\Listeners\EventRun\ThirdListener;
+use Php\Listeners\JobSm\DeletePhpDemoListener;
 use Poppy\Framework\Exceptions\ModuleNotFoundException;
 use Poppy\Framework\Support\PoppyServiceProvider as ModuleServiceProviderBase;
 
@@ -26,6 +28,9 @@ class ServiceProvider extends ModuleServiceProviderBase
             FirstListener::class,
             SecondListener::class,
             ThirdListener::class,
+        ],
+        JobSmEvent::class => [
+            DeletePhpDemoListener::class,
         ],
     ];
     /**
