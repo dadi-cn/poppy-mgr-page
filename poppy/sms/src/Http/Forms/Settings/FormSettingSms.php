@@ -2,6 +2,7 @@
 
 namespace Poppy\Sms\Http\Forms\Settings;
 
+use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\Framework\Validation\Rule;
 use Poppy\System\Http\Forms\Settings\FormSettingBase;
 
@@ -11,14 +12,19 @@ class FormSettingSms extends FormSettingBase
 
     protected $withContent = true;
 
+    /**
+     * @throws ApplicationException
+     */
     public function form()
     {
         $sendTypes = sys_hook('poppy.sms.send_type');
-        $this->radio('send_type', '发送方式')->options([
-            'local'     => '本地',
-            'aliyun'    => '阿里云',
-            'chuanglan' => '创蓝',
-        ])->rules([
+
+        $types['local'] = '本地';
+        foreach ($sendTypes as $key => $desc) {
+            $types[$key] = $desc['title'];
+        }
+
+        $this->radio('send_type', '发送方式')->options($types)->rules([
             Rule::string(),
             Rule::required(),
         ])->default('local')->help('选择本地则文件存储在日志中, 需要自行查看');
