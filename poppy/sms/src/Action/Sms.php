@@ -167,11 +167,11 @@ class Sms
      */
     public static function kvPlatform($key = null, $check_key = false)
     {
-        $desc = [
-            self::SCOPE_LOCAL     => 'Local(本地)',
-            self::SCOPE_ALIYUN    => 'Aliyun(阿里云)',
-            self::SCOPE_CHUANGLAN => 'Chuanglan(创蓝)',
-        ];
+        $sendTypes = sys_hook('poppy.sms.send_type');
+        $desc['local'] = '本地';
+        foreach ($sendTypes as $k => $d) {
+            $desc[$k] = $d['title'];
+        }
         return kv($desc, $key, $check_key);
     }
 
