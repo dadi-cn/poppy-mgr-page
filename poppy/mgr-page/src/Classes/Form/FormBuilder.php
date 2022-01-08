@@ -265,6 +265,7 @@ TIP;
         $display_str = $value ? 'form_thumb-success' : '';
         $sizeClass   = $options['sizeClass'] ?? 'form_thumb-normal';
         $readonly    = $options['readonly'] ?? false;
+        $imageType   = $options['image_type'] ?? 'default';
         $uploadUrl   = route('py-system:api_v1.upload.image');
         $timestamp   = Carbon::now()->timestamp;
         /** @var ApiSignContract $Sign */
@@ -299,6 +300,7 @@ layui.upload.render({
         token: '{$token}',
         timestamp: '{$timestamp}',
         sign: '{$sign}',
+        image_type: '{$imageType}',
     },
     done: function(response){
         //上传完毕回调
