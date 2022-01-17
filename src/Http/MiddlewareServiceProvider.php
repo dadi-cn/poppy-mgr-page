@@ -27,6 +27,7 @@ class MiddlewareServiceProvider extends ServiceProvider
             'sys-auth:backend,jwt_backend',
             'sys-auth_session',
             'sys-disabled_pam',
+            'sys-ban:backend',
             'mgr-permission',
         ]);
     }
