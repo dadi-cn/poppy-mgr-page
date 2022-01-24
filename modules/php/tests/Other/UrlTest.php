@@ -18,7 +18,7 @@ class UrlTest extends SystemTestCase
 
     public function testParseUrl()
     {
-        $url = 'https://test-oss.aliyun.com/uploads/date/time/file.png';
+        $url    = 'https://test-oss.aliyun.com/uploads/date/time/file.png';
         $parsed = parse_url($url);
         $this->assertEquals('/uploads/date/time/file.png', $parsed['path']);
     }

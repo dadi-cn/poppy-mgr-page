@@ -111,6 +111,23 @@ class ArrayTest extends TestCase
         $this->assertEquals([1], $arr);
     }
 
+
+    /**
+     * 数组中的数据
+     * @return void
+     */
+    public function testIntersect()
+    {
+        $arr = [
+            [1, 2, 3, 4],
+            [3, 1, 6, 9],
+            [1, 8],
+            [1, 0, 9],
+        ];
+        $res = call_user_func_array('array_intersect', $arr);
+        $this->assertEquals(1, $res[0]);
+    }
+
     /**
      * 数组迭代减少, 使用回调函数
      */

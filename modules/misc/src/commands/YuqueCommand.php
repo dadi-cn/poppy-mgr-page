@@ -31,10 +31,12 @@ class YuqueCommand extends Command
         foreach ($content as $con) {
             $slug  = data_get($con, 'slug');
             $title = data_get($con, 'title');
+            try{
+                $fileCon = file_get_contents('https://www.yuque.com/dadi-es/tech/' . $slug . '/markdown?attachment=true&latexcode=false&anchor=false&linebreak=false');
+                $title = str_replace(['/', '+'], '-', $title);
+                $File->put(poppy_path('module.misc', 'resources/dadi-tech/'.$title.'.md'), $fileCon);
+            }catch (\Exception $e){}
 
-            $fileCon = file_get_contents('https://www.yuque.com/duoli/php/' . $slug . '/markdown?attachment=true&latexcode=false&anchor=false&linebreak=false');
-            $con = '# '.$title. PHP_EOL.$fileCon;
-            $File->put(poppy_path('module.misc', 'resources/php/'.$slug.'.md'), $con);
         }
     }
 }

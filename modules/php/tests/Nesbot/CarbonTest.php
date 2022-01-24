@@ -63,7 +63,7 @@ class CarbonTest extends SystemTestCase
     public function testFormat()
     {
         $carbon = Carbon::createFromFormat('Y-m-d', '2021-01-04');
-        $w = $carbon->format('W');
+        $w      = $carbon->format('W');
         dump($w);
     }
 }

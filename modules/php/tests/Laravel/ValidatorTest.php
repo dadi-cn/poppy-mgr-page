@@ -24,8 +24,7 @@ class ValidatorTest extends SystemTestCase
         ]);
         if ($validator->fails()) {
             $this->fail('Url Not Right');
-        }
-        else {
+        } else {
             $this->assertTrue(true);
         }
     }
@@ -41,8 +40,7 @@ class ValidatorTest extends SystemTestCase
         ]);
         if ($validator->fails()) {
             $this->fail('Integer Not Right');
-        }
-        else {
+        } else {
             $this->assertTrue(true);
         }
     }
@@ -58,8 +56,7 @@ class ValidatorTest extends SystemTestCase
         ]);
         if ($validator->fails()) {
             $this->fail('Numeric Not Right');
-        }
-        else {
+        } else {
             $this->assertTrue(true);
         }
     }
@@ -78,8 +75,7 @@ class ValidatorTest extends SystemTestCase
         ]);
         if ($validator->fails()) {
             $this->fail($validator->errors());
-        }
-        else {
+        } else {
             $this->assertTrue(true);
         }
     }
@@ -97,8 +93,7 @@ class ValidatorTest extends SystemTestCase
         ]);
         if ($validator->fails()) {
             $this->fail($validator->errors());
-        }
-        else {
+        } else {
             $this->assertTrue(true);
         }
     }
