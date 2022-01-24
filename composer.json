@@ -21,12 +21,9 @@
         "ext-fileinfo": "*",
         "ext-libxml": "*",
         "ext-xml": "*",
-        "symfony/console": "4.*",
-        "symfony/finder": "4.*",
-        "symfony/yaml": "4.*",
         "elasticsearch/elasticsearch": "7.*",
         "jenssegers/date": "^4.0",
-        "laravel/framework": "6.*",
+        "laravel/framework": "8.*",
         "maatwebsite/excel": "^3.0",
         "intervention/image": "2.*",
         "laravelcollective/html": "^6.0",
@@ -36,14 +33,14 @@
         "aliyuncs/oss-sdk-php": "^2.3",
         "tucker-eric/eloquentfilter": "^3",
         "tymon/jwt-auth": "1.0.*",
-        "hieu-le/active": "4.0.*",
+        "hieu-le/active": "8.*",
         "php-curl-class/php-curl-class": "9.*",
         "alibabacloud/client": "^1.5",
         "alibabacloud/push": "^1.8",
         "alibabacloud/dysmsapi": "^1.8",
         "alibabacloud/sts": "^1.8",
         "overtrue/pinyin": "^4.0",
-        "overtrue/wechat": "~4.0",
+        "overtrue/wechat": "5.*",
         "xingwenge/canal_php": "^1.0",
         "mlocati/ip-lib": "^1.16",
         "sentry/sentry-laravel": "^2.8",
@@ -52,7 +49,7 @@
     "require-dev": {
         "itsgoingd/clockwork": "~5.0",
         "barryvdh/laravel-ide-helper": "2.*",
-        "doctrine/dbal": "^2.6"
+        "doctrine/dbal": "3.*"
     },
     "autoload": {
         "psr-4": {
