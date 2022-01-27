@@ -2,9 +2,6 @@
 
 namespace Php\Tests\Laravel;
 
-/**
- * Copyright (C) Update For IDE
- */
 
 use Illuminate\Support\Str;
 use Poppy\System\Tests\Base\SystemTestCase;
@@ -41,4 +38,5 @@ class StrTest extends SystemTestCase
         $name = 'EventRunEvent';
         $this->assertEquals('event_run_event', Str::snake($name));
     }
+
 }

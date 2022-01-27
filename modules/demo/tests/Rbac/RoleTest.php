@@ -1,10 +1,7 @@
 <?php
 
-namespace Poppy\Demo\Tests\Rbac;
+namespace Demo\Tests\Rbac;
 
-/**
- * Copyright (C) Update For IDE
- */
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;

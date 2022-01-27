@@ -2,10 +2,6 @@
 
 namespace Php\Tests\Math;
 
-/**
- * Copyright (C) Update For IDE
- */
-
 use Poppy\Framework\Application\TestCase;
 
 class MathTest extends TestCase

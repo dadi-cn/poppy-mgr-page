@@ -2,9 +2,6 @@
 
 namespace Php\Tests\Nesbot;
 
-/**
- * Copyright (C) Update For IDE
- */
 
 use Carbon\Carbon;
 use Poppy\System\Tests\Base\SystemTestCase;

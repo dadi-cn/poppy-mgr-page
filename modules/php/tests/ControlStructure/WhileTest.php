@@ -2,9 +2,6 @@
 
 namespace Php\Tests\ControlStructure;
 
-/**
- * Copyright (C) Update For IDE
- */
 
 use Poppy\System\Tests\Base\SystemTestCase;
 

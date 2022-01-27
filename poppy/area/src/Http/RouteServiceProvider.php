@@ -2,9 +2,6 @@
 
 namespace Poppy\Area\Http;
 
-/**
- * Copyright (C) Update For IDE
- */
 
 use Route;
 

@@ -2,10 +2,6 @@
 
 namespace Php;
 
-/**
- * Copyright (C) Update For IDE
- */
-
 use Php\Commands\AlwaysCommand;
 use Php\Commands\CanalCommand;
 use Php\Commands\ExamCommand;

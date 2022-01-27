@@ -2,10 +2,6 @@
 
 namespace Poppy\AliyunOss\Http;
 
-/**
- * Copyright (C) Update For IDE
- */
-
 use Route;
 
 class RouteServiceProvider extends \Poppy\Framework\Application\RouteServiceProvider

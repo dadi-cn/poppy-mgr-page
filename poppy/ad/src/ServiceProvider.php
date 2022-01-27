@@ -2,10 +2,6 @@
 
 namespace Poppy\Ad;
 
-/**
- * Copyright (C) Update For IDE
- */
-
 use Poppy\Ad\Http\RouteServiceProvider;
 use Poppy\Framework\Exceptions\ModuleNotFoundException;
 use Poppy\Framework\Support\PoppyServiceProvider as ModuleServiceProviderBase;

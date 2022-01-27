@@ -2,9 +2,6 @@
 
 namespace Op;
 
-/**
- * Copyright (C) Update For IDE
- */
 
 use Illuminate\Console\Scheduling\Schedule;
 use Op\Commands\QqCommand;

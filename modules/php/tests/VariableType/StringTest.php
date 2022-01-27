@@ -2,10 +2,6 @@
 
 namespace Php\Tests\VariableType;
 
-/**
- * Copyright (C) Update For IDE
- */
-
 use Php\Classes\Emoji;
 use Poppy\Framework\Application\TestCase;
 

@@ -1,10 +1,6 @@
 <?php
 
-namespace Poppy\Demo\Tests\Services;
-
-/**
- * Copyright (C) Update For IDE
- */
+namespace Demo\Tests\Services;
 
 use Poppy\Core\Services\Factory\ServiceFactory;
 use Poppy\Framework\Application\TestCase;

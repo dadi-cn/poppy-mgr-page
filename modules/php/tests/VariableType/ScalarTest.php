@@ -1,10 +1,6 @@
 <?php
 
-namespace Php\Tests\Ability\Core;
-
-/**
- * Copyright (C) Update For IDE
- */
+namespace Php\Tests\VariableType;
 
 use Poppy\Framework\Application\TestCase;
 

@@ -2,9 +2,6 @@
 
 namespace Php\Tests\Laravel;
 
-/**
- * Copyright (C) Update For IDE
- */
 
 use Poppy\Framework\Application\TestCase;
 

@@ -2,10 +2,6 @@
 
 namespace Demo\Http;
 
-/**
- * Copyright (C) Update For IDE
- */
-
 use Illuminate\Routing\Router;
 use Route;
 

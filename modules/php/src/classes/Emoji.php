@@ -2,9 +2,7 @@
 
 namespace Php\Classes;
 
-/**
- * Copyright (C) Update For IDE
- */
+
 class Emoji
 {
 	/**

@@ -2,10 +2,6 @@
 
 namespace Php\Tests\Laravel;
 
-/**
- * Copyright (C) Update For IDE
- */
-
 use Poppy\System\Tests\Base\SystemTestCase;
 use stdClass;
 
