@@ -2,7 +2,6 @@
 
 namespace Demo\Models;
 
-use Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Poppy\System\Models\PamAccount;
@@ -10,7 +9,6 @@ use Poppy\System\Models\PamAccount;
 /**
  * \Poppy\PoppyCoreDemo
  *
- * @mixin Eloquent
  * @property int         $id
  * @property int         $is_open 是否开启
  * @property Carbon|null $created_at

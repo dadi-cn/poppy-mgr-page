@@ -2,8 +2,8 @@
 
 namespace Poppy\Area\Models;
 
-use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Poppy\Area\Classes\PyAreaDef;
 use Poppy\Core\Classes\PyCoreDef;
 use Poppy\Framework\Helper\TreeHelper;
@@ -21,7 +21,6 @@ use Poppy\System\Classes\Traits\FilterTrait;
  * @property string $children        所有的子元素
  * @property int    $has_child       是否有子元素
  * @property int    $level           级别
- * @mixin Eloquent
  * @method static Builder|SysArea filter($input = [], $filter = null)
  * @method static Builder|SysArea pageFilter(PageInfo $pageInfo)
  * @method static Builder|SysArea paginateFilter($perPage = null, $columns = [], $pageName = 'page', $page = null)
@@ -31,7 +30,7 @@ use Poppy\System\Classes\Traits\FilterTrait;
  * @method static Builder|SysArea whereLike($column, $value, $boolean = 'and')
  * @url https://github.com/wecatch/china_regions
  */
-class SysArea extends Eloquent
+class SysArea extends Model
 {
     use FilterTrait;
 

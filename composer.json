@@ -63,6 +63,8 @@
             "Poppy\\Extension\\IpStore\\Tests\\": "poppy/ext-ip_store/tests",
             "Poppy\\Extension\\Pinyin\\": "poppy/ext-pinyin/src",
             "Poppy\\Extension\\Pinyin\\Tests\\": "poppy/ext-pinyin/tests",
+            "Poppy\\Extension\\Wxpay\\": "poppy/ext-wxpay/src",
+            "Poppy\\Extension\\Wxpay\\Tests\\": "poppy/ext-wxpay/tests",
             "Poppy\\Faker\\": "poppy/faker/src",
             "Faker\\": "poppy/faker/src/Faker",
             "Poppy\\Faker\\Tests\\": "poppy/faker/tests",

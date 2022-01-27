@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace Poppy\Version\Models;
 
-use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Poppy\Core\Redis\RdsDb;
 use Poppy\System\Classes\Uploader\Uploader;
@@ -25,9 +25,8 @@ use Poppy\Version\Classes\PyVersionDef;
  * @method static Builder|SysAppVersion newModelQuery()
  * @method static Builder|SysAppVersion newQuery()
  * @method static Builder|SysAppVersion query()
- * @mixin Eloquent
  */
-class SysAppVersion extends Eloquent
+class SysAppVersion extends Model
 {
     /* 操作平台
    * ---------------------------------------- */

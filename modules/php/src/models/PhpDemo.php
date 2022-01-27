@@ -2,15 +2,14 @@
 
 namespace Php\Models;
 
-use Eloquent;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  *
  * @property int    $id
  * @property string $title   问题内容
- * @mixin Eloquent
  */
-class PhpDemo extends Eloquent
+class PhpDemo extends Model
 {
 
     public $timestamps = false;

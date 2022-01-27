@@ -44,15 +44,16 @@
             <directory>./modules/demo/tests/Support</directory>
         </testsuite>
     </testsuites>
-    <!--  2021年04月10日 : 默认不开启
+<!--    &lt;!&ndash;  2021年04月10日 : 默认不开启-->
        <coverage cacheDirectory="storage/phpunit/coverage-cache" processUncoveredFiles="true">
         <include>
-            <directory suffix=".php">./poppy/**/src</directory>
-            <directory suffix=".php">./module/**/src</directory>
+<!--            <directory suffix=".php">./poppy/**/src</directory>-->
+<!--            <directory suffix=".php">./module/**/src</directory>-->
+            <directory suffix=".php">./module/php/src</directory>
         </include>
         <report>
             <html outputDirectory="storage/phpunit/coverage-html" lowUpperBound="50" highLowerBound="90"/>
         </report>
     </coverage>
-   -->
+<!--   &ndash;&gt;-->
 </phpunit>
