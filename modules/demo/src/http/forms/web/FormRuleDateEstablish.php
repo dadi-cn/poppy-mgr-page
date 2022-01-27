@@ -54,8 +54,40 @@ class FormRuleDateEstablish extends FormWidget
     public function data(): array
     {
         return [
-            'id'    => 5,
-            'title' => 'default title',
+            'date-code'                 => <<<CODE
+\$this->text('date', 'Date')->rules([
+    Rule::date(),
+]);
+CODE,
+            'date-format-code'          => <<<CODE
+\$this->text('date-format', 'DateFormat')->rules([
+    Rule::dateFormat('Y-m'),
+]);
+CODE,
+            'date-after-code'           => <<<CODE
+\$this->text('date-after', 'DateAfter')->rules([
+    Rule::string(),
+    Rule::after('date'),
+]);
+CODE,
+            'date-after_or_equal-code'  => <<<CODE
+\$this->text('date-after_or_equal', 'DateAfterEqual')->rules([
+    Rule::string(),
+    Rule::afterOrEqual('date'),
+]);
+CODE,
+            'date-before-code'          => <<<CODE
+\$this->text('date-before', 'DateBefore')->rules([
+    Rule::string(),
+    Rule::before('date'),
+]);
+CODE,
+            'date-before_or_equal-code' => <<<CODE
+\$this->text('date-before_or_equal', 'DateBeforeEqual')->rules([
+    Rule::string(),
+    Rule::beforeOrEqual('date'),
+]);
+CODE,
         ];
     }
 
@@ -64,25 +96,31 @@ class FormRuleDateEstablish extends FormWidget
         $this->text('date', 'Date')->rules([
             Rule::date(),
         ]);
+        $this->code('date-code');
         $this->text('date-format', 'DateFormat')->rules([
             Rule::dateFormat('Y-m'),
         ]);
+        $this->code('date-format-code');
         $this->text('date-after', 'DateAfter')->rules([
             Rule::string(),
             Rule::after('date'),
         ]);
+        $this->code('date-after-code');
         $this->text('date-after_or_equal', 'DateAfterEqual')->rules([
             Rule::string(),
             Rule::afterOrEqual('date'),
         ]);
+        $this->code('date-after_or_equal-code');
         $this->text('date-before', 'DateBefore')->rules([
             Rule::string(),
             Rule::before('date'),
         ]);
+        $this->code('date-before-code');
         $this->text('date-before_or_equal', 'DateBeforeEqual')->rules([
             Rule::string(),
             Rule::beforeOrEqual('date'),
         ]);
+        $this->code('date-before_or_equal-code');
 
     }
 }

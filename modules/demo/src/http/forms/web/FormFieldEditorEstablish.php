@@ -23,13 +23,15 @@ class FormFieldEditorEstablish extends FormWidget
         return [
             'id'       => 5,
             'default'  => '#cccccc',
-            'alpha'    => 'rgba(1,3,8,0.3)',
-            'disabled' => py_faker()->text(20),
+            'default-code'  => <<<CODE
+\$this->editor('default', 'Editor');
+CODE,
         ];
     }
 
     public function form()
     {
         $this->editor('default', 'Editor');
+        $this->code('default-code');
     }
 }

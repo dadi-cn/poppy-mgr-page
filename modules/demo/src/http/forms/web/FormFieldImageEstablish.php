@@ -41,23 +41,58 @@ class FormFieldImageEstablish extends FormWidget
                 'https://test-oss.iliexiang.com/_res/images/gif-268k.gif',
                 'https://test-oss.iliexiang.com/_res/images/jpg-v-2m.jpg',
             ],
+
+            'image-code'         => <<<CODE
+\$this->image('image', '图片');
+CODE,
+            'image-v-code'       => <<<CODE
+\$this->image('image-v', '图片:竖向');
+CODE,
+            'multi-image-4-code' => <<<CODE
+\$this->multiImage('multi-image-4', '多图:Rule 4')->rules([
+    Rule::max(4),
+]);
+CODE,
+            'multi-file-code'    => <<<CODE
+\$this->multiFile('multi-file', '多文件');
+CODE,
+            'multi-audio-code'   => <<<CODE
+\$this->multiFile('multi-audio', 'Audios')->rules([
+    Rule::max(4),
+])->audio();
+CODE,
+            'multi-video-code'   => <<<CODE
+\$this->multiFile('multi-video', 'Videos')->rules([
+    Rule::max(4),
+])->video();
+CODE,
+            'multi-image-code'   => <<<CODE
+\$this->multiImage('multi-image', 'Images');
+CODE,
         ];
     }
 
     public function form()
     {
         $this->image('image', '图片');
+        $this->code('image-code');
         $this->image('image-v', '图片:竖向');
+        $this->code('image-v-code');
         $this->multiImage('multi-image-4', '多图:Rule 4')->rules([
             Rule::max(4),
         ]);
         $this->multiFile('multi-file', '多文件');
+        $this->code('multi-file-code');
         $this->multiFile('multi-audio', 'Audios')->rules([
             Rule::max(4),
         ])->audio();
+        $this->code('multi-audio-code');
         $this->multiFile('multi-video', 'Videos')->rules([
             Rule::max(4),
         ])->video();
+        $this->code('multi-video-code');
         $this->multiImage('multi-image', 'Images');
+        $this->code('multi-image-code');
+
     }
 }

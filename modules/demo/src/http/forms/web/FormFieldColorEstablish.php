@@ -25,16 +25,35 @@ class FormFieldColorEstablish extends FormWidget
             'default'  => '#cccccc',
             'alpha'    => 'rgba(1,3,8,0.3)',
             'disabled' => py_faker()->text(20),
+            'default-code' =><<<CODE
+\$this->color('default', '颜色');
+CODE,
+            'alpha-code' =><<<CODE
+\$this->color('alpha', '透明度')->showAlpha();
+CODE,
+            'predefined-code' =><<<CODE
+\$this->color('predefined', '预定义颜色')->predefine([
+    '#000', '#333', '#999', 'rgba(1,3,8,0.3)',
+]);
+CODE,
+            'disabled-code' =><<<CODE
+\$this->color('disabled', '禁用')->disabled();
+CODE,
+
         ];
     }
 
     public function form()
     {
         $this->color('default', '颜色');
+        $this->code('default-code');
         $this->color('alpha', '透明度')->showAlpha();
+        $this->code('alpha-code');
         $this->color('predefined', '预定义颜色')->predefine([
             '#000', '#333', '#999', 'rgba(1,3,8,0.3)',
         ]);
+        $this->code('predefined-code');
         $this->color('disabled', '禁用')->disabled();
+        $this->code('disabled-code');
     }
 }

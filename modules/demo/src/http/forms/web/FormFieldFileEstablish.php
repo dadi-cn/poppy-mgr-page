@@ -24,16 +24,36 @@ class FormFieldFileEstablish extends FormWidget
             'audio'   => 'https://test-oss.iliexiang.com/_res/audio/actor.mp3',
             'video'   => 'https://test-oss.iliexiang.com/_res/video/h-918k.mp4',
             'image'   => 'https://test-oss.iliexiang.com/_res/images/png-59k.png',
-            'image-v' => 'https://wulicode.com/img/200x100/duoli',
+
+            'file-code' => <<<CODE
+\$this->file('file', 'File');
+CODE,
+            'audio-code' => <<<CODE
+\$this->file('audio', 'Audio')->audio();
+CODE,
+            'video-code' => <<<CODE
+\$this->file('video', 'Video')->video();
+CODE,
+            'pdf-code' => <<<CODE
+\$this->file('pdf', 'Pdf')->extensions(['pdf']);
+CODE,
+            'image-code' => <<<CODE
+\$this->image('image', 'Image');
+CODE,
         ];
     }
 
     public function form()
     {
         $this->file('file', 'File');
+        $this->code('file-code');
         $this->file('audio', 'Audio')->audio();
+        $this->code('audio-code');
         $this->file('video', 'Video')->video();
-        $this->file('Pdf', 'Pdf')->extensions(['pdf']);
+        $this->code('video-code');
+        $this->file('pdf', 'Pdf')->extensions(['pdf']);
+        $this->code('pdf-code');
         $this->image('image', 'Image');
+        $this->code('image-code');
     }
 }
