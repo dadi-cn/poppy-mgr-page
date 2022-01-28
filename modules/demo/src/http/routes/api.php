@@ -15,7 +15,8 @@ Route::group([
     $route->get('resp/401', 'RespController@unAuth');
     $route->get('resp/header', 'RespController@header');
     // form 数据
-    $route->any('form/{auto}', 'FormController@auto');
+    $route->any('form/{field}', 'MgrAppController@form');
+    $route->any('grid/{grid}', 'MgrAppController@grid');
 });
 
 Route::group([

@@ -14,6 +14,7 @@ use Poppy\Framework\Classes\Traits\PoppyTrait;
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\Framework\Helper\ArrayHelper;
 use Poppy\MgrApp\Form\Field\Checkbox;
+use Poppy\MgrApp\Form\Field\Code;
 use Poppy\MgrApp\Form\Field\Color;
 use Poppy\MgrApp\Form\Field\Currency;
 use Poppy\MgrApp\Form\Field\Date;
@@ -52,6 +53,7 @@ use Poppy\MgrApp\Form\FormItem;
  * Form Widget
  * @url https://element-plus.gitee.io/zh-CN/component/form.html#form-attributes
  * @method Text text($name, $label = '')
+ * @method Code code($name, $label = '')
  * @method Textarea textarea($name, $label = '')
  * @method Url url($name, $label = '')
  * @method Password password($name, $label = '')
@@ -281,6 +283,7 @@ abstract class FormWidget
                 $model->offsetSet($item->getName(), $this->model[$item->getName()] ?? $item->getDefault());
             });
             return Resp::success('结构化数据', [
+                'type'        => 'form',
                 'title'       => $this->title,
                 'description' => $this->description,
                 'buttons'     => $this->buttons,

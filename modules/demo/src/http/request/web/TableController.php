@@ -7,9 +7,11 @@ use Demo\Http\Lists\ListPoppyEditable;
 use Demo\Http\Lists\ListPoppyIndex;
 use Demo\Http\Lists\ListPoppyUser;
 use Demo\Models\PoppyDemo;
+use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\System\Classes\Grid;
 use Poppy\System\Classes\Widgets\TableWidget;
 use Poppy\System\Http\Request\Web\WebController;
+use Throwable;
 
 /**
  * 内容生成器
@@ -19,7 +21,7 @@ class TableController extends WebController
 
     /**
      * 主页
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function index()
     {
@@ -39,8 +41,8 @@ class TableController extends WebController
     }
 
     /**
-     * @throws \Throwable
-     * @throws \Poppy\Framework\Exceptions\ApplicationException
+     * @throws Throwable
+     * @throws ApplicationException
      */
     public function demo($type)
     {
