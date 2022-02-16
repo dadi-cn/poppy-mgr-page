@@ -21,41 +21,49 @@ abstract class Action implements Renderable
 {
 
     /**
+     * @var array
+     */
+    protected static $selectors = [];
+
+    /**
      * @var string
      */
     public $event = 'click';
+
     /**
      * @var string
      */
     public $selectorPrefix = '.action-';
+
     /**
      * @var string
      */
     public $name;
+
     /**
      * @var Response
      */
     protected $response;
+
     /**
      * @var string
      */
     protected $selector;
+
     /**
      * @var string
      */
     protected $method = 'POST';
+
     /**
      * @var array
      */
     protected $attributes = [];
+
     /**
      * @var Interactor\Interactor
      */
     protected $interactor;
-    /**
-     * @var array
-     */
-    protected static $selectors = [];
 
     /**
      * Action constructor.
@@ -78,24 +86,6 @@ abstract class Action implements Renderable
         }
 
         return $this->html();
-    }
-
-    /**
-     * @throws Exception
-     */
-    protected function initInteractor()
-    {
-        if ($hasForm = method_exists($this, 'form')) {
-            $this->interactor = new Interactor\Form($this);
-        }
-
-        if ($hasDialog = method_exists($this, 'dialog')) {
-            $this->interactor = new Interactor\Dialog($this);
-        }
-
-        if ($hasForm && $hasDialog) {
-            throw new Exception('Can only define one of the methods in `form` and `dialog`');
-        }
     }
 
     /**
@@ -151,30 +141,6 @@ abstract class Action implements Renderable
     }
 
     /**
-     * Format the field attributes.
-     *
-     * @return string
-     */
-    protected function formatAttributes()
-    {
-        $html = [];
-
-        foreach ($this->attributes as $name => $value) {
-            $html[] = $name . '="' . e($value) . '"';
-        }
-
-        return implode(' ', $html);
-    }
-
-    /**
-     * @return string
-     */
-    protected function getElementClass()
-    {
-        return ltrim($this->selector($this->selectorPrefix), '.');
-    }
-
-    /**
      * @return Response
      */
     public function response()
@@ -185,8 +151,7 @@ abstract class Action implements Renderable
 
         if (method_exists($this, 'dialog')) {
             $this->response->swal();
-        }
-        else {
+        } else {
             $this->response->toastr();
         }
 
@@ -215,14 +180,6 @@ abstract class Action implements Renderable
     public function getHandleRoute()
     {
         return admin_url('_handle_action_');
-    }
-
-    /**
-     * @return string
-     */
-    protected function getModelClass()
-    {
-        return '';
     }
 
     /**
@@ -269,5 +226,55 @@ abstract class Action implements Renderable
      */
     public function html()
     {
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function initInteractor()
+    {
+        if ($hasForm = method_exists($this, 'form')) {
+            $this->interactor = new Interactor\Form($this);
+        }
+
+        if ($hasDialog = method_exists($this, 'dialog')) {
+            $this->interactor = new Interactor\Dialog($this);
+        }
+
+        if ($hasForm && $hasDialog) {
+            throw new Exception('Can only define one of the methods in `form` and `dialog`');
+        }
+    }
+
+    /**
+     * Format the field attributes.
+     *
+     * @return string
+     */
+    protected function formatAttributes()
+    {
+        $html = [];
+
+        foreach ($this->attributes as $name => $value) {
+            $html[] = $name . '="' . e($value) . '"';
+        }
+
+        return implode(' ', $html);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getElementClass()
+    {
+        return ltrim($this->selector($this->selectorPrefix), '.');
+    }
+
+    /**
+     * @return string
+     */
+    protected function getModelClass()
+    {
+        return '';
     }
 }

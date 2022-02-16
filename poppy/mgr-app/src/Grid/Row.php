@@ -7,6 +7,7 @@ use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Arr;
+use Poppy\MgrApp\Grid\Column\Column;
 
 class Row
 {
@@ -178,7 +179,7 @@ class Row
         }
 
         if ($value instanceof Jsonable) {
-            $value = $value->toJson();
+            $value = $value->toJson(JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         }
 
         if (!is_null($value) && !is_scalar($value)) {

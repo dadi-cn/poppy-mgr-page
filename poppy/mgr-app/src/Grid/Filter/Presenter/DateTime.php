@@ -2,41 +2,67 @@
 
 namespace Poppy\MgrApp\Grid\Filter\Presenter;
 
+
+use Poppy\MgrApp\Form\Traits\UsePlaceholder;
+
+/**
+ * 默认是时间日期选择器
+ */
 class DateTime extends Presenter
 {
-    /**
-     * @var array
-     */
-    protected $options = [
-        'layui-type' => 'datetime',
-    ];
+    use UsePlaceholder;
 
-    /**
-     * DateTime constructor.
-     *
-     * @param array $options
-     */
-    public function __construct(array $options = [])
+    protected string $type = 'datetime';
+
+    public function datetime($placeholder = ''): self
     {
-        $this->options = $this->getOptions($options);
-    }
-
-
-    public function variables(): array
-    {
-        return [
-            'group'   => $this->filter->group,
-            'options' => $this->options,
-        ];
+        $this->setAttribute([
+            'type'   => 'datetime',
+            'format' => 'YYYY-MM-DD HH:mm:ss',
+        ]);
+        $this->placeholder($placeholder);
+        return $this;
     }
 
     /**
-     * @param array $options
-     *
-     * @return mixed
+     * 月份
+     * @return $this
      */
-    protected function getOptions(array $options): array
+    public function month($placeholder = ''): self
     {
-        return array_merge($this->options, $options);
+        $this->setAttribute([
+            'type'   => 'month',
+            'format' => 'YYYY-MM',
+        ]);
+        $this->placeholder($placeholder);
+        return $this;
+    }
+
+    /**
+     * 日期
+     * @return $this
+     */
+    public function date($placeholder = ''): self
+    {
+        $this->setAttribute([
+            'type'   => 'date',
+            'format' => 'YYYY-MM-DD',
+        ]);
+        $this->placeholder($placeholder);
+        return $this;
+    }
+
+    /**
+     * 年份
+     * @return $this
+     */
+    public function year($placeholder = ''): self
+    {
+        $this->setAttribute([
+            'type'   => 'year',
+            'format' => 'YYYY',
+        ]);
+        $this->placeholder($placeholder);
+        return $this;
     }
 }

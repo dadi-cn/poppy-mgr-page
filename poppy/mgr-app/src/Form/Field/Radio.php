@@ -7,7 +7,6 @@ use Poppy\MgrApp\Form\Traits\UseOptions;
 
 class Radio extends FormItem
 {
-
     use UseOptions;
 
     /**

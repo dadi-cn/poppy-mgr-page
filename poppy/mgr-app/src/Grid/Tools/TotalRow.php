@@ -5,7 +5,7 @@ namespace Poppy\MgrApp\Grid\Tools;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Poppy\MgrApp\Grid\Column;
+use Poppy\MgrApp\Grid\Column\Column;
 
 class TotalRow extends AbstractTool
 {

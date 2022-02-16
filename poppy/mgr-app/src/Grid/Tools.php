@@ -6,12 +6,12 @@ use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
 use Poppy\MgrApp\Actions\GridAction;
-use Poppy\MgrApp\Widgets\GridWidget;
-use Poppy\MgrApp\Grid\Filter\AbstractFilter;
+use Poppy\MgrApp\Grid\Filter\Render\AbstractFilterItem;
 use Poppy\MgrApp\Grid\Tools\AbstractTool;
 use Poppy\MgrApp\Grid\Tools\FilterButton;
+use Poppy\MgrApp\Widgets\GridWidget;
 
-class Tools extends AbstractFilter implements Renderable
+class Tools extends AbstractFilterItem implements Renderable
 {
     /**
      * Parent grid.
@@ -135,11 +135,6 @@ class Tools extends AbstractFilter implements Renderable
             if ($tool instanceof Renderable) {
                 return $tool->render();
             }
-
-            if ($tool instanceof Htmlable) {
-                return $tool->toHtml();
-            }
-
             return (string) $tool;
         })->implode(' ');
     }

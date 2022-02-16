@@ -36,7 +36,7 @@ trait HasElementNames
     {
         $this->name = $name;
 
-        $this->model()->setPerPageName("{$name}_{$this->model()->getPerPageName()}");
+        $this->model()->setPagesizeName("{$name}_{$this->model()->getPagesizeName()}");
 
         $this->getFilter()->setName($name);
 

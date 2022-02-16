@@ -11,11 +11,6 @@ use Throwable;
 class FilterButton extends AbstractTool
 {
     /**
-     * @var string
-     */
-    protected $view = 'py-system::tpl.filter.button';
-
-    /**
      * @inheritDoc
      * @throws Throwable
      */

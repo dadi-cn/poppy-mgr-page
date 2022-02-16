@@ -4,7 +4,7 @@ namespace Poppy\MgrApp\Actions;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Poppy\MgrApp\Grid\Column;
+use Poppy\MgrApp\Grid\Column\Column;
 
 abstract class RowAction extends GridAction
 {

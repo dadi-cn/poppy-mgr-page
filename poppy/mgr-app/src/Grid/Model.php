@@ -13,8 +13,8 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
+use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\MgrApp\Widgets\GridWidget;
 
 class Model
@@ -55,7 +55,7 @@ class Model
      *
      * @var int
      */
-    protected $perPage = 20;
+    protected $pagesize = 20;
 
     /**
      * If the model use pagination.
@@ -69,14 +69,14 @@ class Model
      *
      * @var string
      */
-    protected $perPageName = 'per_page';
+    protected string $pagesizeName = 'pagesize';
 
     /**
      * The query string variable used to store the sort.
      *
      * @var string
      */
-    protected $sortName = '_sort';
+    protected string $sortName = '_sort';
 
     /**
      * Collection callback.
@@ -152,9 +152,9 @@ class Model
      *
      * @return string
      */
-    public function getPerPageName()
+    public function getPagesizeName()
     {
-        return $this->perPageName;
+        return $this->pagesizeName;
     }
 
     /**
@@ -164,9 +164,9 @@ class Model
      *
      * @return $this
      */
-    public function setPerPageName($name)
+    public function setPagesizeName($name)
     {
-        $this->perPageName = $name;
+        $this->pagesizeName = $name;
 
         return $this;
     }
@@ -176,24 +176,20 @@ class Model
      *
      * @return int
      */
-    public function getPerPage()
+    public function getPagesize()
     {
-        return $this->perPage;
+        return $this->pagesize;
     }
 
     /**
-     * Set per-page number.
-     *
-     * @param int $perPage
-     *
+     * 设置分页数量
+     * @param int $pagesize
      * @return $this
      */
-    public function setPerPage($perPage)
+    public function setPagesize(int $pagesize): self
     {
-        $this->perPage = $perPage;
-
-        $this->__call('paginate', [$perPage]);
-
+        $this->pagesize = $pagesize;
+        $this->__call('paginate', [$pagesize]);
         return $this;
     }
 
@@ -217,30 +213,6 @@ class Model
     public function setSortName($name)
     {
         $this->sortName = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get parent gird instance.
-     *
-     * @return GridWidget
-     */
-    public function getGrid()
-    {
-        return $this->grid;
-    }
-
-    /**
-     * Set parent grid instance.
-     *
-     * @param GridWidget $grid
-     *
-     * @return $this
-     */
-    public function setGrid(GridWidget $grid)
-    {
-        $this->grid = $grid;
 
         return $this;
     }
@@ -297,41 +269,29 @@ class Model
 
     /**
      * Build.
-     *
-     * @param bool $toArray
-     *
-     * @return array|Collection|mixed
+     * @throws Exception
      */
-    public function buildData($toArray = true)
+    public function buildData(): Collection
     {
-        if (empty($this->data)) {
-            $collection = $this->get();
+        $collection = $this->get();
 
-            if ($this->collectionCallback) {
-                $collection = call_user_func($this->collectionCallback, $collection);
-            }
-
-            if ($toArray) {
-                $this->data = $collection->toArray();
-            }
-            else {
-                $this->data = $collection;
-            }
+        if ($this->collectionCallback) {
+            $collection = call_user_func($this->collectionCallback, $collection);
         }
 
+        $this->data = $collection;
         return $this->data;
     }
 
     /**
      * @param callable $callback
      * @param int      $count
-     *
-     * @return bool
+     * @throws Exception
      */
     public function chunk($callback, $count = 100)
     {
         if ($this->usePaginate) {
-            return $this->buildData(false)->chunk($count)->each($callback);
+            return $this->buildData()->chunk($count)->each($callback);
         }
 
         $this->setSort();
@@ -346,15 +306,14 @@ class Model
     }
 
     /**
-     * Add conditions to grid model.
-     *
+     * 添加条件到 Model
      * @param array $conditions
-     *
      * @return $this
      */
-    public function addConditions(array $conditions)
+    public function addConditions(array $conditions): self
     {
         foreach ($conditions as $condition) {
+            // [$this, where][title, like, '%我%']
             call_user_func_array([$this, key($condition)], current($condition));
         }
 
@@ -406,9 +365,9 @@ class Model
     }
 
     /**
+     * 调用查询方法并把参数放入到查询条件中
      * @param string $method
      * @param array  $arguments
-     *
      * @return $this
      */
     public function __call(string $method, array $arguments)
@@ -423,7 +382,7 @@ class Model
 
 
     /**
-     * @param mixed    $id
+     * @param mixed  $id
      * @param string $field
      * @param string $value
      * @return bool
@@ -431,7 +390,7 @@ class Model
     public function edit($id, string $field, string $value): bool
     {
         $pk = $this->originalModel->getKeyName();
-        if (!$pk){
+        if (!$pk) {
             return false;
         }
         $this->originalModel->where($pk, $id)->update([
@@ -493,19 +452,15 @@ class Model
     /**
      * @return Collection
      * @throws Exception
-     *
      */
     protected function get()
     {
-        if ($this->model instanceof LengthAwarePaginator) {
-            return $this->model;
-        }
-
         if ($this->relation) {
             $this->model = $this->relation->getQuery();
         }
 
         $this->setSort();
+
         $this->setPaginate();
 
         $this->queries->unique()->each(function ($query) {
@@ -517,30 +472,12 @@ class Model
         }
 
         if ($this->model instanceof LengthAwarePaginator) {
-            $this->handleInvalidPage($this->model);
-
             return $this->model->getCollection();
         }
 
-        throw new Exception('Grid query error');
+        throw new ApplicationException('Grid query error');
     }
 
-    /**
-     * If current page is greater than last page, then redirect to last page.
-     *
-     * @param LengthAwarePaginator $paginator
-     *
-     * @return void
-     */
-    protected function handleInvalidPage(LengthAwarePaginator $paginator)
-    {
-        if ($paginator->lastPage() && $paginator->currentPage() > $paginator->lastPage()) {
-            $lastPageUrl = Request::fullUrlWithQuery([
-                $paginator->getPageName() => $paginator->lastPage(),
-            ]);
-            redirect($lastPageUrl)->header('X-PJAX-URL', $lastPageUrl)->send();
-        }
-    }
 
     /**
      * Set the grid paginate.
@@ -555,18 +492,10 @@ class Model
             return $query['method'] == 'paginate';
         });
 
-        if (!$this->usePaginate) {
-            $query = [
-                'method'    => 'get',
-                'arguments' => [],
-            ];
-        }
-        else {
-            $query = [
-                'method'    => 'paginate',
-                'arguments' => $this->resolvePerPage($paginate),
-            ];
-        }
+        $query = [
+            'method'    => 'paginate',
+            'arguments' => $this->resolvePerPage($paginate),
+        ];
 
         $this->queries->push($query);
     }
@@ -580,14 +509,14 @@ class Model
      */
     protected function resolvePerPage($paginate)
     {
-        if ($perPage = request($this->perPageName)) {
+        if ($pagesize = request($this->pagesizeName)) {
             if (is_array($paginate)) {
-                $paginate['arguments'][0] = (int) $perPage;
+                $paginate['arguments'][0] = (int) $pagesize;
 
                 return $paginate['arguments'];
             }
 
-            $this->perPage = (int) $perPage;
+            $this->pagesize = (int) $pagesize;
         }
 
         if (isset($paginate['arguments'][0])) {
@@ -595,20 +524,20 @@ class Model
         }
 
         if ($name = $this->grid->getName()) {
-            return [$this->perPage, ['*'], "{$name}_page"];
+            return [$this->pagesize, ['*'], "{$name}_page"];
         }
 
-        return [$this->perPage];
+        return [$this->pagesize];
     }
 
     /**
-     * Find query by method name.
-     *
+     * 通过方法名称查找组合模型的条件
      * @param $method
-     *
-     * @return static
+     * @return array
+     *              method : paginate
+     *              arguments  : [15]
      */
-    protected function findQueryByMethod($method)
+    protected function findQueryByMethod($method): ?array
     {
         return $this->queries->first(function ($query) use ($method) {
             return $query['method'] == $method;
@@ -616,8 +545,12 @@ class Model
     }
 
     /**
-     * Set the grid sort.
-     *
+     * 设置排序
+     * _sort {
+     *    column :
+     *    type :
+     *    cast
+     * }
      * @return void
      */
     protected function setSort()
@@ -633,8 +566,7 @@ class Model
 
         if (Str::contains($this->sort['column'], '.')) {
             $this->setRelationSort($this->sort['column']);
-        }
-        else {
+        } else {
             $this->resetOrderBy();
 
             // get column. if contains "cast", set set column as cast
@@ -642,8 +574,7 @@ class Model
                 $column    = "CAST({$this->sort['column']} AS {$this->sort['cast']}) {$this->sort['type']}";
                 $method    = 'orderByRaw';
                 $arguments = [$column];
-            }
-            else {
+            } else {
                 $column    = $this->sort['column'];
                 $method    = 'orderBy';
                 $arguments = [$column, $this->sort['type']];

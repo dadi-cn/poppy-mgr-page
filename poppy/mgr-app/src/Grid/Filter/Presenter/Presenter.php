@@ -2,50 +2,56 @@
 
 namespace Poppy\MgrApp\Grid\Filter\Presenter;
 
-use Poppy\MgrApp\Grid\Filter\AbstractFilter;
-use ReflectionClass;
-use ReflectionException;
+use Illuminate\Support\Fluent;
+use Poppy\MgrApp\Grid\Filter\Render\AbstractFilterItem;
 
 /**
  * 表现
  */
-abstract class Presenter
+abstract class Presenter extends Fluent
 {
     /**
-     * @var AbstractFilter
+     * @var AbstractFilterItem
      */
     protected $filter;
+
+
+    protected string $type;
 
     /**
      * Set parent filter.
      *
-     * @param AbstractFilter $filter
+     * @param AbstractFilterItem $filter
      */
-    public function setParent(AbstractFilter $filter)
+    public function setParent(AbstractFilterItem $filter)
     {
         $this->filter = $filter;
     }
 
     /**
-     * @see https://stackoverflow.com/questions/19901850/how-do-i-get-an-objects-unqualified-short-class-name
-     *
-     * @return string
-     * @throws ReflectionException
+     * 字段属性
+     * @param string|array $attr
+     * @param mixed        $value
+     * @return $this
      */
-    public function view(): string
+    public function setAttribute($attr, $value = ''): self
     {
-        $reflect = new ReflectionClass(get_called_class());
-
-        return 'py-system::tpl.filter.' . strtolower($reflect->getShortName());
+        if (is_array($attr)) {
+            foreach ($attr as $att => $val) {
+                $this->offsetSet($att, $val);
+            }
+        } else {
+            $this->offsetSet($attr, $value);
+        }
+        return $this;
     }
 
     /**
-     * @throws \ReflectionException
+     * 类型
      */
     public function type(): string
     {
-        $reflect = new ReflectionClass(get_called_class());
-        return strtolower($reflect->getShortName());
+        return $this->type;
     }
 
     /**
@@ -60,15 +66,5 @@ abstract class Presenter
         $this->filter->default($default);
 
         return $this;
-    }
-
-    /**
-     * Blade template variables for this presenter.
-     *
-     * @return array
-     */
-    public function variables(): array
-    {
-        return [];
     }
 }

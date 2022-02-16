@@ -33,7 +33,7 @@ class PerPageSelector extends AbstractTool
      */
     public function getOptions()
     {
-        return collect($this->grid->perPages)
+        return collect($this->grid->pageSizes)
             ->push($this->grid->pagesize)
             ->push($this->perPage)
             ->unique()
@@ -81,7 +81,7 @@ EOT;
      */
     protected function initialize()
     {
-        $this->perPageName = $this->grid->model()->getPerPageName();
+        $this->perPageName = $this->grid->model()->getPagesizeName();
 
         $this->perPage = (int) \request()->input(
             $this->perPageName,

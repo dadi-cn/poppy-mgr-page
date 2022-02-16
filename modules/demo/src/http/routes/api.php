@@ -17,6 +17,10 @@ Route::group([
     // form 数据
     $route->any('form/{field}', 'MgrAppController@form');
     $route->any('grid/{grid}', 'MgrAppController@grid');
+    $route->any('grid_request/{type}', 'MgrAppController@gridRequest')
+        ->name('demo:api.mgr_app.grid_request');
+    $route->any('grid_form/{type}', 'MgrAppController@gridForm')
+        ->name('demo:api.mgr_app.grid_form');
 });
 
 Route::group([

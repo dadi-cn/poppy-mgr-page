@@ -2,7 +2,6 @@
 
 namespace Poppy\MgrApp\Grid\Concerns;
 
-use Poppy\MgrApp\Grid\Tools\BaseButton;
 
 trait HasQuickButton
 {
@@ -11,7 +10,7 @@ trait HasQuickButton
     /**
      * Get create url.
      *
-     * @param BaseButton[]|BaseButton $buttons
+     * @param Action[]|Action $buttons
      * @return array
      */
     public function appendQuickButton(array $buttons): array

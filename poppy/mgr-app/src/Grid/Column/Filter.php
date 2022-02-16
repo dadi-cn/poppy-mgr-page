@@ -2,12 +2,10 @@
 
 namespace Poppy\MgrApp\Grid\Column;
 
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Arr;
-use Poppy\MgrApp\Grid\Column;
 use Poppy\MgrApp\Grid\Model;
 
-class Filter implements Renderable
+class Filter
 {
     /**
      * @var string|array
@@ -69,30 +67,12 @@ class Filter implements Renderable
     }
 
     /**
-     * @param string $key
-     *
-     * @return array|null|string
-     */
-    protected function trans($key)
-    {
-        return __("admin.{$key}");
-    }
-
-    /**
      * Add a query binding.
      *
      * @param mixed $value
      * @param Model $model
      */
     public function addBinding($value, Model $model)
-    {
-        //
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function render()
     {
         //
     }

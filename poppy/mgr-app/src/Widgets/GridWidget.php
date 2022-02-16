@@ -3,22 +3,21 @@
 namespace Poppy\MgrApp\Widgets;
 
 use Closure;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Routing\Redirector;
 use Illuminate\Support\Collection;
 use Poppy\Framework\Classes\Resp;
 use Poppy\Framework\Classes\Traits\PoppyTrait;
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\Framework\Http\Pagination\PageInfo;
-use Poppy\MgrApp\Grid\Column;
+use Poppy\MgrApp\Grid\Column\Column;
 use Poppy\MgrApp\Grid\Concerns;
-use Poppy\MgrApp\Grid\Filter\Scope;
 use Poppy\MgrApp\Grid\Model;
 use Poppy\MgrApp\Grid\Row;
 use Poppy\MgrApp\Http\Lists\ListBase;
-use Response;
 use Throwable;
 
 class GridWidget
@@ -53,7 +52,7 @@ class GridWidget
      *
      * @var array
      */
-    public array $perPages = [15, 30, 50, 100, 200];
+    public array $pageSizes = [15, 30, 50, 100, 200];
 
     /**
      * 默认分页数
@@ -198,8 +197,7 @@ class GridWidget
                 $order
             );
         }
-
-        $this->filter($List->filter());
+        $List->filter($this->filter);
         $this->appendQuickButton($List->quickButtons());
         $this->batchActions($List->batchAction());
     }
@@ -234,17 +232,14 @@ class GridWidget
     }
 
     /**
-     * Paginate the grid.
-     *
-     * @param int $perPage
-     *
+     * 进行分页
+     * @param int $pagesize
      * @return void
      */
-    public function paginate($perPage = 15)
+    public function paginate(int $pagesize = 15)
     {
-        $this->pagesize = $perPage;
-
-        $this->model()->setPerPage($perPage);
+        $this->pagesize = $pagesize;
+        $this->model()->setPagesize($pagesize);
     }
 
     /**
@@ -269,7 +264,7 @@ class GridWidget
      */
     public function perPages(array $perPages)
     {
-        $this->perPages = $perPages;
+        $this->pageSizes = $perPages;
     }
 
     /**
@@ -364,7 +359,7 @@ class GridWidget
     /**
      * 返回相应
      *
-     * @return string
+     * @return JsonResponse|RedirectResponse|Resp|Response
      * @throws Throwable
      */
     public function resp()
@@ -390,10 +385,11 @@ class GridWidget
         $columns = [];
         collect($this->visibleColumns())->each(function (Column $column) use (&$columns) {
             $defines = [
-                'field' => $this->convertFieldName($column->name),
-                'label' => $column->label,
-                'sort'  => $column->sortable,
-                'style' => $column->style,
+                'field'    => $this->convertFieldName($column->name),
+                'label'    => $column->label,
+                'type'     => $column->type,
+                'sort'     => $column->sortable,
+                'ellipsis' => $column->ellipsis,
             ];
 
             if ($width = $column->width) {
@@ -407,23 +403,27 @@ class GridWidget
             }
             $columns[] = $defines;
         });
+        // todo scope
+        /*
         $scopes = $this->getFilter()->getScopes()->map(function (Scope $scope) {
             return [
                 'key'   => $scope->key,
                 'label' => $scope->getLabel(),
             ];
         });
+        */
+        $scopes = [];
         return Resp::success('Grid Skeleton', [
-            'type'         => 'grid',
-            'url'          => $this->pyRequest()->url(),
-            'title'        => $this->variables['title'],
-            'actions'      => $this->skeletonQuickButton(),
-            'filter'       => $this->getFilter()->renderSkeleton(),
-            'scopes'       => $scopes,
-            'page-options' => $this->perPages,
-            'pagesize'     => $this->pagesize,
-            'cols'         => $columns,
-            'pk'           => $this->model()->getOriginalModel()->getKeyName(),
+            'type'       => 'grid',
+            'url'        => $this->pyRequest()->url(),
+            'title'      => $this->variables['title'],
+            'actions'    => $this->skeletonQuickButton(),
+            'filter'     => $this->renderFilter(),
+            'scopes'     => $scopes,
+            'page_sizes' => $this->pageSizes,
+            'pagesize'   => $this->pagesize,
+            'cols'       => $columns,
+            'pk'         => $this->model()->getOriginalModel()->getKeyName(),
         ]);
     }
 
@@ -500,19 +500,20 @@ class GridWidget
     }
 
     /**
-     * @return array|Collection|mixed
+     * @return Collection
+     * @throws Exception
      */
-    protected function applyQuery()
+    protected function applyQuery(): Collection
     {
-        $this->applyQuickSearch();
+        //        $this->applyQuickSearch();
+        //
+        //        $this->applyColumnFilter();
+        //
+        //        $this->applyColumnSearch();
+        //
+        //        $this->applySelectorQuery();
 
-        $this->applyColumnFilter();
-
-        $this->applyColumnSearch();
-
-        $this->applySelectorQuery();
-
-        return $this->applyFilter(false);
+        return $this->applyFilter();
     }
 
     /**
@@ -568,14 +569,12 @@ class GridWidget
     /**
      * 查询并返回数据
      * @param int $pagesize
-     * @return array|JsonResponse|RedirectResponse|\Illuminate\Http\Response|Redirector|Resp|Response
+     * @return Response|JsonResponse|RedirectResponse|Resp
+     * @throws Exception
      */
-    private function inquire($pagesize = 15)
+    private function inquire()
     {
-        $this->paginate($pagesize);
-        /**
-         * 获取到的模型数据
-         */
+        // 获取模型数据
         $collection = $this->applyQuery();
 
         $this->build();
@@ -603,13 +602,8 @@ class GridWidget
         $paginator = $this->paginator();
 
         return Resp::success('获取成功', [
-            'list'       => $rows,
-            'pagination' => [
-                'total' => $paginator->total(),
-                'page'  => $paginator->currentPage(),
-                'size'  => $paginator->perPage(),
-                'pages' => $paginator->lastPage(),
-            ],
+            'list'  => $rows,
+            'total' => $paginator->total(),
         ]);
     }
 

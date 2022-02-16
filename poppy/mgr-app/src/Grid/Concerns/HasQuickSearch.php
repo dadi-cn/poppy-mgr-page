@@ -5,7 +5,7 @@ namespace Poppy\MgrApp\Grid\Concerns;
 use Closure;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Poppy\MgrApp\Grid\Column;
+use Poppy\MgrApp\Grid\Column\Column;
 use Poppy\MgrApp\Grid\Tools;
 
 /**

@@ -2,7 +2,6 @@
 
 namespace Poppy\MgrApp\Http\Lists;
 
-use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -16,9 +15,9 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Poppy\Framework\Exceptions\ApplicationException;
+use Poppy\MgrApp\Grid\Column\Column;
+use Poppy\MgrApp\Widgets\FilterWidget;
 use Poppy\MgrApp\Widgets\GridWidget;
-use Poppy\MgrApp\Grid\Column;
-use Poppy\MgrApp\Grid\Filter;
 use Poppy\System\Models\PamAccount;
 
 abstract class ListBase implements ListContract
@@ -117,10 +116,8 @@ abstract class ListBase implements ListContract
         return $this->columns;
     }
 
-    public function filter(): Closure
+    public function filter(FilterWidget $filter)
     {
-        return function (Filter $filter) {
-        };
     }
 
     public function actions()

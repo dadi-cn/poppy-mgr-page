@@ -2,7 +2,7 @@
 
 namespace Poppy\MgrApp\Http\Lists;
 
-use Closure;
+use Poppy\MgrApp\Widgets\FilterWidget;
 
 interface ListContract
 {
@@ -14,9 +14,8 @@ interface ListContract
 
     /**
      * 添加搜索项
-     * @return Closure
      */
-    public function filter(): Closure;
+    public function filter(FilterWidget $filter);
 
     /**
      * 添加操作项目

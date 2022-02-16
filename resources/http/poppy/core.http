@@ -1,4 +1,4 @@
-###         name1
+###  核心信息
 POST {{domain}}/api_v1/system/core/info
 Content-Type: application/x-www-form-urlencoded
 

@@ -3,9 +3,9 @@
 namespace Poppy\MgrApp\Grid\Concerns;
 
 use Illuminate\Support\Collection;
-use Poppy\MgrApp\Widgets\GridWidget;
-use Poppy\MgrApp\Grid\Column;
+use Poppy\MgrApp\Grid\Column\Column;
 use Poppy\MgrApp\Grid\Tools\ColumnSelector;
+use Poppy\MgrApp\Widgets\GridWidget;
 
 trait CanHidesColumns
 {

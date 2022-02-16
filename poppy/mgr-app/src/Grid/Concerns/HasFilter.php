@@ -3,11 +3,9 @@
 namespace Poppy\MgrApp\Grid\Concerns;
 
 use Closure;
-use Illuminate\Contracts\View\Factory;
+use Exception;
 use Illuminate\Support\Collection;
-use Illuminate\View\View;
-use Poppy\MgrApp\Grid\Filter;
-use Throwable;
+use Poppy\MgrApp\Widgets\FilterWidget;
 
 /**
  * 是否开启筛选
@@ -15,28 +13,28 @@ use Throwable;
 trait HasFilter
 {
     /**
-     * @var Filter
+     * @var FilterWidget
      */
-    protected $filter;
+    protected FilterWidget $filter;
 
     /**
      * 获取筛选
      *
-     * @return Filter
+     * @return FilterWidget
      */
-    public function getFilter(): Filter
+    public function getFilter(): FilterWidget
     {
         return $this->filter;
     }
 
     /**
      * 执行查询器
-     * @param bool $toArray
-     * @return array|Collection|mixed
+     * @return Collection
+     * @throws Exception
      */
-    public function applyFilter($toArray = true)
+    public function applyFilter(): Collection
     {
-        return $this->filter->execute($toArray);
+        return $this->filter->execute();
     }
 
     /**
@@ -49,25 +47,21 @@ trait HasFilter
     }
 
     /**
-     * Render the grid filter.
-     *
-     * @return Factory|View|string
-     * @throws Throwable
+     * 渲染 Filter
+     * @return array
      */
-    public function renderFilter()
+    public function renderFilter(): array
     {
-        return $this->filter->render();
+        return $this->filter->struct();
     }
 
     /**
      * 初始化筛选
-     *
      * @return $this
      */
-    protected function initFilter()
+    protected function initFilter(): self
     {
-        $this->filter = new Filter($this->model());
-
+        $this->filter = new FilterWidget($this->model);
         return $this;
     }
 }

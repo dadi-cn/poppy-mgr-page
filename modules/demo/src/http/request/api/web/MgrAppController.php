@@ -2,11 +2,12 @@
 
 namespace Demo\Http\Request\Api\Web;
 
-use Demo\App\Grid\GridPoppyUser;
+use Demo\App\Forms\FormGridPoppyEstablish;
 use Demo\Models\PoppyDemo;
 use Illuminate\Support\Str;
-use Poppy\MgrApp\Widgets\GridWidget;
+use Poppy\Framework\Classes\Resp;
 use Poppy\MgrApp\Widgets\FormWidget;
+use Poppy\MgrApp\Widgets\GridWidget;
 use Poppy\System\Http\Request\ApiV1\Web\WebApiController;
 
 class MgrAppController extends WebApiController
@@ -39,9 +40,36 @@ class MgrAppController extends WebApiController
         // 第一列显示id字段，并将这一列设置为可排序列
         $grid = new GridWidget(new PoppyDemo());
         $grid->setTitle('Title');
-        if ($type === 'normal') {
-            $grid->setLists(GridPoppyUser::class);
-        }
+        $classname = '\Demo\App\Grid\GridPoppy' . Str::studly($type);
+        $grid->setLists($classname);
         return $grid->resp();
+    }
+
+    /**
+     * @api                    {get} api/demo/grid_request/:type   GridRequest
+     * @apiVersion             1.0.0
+     * @apiName                GridRequest
+     * @apiGroup               MgrApp
+     */
+    public function gridRequest($type)
+    {
+        if ($type === 'error') {
+            return Resp::error('请求错误');
+        } else {
+            return Resp::success('请求成功');
+        }
+    }
+
+    /**
+     * @api                    {get} api/demo/grid_form   GridForm
+     * @apiVersion             1.0.0
+     * @apiName                Grid表单
+     * @apiGroup               MgrApp
+     */
+    public function gridForm($type)
+    {
+        $form = new FormGridPoppyEstablish();
+        $form->title($type, 'Grid:Form');
+        return $form->resp();
     }
 }
