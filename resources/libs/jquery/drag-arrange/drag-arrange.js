@@ -1,9 +1,3 @@
-/*
- * This is NOT a Free software.
- * When you have some Question or Advice can contact Me.
- * @author     Duoli <zhaody901@126.com>
- * @copyright  Copyright (c) 2013-2020 Sour Lemon Team
- */
 
 'use strict';
 (function (factory) {
