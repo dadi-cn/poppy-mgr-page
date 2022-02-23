@@ -2,25 +2,36 @@
 
 namespace Poppy\MgrApp\Grid\Filter\Render;
 
+use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
+
 class Date extends AbstractFilterItem
 {
     /**
-     * @inheritDoc
+     * Get condition of this filter.
+     *
+     * @param array $inputs
+     *
+     * @return mixed
      */
-    protected $query = 'whereDate';
-
-    /**
-     * @var string
-     */
-    protected $fieldName = 'date';
-
-    /**
-     * @inheritDoc
-     */
-    public function __construct($column, $label = '')
+    public function condition(array $inputs)
     {
-        parent::__construct($column, $label);
+        if (!Arr::has($inputs, $this->column)) {
+            return null;
+        }
 
-        $this->{$this->fieldName}();
+        $this->value = Arr::get($inputs, $this->column);
+
+        if (!$this->value) {
+            return null;
+        }
+
+        $start = Carbon::createFromFormat('Y-m-d', $this->value)->startOfDay()->toDateTimeString();
+        $end   = Carbon::createFromFormat('Y-m-d', $this->value)->endOfDay()->toDateTimeString();
+
+        return $this->buildCondition([
+            [$this->column, '<=', trim($end)],
+            [$this->column, '>=', trim($start)],
+        ]);
     }
 }

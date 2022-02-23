@@ -6,18 +6,12 @@ use Poppy\Core\Services\Contracts\ServiceArray;
 class SettingOp implements ServiceArray
 {
 
-    /**
-     * @return mixed
-     */
-    public function key()
+    public function key():string
     {
         return 'op';
     }
 
-    /**
-     * @return mixed
-     */
-    public function data()
+    public function data():array
     {
         return [
             'title' => '运维',

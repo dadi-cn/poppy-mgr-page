@@ -38,7 +38,7 @@ class GridPoppyButtonDropdown extends ListBase
             $actions->request('Primary', route_url('demo:api.mgr_app.grid_request', ['success'], ['id' => data_get($row, 'id')]))->primary();
             $actions->request('Plain', route_url('demo:api.mgr_app.grid_request', ['success'], ['id' => data_get($row, 'id')]))->primary()->plain();
             $actions->request('确认', route_url('demo:api.mgr_app.grid_request', ['success'], ['id' => data_get($row, 'id')]))->confirm();
-            $actions->page('页面', route_url('demo:api.mgr_app.grid_form', ['detail']));
+            $actions->page('页面', route_url('demo:api.mgr_app.grid_form', ['detail']), 'form');
         }]);
     }
 
@@ -51,7 +51,7 @@ class GridPoppyButtonDropdown extends ListBase
         $filter->like('username', 'username');
         // todo 这里应该是支持地区的
         // $filter->area('area', 'area');
-        $filter->betweenDate('id', 'Between')->withTime();
+        $filter->betweenDate('id', 'Between');
         $filter->lt('datetime', 'Datetime')->datetime();
         $filter->lt('date', 'Date')->date();
         $filter->lt('time', 'Time')->time();

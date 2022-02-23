@@ -6,4 +6,5 @@ use Poppy\MgrApp\Form\FormItem;
 
 class Code extends FormItem
 {
+    protected bool $toModel = false;
 }

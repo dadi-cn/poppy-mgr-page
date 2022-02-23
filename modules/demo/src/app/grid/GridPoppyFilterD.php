@@ -39,7 +39,7 @@ class GridPoppyFilterD extends ListBase
     public function filter(FilterWidget $filter)
     {
         $filter->between('status', '状态介于')->width(4)->text(['开始状态', '结束状态']);
-        $filter->betweenDate('birth_at', '时间')->width(4)->date(['开始时间', '结束时间']);
+        $filter->betweenDate('birth_at', '时间')->width(4)->datetime(['开始时间', '结束时间']);
         $filter->action();
     }
 }

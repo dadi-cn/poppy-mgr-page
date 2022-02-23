@@ -41,7 +41,7 @@ class GridPoppyNormal extends ListBase
         $filter->like('username', 'username')->width(3);
         // todo 这里应该是支持地区的
         // $filter->area('area', 'area');
-        $filter->betweenDate('id', 'Between')->withTime();
+        $filter->betweenDate('id', 'Between');
         $filter->lt('datetime', 'Datetime')->datetime();
         $filter->lt('date', 'Date')->date();
         $filter->lt('time', 'Time')->time();

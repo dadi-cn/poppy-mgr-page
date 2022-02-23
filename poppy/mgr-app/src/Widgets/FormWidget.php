@@ -3,7 +3,10 @@
 namespace Poppy\MgrApp\Widgets;
 
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Fluent;
@@ -13,6 +16,7 @@ use Poppy\Framework\Classes\Resp;
 use Poppy\Framework\Classes\Traits\PoppyTrait;
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\Framework\Helper\ArrayHelper;
+use Poppy\MgrApp\Form\Field\Actions;
 use Poppy\MgrApp\Form\Field\Checkbox;
 use Poppy\MgrApp\Form\Field\Code;
 use Poppy\MgrApp\Form\Field\Color;
@@ -53,7 +57,6 @@ use Poppy\MgrApp\Form\FormItem;
  * Form Widget
  * @url https://element-plus.gitee.io/zh-CN/component/form.html#form-attributes
  * @method Text text($name, $label = '')
- * @method Code code($name, $label = '')
  * @method Textarea textarea($name, $label = '')
  * @method Url url($name, $label = '')
  * @method Password password($name, $label = '')
@@ -83,8 +86,10 @@ use Poppy\MgrApp\Form\FormItem;
  * @method File file($name, $label = '')
  * @method MultiImage multiImage($name, $label = '')
  * @method MultiFile multiFile($name, $label = '')
- * @method Divider divider($name, $label = '')
  * @method Editor editor($name, $label = '')
+ * @method Divider divider($label)
+ * @method Code code($name, $label = '')
+ * @method Actions actions($name, $label = '')
  */
 abstract class FormWidget
 {
@@ -94,7 +99,7 @@ abstract class FormWidget
      * 表单标题
      * @var string
      */
-    protected string $title = '';
+    protected string $title       = '';
 
     protected string $description = '';
 
@@ -221,8 +226,13 @@ abstract class FormWidget
      * 获取表单的所有字段
      * @return FormItem[]|Collection
      */
-    public function items(): Collection
+    public function items($type = ''): Collection
     {
+        if ($type === 'model') {
+            return $this->items->filter(function (FormItem $item) {
+                return $item->getToModel();
+            });
+        }
         return $this->items;
     }
 
@@ -238,9 +248,6 @@ abstract class FormWidget
     {
         $name  = (string) Arr::get($arguments, 0);
         $label = (string) Arr::get($arguments, 1);
-        if (is_array($name) || is_array($label)) {
-            throw new ApplicationException("Method `${method}` Cannot use array arguments.");
-        }
         $field = FieldDef::create($method, $name, $label);
         if (is_null($field)) {
             throw new ApplicationException("Field `${method}` not exists");
@@ -266,8 +273,10 @@ abstract class FormWidget
     /**
      * 返回表单的结构
      * 规则解析参考 : https://github.com/yiminghe/async-validator
+     * @param bool $skeleton 采用内部嵌入的方式调用
+     * @return array|JsonResponse|RedirectResponse|Response|Resp
      */
-    public function resp()
+    public function resp(bool $skeleton = false)
     {
         $request = app('request');
         // 组建 Form 表单
@@ -276,21 +285,23 @@ abstract class FormWidget
             $this->handle();
             $this->fill($this->data());
             $items = new Collection();
-            $model = new Fluent();
-            $this->items->each(function (FormItem $item) use ($items, $model) {
+            $this->items->each(function (FormItem $item) use ($items) {
                 $struct = $item->struct();
                 $items->push($struct);
-                $model->offsetSet($item->getName(), $this->model[$item->getName()] ?? $item->getDefault());
             });
-            return Resp::success('结构化数据', [
+            $struct = [
                 'type'        => 'form',
                 'title'       => $this->title,
                 'description' => $this->description,
                 'buttons'     => $this->buttons,
-                'model'       => (object) $model->toArray(),
+                'model'       => (object) $this->model,
                 'attr'        => (object) $this->attrs->toArray(),
                 'items'       => $items->toArray(),
-            ]);
+            ];
+            if ($skeleton) {
+                return $struct;
+            }
+            return Resp::success('结构化数据', $struct);
         }
         if ($request->method() === 'POST') {
             $message = $this->validate($request);

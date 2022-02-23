@@ -107,11 +107,12 @@ class ActionsRender extends AbstractRender
      * 返回页面
      * @param string $title
      * @param string $url
+     * @param string $type
      * @return PageAction
      */
-    public function page(string $title, string $url): PageAction
+    public function page(string $title, string $url, string $type): PageAction
     {
-        $action = new PageAction($title, $url);
+        $action = (new PageAction($title, $url))->type($type);
         return tap($action, function () use ($action) {
             $this->add($action);
         });

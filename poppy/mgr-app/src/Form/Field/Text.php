@@ -43,4 +43,14 @@ class Text extends FormItem
         $this->setAttribute('suffix-icon', $icon);
         return $this;
     }
+
+    /**
+     * 等宽字体显示
+     * @return $this
+     */
+    public function monospace(): self
+    {
+        $this->setAttribute('monospace', true);
+        return $this;
+    }
 }

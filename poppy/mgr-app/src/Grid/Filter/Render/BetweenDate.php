@@ -43,9 +43,9 @@ class BetweenDate extends AbstractFilterItem
                 $start = Carbon::createFromFormat('Y-m', $start)->startOfMonth()->toDateTimeString();
                 $end   = Carbon::createFromFormat('Y-m', $end)->endOfMonth()->toDateTimeString();
                 break;
-            case 'year':
-                $start = Carbon::createFromFormat('Y', $start)->startOfYear()->toDateTimeString();
-                $end   = Carbon::createFromFormat('Y', $end)->endOfYear()->toDateTimeString();
+            case 'datetime':
+                $start = Carbon::parse($start)->toDateTimeString();
+                $end   = Carbon::parse($end)->toDateTimeString();
                 break;
             default:
                 return null;

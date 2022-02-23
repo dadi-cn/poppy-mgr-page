@@ -1,0 +1,4 @@
+-
+  name : 'poppy.mgr-app.settings'
+  hooks :
+    - '\Poppy\MgrApp\Services\MgrAppSettings\ServiceSystem'

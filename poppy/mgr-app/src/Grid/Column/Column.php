@@ -16,7 +16,6 @@ use Poppy\MgrApp\Actions\RowAction;
 use Poppy\MgrApp\Grid\Column\Render\AbstractRender;
 use Poppy\MgrApp\Grid\Model;
 use Poppy\MgrApp\Widgets\GridWidget;
-use function request;
 
 /**
  * 列展示以及渲染, 当前的目的是使用前端方式渲染, 而不是依靠于 v-html 或者是后端生成

@@ -71,7 +71,13 @@ HTML,
             'email-code'       => <<<HTML
 \$this->email('email', '邮箱');
 HTML,
-            'currency-code'       => <<<HTML
+            'currency-code'    => <<<HTML
+\$this->currency('currency', '人民币');
+HTML,
+            'monospace-code'   => <<<HTML
+\$this->text('monospace', '等宽字体')->monospace()
+HTML,
+            'monospace'        => <<<HTML
 \$this->currency('currency', '人民币');
 HTML,
             'disabled'         => py_faker()->text(20),
@@ -82,7 +88,7 @@ HTML,
     {
         $this->text('default', '文本');
         $this->code('default-code');
-        $this->text('disabled', '禁用')->disabled();
+        $this->text('disabled', '禁用')->disabled()->help('当前组件是禁用状态');
         $this->code('disabled-code');
         $this->text('placeholder', '占位符')->placeholder('占位符');
         $this->code('placeholder-code');
@@ -116,5 +122,7 @@ HTML,
         $this->code('email-code');
         $this->currency('currency', '人民币');
         $this->code('currency-code');
+        $this->text('monospace', '等宽字体')->monospace();
+        $this->code('monospace-code');
     }
 }

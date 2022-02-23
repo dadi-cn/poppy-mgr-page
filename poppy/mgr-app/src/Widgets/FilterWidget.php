@@ -6,14 +6,13 @@ use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Poppy\Framework\Exceptions\ApplicationException;
-use Poppy\MgrApp\Form\Field\Date;
-use Poppy\MgrApp\Form\Field\Datetime;
-use Poppy\MgrApp\Form\Field\Month;
 use Poppy\MgrApp\Form\FormItem;
 use Poppy\MgrApp\Grid\Filter\FilterDef;
 use Poppy\MgrApp\Grid\Filter\Presenter\Between as BetweenPresenter;
+use Poppy\MgrApp\Grid\Filter\Presenter\DateTime;
 use Poppy\MgrApp\Grid\Filter\Render\Between;
 use Poppy\MgrApp\Grid\Filter\Render\BetweenDate;
+use Poppy\MgrApp\Grid\Filter\Render\Date;
 use Poppy\MgrApp\Grid\Filter\Render\EndsWith;
 use Poppy\MgrApp\Grid\Filter\Render\Equal;
 use Poppy\MgrApp\Grid\Filter\Render\FilterItem;
@@ -22,11 +21,12 @@ use Poppy\MgrApp\Grid\Filter\Render\Gt;
 use Poppy\MgrApp\Grid\Filter\Render\In;
 use Poppy\MgrApp\Grid\Filter\Render\Like;
 use Poppy\MgrApp\Grid\Filter\Render\Lt;
+use Poppy\MgrApp\Grid\Filter\Render\Month;
 use Poppy\MgrApp\Grid\Filter\Render\NotEqual;
 use Poppy\MgrApp\Grid\Filter\Render\NotIn;
 use Poppy\MgrApp\Grid\Filter\Render\Scope;
 use Poppy\MgrApp\Grid\Filter\Render\StartsWith;
-use Poppy\MgrApp\Grid\Filter\Render\Where;
+use Poppy\MgrApp\Grid\Filter\Render\Year;
 use Poppy\MgrApp\Grid\Model;
 
 /**
@@ -41,10 +41,9 @@ use Poppy\MgrApp\Grid\Model;
  * @method NotIn notIn($column, $label = '')
  * @method Between between($column, $label = '')
  * @method BetweenDate betweenDate($column, $label = '')
- * @method Where where($callback, $label = '', $column = null)
  * @method Date date($column, $label = '')
  * @method Month month($column, $label = '')
- * @method Datetime year($column, $label = '')
+ * @method Year year($column, $label = '')
  * @method Group group($column, $label = '', $builder = null)
  */
 final class FilterWidget
@@ -119,6 +118,15 @@ final class FilterWidget
         }
         if ($filter instanceof Between || $filter instanceof BetweenDate) {
             $filter->setPresenter(new BetweenPresenter());
+        }
+        if ($filter instanceof Date) {
+            $filter->setPresenter((new DateTime())->date());
+        }
+        if ($filter instanceof Month) {
+            $filter->setPresenter((new DateTime())->month());
+        }
+        if ($filter instanceof Year) {
+            $filter->setPresenter((new DateTime())->year());
         }
         return tap($filter, function ($field) {
             $this->addItem($field);

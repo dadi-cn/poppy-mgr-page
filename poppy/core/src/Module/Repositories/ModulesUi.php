@@ -18,17 +18,17 @@ class ModulesUi extends Repository
 
     /**
      * Initialize.
-     * @param Collection $uis 集合
+     * @param Collection $collection 集合
      */
-    public function initialize(Collection $uis)
+    public function initialize(Collection $collection)
     {
         // check serve setting
         $this->items = sys_cache('py-core')->remember(
             PyCoreDef::ckModule('ui'),
             PyCoreDef::MIN_ONE_DAY * 60,
-            function () use ($uis) {
+            function () use ($collection) {
                 $ui = collect();
-                $uis->each(function ($moduleUis) use ($ui) {
+                $collection->each(function ($moduleUis) use ($ui) {
                     collect($moduleUis)->each(function ($def, $key) use ($ui) {
                         $ui->put($key, $def);
                     })->toArray();

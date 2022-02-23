@@ -27,6 +27,17 @@ abstract class FormItem
     protected array $rules = [];
 
     /**
+     * 是否将此KEY, 加入提交模型
+     * @var bool
+     */
+    protected bool $toModel = true;
+
+    /**
+     * @var string 标签
+     */
+    protected string $label;
+
+    /**
      * 字段的属性
      * @var Fluent
      */
@@ -46,15 +57,15 @@ abstract class FormItem
     private string $type;
 
     /**
-     * @var string 标签
-     */
-    private string $label;
-
-    /**
      * 验证器
      * @var mixed
      */
     private $validator;
+
+    /**
+     * @var string
+     */
+    private string $help = '';
 
     /**
      * 表单条目
@@ -142,10 +153,8 @@ abstract class FormItem
             return false;
         }
 
-        if (is_string($this->name)) {
-            $rules[$this->name]      = $fieldRules;
-            $attributes[$this->name] = $this->label;
-        }
+        $rules[$this->name]      = $fieldRules;
+        $attributes[$this->name] = $this->label;
 
         return validator($input, $rules, [], $attributes);
     }
@@ -160,11 +169,24 @@ abstract class FormItem
             'type'  => $this->type,
             'name'  => $this->name,
             'label' => $this->label,
+            'help'  => $this->help,
             'field' => $this->attributes(),
             'rules' => collect($this->rules)->map(function ($rule) {
                 return (string) $rule;
             })->toArray(),
         ];
+    }
+
+
+    /**
+     * 帮助文本
+     * @param string $help
+     * @return $this
+     */
+    public function help(string $help = ''): self
+    {
+        $this->help = $help;
+        return $this;
     }
 
     /**
@@ -174,6 +196,15 @@ abstract class FormItem
     public function getDefault()
     {
         return $this->default;
+    }
+
+    /**
+     * 此条件是否加入到模型
+     * @return bool
+     */
+    public function getToModel(): bool
+    {
+        return $this->toModel;
     }
 
     /**

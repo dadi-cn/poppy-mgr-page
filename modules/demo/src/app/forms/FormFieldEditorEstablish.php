@@ -16,7 +16,6 @@ class FormFieldEditorEstablish extends FormWidget
     }
 
     /**
-     * @throws FakerException
      */
     public function data(): array
     {

@@ -16,6 +16,7 @@ class MiddlewareServiceProvider extends ServiceProvider
         $router->middlewareGroup('mgr-app-backend-auth', [
             'api',
             'sys-auth:jwt_backend',
+            'sys-jwt',
             'sys-disabled_pam',
             'sys-ban:backend',
             'mgr-app-rbac-permission',

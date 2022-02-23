@@ -1,0 +1,91 @@
+backend :
+  # 这里的KEY 作为注入项目 module.demo/backend||default, 可以将配置注入到这个地方
+  default :
+    title : Demo
+    icon : picture-rounded
+    children :
+      -
+        title : Form
+        children :
+          -
+            title : TextArea
+            # {type}/{route}/{route_params|explode by ,}/{query|gen_key}
+            path : form/demo:api.mgr_app.form/field-textarea
+          -
+            title : Radio
+            path : form/demo:api.mgr_app.form/field-radio
+          -
+            title : Checkbox
+            path : form/demo:api.mgr_app.form/field-checkbox
+          -
+            title : Text
+            path : form/demo:api.mgr_app.form/field-text
+          -
+            title : Number
+            path : form/demo:api.mgr_app.form/field-number
+          -
+            title : Color
+            path : form/demo:api.mgr_app.form/field-color
+          -
+            title : Date
+            path : form/demo:api.mgr_app.form/field-date
+          -
+            title : Select
+            path : form/demo:api.mgr_app.form/field-select
+          -
+            title : Switch
+            path : form/demo:api.mgr_app.form/field-switch
+          -
+            title : File
+            path : form/demo:api.mgr_app.form/field-file
+          -
+            title : Image
+            path : form/demo:api.mgr_app.form/field-image
+          -
+            title : Editor
+            path : form/demo:api.mgr_app.form/field-editor
+      -
+        title : Rule
+        children :
+          -
+            title : Text
+            path : form/demo:api.mgr_app.form/rule-text
+          -
+            title : Required
+            path : form/demo:api.mgr_app.form/rule-required
+          -
+            title : Date
+            path : form/demo:api.mgr_app.form/rule-date
+      -
+        title : Grid
+        children :
+          -
+            title : Normal
+            path : grid/demo:api.mgr_app.grid/normal
+          -
+            title : Button
+            path : grid/demo:api.mgr_app.grid/button
+          -
+            title : Button-group
+            path : grid/demo:api.mgr_app.grid/button-group
+          -
+            title : Button-dropdown
+            path : grid/demo:api.mgr_app.grid/button-dropdown
+          -
+            title : Filter
+            path : grid/demo:api.mgr_app.grid/filter
+          -
+            title : Filter-A
+            path : grid/demo:api.mgr_app.grid/filter-a
+          -
+            title : Filter-B
+            path : grid/demo:api.mgr_app.grid/filter-b
+          -
+            title : Filter-C
+            path : grid/demo:api.mgr_app.grid/filter-c
+          -
+            title : Filter-D
+            path : grid/demo:api.mgr_app.grid/filter-d
+          -
+            title : Filter-E
+            path : grid/demo:api.mgr_app.grid/filter-e

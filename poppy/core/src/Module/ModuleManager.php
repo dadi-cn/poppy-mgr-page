@@ -7,6 +7,7 @@ use Poppy\Core\Module\Repositories\Modules;
 use Poppy\Core\Module\Repositories\ModulesHook;
 use Poppy\Core\Module\Repositories\ModulesMenu;
 use Poppy\Core\Module\Repositories\ModulesPage;
+use Poppy\Core\Module\Repositories\ModulesPath;
 use Poppy\Core\Module\Repositories\ModulesService;
 use Poppy\Core\Module\Repositories\ModulesSetting;
 use Poppy\Core\Module\Repositories\ModulesUi;
@@ -38,6 +39,11 @@ class ModuleManager
      * @var ModulesMenu
      */
     private $menuRepository;
+
+    /**
+     * @var ModulesPath
+     */
+    private $pathRepository;
 
     /**
      * @var ModulesPage
@@ -111,6 +117,22 @@ class ModuleManager
         return $this->modules()->has($name);
     }
 
+    /**
+     * @return ModulesPath
+     */
+    public function path(): ModulesPath
+    {
+        if (!$this->pathRepository instanceof ModulesPath) {
+            $collection = collect();
+            $this->modules()->enabled()->each(function (Module $module) use ($collection) {
+                $collection->put($module->slug(), $module->get('path', []));
+            });
+            $this->pathRepository = new ModulesPath();
+            $this->pathRepository->initialize($collection);
+        }
+
+        return $this->pathRepository;
+    }
 
     /**
      * @return ModulesMenu

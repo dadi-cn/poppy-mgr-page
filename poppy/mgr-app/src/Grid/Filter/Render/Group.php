@@ -5,7 +5,6 @@ namespace Poppy\MgrApp\Grid\Filter\Render;
 use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use function request;
 
 class Group extends AbstractFilterItem
 {

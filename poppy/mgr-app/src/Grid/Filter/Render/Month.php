@@ -2,15 +2,36 @@
 
 namespace Poppy\MgrApp\Grid\Filter\Render;
 
-class Month extends Date
+use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
+
+class Month extends AbstractFilterItem
 {
     /**
-     * @inheritDoc
+     * Get condition of this filter.
+     *
+     * @param array $inputs
+     *
+     * @return mixed
      */
-    protected $query = 'whereMonth';
+    public function condition(array $inputs)
+    {
+        if (!Arr::has($inputs, $this->column)) {
+            return null;
+        }
 
-    /**
-     * @var string
-     */
-    protected $fieldName = 'month';
+        $this->value = Arr::get($inputs, $this->column);
+
+        if (!$this->value) {
+            return null;
+        }
+
+        $start = Carbon::createFromFormat('Y-m', $this->value)->startOfMonth()->toDateTimeString();
+        $end   = Carbon::createFromFormat('Y-m', $this->value)->endOfMonth()->toDateTimeString();
+
+        return $this->buildCondition([
+            [$this->column, '<=', trim($end)],
+            [$this->column, '>=', trim($start)],
+        ]);
+    }
 }

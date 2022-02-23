@@ -13,7 +13,7 @@ class SettingKeyA implements ServiceArray
         return 'demo.key-a';
     }
 
-    public function data()
+    public function data():array
     {
         return [
             'title' => 'KEY-A',

@@ -56,10 +56,9 @@ abstract class AbstractFilterItem extends FilterItem
 
     /**
      * Query for filter.
-     *
      * @var string
      */
-    protected $query = 'where';
+    protected string $query = 'where';
 
     /**
      * @var FilterItem
@@ -88,52 +87,7 @@ abstract class AbstractFilterItem extends FilterItem
     }
 
     /**
-     * Get siblings of current filter.
-     *
-     * @param null $index
-     *
-     * @return AbstractFilterItem[]|mixed
-     */
-    public function siblings($index = null)
-    {
-        if (!is_null($index)) {
-            return Arr::get($this->parent->filters(), $index);
-        }
-
-        return $this->parent->filters();
-    }
-
-    /**
-     * Get previous filter.
-     *
-     * @param int $step
-     *
-     * @return AbstractFilterItem[]|mixed
-     */
-    public function previous($step = 1)
-    {
-        return $this->siblings(
-            array_search($this, $this->parent->filters()) - $step
-        );
-    }
-
-    /**
-     * Get next filter.
-     *
-     * @param int $step
-     *
-     * @return AbstractFilterItem[]|mixed
-     */
-    public function next($step = 1)
-    {
-        return $this->siblings(
-            array_search($this, $this->parent->filters()) + $step
-        );
-    }
-
-    /**
-     * Get query condition from filter.
-     *
+     * 获取查询条件
      * @param array $inputs
      *
      * @return array|mixed|null
@@ -152,10 +106,8 @@ abstract class AbstractFilterItem extends FilterItem
     }
 
     /**
-     * Select filter.
-     *
+     * 选择不支持跨度查询
      * @param array|Collection $options
-     *
      * @return Select
      */
     public function select($options = [], $placeholder = '')
@@ -164,8 +116,8 @@ abstract class AbstractFilterItem extends FilterItem
     }
 
     /**
+     * 多选不支持跨度查询
      * @param array|Collection $options
-     *
      * @return MultiSelect
      */
     public function multipleSelect($options = [], $placeholder = '')
@@ -203,16 +155,6 @@ abstract class AbstractFilterItem extends FilterItem
     }
 
     /**
-     * Date filter.
-     *
-     * @return DateTime
-     */
-    public function dateRange($placeholder = '')
-    {
-        return $this->setPresenter((new DateTime())->date($placeholder));
-    }
-
-    /**
      * Month filter.
      *
      * @return DateTime
@@ -223,8 +165,7 @@ abstract class AbstractFilterItem extends FilterItem
     }
 
     /**
-     * Year filter.
-     *
+     * 年份查询/年份渲染不支持跨年查询
      * @return DateTime
      */
     public function year($placeholder = '')
@@ -335,50 +276,22 @@ abstract class AbstractFilterItem extends FilterItem
     }
 
     /**
-     * Format label.
-     *
+     * 格式化 Label
      * @param string $label
-     *
      * @return string
      */
-    protected function formatLabel($label)
+    protected function formatLabel(string $label): string
     {
         $label = $label ?: ucfirst($this->column);
-
         return str_replace(['.', '_'], ' ', $label);
     }
 
-    /**
-     * Format name.
-     *
-     * @param string $column
-     *
-     * @return string
-     */
-    protected function formatName($column)
-    {
-        $columns = explode('.', $column);
-
-        if (count($columns) == 1) {
-            $name = $columns[0];
-        } else {
-            $name = array_shift($columns);
-            foreach ($columns as $column) {
-                $name .= "[$column]";
-            }
-        }
-
-        $parenName = $this->parent->name;
-
-        return $parenName ? "{$parenName}_{$name}" : $name;
-    }
 
     /**
      * Get presenter object of filter.
-     *
      * @return Presenter
      */
-    protected function presenter()
+    protected function presenter(): Presenter
     {
         return $this->presenter;
     }
@@ -388,7 +301,7 @@ abstract class AbstractFilterItem extends FilterItem
      *
      * @return mixed
      */
-    protected function buildCondition()
+    protected function buildCondition(): array
     {
         $column = explode('.', $this->column);
 
@@ -405,7 +318,7 @@ abstract class AbstractFilterItem extends FilterItem
      *
      * @return array
      */
-    protected function buildRelationQuery()
+    protected function buildRelationQuery(): array
     {
         $args = func_get_args();
 

@@ -5,8 +5,6 @@ namespace Poppy\MgrApp\Grid\Column\Render;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Str;
-use function collect;
-use function url;
 
 class ImageRender extends AbstractRender
 {

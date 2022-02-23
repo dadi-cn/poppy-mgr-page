@@ -1,10 +1,5 @@
 <?php
-/*
- * This is NOT a Free software.
- * When you have some Question or Advice can contact Me.
- * @author     Duoli <zhaody901@126.com>
- * @copyright  Copyright (c) 2013-2021 Poppy Team
- */
+
 declare(strict_types = 1);
 
 namespace Poppy\AliyunPush\Classes\Sender;

@@ -14,7 +14,7 @@ class SendTypeChuanglan implements ServiceArray
         return 'chuanglan';
     }
 
-    public function data()
+    public function data():array
     {
         return [
             'title'    => '创蓝',
