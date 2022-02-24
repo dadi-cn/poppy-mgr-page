@@ -21,25 +21,6 @@ abstract class FilterItem
      * @var array
      */
     protected static $supports = [
-        'equal'       => Filter\Equal::class,
-        'notEqual'    => Filter\NotEqual::class,
-        'like'        => Filter\Like::class,
-        'gt'          => Filter\Gt::class,
-        'lt'          => Filter\Lt::class,
-        'between'     => Filter\Between::class,
-        'betweenDate' => Filter\BetweenDate::class,
-        'group'       => Filter\Group::class,
-        'where'       => Filter\Where::class,
-        'in'          => Filter\In::class,
-        'notIn'       => Filter\NotIn::class,
-        'date'        => Filter\Date::class,
-        'day'         => Filter\Day::class,
-        'month'       => Filter\Month::class,
-        'year'        => Filter\Year::class,
-        'hidden'      => Filter\Hidden::class,
-        'contains'    => Filter\Like::class,
-        'startsWith'  => Filter\StartsWith::class,
-        'endsWith'    => Filter\EndsWith::class,
     ];
 
     /**
@@ -278,20 +259,6 @@ abstract class FilterItem
         });
     }
 
-    /**
-     * Add a new layout column.
-     *
-     * @param int|float $width
-     * @param Closure   $closure
-     *
-     * @return $this
-     */
-    public function column($width, Closure $closure): self
-    {
-        $width = $width < 1 ? round(12 * $width) : $width;
-        $this->layout->column($width, $closure);
-        return $this;
-    }
 
     /**
      * Execute the filter with conditions.

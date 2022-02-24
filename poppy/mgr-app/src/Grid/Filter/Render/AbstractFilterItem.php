@@ -2,7 +2,7 @@
 
 namespace Poppy\MgrApp\Grid\Filter\Render;
 
-use Exception;
+use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -14,8 +14,9 @@ use Poppy\MgrApp\Grid\Filter\Presenter\Select;
 use Poppy\MgrApp\Grid\Filter\Presenter\Text;
 
 /**
- * Text
- * @method Text placeholder($placeholder = '') 占位符
+ * 过滤条目
+ * @property-read  $column 当前列的名称
+ * @property-read  $value  输入值
  */
 abstract class AbstractFilterItem extends FilterItem
 {
@@ -68,10 +69,10 @@ abstract class AbstractFilterItem extends FilterItem
     /**
      * AbstractFilter constructor.
      *
-     * @param string $column
-     * @param string $label
+     * @param string|Closure $column
+     * @param string         $label
      */
-    public function __construct(string $column = '', string $label = '')
+    public function __construct($column = '', string $label = '')
     {
         $this->column = $column;
         $this->label  = $this->formatLabel($label);
@@ -187,20 +188,12 @@ abstract class AbstractFilterItem extends FilterItem
         ]);
     }
 
-    /**
-     * 表现
-     * @param string       $method
-     * @param array|string $arguments
-     * @return mixed
-     * @throws Exception
-     */
-    public function __call(string $method, $arguments)
+    public function __get($attr)
     {
-        if (method_exists($this->presenter, $method)) {
-            return $this->presenter()->{$method}(...$arguments);
+        if (in_array($attr, ['column', 'value'])) {
+            return $this->{$attr};
         }
-
-        throw new Exception('Presenter Method "' . $method . '" not exists.');
+        return null;
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Poppy\MgrApp\Widgets;
 
+use Closure;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -26,25 +27,28 @@ use Poppy\MgrApp\Grid\Filter\Render\NotEqual;
 use Poppy\MgrApp\Grid\Filter\Render\NotIn;
 use Poppy\MgrApp\Grid\Filter\Render\Scope;
 use Poppy\MgrApp\Grid\Filter\Render\StartsWith;
+use Poppy\MgrApp\Grid\Filter\Render\Where;
 use Poppy\MgrApp\Grid\Filter\Render\Year;
 use Poppy\MgrApp\Grid\Model;
+use ReflectionException;
 
 /**
- * @method Equal equal($column, $label = '')
- * @method NotEqual notEqual($column, $label = '')
- * @method Like like($column, $label = '')
- * @method StartsWith startsWith($column, $label = '')
- * @method EndsWith endsWith($column, $label = '')
- * @method Gt gt($column, $label = '')
- * @method Lt lt($column, $label = '')
- * @method In in($column, $label = '')
- * @method NotIn notIn($column, $label = '')
- * @method Between between($column, $label = '')
- * @method BetweenDate betweenDate($column, $label = '')
- * @method Date date($column, $label = '')
- * @method Month month($column, $label = '')
- * @method Year year($column, $label = '')
- * @method Group group($column, $label = '', $builder = null)
+ * @method Where where(Closure $query, $label = '', $column = null) 自定义查询条件
+ * @method Equal equal($column, $label = '') 相等
+ * @method NotEqual notEqual($column, $label = '') 不等
+ * @method Like like($column, $label = '') 匹配搜索
+ * @method StartsWith startsWith($column, $label = '') 前半部分匹配
+ * @method EndsWith endsWith($column, $label = '') 后半部分匹配
+ * @method Gt gt($column, $label = '') 大于
+ * @method Lt lt($column, $label = '') 小于
+ * @method In in($column, $label = '') 包含
+ * @method NotIn notIn($column, $label = '') 不包含
+ * @method Between between($column, $label = '') 介于...
+ * @method BetweenDate betweenDate($column, $label = '') 介于日期之间
+ * @method Date date($column, $label = '') 日期
+ * @method Month month($column, $label = '') 月份
+ * @method Year year($column, $label = '') 年度
+ * @method Group group($column, $label = '', $builder = null) 分组
  */
 final class FilterWidget
 {
@@ -107,9 +111,16 @@ final class FilterWidget
      *
      * @return FormItem|$this
      * @throws ApplicationException
+     * @throws ReflectionException
      */
     public function __call(string $method, array $arguments = [])
     {
+        if ($method === 'where') {
+            $filter = new Where(...$arguments);
+            return tap($filter, function ($field) {
+                $this->addItem($field);
+            });
+        }
         $name   = (string) Arr::get($arguments, 0);
         $label  = (string) Arr::get($arguments, 1);
         $filter = FilterDef::create($method, $name, $label);
@@ -175,7 +186,7 @@ final class FilterWidget
      * @param bool $export 是否允许导出
      * @return void
      */
-    public function action(int $width = 4, bool $export = false)
+    public function action(int $width = 3, bool $export = false)
     {
         $this->actionWidth  = $width;
         $this->enableExport = $export;

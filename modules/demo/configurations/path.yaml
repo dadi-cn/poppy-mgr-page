@@ -89,3 +89,6 @@ backend :
           -
             title : Filter-E
             path : grid/demo:api.mgr_app.grid/filter-e
+          -
+            title : Filter-Where
+            path : grid/demo:api.mgr_app.grid/filter-where
