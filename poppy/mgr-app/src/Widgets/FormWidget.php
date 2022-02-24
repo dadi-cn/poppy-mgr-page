@@ -147,17 +147,6 @@ abstract class FormWidget
     public abstract function data(): array;
 
     /**
-     * 用于控制该表单内组件的尺寸
-     * @param string $size medium|small|mini
-     * @return $this
-     */
-    public function size(string $size = ''): self
-    {
-        $this->attrs->offsetSet('size', $size);
-        return $this;
-    }
-
-    /**
      * 表单域标签的宽度，例如 '50px'。 作为 Form 直接子元素的 form-item 会继承该值。 支持 auto
      * @param string $width
      */

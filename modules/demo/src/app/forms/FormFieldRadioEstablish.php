@@ -3,6 +3,7 @@
 namespace Demo\App\Forms;
 
 use Poppy\Framework\Classes\Resp;
+use Poppy\Framework\Validation\Rule;
 use Poppy\MgrApp\Widgets\FormWidget;
 
 class FormFieldRadioEstablish extends FormWidget
@@ -60,5 +61,11 @@ CODE,
             ['value' => 'b', 'disabled' => true, 'label' => 'Label B'],
         ])->default('a')->button();
         $this->code('complex-code');
+        $this->text('radio-a', 'Radio-A')->rules([
+           Rule::requiredIf('radio', ['a'])
+        ]);
+        $this->text('radio-b', 'Radio-B')->rules([
+           Rule::requiredIf('radio', ['b'])
+        ]);
     }
 }

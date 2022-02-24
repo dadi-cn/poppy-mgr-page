@@ -28,7 +28,7 @@ class GridPoppyNormal extends ListBase
             $actions->request('成功', route('demo:api.mgr_app.grid_request', ['success']));
             $actions->request('确认', route('demo:api.mgr_app.grid_request', ['success']))->confirm();
             $actions->request('Disabled', route('demo:api.mgr_app.grid_request', ['success']))->disabled();
-            $actions->page('页面', route('demo:api.mgr_app.grid_form', ['detail']));
+            $actions->page('页面', route('demo:api.mgr_app.grid_form', ['detail']), 'form');
         }]);
     }
 

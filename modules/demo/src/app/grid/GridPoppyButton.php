@@ -26,7 +26,7 @@ class GridPoppyButton extends ListBase
             $actions->request('Plain', route('demo:api.mgr_app.grid_request', ['success']))->plain();
             $actions->request('Primary', route('demo:api.mgr_app.grid_request', ['success']))->primary();
             $actions->request('Plain', route('demo:api.mgr_app.grid_request', ['success']))->primary()->plain();
-            $actions->request('Small', route('demo:api.mgr_app.grid_request', ['success']))->small();
+            $actions->request('Small', route('demo:api.mgr_app.grid_request', ['success']));
             $actions->request('图文', route('demo:api.mgr_app.grid_request', ['success']))->icon('warning');
             $actions->request('仅图标', route('demo:api.mgr_app.grid_request', ['success']))->icon('warning', true);
             $actions->request('仅图标', route('demo:api.mgr_app.grid_request', ['success']))->icon('warning', true)->circle();

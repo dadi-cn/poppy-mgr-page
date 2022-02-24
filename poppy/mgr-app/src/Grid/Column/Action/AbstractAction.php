@@ -10,8 +10,6 @@ namespace Poppy\MgrApp\Grid\Column\Action;
  * @method self warning()       警告
  * @method self danger()        危险
  * @method self disabled()      禁用
- * @method self small()         小号按钮
- * @method self large()         大号按钮
  * @method self plain()         朴素模式
  * @method self circle()         朴素模式
  */
@@ -95,13 +93,6 @@ abstract class AbstractAction
         }
 
         if (in_array($method, [
-            'large', 'small',
-        ])) {
-            $this->size = $method;
-            return $this;
-        }
-
-        if (in_array($method, [
             'disabled', 'plain', 'circle'
         ])) {
             $this->$method = true;
@@ -116,7 +107,7 @@ abstract class AbstractAction
             'url'   => $this->url,
             'title' => $this->title,
         ];
-        foreach (['type', 'plain', 'only', 'circle', 'icon', 'disabled', 'size',] as $value) {
+        foreach (['type', 'plain', 'only', 'circle', 'icon', 'disabled',] as $value) {
             if ($this->{$value}) {
                 $params[$value] = $this->{$value};
             }
