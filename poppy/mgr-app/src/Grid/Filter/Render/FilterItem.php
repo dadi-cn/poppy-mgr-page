@@ -2,7 +2,6 @@
 
 namespace Poppy\MgrApp\Grid\Filter\Render;
 
-use Closure;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -29,7 +28,7 @@ abstract class FilterItem
      */
     public        $expand = false;
 
-    protected int $width  = 1;
+    protected int $width  = 2;
 
     /**
      * 当前的模型

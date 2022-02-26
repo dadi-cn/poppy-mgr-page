@@ -4,18 +4,17 @@
 namespace Demo\App\Grid;
 
 use Poppy\Framework\Exceptions\ApplicationException;
-use Poppy\MgrApp\Grid\Filter\Render\Where;
 use Poppy\MgrApp\Http\Lists\ListBase;
 use Poppy\MgrApp\Widgets\FilterWidget;
 
 /**
  * 按钮
  */
-class GridPoppyFilterWhere extends ListBase
+class GridPoppyFilterScope extends ListBase
 {
-    public string $title       = 'Where';
+    public string $title       = 'Scope';
 
-    public string $description = '描述';
+    public string $description = '全局范围筛选';
 
     /**
      * @inheritDoc
@@ -43,10 +42,9 @@ class GridPoppyFilterWhere extends ListBase
      */
     public function filter(FilterWidget $filter)
     {
-        $filter->where(function ($query) {
-            /** @var Where $this */
-            $query->where('title', 'like', "%{$this->value}%");
-        }, '标题')->text('标题模糊搜索');
+        $filter->like('title', '标题');
+        $filter->scope('none', '未发布')->where('status', 1);
+        $filter->scope('wait', '待发布')->where('status', 2);
         $filter->action();
     }
 }

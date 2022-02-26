@@ -20,14 +20,27 @@ use Poppy\MgrApp\Widgets\FilterWidget;
 use Poppy\MgrApp\Widgets\GridWidget;
 use Poppy\System\Models\PamAccount;
 
+/**
+ * @property-read string $title       标题
+ * @property-read string $description 描述
+ */
 abstract class ListBase implements ListContract
 {
     use Macroable {
         __call as macroCall;
     }
 
+    /**
+     * 描述
+     * @var string
+     */
+    protected string $description = '';
 
-    public $title = '';
+    /**
+     * 标题
+     * @var string
+     */
+    protected string $title = '';
 
     /**
      * @var GridWidget
@@ -133,6 +146,14 @@ abstract class ListBase implements ListContract
     public function batchAction(): array
     {
         return [];
+    }
+
+    public function __get($attr)
+    {
+        if (in_array($attr, ['title', 'description'])) {
+            return $this->{$attr};
+        }
+        return null;
     }
 
     /**

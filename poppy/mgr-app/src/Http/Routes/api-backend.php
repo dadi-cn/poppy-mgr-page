@@ -13,4 +13,6 @@ Route::group([
         ->name('py-mgr-app:api-backend.home.setting');
     $router->any('home/upload', 'HomeController@upload')
         ->name('py-mgr-app:api-backend.home.upload');
+    $router->any('home/clear-cache', 'HomeController@clearCache')
+        ->name('py-mgr-app:api-backend.home.clear_cache');
 });

@@ -12,9 +12,9 @@ use Illuminate\Support\Collection;
 use Poppy\Framework\Classes\Resp;
 use Poppy\Framework\Classes\Traits\PoppyTrait;
 use Poppy\Framework\Exceptions\ApplicationException;
-use Poppy\Framework\Http\Pagination\PageInfo;
 use Poppy\MgrApp\Grid\Column\Column;
 use Poppy\MgrApp\Grid\Concerns;
+use Poppy\MgrApp\Grid\Filter\Render\Scope;
 use Poppy\MgrApp\Grid\Model;
 use Poppy\MgrApp\Grid\Row;
 use Poppy\MgrApp\Http\Lists\ListBase;
@@ -32,6 +32,7 @@ class GridWidget
         Concerns\HasSelector,
         Concerns\CanHidesColumns,
         Concerns\HasQuickButton;
+
 
     /**
      * Initialization closure array.
@@ -130,11 +131,15 @@ class GridWidget
      *
      * @var array
      */
-    protected $options = [
+    protected      $options     = [
         'show_tools'        => true,
         'show_exporter'     => false,
         'show_row_selector' => true,
     ];
+
+    private string $title       = '';
+
+    private string $description = '';
 
     /**
      * Create a new grid instance.
@@ -179,8 +184,15 @@ class GridWidget
 
         /** @var ListBase $List */
         $List = new $grid_class($this);
+
+
+        /* 设置标题和描述
+         * ---------------------------------------- */
         if ($title = $List->title) {
-            $this->setTitle($title);
+            $this->title = $title;
+        }
+        if ($description = $List->description) {
+            $this->description = $description;
         }
         $List->columns();
         $List->actions();
@@ -367,7 +379,7 @@ class GridWidget
         $this->handleExportRequest(true);
 
         if (input('_query')) {
-            return $this->inquire(PageInfo::pagesize());
+            return $this->inquire();
         }
         if (input('_edit')) {
             return $this->edit();
@@ -388,7 +400,7 @@ class GridWidget
                 'field'    => $this->convertFieldName($column->name),
                 'label'    => $column->label,
                 'type'     => $column->type,
-                'sort'     => $column->sortable,
+                'sortable' => $column->sortable,
                 'ellipsis' => $column->ellipsis,
             ];
 
@@ -403,27 +415,21 @@ class GridWidget
             }
             $columns[] = $defines;
         });
-        // todo scope
-        /*
         $scopes = $this->getFilter()->getScopes()->map(function (Scope $scope) {
-            return [
-                'key'   => $scope->key,
-                'label' => $scope->getLabel(),
-            ];
+            return $scope->toArray();
         });
-        */
-        $scopes = [];
         return Resp::success('Grid Skeleton', [
-            'type'       => 'grid',
-            'url'        => $this->pyRequest()->url(),
-            'title'      => $this->variables['title'],
-            'actions'    => $this->skeletonQuickButton(),
-            'filter'     => $this->renderFilter(),
-            'scopes'     => $scopes,
-            'page_sizes' => $this->pageSizes,
-            'pagesize'   => $this->pagesize,
-            'cols'       => $columns,
-            'pk'         => $this->model()->getOriginalModel()->getKeyName(),
+            'type'        => 'grid',
+            'url'         => $this->pyRequest()->url(),
+            'title'       => $this->title,
+            'description' => $this->description,
+            'actions'     => $this->skeletonQuickButton(),
+            'filter'      => $this->renderFilter(),
+            'scopes'      => $scopes,
+            'page_sizes'  => $this->pageSizes,
+            'pagesize'    => $this->pagesize,
+            'cols'        => $columns,
+            'pk'          => $this->model()->getOriginalModel()->getKeyName(),
         ]);
     }
 
@@ -568,7 +574,6 @@ class GridWidget
 
     /**
      * 查询并返回数据
-     * @param int $pagesize
      * @return Response|JsonResponse|RedirectResponse|Resp
      * @throws Exception
      */

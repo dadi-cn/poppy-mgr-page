@@ -224,18 +224,29 @@ final class FilterWidget
         return array_filter($conditions);
     }
 
-    /**
-     * Get current scope.
-     *
-     * @return Scope|null
-     */
-    public function getCurrentScope(): ?Scope
-    {
-        $key = request(Scope::QUERY_NAME);
 
-        return $this->scopes->first(function ($scope) use ($key) {
-            return $scope->key == $key;
+    /**
+     * 添加全局范围
+     * @param string $key
+     * @param string $label
+     *
+     * @return mixed
+     */
+    public function scope(string $key, string $label)
+    {
+        return tap(new Scope($key, $label), function (Scope $scope) {
+            return $this->scopes->push($scope);
         });
+    }
+
+    /**
+     * Get all filter scopes.
+     *
+     * @return Collection
+     */
+    public function getScopes(): Collection
+    {
+        return $this->scopes;
     }
 
     /**
@@ -243,12 +254,25 @@ final class FilterWidget
      *
      * @return array
      */
-    protected function scopeConditions(): array
+    private function scopeConditions(): array
     {
         if ($scope = $this->getCurrentScope()) {
             return $scope->condition();
         }
 
         return [];
+    }
+
+    /**
+     * Get current scope.
+     *
+     * @return Scope|null
+     */
+    private function getCurrentScope(): ?Scope
+    {
+        $key = request(Scope::QUERY_NAME);
+        return $this->scopes->first(function ($scope) use ($key) {
+            return $scope->value == $key;
+        });
     }
 }

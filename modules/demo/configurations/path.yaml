@@ -92,3 +92,6 @@ backend :
           -
             title : Filter-Where
             path : grid/demo:api.mgr_app.grid/filter-where
+          -
+            title : Filter-Scope
+            path : grid/demo:api.mgr_app.grid/filter-scope

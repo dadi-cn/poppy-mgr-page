@@ -2,56 +2,56 @@
 
 namespace Poppy\MgrApp\Grid\Filter\Render;
 
-use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-class Scope implements Renderable
+/**
+ * @property-read string $value 值
+ * @property-read string $label 标签
+ */
+class Scope implements Arrayable
 {
     const QUERY_NAME = '_scope';
 
     /**
      * @var string
      */
-    public $key = '';
+    protected string $value = '';
 
     /**
      * @var string
      */
-    protected $label = '';
+    protected string $label = '';
 
     /**
      * @var Collection
      */
-    protected $queries;
+    protected Collection $queries;
 
     /**
      * Scope constructor.
      *
-     * @param string|int $key
+     * @param string|int $value
      * @param string     $label
      */
-    public function __construct($key, $label = '')
+    public function __construct($value, string $label)
     {
-        $this->key   = (string) $key;
-        $this->label = $label ?: Str::studly($key);
-
+        $this->value   = (string) $value;
+        $this->label   = $label ?: Str::studly($value);
         $this->queries = new Collection();
     }
 
-    /**
-     * Get label.
-     *
-     * @return string
-     */
-    public function getLabel(): string
+    public function __get($attr)
     {
-        return $this->label;
+        if (in_array($attr, ['label', 'value'])) {
+            return $this->{$attr};
+        }
+        return null;
     }
 
     /**
-     * Get model query conditions.
-     *
+     * 获取模型查询条件
      * @return array
      */
     public function condition(): array
@@ -62,18 +62,7 @@ class Scope implements Renderable
     }
 
     /**
-     * Scope 因为涉及到刷新, 所以使用跳转的方式
-     * 这种方式和 layui 的监听tab 不同, 这种会在刷新页面, tab 不会保留刷新的参数
-     * @return string
-     */
-    public function render(): string
-    {
-        $url       = request()->fullUrlWithQuery([static::QUERY_NAME => $this->key]);
-        $className = (string) input(static::QUERY_NAME) === $this->key ? 'class="layui-this"' : '';
-        return "<li {$className}><a class=\"J_ignore\" href=\"{$url}\">{$this->label}</a></li>";
-    }
-
-    /**
+     * 将模型查询条件存储
      * @param string $method
      * @param array  $arguments
      *
@@ -82,7 +71,14 @@ class Scope implements Renderable
     public function __call(string $method, array $arguments): self
     {
         $this->queries->push(compact('method', 'arguments'));
-
         return $this;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'value' => $this->value,
+            'label' => $this->label,
+        ];
     }
 }

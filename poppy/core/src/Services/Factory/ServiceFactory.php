@@ -36,7 +36,6 @@ class ServiceFactory
         if (is_callable([$this, $method])) {
             return $this->$method($hooks, $params);
         }
-
         return null;
     }
 
