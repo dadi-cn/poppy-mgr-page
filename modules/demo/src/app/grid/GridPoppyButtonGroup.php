@@ -3,14 +3,14 @@
 namespace Demo\App\Grid;
 
 use Poppy\Framework\Exceptions\ApplicationException;
-use Poppy\MgrApp\Grid\Column\Render\ActionsRender;
-use Poppy\MgrApp\Http\Lists\ListBase;
-use Poppy\MgrApp\Widgets\FilterWidget;
+use Poppy\MgrApp\Classes\Grid\Column\Render\ActionsRender;
+use Poppy\MgrApp\Classes\Widgets\FilterWidget;
+use Poppy\MgrApp\Http\Grid\GridBase;
 
 /**
  * 按钮
  */
-class GridPoppyButtonGroup extends ListBase
+class GridPoppyButtonGroup extends GridBase
 {
     /**
      * @inheritDoc
@@ -28,9 +28,6 @@ class GridPoppyButtonGroup extends ListBase
         });
         $this->column('action', '操作')->displayUsing(ActionsRender::class, [function (ActionsRender $actions) {
             $row = $actions->getRow();
-            if (data_get($row, 'id') % 2 === 0) {
-                $actions->group();
-            }
             $actions->request('错误', route('demo:api.mgr_app.grid_request', ['error']));
             $actions->request('成功', route('demo:api.mgr_app.grid_request', ['success']));
             $actions->request('确认', route('demo:api.mgr_app.grid_request', ['success']))->confirm();

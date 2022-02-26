@@ -3,14 +3,14 @@
 namespace Demo\App\Grid;
 
 use Poppy\Framework\Exceptions\ApplicationException;
-use Poppy\MgrApp\Grid\Column\Render\ActionsRender;
-use Poppy\MgrApp\Http\Lists\ListBase;
-use Poppy\MgrApp\Widgets\FilterWidget;
+use Poppy\MgrApp\Classes\Grid\Column\Render\ActionsRender;
+use Poppy\MgrApp\Classes\Widgets\FilterWidget;
+use Poppy\MgrApp\Http\Grid\GridBase;
 
 /**
  * 按钮
  */
-class GridPoppyButtonDropdown extends ListBase
+class GridPoppyButtonDropdown extends GridBase
 {
     /**
      * @inheritDoc

@@ -15,4 +15,8 @@ Route::group([
         ->name('py-mgr-app:api-backend.home.upload');
     $router->any('home/clear-cache', 'HomeController@clearCache')
         ->name('py-mgr-app:api-backend.home.clear_cache');
+    $router->any('mail/test', 'MailController@test')
+        ->name('py-mgr-app:api-backend.mail.test');
+    $router->any('mail/store', 'MailController@store')
+        ->name('py-mgr-app:api-backend.mail.store');
 });

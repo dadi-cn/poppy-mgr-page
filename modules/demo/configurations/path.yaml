@@ -95,3 +95,6 @@ backend :
           -
             title : Filter-Scope
             path : grid/demo:api.mgr_app.grid/filter-scope
+          -
+            title : QuickActions
+            path : grid/demo:api.mgr_app.grid/quick-actions

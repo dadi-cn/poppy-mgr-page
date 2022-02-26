@@ -7,7 +7,7 @@ use Poppy\Area\Models\SysArea;
 use Poppy\Framework\Classes\Resp;
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\Framework\Validation\Rule;
-use Poppy\MgrApp\Widgets\FormWidget;
+use Poppy\MgrApp\Classes\Widgets\FormWidget;
 
 class FormRuleRequiredEstablish extends FormWidget
 {

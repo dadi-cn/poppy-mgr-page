@@ -2,7 +2,7 @@
 
 namespace Poppy\MgrApp\Tests\Form;
 
-use Poppy\MgrApp\Widgets\FormWidget;
+use Poppy\MgrApp\Classes\Widgets\FormWidget;
 
 /**
  * Form Widget

@@ -6,8 +6,8 @@ use Demo\App\Forms\FormGridPoppyEstablish;
 use Demo\Models\PoppyDemo;
 use Illuminate\Support\Str;
 use Poppy\Framework\Classes\Resp;
-use Poppy\MgrApp\Widgets\FormWidget;
-use Poppy\MgrApp\Widgets\GridWidget;
+use Poppy\MgrApp\Classes\Widgets\FormWidget;
+use Poppy\MgrApp\Classes\Widgets\GridWidget;
 use Poppy\System\Http\Request\ApiV1\Web\WebApiController;
 
 class MgrAppController extends WebApiController

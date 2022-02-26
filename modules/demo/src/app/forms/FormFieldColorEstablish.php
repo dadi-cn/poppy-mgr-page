@@ -4,7 +4,7 @@ namespace Demo\App\Forms;
 
 use Poppy\Framework\Classes\Resp;
 use Poppy\Framework\Exceptions\FakerException;
-use Poppy\MgrApp\Widgets\FormWidget;
+use Poppy\MgrApp\Classes\Widgets\FormWidget;
 
 class FormFieldColorEstablish extends FormWidget
 {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Poppy\AliyunPush\Forms\MgrAppSettings;
 
 use Poppy\Framework\Validation\Rule;
-use Poppy\MgrApp\Http\Forms\MgrAppSettings\SettingBase;
+use Poppy\MgrApp\Http\Setting\SettingBase;
 
 class SettingAliyunPush extends SettingBase
 {

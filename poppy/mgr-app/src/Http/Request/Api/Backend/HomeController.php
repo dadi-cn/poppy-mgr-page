@@ -3,8 +3,8 @@
 namespace Poppy\MgrApp\Http\Request\Api\Backend;
 
 use Poppy\Framework\Classes\Resp;
-use Poppy\MgrApp\Http\Forms\MgrAppSettings\SettingUpload;
-use Poppy\MgrApp\Widgets\SettingWidget;
+use Poppy\MgrApp\Classes\Widgets\SettingWidget;
+use Poppy\MgrApp\Http\Setting\SettingUpload;
 
 /**
  * 用户

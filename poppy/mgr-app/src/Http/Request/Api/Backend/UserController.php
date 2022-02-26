@@ -5,7 +5,7 @@ namespace Poppy\MgrApp\Http\Request\Api\Backend;
 use Poppy\Core\Classes\Traits\CoreTrait;
 use Poppy\Core\Exceptions\PermissionException;
 use Poppy\Framework\Classes\Resp;
-use Poppy\MgrApp\Http\Forms\User\FormPassword;
+use Poppy\MgrApp\Http\Form\FormPassword;
 use Poppy\System\Models\PamAccount;
 
 /**

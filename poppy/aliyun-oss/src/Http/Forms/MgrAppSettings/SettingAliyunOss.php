@@ -3,7 +3,7 @@
 namespace Poppy\AliyunOss\Http\Forms\MgrAppSettings;
 
 use Poppy\Framework\Validation\Rule;
-use Poppy\MgrApp\Http\Forms\MgrAppSettings\SettingBase;
+use Poppy\MgrApp\Http\Setting\SettingBase;
 
 class SettingAliyunOss extends SettingBase
 {
