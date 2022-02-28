@@ -5,4 +5,4 @@
 -
   name : 'poppy.mgr-app.settings'
   hooks :
-    - '\Poppy\AliyunPush\Services\MgrAppSettings\ServiceAliyunPush'
+    - '\Poppy\AliyunPush\Services\MgrApp\ServiceSettings'

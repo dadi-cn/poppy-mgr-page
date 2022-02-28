@@ -1,6 +1,6 @@
 <?php
 
-namespace Poppy\AliyunOss\Http\Forms\MgrAppSettings;
+namespace Poppy\AliyunOss\Http\Setting;
 
 use Poppy\Framework\Validation\Rule;
 use Poppy\MgrApp\Http\Setting\SettingBase;

@@ -14,9 +14,10 @@ abstract class BackendController extends Controller
     use PoppyTrait;
 
     /**
-     * @var PamAccount
+     * 用户信息
+     * @var ?PamAccount
      */
-    protected $pam;
+    protected ?PamAccount $pam;
 
     public function __construct()
     {

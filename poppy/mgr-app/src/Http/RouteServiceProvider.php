@@ -24,7 +24,7 @@ class RouteServiceProvider extends \Poppy\Framework\Application\RouteServiceProv
     {
         Route::group([
             'prefix'     => 'api/backend/mgr-app',
-            'middleware' => 'mgr-app-backend-auth',
+            'middleware' => 'mgr-auth',
         ], function () {
             require_once __DIR__ . '/Routes/api-backend.php';
         });

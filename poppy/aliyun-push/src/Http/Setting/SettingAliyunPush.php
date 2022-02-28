@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Poppy\AliyunPush\Forms\MgrAppSettings;
+namespace Poppy\AliyunPush\Http\Setting;
 
 use Poppy\Framework\Validation\Rule;
 use Poppy\MgrApp\Http\Setting\SettingBase;

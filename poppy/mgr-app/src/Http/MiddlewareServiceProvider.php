@@ -11,15 +11,15 @@ class MiddlewareServiceProvider extends ServiceProvider
     {
         /* MgrPage Permission
          * ---------------------------------------- */
-        $router->aliasMiddleware('mgr-app-rbac-permission', Middlewares\RbacPermission::class);
+        $router->aliasMiddleware('mgr-rbac', Middlewares\RbacPermission::class);
 
-        $router->middlewareGroup('mgr-app-backend-auth', [
+        $router->middlewareGroup('mgr-auth', [
             'api',
             'sys-auth:jwt_backend',
             'sys-jwt',
             'sys-disabled_pam',
             'sys-ban:backend',
-            'mgr-app-rbac-permission',
+            'mgr-rbac',
         ]);
     }
 }

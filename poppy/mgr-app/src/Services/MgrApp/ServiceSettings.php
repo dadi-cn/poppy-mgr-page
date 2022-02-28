@@ -1,13 +1,13 @@
 <?php
 
-namespace Poppy\MgrApp\Services\MgrAppSettings;
+namespace Poppy\MgrApp\Services\MgrApp;
 
 use Poppy\Core\Services\Contracts\ServiceArray;
 use Poppy\MgrApp\Http\Setting\SettingPam;
 use Poppy\MgrApp\Http\Setting\SettingSite;
 use Poppy\MgrApp\Http\Setting\SettingUpload;
 
-class ServiceSystem implements ServiceArray
+class ServiceSettings implements ServiceArray
 {
 
     public function key(): string

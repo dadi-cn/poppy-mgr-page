@@ -6,7 +6,8 @@ Route::group([
     'namespace' => 'Poppy\MgrApp\Http\Request\Api\Backend',
 ], function (Router $router) {
     // 用户信息
-    $router->any('user/info', 'UserController@info');
+    $router->any('user/info', 'UserController@info')
+        ->name('py-mgr-app:api-backend.user.info');
     $router->any('user/password', 'UserController@password')
         ->name('py-mgr-app:api-backend.user.password');
     $router->any('home/setting/{key}', 'HomeController@setting')
