@@ -2,7 +2,3 @@
   name : 'poppy.mgr-app.settings'
   hooks :
     - '\Poppy\MgrApp\Services\MgrApp\ServiceSettings'
--
-  name : 'poppy.system.auth_append'
-  hooks :
-    - '\Poppy\MgrApp\Services\System\ServiceAuthAppend'
