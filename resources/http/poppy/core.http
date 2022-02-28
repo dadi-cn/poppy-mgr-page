@@ -2,7 +2,7 @@
 POST {{domain}}/api_v1/system/core/info
 Content-Type: application/x-www-form-urlencoded
 
-timestamp={{$timestamp}}&_py_sys_secret={{py_secret}}
+timestamp={{$timestamp}}&_py_secret={{py_secret}}
 
 > {%
     client.test("Core Info Return Success", function(){
@@ -15,7 +15,7 @@ timestamp={{$timestamp}}&_py_sys_secret={{py_secret}}
 POST {{domain}}/api_v1/system/core/translate
 Content-Type: application/x-www-form-urlencoded
 
-timestamp={{$timestamp}}&_py_sys_secret={{py_secret}}
+timestamp={{$timestamp}}&_py_secret={{py_secret}}
 
 > {%
     client.test("Translate Info Return Success", function(){

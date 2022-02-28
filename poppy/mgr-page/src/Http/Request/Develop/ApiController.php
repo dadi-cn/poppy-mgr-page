@@ -83,7 +83,7 @@ class ApiController extends DevelopController
         // 添加代签名
         $certificate = $definition['sign_certificate'] ?? [];
         array_unshift($certificate, [
-            'name'        => '_py_sys_secret',
+            'name'        => '_py_secret',
             'title'       => '代签名',
             'description' => '存在代签名字串之后可不用进行签名计算即可通过接口验证',
             'type'        => 'String',

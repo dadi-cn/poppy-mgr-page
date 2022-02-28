@@ -3,7 +3,7 @@ POST {{domain}}/api_v1/system/auth/access
 Content-Type: application/x-www-form-urlencoded
 Authorization: Bearer {{token}}
 
-timestamp={{$timestamp}}&_py_sys_secret={{py_secret}}
+timestamp={{$timestamp}}&_py_secret={{py_secret}}
 
 > {%
     client.test("Upload Image Use Type Base64", function(){
@@ -17,7 +17,7 @@ POST {{domain}}/api_v1/system/auth/access
 Content-Type: application/x-www-form-urlencoded
 Authorization: Bearer {{token}}X
 
-timestamp={{$timestamp}}&_py_sys_secret={{py_secret}}
+timestamp={{$timestamp}}&_py_secret={{py_secret}}
 
 > {%
     client.test("错误的登录信息, 返回401", function(){
