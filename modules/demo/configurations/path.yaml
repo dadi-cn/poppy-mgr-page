@@ -98,3 +98,6 @@ backend :
           -
             title : QuickActions
             path : grid/demo:api.mgr_app.grid/quick-actions
+          -
+            title : BatchAction
+            path : grid/demo:api.mgr_app.grid/filter-batch-actions

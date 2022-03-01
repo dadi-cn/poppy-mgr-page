@@ -56,7 +56,7 @@ class MgrAppController extends WebApiController
         if ($type === 'error') {
             return Resp::error('请求错误');
         } else {
-            return Resp::success('请求成功');
+            return Resp::success('请求成功', input());
         }
     }
 

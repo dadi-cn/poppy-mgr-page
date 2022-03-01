@@ -13,10 +13,17 @@ use Poppy\Framework\Classes\Resp;
 use Poppy\Framework\Classes\Traits\PoppyTrait;
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\MgrApp\Classes\Grid\Column\Column;
+use Poppy\MgrApp\Classes\Grid\Concerns\CanHidesColumns;
+use Poppy\MgrApp\Classes\Grid\Concerns\HasExport;
+use Poppy\MgrApp\Classes\Grid\Concerns\HasFilter;
+use Poppy\MgrApp\Classes\Grid\Concerns\HasPaginator;
+use Poppy\MgrApp\Classes\Grid\Concerns\HasSelector;
+use Poppy\MgrApp\Classes\Grid\Concerns\HasTools;
+use Poppy\MgrApp\Classes\Grid\Concerns\HasTotalRow;
 use Poppy\MgrApp\Classes\Grid\Filter\Render\Scope;
 use Poppy\MgrApp\Classes\Grid\Model;
 use Poppy\MgrApp\Classes\Grid\Row;
-use Poppy\MgrApp\Classes\Grid\Tools\QuickActions;
+use Poppy\MgrApp\Classes\Grid\Tools\Actions;
 use Poppy\MgrApp\Http\Grid\GridBase;
 use Throwable;
 use function collect;
@@ -28,13 +35,13 @@ class GridWidget
 {
     use PoppyTrait;
     use
-        \Poppy\MgrApp\Classes\Grid\Concerns\HasExport,
-        \Poppy\MgrApp\Classes\Grid\Concerns\HasFilter,
-        \Poppy\MgrApp\Classes\Grid\Concerns\HasTools,
-        \Poppy\MgrApp\Classes\Grid\Concerns\HasTotalRow,
-        \Poppy\MgrApp\Classes\Grid\Concerns\HasActions,
-        \Poppy\MgrApp\Classes\Grid\Concerns\HasSelector,
-        \Poppy\MgrApp\Classes\Grid\Concerns\CanHidesColumns;
+        HasExport,
+        HasFilter,
+        HasTools,
+        HasTotalRow,
+        HasSelector,
+        HasPaginator,
+        CanHidesColumns;
 
     /**
      * 排序标识
@@ -60,19 +67,6 @@ class GridWidget
      * @var array
      */
     public array $columnNames = [];
-
-    /**
-     * Per-page options.
-     *
-     * @var array
-     */
-    public array $pageSizes = [15, 30, 50, 100, 200];
-
-    /**
-     * 默认分页数
-     * @var int
-     */
-    public int $pagesize = 15;
 
     /**
      * 分页工具
@@ -132,7 +126,7 @@ class GridWidget
      *
      * @var string
      */
-    protected $keyName = 'id';
+    protected string $keyName = 'id';
 
     /**
      * @var []callable
@@ -144,17 +138,34 @@ class GridWidget
      *
      * @var array
      */
-    protected            $options     = [
-        'show_tools'        => true,
-        'show_exporter'     => false,
-        'show_row_selector' => true,
+    protected $options = [
+        'show_tools'    => true,
+        'show_exporter' => false
     ];
 
-    private QuickActions $quickActions;
+    /**
+     * 右上角快捷操作
+     * @var Actions
+     */
+    private Actions $quickActions;
 
-    private string       $title       = '';
+    /**
+     * 左下角快捷操作
+     * @var Actions
+     */
+    private Actions $batchActions;
 
-    private string       $description = '';
+    /**
+     * 标题
+     * @var string
+     */
+    private string $title = '';
+
+    /**
+     * 描述
+     * @var string
+     */
+    private string $description = '';
 
     /**
      * Create a new grid instance.
@@ -207,7 +218,7 @@ class GridWidget
         $List->quickActions($this->quickActions);
         $this->columns = $List->getColumns();
         $List->filter($this->filter);
-        $this->batchActions($List->batchAction());
+        $List->batchActions($this->batchActions);
     }
 
     /**
@@ -223,20 +234,17 @@ class GridWidget
         if (is_null($value)) {
             return $this->options[$key];
         }
-
         $this->options[$key] = $value;
-
         return $this;
     }
 
     /**
-     * Get primary key name of model.
-     *
+     * 获取模型的主键
      * @return string
      */
     public function getKeyName(): string
     {
-        return $this->keyName ?: 'id';
+        return $this->keyName;
     }
 
     /**
@@ -244,7 +252,7 @@ class GridWidget
      * @param int $pagesize
      * @return void
      */
-    public function paginate(int $pagesize = 15)
+    public function setPagesize(int $pagesize = 15)
     {
         $this->pagesize = $pagesize;
         $this->model()->setPagesize($pagesize);
@@ -265,42 +273,6 @@ class GridWidget
         return $this->paginator;
     }
 
-    /**
-     * 设置分页的可选条目数
-     *
-     * @param array $perPages
-     */
-    public function perPages(array $perPages)
-    {
-        $this->pageSizes = $perPages;
-    }
-
-    /**
-     * Disable row selector.
-     *
-     * @param bool $disable
-     * @return GridWidget|mixed
-     */
-    public function disableRowSelector(bool $disable = true): self
-    {
-        return $this->disableBatchActions($disable);
-    }
-
-    /**
-     * Build the grid.
-     *
-     * @return void
-     */
-    public function build()
-    {
-        if ($this->isBuild) {
-            return;
-        }
-
-        $this->addDefaultColumns();
-
-        $this->isBuild = true;
-    }
 
     /**
      * Set grid row callback function.
@@ -322,31 +294,13 @@ class GridWidget
     }
 
     /**
-     * Add variables to grid view.
-     *
-     * @param array $variables
-     *
-     * @return $this
-     */
-    public function with($variables = []): self
-    {
-        $this->variables = $variables;
-
-        return $this;
-    }
-
-
-    /**
-     * Set grid title.
-     *
+     * 设置标题
      * @param string $title
-     *
      * @return $this
      */
     public function setTitle(string $title): self
     {
-        $this->variables['title'] = $title;
-
+        $this->title = $title;
         return $this;
     }
 
@@ -380,8 +334,6 @@ class GridWidget
         if (input('_edit')) {
             return $this->edit();
         }
-
-        $this->build();
 
         $this->callRenderingCallback();
 
@@ -420,10 +372,12 @@ class GridWidget
             'title'       => $this->title ?: '-',
             'description' => $this->description,
             'actions'     => $this->quickActions->struct(),
+            'batch'       => $this->batchActions->struct(),
             'filter'      => $this->filter->struct(),
             'scopes'      => $scopes,
-            'page_sizes'  => $this->pageSizes,
-            'pagesize'    => $this->pagesize,
+            'options'     => [
+                'page_sizes' => $this->pagesizeOptions,
+            ],
             'cols'        => $columns,
             'pk'          => $this->model()->getOriginalModel()->getKeyName(),
         ]);
@@ -449,7 +403,8 @@ class GridWidget
 
         $this->initTools($this);
         $this->initFilter();
-        $this->quickActions = new QuickActions();
+        $this->quickActions = new Actions();
+        $this->batchActions = new Actions();
     }
 
     /**
@@ -466,17 +421,6 @@ class GridWidget
         }
     }
 
-    /**
-     * 添加多选框列
-     *
-     * @return void
-     */
-    protected function prependRowSelectorColumn()
-    {
-        if (!$this->option('show_row_selector')) {
-            return;
-        }
-    }
 
     /**
      * Apply column filter to grid query.
@@ -517,15 +461,6 @@ class GridWidget
         //        $this->applySelectorQuery();
 
         return $this->applyFilter();
-    }
-
-    /**
-     * 添加多选 / 操作项目
-     * @return void
-     */
-    protected function addDefaultColumns()
-    {
-        $this->prependRowSelectorColumn();
     }
 
     /**
@@ -578,8 +513,6 @@ class GridWidget
     {
         // 获取模型数据
         $collection = $this->applyQuery();
-
-        $this->build();
 
         Column::setOriginalGridModels($collection);
 

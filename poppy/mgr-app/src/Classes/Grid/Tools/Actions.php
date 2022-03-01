@@ -8,7 +8,7 @@ use Poppy\MgrApp\Classes\Tools\Action\AbstractAction;
 use Poppy\MgrApp\Classes\Tools\Action\PageAction;
 use Poppy\MgrApp\Classes\Tools\Action\RequestAction;
 
-class QuickActions
+class Actions
 {
     /**
      * @var array

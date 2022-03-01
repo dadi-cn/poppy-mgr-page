@@ -2,7 +2,7 @@
 
 namespace Poppy\MgrApp\Http\Grid;
 
-use Poppy\MgrApp\Classes\Grid\Tools\QuickActions;
+use Poppy\MgrApp\Classes\Grid\Tools\Actions;
 use Poppy\MgrApp\Classes\Widgets\FilterWidget;
 
 interface GridContract
@@ -21,11 +21,10 @@ interface GridContract
     /**
      * 定义右上角的快捷操作栏
      */
-    public function quickActions(QuickActions $actions);
+    public function quickActions(Actions $actions);
 
     /**
      * 批量操作
-     * @return array
      */
-    public function batchAction(): array;
+    public function batchActions(Actions $actions);
 }

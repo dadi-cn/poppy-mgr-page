@@ -5,7 +5,7 @@ namespace Demo\App\Grid;
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\MgrApp\Classes\Grid\Column\Render\ActionsRender;
 use Poppy\MgrApp\Classes\Grid\Filter\Render\Scope;
-use Poppy\MgrApp\Classes\Grid\Tools\QuickActions;
+use Poppy\MgrApp\Classes\Grid\Tools\Actions;
 use Poppy\MgrApp\Classes\Widgets\FilterWidget;
 use Poppy\MgrApp\Http\Grid\GridBase;
 
@@ -56,7 +56,7 @@ class GridPoppyQuickActions extends GridBase
         $filter->lt('time', 'Time')->time();
     }
 
-    public function quickActions(QuickActions $actions)
+    public function quickActions(Actions $actions)
     {
         $scope = input(Scope::QUERY_NAME);
         $actions->page('新建', 'abc', 'form');

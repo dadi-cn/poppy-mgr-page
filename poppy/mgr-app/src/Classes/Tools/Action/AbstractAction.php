@@ -12,6 +12,7 @@ namespace Poppy\MgrApp\Classes\Tools\Action;
  * @method self disabled()      禁用
  * @method self plain()         朴素模式
  * @method self circle()        原型模式
+ * @method self confirm()        原型模式
  */
 abstract class AbstractAction
 {
@@ -58,6 +59,18 @@ abstract class AbstractAction
     protected bool $only = false;
 
     /**
+     * 是否进行请求前确认
+     * @var bool
+     */
+    protected bool $confirm = false;
+
+    /**
+     * 请求方法
+     * @var string
+     */
+    protected string $method;
+
+    /**
      * 标题/说明
      * @var string
      */
@@ -93,7 +106,7 @@ abstract class AbstractAction
         }
 
         if (in_array($method, [
-            'disabled', 'plain', 'circle'
+            'disabled', 'plain', 'circle', 'confirm'
         ])) {
             $this->$method = true;
             return $this;
@@ -107,7 +120,7 @@ abstract class AbstractAction
             'url'   => $this->url,
             'title' => $this->title,
         ];
-        foreach (['type', 'plain', 'only', 'circle', 'icon', 'disabled',] as $value) {
+        foreach (['type', 'plain', 'only', 'circle', 'icon', 'disabled', 'confirm'] as $value) {
             if ($this->{$value}) {
                 $params[$value] = $this->{$value};
             }

@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\MgrApp\Classes\Grid\Column\Column;
-use Poppy\MgrApp\Classes\Grid\Tools\QuickActions;
+use Poppy\MgrApp\Classes\Grid\Tools\Actions;
 use Poppy\MgrApp\Classes\Widgets\FilterWidget;
 use Poppy\MgrApp\Classes\Widgets\GridWidget;
 use Poppy\System\Models\PamAccount;
@@ -134,13 +134,12 @@ abstract class GridBase implements GridContract
     {
     }
 
-    public function quickActions(QuickActions $actions)
+    public function quickActions(Actions $actions)
     {
     }
 
-    public function batchAction(): array
+    public function batchActions(Actions $actions)
     {
-        return [];
     }
 
     public function __get($attr)

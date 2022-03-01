@@ -22,10 +22,10 @@ class UserController extends BackendController
      */
     public function info()
     {
-        $user = (new PamResource($this->pam))->toArray(app('request'));
-        return Resp::success('获取成功', array_merge($user, [
+        return Resp::success('获取成功', [
+            'user'  => new PamResource($this->pam),
             'menus' => $this->coreModule()->path()->withPermission(PamAccount::TYPE_BACKEND, false, $this->pam)
-        ]));
+        ]);
     }
 
     public function password()
