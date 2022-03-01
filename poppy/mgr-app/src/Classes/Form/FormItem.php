@@ -8,13 +8,14 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
 use Poppy\Framework\Helper\StrHelper;
+use Poppy\MgrApp\Classes\Contracts\Structable;
 use function collect;
 use function validator;
 
 /**
  * 表单条目
  */
-abstract class FormItem
+abstract class FormItem implements Structable
 {
     /**
      * 默认的数据

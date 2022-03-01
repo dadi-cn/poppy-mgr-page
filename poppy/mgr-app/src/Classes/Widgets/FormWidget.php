@@ -2,7 +2,6 @@
 
 namespace Poppy\MgrApp\Classes\Widgets;
 
-use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -340,10 +339,6 @@ abstract class FormWidget
      */
     private function fill(array $data = []): self
     {
-        if ($data instanceof Arrayable) {
-            $data = $data->toArray();
-        }
-
         if (!empty($data)) {
             $this->model = $data;
         }

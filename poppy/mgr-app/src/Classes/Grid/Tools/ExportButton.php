@@ -37,7 +37,6 @@ class ExportButton extends AbstractTool
 
         $page      = request('page', 1);
         $variables = [
-            'filter_id'            => $this->grid->getFilter()->getFilterId(),
             'export'               => trans('admin.export'),
             'all'                  => trans('admin.all'),
             'all_url'              => $this->grid->getExportUrl('all'),

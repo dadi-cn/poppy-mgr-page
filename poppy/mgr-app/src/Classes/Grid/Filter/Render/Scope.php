@@ -2,15 +2,15 @@
 
 namespace Poppy\MgrApp\Classes\Grid\Filter\Render;
 
-use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Poppy\MgrApp\Classes\Contracts\Structable;
 
 /**
  * @property-read string $value 值
  * @property-read string $label 标签
  */
-class Scope implements Arrayable
+class Scope implements Structable
 {
     const QUERY_NAME = '_scope';
 
@@ -74,7 +74,7 @@ class Scope implements Arrayable
         return $this;
     }
 
-    public function toArray(): array
+    public function struct(): array
     {
         return [
             'value' => $this->value,

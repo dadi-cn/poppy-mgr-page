@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Poppy\Framework\Exceptions\ApplicationException;
+use Poppy\MgrApp\Classes\Contracts\Structable;
 use Poppy\MgrApp\Classes\Form\FormItem;
 use Poppy\MgrApp\Classes\Grid\Filter\FilterDef;
 use Poppy\MgrApp\Classes\Grid\Filter\Presenter\Between as BetweenPresenter;
@@ -50,7 +51,7 @@ use ReflectionException;
  * @method Year year($column, $label = '') 年度
  * @method Group group($column, $label = '', $builder = null) 分组
  */
-final class FilterWidget
+final class FilterWidget implements Structable
 {
 
     /**
@@ -247,6 +248,17 @@ final class FilterWidget
     public function getScopes(): Collection
     {
         return $this->scopes;
+    }
+
+    /**
+     * 范围结构
+     * @return Collection
+     */
+    public function getScopesStruct(): Collection
+    {
+        return $this->scopes->map(function (Scope $scope) {
+            return $scope->struct();
+        });
     }
 
     /**

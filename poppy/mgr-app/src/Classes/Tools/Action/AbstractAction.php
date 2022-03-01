@@ -3,6 +3,8 @@
 namespace Poppy\MgrApp\Classes\Tools\Action;
 
 
+use Poppy\MgrApp\Classes\Contracts\Structable;
+
 /**
  * @method self primary()       主要按钮
  * @method self success()       成功
@@ -14,7 +16,7 @@ namespace Poppy\MgrApp\Classes\Tools\Action;
  * @method self circle()        原型模式
  * @method self confirm()        原型模式
  */
-abstract class AbstractAction
+abstract class AbstractAction implements Structable
 {
     /**
      * 禁用

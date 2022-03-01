@@ -108,13 +108,6 @@ class GridWidget
     protected $builder;
 
     /**
-     * Mark if the grid is builded.
-     *
-     * @var bool
-     */
-    protected $isBuild = false;
-
-    /**
      * All variables in grid view.
      *
      * @var array
@@ -171,13 +164,11 @@ class GridWidget
      * Create a new grid instance.
      *
      * @param \Illuminate\Database\Eloquent\Model $model
-     * @param Closure|null                        $builder
      */
-    public function __construct($model, Closure $builder = null)
+    public function __construct($model)
     {
         $this->model   = new Model($model, $this);
         $this->keyName = $model->getKeyName();
-        $this->builder = $builder;
 
         $this->initialize();
 
@@ -363,9 +354,6 @@ class GridWidget
             }
             $columns[] = $defines;
         });
-        $scopes = $this->getFilter()->getScopes()->map(function (Scope $scope) {
-            return $scope->toArray();
-        });
         return Resp::success('Grid Skeleton', [
             'type'        => 'grid',
             'url'         => $this->pyRequest()->url(),
@@ -374,7 +362,7 @@ class GridWidget
             'actions'     => $this->quickActions->struct(),
             'batch'       => $this->batchActions->struct(),
             'filter'      => $this->filter->struct(),
-            'scopes'      => $scopes,
+            'scopes'      => $this->getFilter()->getScopesStruct(),
             'options'     => [
                 'page_sizes' => $this->pagesizeOptions,
             ],

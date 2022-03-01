@@ -7,6 +7,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Poppy\Framework\Helper\StrHelper;
+use Poppy\MgrApp\Classes\Contracts\Structable;
 use Poppy\MgrApp\Classes\Grid\Filter\Presenter\DateTime;
 use Poppy\MgrApp\Classes\Grid\Filter\Presenter\MultiSelect;
 use Poppy\MgrApp\Classes\Grid\Filter\Presenter\Presenter;
@@ -18,7 +19,7 @@ use Poppy\MgrApp\Classes\Grid\Filter\Presenter\Text;
  * @property-read  $column 当前列的名称
  * @property-read  $value  输入值
  */
-abstract class AbstractFilterItem extends FilterItem
+abstract class AbstractFilterItem extends FilterItem implements Structable
 {
 
     /**

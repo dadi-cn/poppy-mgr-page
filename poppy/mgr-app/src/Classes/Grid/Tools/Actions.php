@@ -2,13 +2,13 @@
 
 namespace Poppy\MgrApp\Classes\Grid\Tools;
 
-use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Fluent;
+use Poppy\MgrApp\Classes\Contracts\Structable;
 use Poppy\MgrApp\Classes\Tools\Action\AbstractAction;
 use Poppy\MgrApp\Classes\Tools\Action\PageAction;
 use Poppy\MgrApp\Classes\Tools\Action\RequestAction;
 
-class Actions
+class Actions implements Structable
 {
     /**
      * @var array
@@ -36,7 +36,7 @@ class Actions
     /**
      *
      */
-    public function struct(): Jsonable
+    public function struct(): array
     {
         $actions = [];
         foreach ($this->actions as $append) {
@@ -45,7 +45,7 @@ class Actions
                 $actions[] = $def;
             }
         }
-        return new Fluent($actions);
+        return (new Fluent($actions))->toArray();
     }
 
 
