@@ -27,6 +27,7 @@
                     'class'=> 'layui-form'
                 ]) !!}
                 @include('py-mgr-page::develop.api._token')
+                @include('py-mgr-page::develop.api._headers')
                 @include('py-mgr-page::develop.api._certificate')
                 @include('py-mgr-page::develop.api._params')
 
@@ -74,6 +75,13 @@
                     ).css('color', 'grey');
                     $(form).ajaxSubmit({
                         beforeSend : function(request) {
+	                        let headerStr = '{!! $data['headers'] ?? '' !!}'
+	                        let headers = JSON.parse(headerStr)
+	                        if (typeof headers == "object") {
+		                        Object.keys(headers).forEach((key) => {
+			                        request.setRequestHeader(key, headers[key])
+		                        })
+	                        }
                             @if(isset($data['token']))
                             request.setRequestHeader("Authorization", "Bearer {!! $data['token'] !!}");
                             request.setRequestHeader("X-ACCESS-TOKEN", "{!! $data['token'] !!}");
