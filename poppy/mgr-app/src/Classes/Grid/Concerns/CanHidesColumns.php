@@ -6,7 +6,6 @@ use Illuminate\Support\Collection;
 use Poppy\MgrApp\Classes\Grid\Column\Column;
 use Poppy\MgrApp\Classes\Grid\Tools\ColumnSelector;
 use Poppy\MgrApp\Classes\Widgets\GridWidget;
-use Poppy\MgrApp\Grid\Concerns\Grid;
 use function collect;
 
 trait CanHidesColumns
@@ -72,9 +71,9 @@ trait CanHidesColumns
             return $this->columns;
         }
 
-        array_push($visible, Grid\Column::NAME_SELECTOR, Grid\Column::NAME_ACTION);
+        array_push($visible);
 
-        return $this->columns->filter(function (Grid\Column $column) use ($visible) {
+        return $this->columns->filter(function (Column $column) use ($visible) {
             return in_array($column->name, $visible);
         });
     }
@@ -92,7 +91,7 @@ trait CanHidesColumns
             return $this->columnNames;
         }
 
-        array_push($visible, Column::NAME_SELECTOR, Column::NAME_ACTION);
+        array_push($visible);
 
         return collect($this->columnNames)->filter(function ($column) use ($visible) {
             return in_array($column, $visible);
@@ -109,8 +108,7 @@ trait CanHidesColumns
         return array_values(
             array_diff(
                 $this->columnNames,
-                $this->hiddenColumns,
-                [Column::NAME_SELECTOR, Column::NAME_ACTION]
+                $this->hiddenColumns
             )
         );
     }

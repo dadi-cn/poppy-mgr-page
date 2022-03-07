@@ -14,6 +14,9 @@ use InvalidArgumentException;
 use Poppy\Framework\Helper\UtilHelper;
 use Poppy\MgrApp\Actions\RowAction;
 use Poppy\MgrApp\Classes\Grid\Column\Render\AbstractRender;
+use Poppy\MgrApp\Classes\Grid\Column\Render\DownloadRender;
+use Poppy\MgrApp\Classes\Grid\Column\Render\ImageRender;
+use Poppy\MgrApp\Classes\Grid\Column\Render\LinkRender;
 use Poppy\MgrApp\Classes\Grid\Model;
 use Poppy\MgrApp\Classes\Widgets\GridWidget;
 use function request;
@@ -39,18 +42,15 @@ class Column
 {
     use HasHeader;
 
-    const NAME_SELECTOR = '_selector_';
-    const NAME_ACTION   = '_actions_';
-
     /**
      * Displayer for grid column.
      *
      * @var array
      */
     public static array $renderers = [
-        'image'    => \Poppy\MgrApp\Classes\Grid\Column\Render\ImageRender::class,
-        'link'     => \Poppy\MgrApp\Classes\Grid\Column\Render\LinkRender::class,
-        'download' => \Poppy\MgrApp\Classes\Grid\Column\Render\DownloadRender::class,
+        'image'    => ImageRender::class,
+        'link'     => LinkRender::class,
+        'download' => DownloadRender::class,
     ];
 
     /**
@@ -66,11 +66,6 @@ class Column
      * @var Collection
      */
     protected static $originalGridModels;
-
-    /**
-     * @var array
-     */
-    protected static $htmlAttributes = [];
 
     /**
      * @var array
@@ -164,11 +159,6 @@ class Column
     protected $searchable = false;
 
     /**
-     * @var string
-     */
-    protected $style = '';
-
-    /**
      * 定义宽度
      * @var string
      */
@@ -223,18 +213,6 @@ class Column
         if (is_null(static::$model) && ($model instanceof BaseModel)) {
             static::$model = $model->newInstance();
         }
-    }
-
-    /**
-     * 设置文字样式
-     * @param string $style
-     *
-     * @return $this
-     */
-    public function style(string $style = ''): self
-    {
-        $this->style = $style . ($this->style ? ';' . $this->style : '');
-        return $this;
     }
 
     /**
@@ -567,8 +545,6 @@ class Column
         foreach ($data as $key => &$row) {
             $this->original = $value = Arr::get($row, $this->name);
 
-            $value = $this->htmlEntityEncode($value);
-
             Arr::set($row, $this->name, $value);
 
             if ($this->isDefinedColumn()) {
@@ -664,9 +640,7 @@ class Column
             $rowAttributes = Arr::get(static::$rowAttributes, "{$name}.{$key}", []);
         }
 
-        $columnAttributes = Arr::get(static::$htmlAttributes, $name, []);
-
-        return array_merge($rowAttributes, $columnAttributes);
+        return $rowAttributes;
     }
 
     /**
@@ -788,26 +762,6 @@ class Column
 
             return $definition->render();
         });
-    }
-
-    /**
-     * Convert characters to HTML entities recursively.
-     *
-     * @param array|string $item
-     *
-     * @return mixed
-     */
-    protected function htmlEntityEncode($item)
-    {
-        if (is_array($item)) {
-            array_walk_recursive($item, function (&$value) {
-                $value = htmlentities($value);
-            });
-        } else {
-            $item = htmlentities($item);
-        }
-
-        return $item;
     }
 
     /**

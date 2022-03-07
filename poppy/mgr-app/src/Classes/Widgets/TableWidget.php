@@ -2,11 +2,14 @@
 
 namespace Poppy\MgrApp\Classes\Widgets;
 
-use Illuminate\Support\Arr;
 use Poppy\Framework\Classes\Resp;
+use Poppy\MgrApp\Classes\Contracts\Respable;
 
-abstract class TableWidget
+class TableWidget implements Respable
 {
+
+    private string $title = '';
+
     /**
      * @var array
      */
@@ -31,48 +34,54 @@ abstract class TableWidget
     }
 
     /**
-     * Set table headers.
-     *
-     * @param array $headers
-     *
-     * @return $this
+     * 设置数据表行
+     * @param array $rows
      */
-    public function setHeaders(array $headers = []): self
+    public function setRows(array $rows = [])
     {
-        $this->headers = $headers;
-        return $this;
+        foreach ($rows as $item) {
+            $new = [];
+            foreach ($item as $key => $it) {
+                $new['k' . $key] = $it;
+            }
+            $this->rows[] = $new;
+        }
     }
 
     /**
-     * Set table rows.
-     *
-     * @param array $rows
-     *
+     * 设置标题
+     * @param string $title
      * @return $this
      */
-    public function setRows(array $rows = []): self
+    public function setTitle(string $title): self
     {
-        if (Arr::isAssoc($rows)) {
-            foreach ($rows as $key => $item) {
-                $this->rows[] = [$key, $item];
-            }
-
-            return $this;
-        }
-        $this->rows = $rows;
+        $this->title = $title;
         return $this;
     }
 
     /**
      * Render the table.
-     * @throws \Throwable
      */
-    public function render()
+    public function resp()
     {
-        return Resp::success('获取数据成功', [
+        return Resp::success('Struct', [
             'type'    => 'table',
+            'title'   => $this->title,
             'headers' => $this->headers,
             'rows'    => $this->rows,
         ]);
+    }
+
+    /**
+     * 设置 Header
+     * @param array $headers
+     */
+    private function setHeaders(array $headers = [])
+    {
+        $new = [];
+        foreach ($headers as $key => $header) {
+            $new['k' . $key] = $header;
+        }
+        $this->headers = $new;
     }
 }

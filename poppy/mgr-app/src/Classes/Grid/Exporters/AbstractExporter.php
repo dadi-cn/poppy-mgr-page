@@ -5,8 +5,8 @@ namespace Poppy\MgrApp\Classes\Grid\Exporters;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Poppy\MgrApp\Classes\Grid\Exporter;
 use Poppy\MgrApp\Classes\Widgets\GridWidget;
-use Poppy\MgrApp\Grid\Exporters\Grid;
 use function collect;
 use function request;
 
@@ -65,9 +65,9 @@ abstract class AbstractExporter implements ExporterInterface
      *
      * @return array|Collection|mixed
      */
-    public function getData($toArray = true)
+    public function getData()
     {
-        return $this->grid->getFilter()->execute($toArray);
+        return $this->grid->getFilter()->execute();
     }
 
     /**
@@ -123,18 +123,18 @@ abstract class AbstractExporter implements ExporterInterface
      */
     public function withScope($scope)
     {
-        if ($scope == Grid\Exporter::SCOPE_ALL) {
+        if ($scope == Exporter::SCOPE_ALL) {
             return $this;
         }
 
         [$scope, $args] = explode(':', $scope);
 
-        if ($scope == Grid\Exporter::SCOPE_CURRENT_PAGE) {
+        if ($scope == Exporter::SCOPE_CURRENT_PAGE) {
             $this->grid->model()->usePaginate(true);
             $this->page = $args ?: 1;
         }
 
-        if ($scope == Grid\Exporter::SCOPE_SELECTED_ROWS) {
+        if ($scope == Exporter::SCOPE_SELECTED_ROWS) {
             $selected = explode(',', $args);
             $this->grid->model()->whereIn($this->grid->getKeyName(), $selected);
         }

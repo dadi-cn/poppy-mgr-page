@@ -18,9 +18,7 @@ use Poppy\MgrApp\Classes\Grid\Concerns\HasExport;
 use Poppy\MgrApp\Classes\Grid\Concerns\HasFilter;
 use Poppy\MgrApp\Classes\Grid\Concerns\HasPaginator;
 use Poppy\MgrApp\Classes\Grid\Concerns\HasSelector;
-use Poppy\MgrApp\Classes\Grid\Concerns\HasTools;
 use Poppy\MgrApp\Classes\Grid\Concerns\HasTotalRow;
-use Poppy\MgrApp\Classes\Grid\Filter\Render\Scope;
 use Poppy\MgrApp\Classes\Grid\Model;
 use Poppy\MgrApp\Classes\Grid\Row;
 use Poppy\MgrApp\Classes\Grid\Tools\Actions;
@@ -37,7 +35,6 @@ class GridWidget
     use
         HasExport,
         HasFilter,
-        HasTools,
         HasTotalRow,
         HasSelector,
         HasPaginator,
@@ -155,12 +152,6 @@ class GridWidget
     private string $title = '';
 
     /**
-     * 描述
-     * @var string
-     */
-    private string $description = '';
-
-    /**
      * Create a new grid instance.
      *
      * @param \Illuminate\Database\Eloquent\Model $model
@@ -203,8 +194,7 @@ class GridWidget
 
         /* 设置标题和描述
          * ---------------------------------------- */
-        $this->title       = $List->title;
-        $this->description = $List->description;
+        $this->title = $List->title;
         $List->columns();
         $List->quickActions($this->quickActions);
         $this->columns = $List->getColumns();
@@ -355,19 +345,18 @@ class GridWidget
             $columns[] = $defines;
         });
         return Resp::success('Grid Skeleton', [
-            'type'        => 'grid',
-            'url'         => $this->pyRequest()->url(),
-            'title'       => $this->title ?: '-',
-            'description' => $this->description,
-            'actions'     => $this->quickActions->struct(),
-            'batch'       => $this->batchActions->struct(),
-            'filter'      => $this->filter->struct(),
-            'scopes'      => $this->getFilter()->getScopesStruct(),
-            'options'     => [
+            'type'    => 'grid',
+            'url'     => $this->pyRequest()->url(),
+            'title'   => $this->title ?: '-',
+            'actions' => $this->quickActions->struct(),
+            'batch'   => $this->batchActions->struct(),
+            'filter'  => $this->filter->struct(),
+            'scopes'  => $this->getFilter()->getScopesStruct(),
+            'options' => [
                 'page_sizes' => $this->pagesizeOptions,
             ],
-            'cols'        => $columns,
-            'pk'          => $this->model()->getOriginalModel()->getKeyName(),
+            'cols'    => $columns,
+            'pk'      => $this->model()->getOriginalModel()->getKeyName(),
         ]);
     }
 
@@ -388,8 +377,6 @@ class GridWidget
     {
         $this->columns = Collection::make();
         $this->rows    = Collection::make();
-
-        $this->initTools($this);
         $this->initFilter();
         $this->quickActions = new Actions();
         $this->batchActions = new Actions();

@@ -23,19 +23,12 @@ use Poppy\System\Models\PamAccount;
 
 /**
  * @property-read string $title       标题
- * @property-read string $description 描述
  */
 abstract class GridBase implements GridContract
 {
     use Macroable {
         __call as macroCall;
     }
-
-    /**
-     * 描述
-     * @var string
-     */
-    protected string $description = '';
 
     /**
      * 标题
@@ -78,7 +71,7 @@ abstract class GridBase implements GridContract
      * @return Column
      * @throws ApplicationException
      */
-    public function column(string $name, $label = '')
+    public function column(string $name, string $label = '')
     {
         if (Str::contains($name, '.')) {
             return $this->addRelationColumn($name, $label);
@@ -144,7 +137,7 @@ abstract class GridBase implements GridContract
 
     public function __get($attr)
     {
-        if (in_array($attr, ['title', 'description'])) {
+        if (in_array($attr, ['title'])) {
             return $this->{$attr};
         }
         return null;

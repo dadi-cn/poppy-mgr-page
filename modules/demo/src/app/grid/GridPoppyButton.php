@@ -31,6 +31,7 @@ class GridPoppyButton extends GridBase
             $actions->request('仅图标', route('demo:api.mgr_app.grid_request', ['success']))->icon('warning', true);
             $actions->request('仅图标', route('demo:api.mgr_app.grid_request', ['success']))->icon('warning', true)->circle();
             $actions->page('页面', route('demo:api.mgr_app.grid_form', ['detail']), 'form');
+            $actions->page('Table', route('demo:api.table.index', ['simple']), 'table');
         }]);
     }
 

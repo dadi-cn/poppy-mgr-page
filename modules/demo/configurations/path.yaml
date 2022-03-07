@@ -101,3 +101,9 @@ backend :
           -
             title : BatchAction
             path : grid/demo:api.mgr_app.grid/filter-batch-actions
+      -
+        title : Table
+        children :
+          -
+            title : Simple
+            path : table/demo:api.table.index/simple
