@@ -2,9 +2,9 @@
 
 namespace Poppy\MgrApp\Classes\Form\Field;
 
+use Poppy\MgrApp\Classes\Action\Action;
+use Poppy\MgrApp\Classes\Action\PageAction;
 use Poppy\MgrApp\Classes\Form\FormItem;
-use Poppy\MgrApp\Classes\Tools\Action\AbstractAction;
-use Poppy\MgrApp\Classes\Tools\Action\PageAction;
 use function tap;
 
 class Actions extends FormItem
@@ -21,7 +21,7 @@ class Actions extends FormItem
     {
         $actions = [];
         foreach ($this->actions as $append) {
-            if ($append instanceof AbstractAction) {
+            if ($append instanceof Action) {
                 $def       = $append->struct();
                 $actions[] = $def;
             }
@@ -49,7 +49,7 @@ class Actions extends FormItem
     /**
      * Append an action.
      *
-     * @param array|AbstractAction $action
+     * @param array|Action $action
      */
     private function add($action)
     {

@@ -100,9 +100,7 @@ abstract class FormWidget
      * 表单标题
      * @var string
      */
-    protected string $title       = '';
-
-    protected string $description = '';
+    protected string $title = '';
 
     /**
      * 表单内的表单条目集合
@@ -250,13 +248,11 @@ abstract class FormWidget
     /**
      * 设置表单的标题
      * @param string $value
-     * @param string $description
      * @return FormWidget
      */
-    public function title(string $value, string $description = ''): self
+    public function title(string $value): self
     {
         $this->title       = $value;
-        $this->description = $description;
         return $this;
     }
 
@@ -280,18 +276,17 @@ abstract class FormWidget
                 $items->push($struct);
             });
             $struct = [
-                'type'        => 'form',
-                'title'       => $this->title,
-                'description' => $this->description,
-                'buttons'     => $this->buttons,
-                'model'       => (object) $this->model,
-                'attr'        => (object) $this->attrs->toArray(),
-                'items'       => $items->toArray(),
+                'type'    => 'form',
+                'title'   => $this->title,
+                'buttons' => $this->buttons,
+                'model'   => (object) $this->model,
+                'attr'    => (object) $this->attrs->toArray(),
+                'items'   => $items->toArray(),
             ];
             if ($skeleton) {
                 return $struct;
             }
-            return Resp::success('结构化数据', $struct);
+            return Resp::success('Struct', $struct);
         }
         if ($request->method() === 'POST') {
             $message = $this->validate($request);

@@ -1,11 +1,11 @@
 <?php
 
-namespace Poppy\MgrApp\Classes\Tools\Action;
+namespace Poppy\MgrApp\Classes\Action;
 
 /**
  * 请求操作
  */
-final class RequestAction extends AbstractAction
+final class RequestAction extends Action
 {
 
     /**

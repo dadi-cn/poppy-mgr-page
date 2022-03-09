@@ -86,7 +86,7 @@ trait HasExport
      *
      * @param bool $forceExport
      */
-    protected function handleExportRequest($forceExport = false)
+    protected function queryExport($forceExport = false)
     {
         if (!$scope = request(Exporter::QUERY_NAME)) {
             return;

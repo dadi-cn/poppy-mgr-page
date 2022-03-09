@@ -1,13 +1,13 @@
 <?php
 
-namespace Poppy\MgrApp\Classes\Tools\Action;
+namespace Poppy\MgrApp\Classes\Action;
 
 
 /**
  * 页面操作
  * 页面/抽屉方式打开
  */
-class PageAction extends AbstractAction
+class PageAction extends Action
 {
 
     /**

@@ -3,7 +3,7 @@
 namespace Poppy\MgrApp\Classes\Grid\Concerns;
 
 
-use Poppy\MgrApp\Classes\Tools\Action\AbstractAction;
+use Poppy\MgrApp\Classes\Action\Action;
 
 /**
  * 快捷操作
@@ -14,7 +14,7 @@ trait HasQuickAction
 
     /**
      * 添加 QuickAction
-     * @param AbstractAction[]|AbstractAction $action
+     * @param Action[]|Action $action
      */
     public function addQuickAction($action): void
     {
@@ -32,7 +32,7 @@ trait HasQuickAction
     public function structQuickAction(): array
     {
         $append = [];
-        /** @var AbstractAction $quickButton */
+        /** @var Action $quickButton */
         foreach ($this->quickActions as $quickButton) {
             $append[] = $quickButton->struct();
         }

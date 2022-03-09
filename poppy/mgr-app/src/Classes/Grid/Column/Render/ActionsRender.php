@@ -5,9 +5,9 @@ namespace Poppy\MgrApp\Classes\Grid\Column\Render;
 use Closure;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Fluent;
-use Poppy\MgrApp\Classes\Tools\Action\AbstractAction;
-use Poppy\MgrApp\Classes\Tools\Action\PageAction;
-use Poppy\MgrApp\Classes\Tools\Action\RequestAction;
+use Poppy\MgrApp\Classes\Action\Action;
+use Poppy\MgrApp\Classes\Action\PageAction;
+use Poppy\MgrApp\Classes\Action\RequestAction;
 use function tap;
 
 class ActionsRender extends AbstractRender
@@ -32,7 +32,7 @@ class ActionsRender extends AbstractRender
     /**
      * Append an action.
      *
-     * @param array|AbstractAction $action
+     * @param array|Action $action
      *
      * @return $this
      */
@@ -65,7 +65,7 @@ class ActionsRender extends AbstractRender
 
         $actions = [];
         foreach ($this->actions as $append) {
-            if ($append instanceof AbstractAction) {
+            if ($append instanceof Action) {
                 $def       = $append->struct();
                 $actions[] = $def;
             }

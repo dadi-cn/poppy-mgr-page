@@ -3,10 +3,10 @@
 namespace Poppy\MgrApp\Classes\Grid\Tools;
 
 use Illuminate\Support\Fluent;
+use Poppy\MgrApp\Classes\Action\Action;
+use Poppy\MgrApp\Classes\Action\PageAction;
+use Poppy\MgrApp\Classes\Action\RequestAction;
 use Poppy\MgrApp\Classes\Contracts\Structable;
-use Poppy\MgrApp\Classes\Tools\Action\AbstractAction;
-use Poppy\MgrApp\Classes\Tools\Action\PageAction;
-use Poppy\MgrApp\Classes\Tools\Action\RequestAction;
 
 class Actions implements Structable
 {
@@ -17,9 +17,15 @@ class Actions implements Structable
 
 
     /**
+     * 默认样式
+     * @var array
+     */
+    private array $defaultStyle = [];
+
+    /**
      * Append an action.
      *
-     * @param array|AbstractAction $action
+     * @param array|Action $action
      *
      * @return $this
      */
@@ -34,13 +40,24 @@ class Actions implements Structable
     }
 
     /**
+     * 设置默认样式, 该样式需是可以调用的 Action 方法
+     * @param array $style
+     * @return $this
+     */
+    public function default(array $style = []): self
+    {
+        $this->defaultStyle = $style;
+        return $this;
+    }
+
+    /**
      *
      */
     public function struct(): array
     {
         $actions = [];
         foreach ($this->actions as $append) {
-            if ($append instanceof AbstractAction) {
+            if ($append instanceof Action) {
                 $def       = $append->struct();
                 $actions[] = $def;
             }
@@ -58,6 +75,7 @@ class Actions implements Structable
     public function request(string $title, string $url): RequestAction
     {
         $action = new RequestAction($title, $url);
+        $action = $this->callDefaultStyle($action);
         return tap($action, function () use ($action) {
             $this->add($action);
         });
@@ -73,8 +91,27 @@ class Actions implements Structable
     public function page(string $title, string $url, string $type): PageAction
     {
         $action = (new PageAction($title, $url))->type($type);
+        $action = $this->callDefaultStyle($action);
         return tap($action, function () use ($action) {
             $this->add($action);
         });
+    }
+
+
+    /**
+     * 调用默认的样式
+     * @param $action
+     * @return mixed
+     */
+    private function callDefaultStyle($action)
+    {
+        if (count($this->defaultStyle)) {
+            foreach ($this->defaultStyle as $style) {
+                if (is_callable([$action, $style])) {
+                    call_user_func([$action, $style]);
+                }
+            }
+        }
+        return $action;
     }
 }

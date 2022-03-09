@@ -1,6 +1,6 @@
 <?php
 
-namespace Poppy\MgrApp\Classes\Tools\Action;
+namespace Poppy\MgrApp\Classes\Action;
 
 
 use Poppy\MgrApp\Classes\Contracts\Structable;
@@ -16,7 +16,7 @@ use Poppy\MgrApp\Classes\Contracts\Structable;
  * @method self circle()        原型模式
  * @method self confirm()        原型模式
  */
-abstract class AbstractAction implements Structable
+abstract class Action implements Structable
 {
     /**
      * 禁用
@@ -84,19 +84,29 @@ abstract class AbstractAction implements Structable
      */
     private string $url;
 
+    /**
+     * 创建 Action
+     * @param $title
+     * @param $url
+     */
     public function __construct($title, $url)
     {
         $this->title = $title;
         $this->url   = $url;
     }
 
-    public function icon($icon, $only = false): self
+    /**
+     * 设置 ICON 图标
+     * @param string $icon ICON 图标
+     * @param bool   $only 是否仅仅显示ICON
+     * @return $this
+     */
+    public function icon(string $icon, bool $only = false): self
     {
         $this->icon = $icon;
         $this->only = $only;
         return $this;
     }
-
 
     public function __call($method, $args)
     {

@@ -163,7 +163,7 @@ class GridWidget
 
         $this->initialize();
 
-        $this->handleExportRequest();
+        $this->queryExport();
 
         $this->callInitCallbacks();
     }
@@ -307,57 +307,28 @@ class GridWidget
      */
     public function resp()
     {
-        $this->handleExportRequest(true);
-
-        if (input('_query')) {
-            return $this->inquire();
-        }
-        if (input('_edit')) {
-            return $this->edit();
+        if ($this->hasQuery('export')) {
+            $this->queryExport(true);
         }
 
-        $this->callRenderingCallback();
+        if ($this->hasQuery('edit')) {
+            return $this->queryEdit();
+        }
 
-        return $this->skeleton();
-    }
+        $resp = [];
+        if ($this->hasQuery('data')) {
+            $resp = array_merge($resp, $this->queryData());
+            $this->callRenderingCallback();
+        }
+        if ($this->hasQuery('struct')) {
+            $resp = array_merge($resp, $this->queryStruct());
+            $resp = array_merge($resp, $this->queryFilter());
+        }
+        if ($this->hasQuery('filter')) {
+            $resp = array_merge($resp, $this->queryFilter());
+        }
 
-    public function skeleton()
-    {
-        $columns = [];
-        collect($this->visibleColumns())->each(function (Column $column) use (&$columns) {
-            $defines = [
-                'field'    => $this->convertFieldName($column->name),
-                'label'    => $column->label,
-                'type'     => $column->type,
-                'sortable' => $column->sortable,
-                'ellipsis' => $column->ellipsis,
-            ];
-
-            if ($width = $column->width) {
-                $defines += ['width' => $width];
-            }
-            if ($fixed = $column->fixed) {
-                $defines += ['fixed' => $fixed];
-            }
-            if ($column->editable) {
-                $defines += ['edit' => 'text'];
-            }
-            $columns[] = $defines;
-        });
-        return Resp::success('Grid Skeleton', [
-            'type'    => 'grid',
-            'url'     => $this->pyRequest()->url(),
-            'title'   => $this->title ?: '-',
-            'actions' => $this->quickActions->struct(),
-            'batch'   => $this->batchActions->struct(),
-            'filter'  => $this->filter->struct(),
-            'scopes'  => $this->getFilter()->getScopesStruct(),
-            'options' => [
-                'page_sizes' => $this->pagesizeOptions,
-            ],
-            'cols'    => $columns,
-            'pk'      => $this->model()->getOriginalModel()->getKeyName(),
-        ]);
+        return Resp::success(input('_query') ?: '', $resp);
     }
 
     /**
@@ -378,8 +349,8 @@ class GridWidget
         $this->columns = Collection::make();
         $this->rows    = Collection::make();
         $this->initFilter();
-        $this->quickActions = new Actions();
-        $this->batchActions = new Actions();
+        $this->quickActions = (new Actions())->default(['primary', 'plain']);
+        $this->batchActions = (new Actions())->default(['info', 'plain']);
     }
 
     /**
@@ -395,7 +366,6 @@ class GridWidget
             call_user_func($callback, $this);
         }
     }
-
 
     /**
      * Apply column filter to grid query.
@@ -468,7 +438,78 @@ class GridWidget
         }
     }
 
-    private function edit()
+    private function hasQuery($type): bool
+    {
+        return in_array($type, explode(',', input('_query')));
+    }
+
+    private function queryStruct(): array
+    {
+        $columns = [];
+        collect($this->visibleColumns())->each(function (Column $column) use (&$columns) {
+            $defines = [
+                'field'    => $this->convertFieldName($column->name),
+                'label'    => $column->label,
+                'type'     => $column->type,
+                'sortable' => $column->sortable,
+                'ellipsis' => $column->ellipsis,
+            ];
+
+            if ($width = $column->width) {
+                $defines += ['width' => $width];
+            }
+            if ($fixed = $column->fixed) {
+                $defines += ['fixed' => $fixed];
+            }
+            if ($column->editable) {
+                $defines += ['edit' => 'text'];
+            }
+            $columns[] = $defines;
+        });
+        return [
+            'type'    => 'grid',
+            'url'     => $this->pyRequest()->url(),
+            'title'   => $this->title ?: '-',
+            'batch'   => $this->batchActions->struct(),
+            'scopes'  => $this->getFilter()->getScopesStruct(),
+            'options' => [
+                'page_sizes' => $this->pagesizeOptions,
+            ],
+            'cols'    => $columns,
+            'pk'      => $this->model()->getOriginalModel()->getKeyName(),
+        ];
+    }
+
+    private function queryFilter(): array
+    {
+        $columns = [];
+        collect($this->visibleColumns())->each(function (Column $column) use (&$columns) {
+            $defines = [
+                'field'    => $this->convertFieldName($column->name),
+                'label'    => $column->label,
+                'type'     => $column->type,
+                'sortable' => $column->sortable,
+                'ellipsis' => $column->ellipsis,
+            ];
+
+            if ($width = $column->width) {
+                $defines += ['width' => $width];
+            }
+            if ($fixed = $column->fixed) {
+                $defines += ['fixed' => $fixed];
+            }
+            if ($column->editable) {
+                $defines += ['edit' => 'text'];
+            }
+            $columns[] = $defines;
+        });
+        return [
+            'actions' => $this->quickActions->struct(),
+            'filter'  => $this->filter->struct(),
+        ];
+    }
+
+    private function queryEdit()
     {
         $pk    = input('_pk');
         $field = input('_field');
@@ -481,10 +522,9 @@ class GridWidget
 
     /**
      * 查询并返回数据
-     * @return Response|JsonResponse|RedirectResponse|Resp
      * @throws Exception
      */
-    private function inquire()
+    private function queryData(): array
     {
         // 获取模型数据
         $collection = $this->applyQuery();
@@ -511,10 +551,10 @@ class GridWidget
 
         $paginator = $this->paginator();
 
-        return Resp::success('获取成功', [
+        return [
             'list'  => $rows,
             'total' => $paginator->total(),
-        ]);
+        ];
     }
 
 
