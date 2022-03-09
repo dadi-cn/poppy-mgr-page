@@ -42,6 +42,6 @@ class GridPoppyFilterBatchActions extends GridBase
      */
     public function batchActions(Actions $actions)
     {
-        $actions->request('批量删除', 'api/demo/grid_request/success')->primary()->confirm();
+        $actions->request('批量删除', 'api/demo/grid_request/success')->confirm();
     }
 }
