@@ -51,6 +51,7 @@ use Poppy\MgrApp\Classes\Form\Field\Url;
 use Poppy\MgrApp\Classes\Form\Field\Year;
 use Poppy\MgrApp\Classes\Form\FieldDef;
 use Poppy\MgrApp\Classes\Form\FormItem;
+use Poppy\MgrApp\Classes\Traits\UseWidgetUtil;
 use function app;
 use function tap;
 
@@ -95,6 +96,7 @@ use function tap;
 abstract class FormWidget
 {
     use PoppyTrait;
+    use UseWidgetUtil;
 
     /**
      * 表单标题
@@ -259,43 +261,32 @@ abstract class FormWidget
     /**
      * 返回表单的结构
      * 规则解析参考 : https://github.com/yiminghe/async-validator
-     * @param bool $skeleton 采用内部嵌入的方式调用
-     * @return array|JsonResponse|RedirectResponse|Response|Resp
+     * @return JsonResponse|RedirectResponse|Resp|Response
      */
-    public function resp(bool $skeleton = false)
+    public function resp()
     {
         $request = app('request');
         // 组建 Form 表单
         $this->form();
-        if ($request->method() === 'GET') {
-            $this->handle();
-            $this->fill($this->data());
-            $items = new Collection();
-            $this->items->each(function (FormItem $item) use ($items) {
-                $struct = $item->struct();
-                $items->push($struct);
-            });
-            $struct = [
-                'type'    => 'form',
-                'title'   => $this->title,
-                'buttons' => $this->buttons,
-                'model'   => (object) $this->model,
-                'attr'    => (object) $this->attrs->toArray(),
-                'items'   => $items->toArray(),
-            ];
-            if ($skeleton) {
-                return $struct;
-            }
-            return Resp::success('Struct', $struct);
-        }
-        if ($request->method() === 'POST') {
+
+        if ($this->queryHas('submit')) {
             $message = $this->validate($request);
             if ($message instanceof MessageBag) {
                 return Resp::error($message);
             }
             return $this->handle();
         }
-        return Resp::error('错误的请求');
+
+        $struct = [];
+        if ($this->queryHas('struct')) {
+            $struct = array_merge($struct, $this->queryStruct());
+        }
+        if ($this->queryHas('data')) {
+            $struct = array_merge($struct, [
+                'model' => $this->queryData()
+            ]);
+        }
+        return Resp::success(input('_query') ?: '', $struct);
     }
 
     /**
@@ -306,6 +297,35 @@ abstract class FormWidget
     public function param($param)
     {
         return app('router')->current()->parameter($param);
+    }
+
+    /**
+     * 查询结构
+     * @return array
+     */
+    public function queryStruct(): array
+    {
+        $items = new Collection();
+        $this->items->each(function (FormItem $item) use ($items) {
+            $struct = $item->struct();
+            $items->push($struct);
+        });
+        return [
+            'type'    => 'form',
+            'title'   => $this->title,
+            'buttons' => $this->buttons,
+            'attr'    => (object) $this->attrs->toArray(),
+            'items'   => $items->toArray(),
+        ];
+    }
+
+    /**
+     * 查询数据
+     */
+    public function queryData(): object
+    {
+        $this->fill($this->data());
+        return (object) $this->model;
     }
 
     /**
