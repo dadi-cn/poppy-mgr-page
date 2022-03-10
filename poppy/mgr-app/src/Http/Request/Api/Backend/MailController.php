@@ -28,7 +28,7 @@ class MailController extends BackendController
 
     /**
      * 保存邮件配置
-     * @return array|JsonResponse|RedirectResponse|Resp|Response
+     * @return JsonResponse|RedirectResponse|Resp|Response
      */
     public function store()
     {

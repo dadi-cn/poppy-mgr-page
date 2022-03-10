@@ -23,6 +23,7 @@ use Poppy\MgrApp\Classes\Grid\Model;
 use Poppy\MgrApp\Classes\Grid\Row;
 use Poppy\MgrApp\Classes\Grid\Tools\Actions;
 use Poppy\MgrApp\Classes\Traits\UseColumn;
+use Poppy\MgrApp\Classes\Traits\UseWidgetUtil;
 use Poppy\MgrApp\Http\Grid\GridBase;
 use Throwable;
 use function collect;
@@ -34,6 +35,7 @@ class GridWidget
 {
     use PoppyTrait;
     use UseColumn;
+    use UseWidgetUtil;
     use
         HasExport,
         HasFilter,
@@ -309,24 +311,24 @@ class GridWidget
      */
     public function resp()
     {
-        if ($this->hasQuery('export')) {
+        if ($this->queryHas('export')) {
             $this->queryExport(true);
         }
 
-        if ($this->hasQuery('edit')) {
+        if ($this->queryHas('edit')) {
             return $this->queryEdit();
         }
 
         $resp = [];
-        if ($this->hasQuery('data')) {
+        if ($this->queryHas('data')) {
             $resp = array_merge($resp, $this->queryData());
             $this->callRenderingCallback();
         }
-        if ($this->hasQuery('struct')) {
+        if ($this->queryHas('struct')) {
             $resp = array_merge($resp, $this->queryStruct());
             $resp = array_merge($resp, $this->queryFilter());
         }
-        if ($this->hasQuery('filter')) {
+        if ($this->queryHas('filter')) {
             $resp = array_merge($resp, $this->queryFilter());
         }
 
@@ -438,11 +440,6 @@ class GridWidget
         foreach ($this->renderingCallbacks as $callback) {
             call_user_func($callback, $this);
         }
-    }
-
-    private function hasQuery($type): bool
-    {
-        return in_array($type, explode(',', input('_query')));
     }
 
     private function queryStruct(): array
