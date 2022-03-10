@@ -22,7 +22,7 @@ abstract class BackendController extends Controller
     public function __construct()
     {
         parent::__construct();
-        py_container()->setExecutionContext('backend');
+        py_container()->setExecutionContext('api');
         $this->middleware(function ($request, $next) {
             $this->pam = $request->user();
             return $next($request);
