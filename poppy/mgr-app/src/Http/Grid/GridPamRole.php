@@ -2,7 +2,6 @@
 
 namespace Poppy\MgrApp\Http\Grid;
 
-use Closure;
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\MgrApp\Classes\Grid\Column\Render\ActionsRender;
 use Poppy\MgrApp\Classes\Grid\Tools\Actions;
@@ -42,12 +41,18 @@ class GridPamRole extends GridBase
         }])->width(150, true)->fixed();
     }
 
+    /**
+     * @param FilterWidget $filter
+     * @return void
+     */
     public function filter(FilterWidget $filter)
     {
         $types = PamAccount::kvType();
+        $filter->scope('all', '全部');
         foreach ($types as $t => $v) {
             $filter->scope($t, $v)->where('type', $t);
         }
+
     }
 
 

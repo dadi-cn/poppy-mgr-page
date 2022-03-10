@@ -457,6 +457,7 @@ class GridWidget
             'title'   => $this->title ?: '-',
             'batch'   => $this->batchActions->struct(),
             'scopes'  => $this->getFilter()->getScopesStruct(),
+            'scope'   => $this->getFilter()->getCurrentScope() ? $this->getFilter()->getCurrentScope()->value : '',
             'options' => [
                 'page_sizes' => $this->pagesizeOptions,
             ],

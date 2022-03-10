@@ -67,7 +67,7 @@ final class FilterWidget implements Structable
     protected $model;
 
 
-    private int  $actionWidth  = 4;
+    private int $actionWidth = 4;
 
     private bool $enableExport = false;
 
@@ -227,7 +227,7 @@ final class FilterWidget implements Structable
 
 
     /**
-     * 添加全局范围
+     * 添加全局范围, 在添加全局范围之后, 如果不传入 Scope, 则默认为第一个 Scope
      * @param string $key
      * @param string $label
      *
@@ -262,6 +262,23 @@ final class FilterWidget implements Structable
     }
 
     /**
+     * 获取当前的Scope,
+     * 支持未传入
+     * @return Scope|null
+     */
+    public function getCurrentScope(): ?Scope
+    {
+        $key = request(Scope::QUERY_NAME);
+        if ($key) {
+            return $this->scopes->first(function ($scope) use ($key) {
+                return $scope->value == $key;
+            });
+        } else {
+            return $this->scopes->first();
+        }
+    }
+
+    /**
      * Get scope conditions.
      * @return array
      */
@@ -271,18 +288,5 @@ final class FilterWidget implements Structable
             return $scope->condition();
         }
         return [];
-    }
-
-    /**
-     * Get current scope.
-     *
-     * @return Scope|null
-     */
-    private function getCurrentScope(): ?Scope
-    {
-        $key = request(Scope::QUERY_NAME);
-        return $this->scopes->first(function ($scope) use ($key) {
-            return $scope->value == $key;
-        });
     }
 }
