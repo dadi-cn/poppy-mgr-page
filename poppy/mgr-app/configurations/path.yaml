@@ -24,3 +24,18 @@ backend :
           -
             title : 修改密码
             path : form/py-mgr-app:api-backend.user.password
+          -
+            title : 角色管理
+            path : grid/py-mgr-app:api-backend.role.index
+          -
+            title : 账号管理
+            path : grid/py-mgr-app:api-backend.pam.index
+          -
+            title : 封禁管理
+            path : grid/py-mgr-app:api-backend.ban.index
+          -
+            title : 登录用户
+            path : grid/py-mgr-app:api-backend.pam.token
+          -
+            title : 登录日志
+            path : grid/py-mgr-app:api-backend.pam.log

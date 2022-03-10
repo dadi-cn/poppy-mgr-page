@@ -7,6 +7,7 @@ use Poppy\MgrApp\Classes\Contracts\Structable;
 
 /**
  * @method self primary()       主要按钮
+ * @method self default()       默认样式
  * @method self success()       成功
  * @method self info()          信息
  * @method self warning()       警告
@@ -14,7 +15,7 @@ use Poppy\MgrApp\Classes\Contracts\Structable;
  * @method self disabled()      禁用
  * @method self plain()         朴素模式
  * @method self circle()        原型模式
- * @method self confirm()        原型模式
+ * @method self only()          仅仅显示图标
  */
 abstract class Action implements Structable
 {
@@ -85,6 +86,12 @@ abstract class Action implements Structable
     private string $url;
 
     /**
+     * 确认消息
+     * @var string
+     */
+    private string $confirmText = '';
+
+    /**
      * 创建 Action
      * @param $title
      * @param $url
@@ -98,13 +105,26 @@ abstract class Action implements Structable
     /**
      * 设置 ICON 图标
      * @param string $icon ICON 图标
-     * @param bool   $only 是否仅仅显示ICON
      * @return $this
      */
-    public function icon(string $icon, bool $only = false): self
+    public function icon(string $icon): self
     {
         $this->icon = $icon;
-        $this->only = $only;
+        return $this;
+    }
+
+    /**
+     * 确认
+     * @param string $text
+     * @return void
+     */
+    public function confirm(string $text = ''): self
+    {
+        $this->confirm = true;
+        if ($text) {
+
+            $this->confirmText = $text;
+        }
         return $this;
     }
 
@@ -118,9 +138,15 @@ abstract class Action implements Structable
         }
 
         if (in_array($method, [
-            'disabled', 'plain', 'circle', 'confirm'
+            'disabled', 'plain', 'circle', 'only'
         ])) {
             $this->$method = true;
+            return $this;
+        }
+        if (in_array($method, [
+            'default',
+        ])) {
+            $this->plain = false;
             return $this;
         }
         return $this;
@@ -136,6 +162,9 @@ abstract class Action implements Structable
             if ($this->{$value}) {
                 $params[$value] = $this->{$value};
             }
+        }
+        if ($this->confirmText) {
+            $params['confirm-text'] = $this->confirmText;
         }
         return $params;
     }

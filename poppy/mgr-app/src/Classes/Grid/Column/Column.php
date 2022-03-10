@@ -12,12 +12,13 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 use Poppy\Framework\Helper\UtilHelper;
-use Poppy\MgrApp\Actions\RowAction;
+use Poppy\MgrApp\Classes\Contracts\Structable;
 use Poppy\MgrApp\Classes\Grid\Column\Render\AbstractRender;
 use Poppy\MgrApp\Classes\Grid\Column\Render\DownloadRender;
 use Poppy\MgrApp\Classes\Grid\Column\Render\ImageRender;
 use Poppy\MgrApp\Classes\Grid\Column\Render\LinkRender;
 use Poppy\MgrApp\Classes\Grid\Model;
+use Poppy\MgrApp\Classes\Traits\UseColumn;
 use Poppy\MgrApp\Classes\Widgets\GridWidget;
 use function request;
 
@@ -26,21 +27,10 @@ use function request;
  * @method $this image($server = '', $width = 200, $height = 200)
  * @method $this link($href = '', $target = '_blank')
  * @method $this download($server = '')
- * @property string $fixed
- * @property string $width
- * @property string $sortable
- * @property string $label
- * @property string $type       渲染类型
- * @property string $name
- * @property string $style
- * @property string $ellipsis   是否进行隐藏展示
- * @property string $original
- * @property string $editable
- * @property string $template
  */
-class Column
+class Column implements Structable
 {
-    use HasHeader;
+    use HasHeader, UseColumn;
 
     /**
      * Displayer for grid column.
@@ -160,9 +150,15 @@ class Column
 
     /**
      * 定义宽度
+     * @var int
+     */
+    protected int $width = 0;
+
+    /**
+     * 对齐方式
      * @var string
      */
-    protected $width = 0;
+    protected string $align = '';
 
     /**
      * @var bool 是否可编辑
@@ -174,6 +170,12 @@ class Column
      * @var string
      */
     private $fixed = '';
+
+    /**
+     * 最小宽度
+     * @var int
+     */
+    private int $minWidth = 150;
 
     /**
      * @param string $name
@@ -216,14 +218,30 @@ class Column
     }
 
     /**
-     * 设置列宽度
-     * @param string|int $width
-     *
+     * 设置列宽度, 单个按钮 最优宽度 60(图标), 每个按钮增加 45 宽度
+     * Datetime 最优宽度 170
+     * @param int  $width 宽度
+     * @param bool $fixed 是否是固定宽度
      * @return $this
      */
-    public function width($width): self
+    public function width(int $width, bool $fixed = false): self
     {
-        $this->width = $width;
+        if ($fixed) {
+            $this->width = $width;
+        } else {
+            $this->minWidth = $width;
+        }
+        return $this;
+    }
+
+    /**
+     * 设置展示位置, 默认 left, 可选 [left,center,right]
+     * @param string|int $align
+     * @return $this
+     */
+    public function align($align): self
+    {
+        $this->align = $align;
         return $this;
     }
 
@@ -249,11 +267,11 @@ class Column
 
 
     /**
-     * 标识列为可fix 显示
+     * 标识列为可fix 显示, 默认是右侧, 可以设置为 [left, right]
      * @param string $position
      * @return Column
      */
-    public function fixed($position = 'right'): self
+    public function fixed(string $position = 'right'): self
     {
         $this->fixed = $position;
         return $this;
@@ -293,6 +311,34 @@ class Column
         }, '&nbsp;&nbsp;');
 
         return $this;
+    }
+
+    public function struct(): array
+    {
+        $defines = [
+            'field'    => $this->convertFieldName($this->name),
+            'label'    => $this->label,
+            'type'     => $this->type,
+            'sortable' => $this->sortable,
+            'ellipsis' => $this->ellipsis,
+        ];
+
+        if ($this->width) {
+            $defines += ['width' => $this->width];
+        }
+        if ($this->align) {
+            $defines += ['align' => $this->align];
+        }
+        if ($this->minWidth) {
+            $defines += ['min-width' => $this->minWidth];
+        }
+        if ($this->fixed) {
+            $defines += ['fixed' => $this->fixed];
+        }
+        if ($this->editable) {
+            $defines += ['edit' => 'text'];
+        }
+        return $defines;
     }
 
     /**

@@ -43,7 +43,7 @@ class FormPassword extends FormWidget
             if (!$Pam->setPassword($pam, $password)) {
                 return Resp::error($Pam->getError());
             }
-            return Resp::success('密码修改成功, 请重新登录', 'action|reload;time|3000');
+            return Resp::success('密码修改成功, 请重新登录', 'motion|reload;time|3000');
         }
     }
 

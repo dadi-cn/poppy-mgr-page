@@ -22,6 +22,7 @@ use Poppy\MgrApp\Classes\Grid\Concerns\HasTotalRow;
 use Poppy\MgrApp\Classes\Grid\Model;
 use Poppy\MgrApp\Classes\Grid\Row;
 use Poppy\MgrApp\Classes\Grid\Tools\Actions;
+use Poppy\MgrApp\Classes\Traits\UseColumn;
 use Poppy\MgrApp\Http\Grid\GridBase;
 use Throwable;
 use function collect;
@@ -32,6 +33,7 @@ use function url;
 class GridWidget
 {
     use PoppyTrait;
+    use UseColumn;
     use
         HasExport,
         HasFilter,
@@ -447,24 +449,7 @@ class GridWidget
     {
         $columns = [];
         collect($this->visibleColumns())->each(function (Column $column) use (&$columns) {
-            $defines = [
-                'field'    => $this->convertFieldName($column->name),
-                'label'    => $column->label,
-                'type'     => $column->type,
-                'sortable' => $column->sortable,
-                'ellipsis' => $column->ellipsis,
-            ];
-
-            if ($width = $column->width) {
-                $defines += ['width' => $width];
-            }
-            if ($fixed = $column->fixed) {
-                $defines += ['fixed' => $fixed];
-            }
-            if ($column->editable) {
-                $defines += ['edit' => 'text'];
-            }
-            $columns[] = $defines;
+            $columns[] = $column->struct();
         });
         return [
             'type'    => 'grid',
@@ -484,24 +469,7 @@ class GridWidget
     {
         $columns = [];
         collect($this->visibleColumns())->each(function (Column $column) use (&$columns) {
-            $defines = [
-                'field'    => $this->convertFieldName($column->name),
-                'label'    => $column->label,
-                'type'     => $column->type,
-                'sortable' => $column->sortable,
-                'ellipsis' => $column->ellipsis,
-            ];
-
-            if ($width = $column->width) {
-                $defines += ['width' => $width];
-            }
-            if ($fixed = $column->fixed) {
-                $defines += ['fixed' => $fixed];
-            }
-            if ($column->editable) {
-                $defines += ['edit' => 'text'];
-            }
-            $columns[] = $defines;
+            $columns[] = $column->struct();
         });
         return [
             'actions' => $this->quickActions->struct(),
@@ -555,11 +523,5 @@ class GridWidget
             'list'  => $rows,
             'total' => $paginator->total(),
         ];
-    }
-
-
-    private function convertFieldName($name)
-    {
-        return str_replace('.', '-', $name);
     }
 }

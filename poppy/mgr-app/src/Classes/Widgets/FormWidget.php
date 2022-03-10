@@ -252,7 +252,7 @@ abstract class FormWidget
      */
     public function title(string $value): self
     {
-        $this->title       = $value;
+        $this->title = $value;
         return $this;
     }
 
@@ -296,6 +296,16 @@ abstract class FormWidget
             return $this->handle();
         }
         return Resp::error('错误的请求');
+    }
+
+    /**
+     * 获取路由参数
+     * @param $param
+     * @return object|string
+     */
+    public function param($param)
+    {
+        return app('router')->current()->parameter($param);
     }
 
     /**
