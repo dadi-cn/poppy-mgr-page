@@ -133,6 +133,7 @@
             "git subtree push --prefix=poppy/canal-es  coding-canal-es 3.2"
         ],
         "github": [
+            "git push gh-poppy 3.2",
             "git subtree push --prefix=poppy/system  gh-system 3.2",
             "git subtree push --prefix=poppy/mgr-page  gh-mgr-page 3.2",
             "git subtree push --prefix=poppy/core  gh-core 3.2",
