@@ -74,7 +74,7 @@ class RoleController extends BackendController
 
     /**
      * 菜单列表
-     * @return array|JsonResponse|RedirectResponse|Resp|Response
+     * @return JsonResponse|RedirectResponse|Resp|Response
      */
     public function menu()
     {

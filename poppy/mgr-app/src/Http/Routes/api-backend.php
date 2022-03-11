@@ -22,7 +22,7 @@ Route::group([
         ->name('py-mgr-app:api-backend.mail.store');
 
 
-    $router->get('role', 'RoleController@index')
+    $router->any('role', 'RoleController@index')
         ->name('py-mgr-app:api-backend.role.index');
     $router->any('role/establish/{id?}', 'RoleController@establish')
         ->name('py-mgr-app:api-backend.role.establish');
