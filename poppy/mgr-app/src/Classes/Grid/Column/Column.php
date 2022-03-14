@@ -32,6 +32,9 @@ class Column implements Structable
 {
     use HasHeader, UseColumn;
 
+    public const NAME_BATCH = '_batch';    // 批量选择 / 导出的主键约定, pk 会和搜索冲突
+    public const NAME_COLS  = '_cols';     // 支持用户选择进行查询的列定义
+
     /**
      * Displayer for grid column.
      *

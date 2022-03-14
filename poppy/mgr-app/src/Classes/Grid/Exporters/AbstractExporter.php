@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Poppy\MgrApp\Classes\Contracts\Exportable;
+use Poppy\MgrApp\Classes\Grid\Column\Column;
 use Poppy\MgrApp\Classes\Grid\Exporter;
 use Poppy\MgrApp\Classes\Widgets\GridWidget;
 use function collect;
@@ -104,7 +105,7 @@ abstract class AbstractExporter implements Exportable
 
         // Export data of giving page number.
         if ($this->page) {
-            $keyName = $this->grid->getKeyName();
+            $keyName = $this->grid->getPkName();
             $perPage = request(GridWidget::PAGESIZE_NAME, $model->getPagesize());
 
             $scope = (clone $queryBuilder)
@@ -135,11 +136,11 @@ abstract class AbstractExporter implements Exportable
         }
 
         if ($scope == Exporter::SCOPE_SELECT) {
-            $selected = input($this->grid->getKeyName());
+            $selected = input(Column::NAME_BATCH);
             if (is_string($selected)) {
                 $selected = explode(',', $selected);
             }
-            $this->grid->model()->whereIn($this->grid->getKeyName(), $selected);
+            $this->grid->model()->whereIn($this->grid->getPkName(), $selected);
         }
         return $this;
     }

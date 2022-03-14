@@ -5,7 +5,7 @@ namespace Poppy\MgrApp\Classes\Grid\Tools;
 use Illuminate\Contracts\Support\Renderable;
 use Poppy\MgrApp\Classes\Widgets\GridWidget;
 
-abstract class AbstractTool implements Renderable
+abstract class AbstractTool
 {
     /**
      * @var GridWidget
@@ -60,11 +60,6 @@ abstract class AbstractTool implements Renderable
     {
         return $this->grid;
     }
-
-    /**
-     * @inheritDoc
-     */
-    abstract public function render();
 
     /**
      * @return string

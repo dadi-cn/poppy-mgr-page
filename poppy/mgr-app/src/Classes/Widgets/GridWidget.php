@@ -3,6 +3,7 @@
 namespace Poppy\MgrApp\Classes\Widgets;
 
 use Closure;
+use Eloquent;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -29,7 +30,6 @@ use Throwable;
 use function collect;
 use function input;
 use function request;
-use function url;
 
 class GridWidget
 {
@@ -86,7 +86,7 @@ class GridWidget
      * 所有列的定义
      * @var Collection
      */
-    protected $columns;
+    protected Collection $columns;
 
     /**
      * 数据行
@@ -95,18 +95,10 @@ class GridWidget
     protected $rows;
 
     /**
-     * Rows callable function.
-     *
-     * @var Closure
+     * 所有行的回调
+     * @var ?Closure
      */
-    protected $rowsCallback;
-
-    /**
-     * Grid builder.
-     *
-     * @var Closure
-     */
-    protected $builder;
+    protected ?Closure $rowsCallback = null;
 
     /**
      * All variables in grid view.
@@ -116,25 +108,15 @@ class GridWidget
     protected $variables = [];
 
     /**
-     * Default primary key name.
-     *
+     * 默认主键的名称
      * @var string
      */
-    protected string $keyName = 'id';
+    protected string $pkName = 'id';
 
     /**
-     * @var []callable
+     * @var array|callable[]
      */
-    protected $renderingCallbacks = [];
-
-    /**
-     * Options for grid.
-     *
-     * @var array
-     */
-    protected array $options = [
-        'show_tools' => true
-    ];
+    protected array $renderingCallbacks = [];
 
     /**
      * 右上角快捷操作
@@ -157,12 +139,12 @@ class GridWidget
     /**
      * Create a new grid instance.
      *
-     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param \Illuminate\Database\Eloquent\Model|Eloquent $model
      */
     public function __construct($model)
     {
-        $this->model   = new Model($model, $this);
-        $this->keyName = $model->getKeyName();
+        $this->model  = new Model($model, $this);
+        $this->pkName = $model->getKeyName();
 
         $this->initialize();
 
@@ -170,11 +152,10 @@ class GridWidget
     }
 
     /**
-     * Get Grid model.
-     *
+     * 获取模型
      * @return Model
      */
-    public function model()
+    public function model(): Model
     {
         return $this->model;
     }
@@ -204,36 +185,17 @@ class GridWidget
     }
 
     /**
-     * Get or set option for grid.
-     *
-     * @param string $key
-     * @param mixed  $value
-     *
-     * @return $this|mixed
-     */
-    public function option(string $key, $value = null)
-    {
-        if (is_null($value)) {
-            return $this->options[$key];
-        }
-        $this->options[$key] = $value;
-        return $this;
-    }
-
-    /**
      * 获取模型的主键
      * @return string
      */
-    public function getKeyName(): string
+    public function getPkName(): string
     {
-        return $this->keyName;
+        return $this->pkName;
     }
 
 
     /**
-     * Get the grid paginator.
-     *
-     * @return mixed
+     * 获取分页工具
      */
     public function paginator()
     {
@@ -254,15 +216,6 @@ class GridWidget
     public function rows(Closure $callable = null)
     {
         $this->rowsCallback = $callable;
-    }
-
-    /**
-     * Get current resource url.
-     * @return string
-     */
-    public function resource(): string
-    {
-        return url(app('request')->getPathInfo());
     }
 
     /**
@@ -401,16 +354,14 @@ class GridWidget
     }
 
     /**
-     * Build the grid rows.
-     *
-     * @param array $data
-     *
+     * 创建表行, 根据模型查询出来的数据组合返回的数据
+     * @param array $data 所有查询出来的数据
      * @return void
      */
     protected function buildRows(array $data)
     {
-        $this->rows = collect($data)->map(function ($model, $number) {
-            return new Row($number, $model, $this->keyName);
+        $this->rows = collect($data)->map(function ($model, $number) use ($data) {
+            return new Row($number, $model, $this->pkName);
         });
 
         if ($this->rowsCallback) {

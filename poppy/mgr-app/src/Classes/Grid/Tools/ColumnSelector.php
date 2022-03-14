@@ -8,12 +8,6 @@ use Poppy\MgrApp\Grid\Tools\Grid;
 
 class ColumnSelector extends AbstractTool
 {
-    const SELECT_COLUMN_NAME = '_columns_';
-
-    /**
-     * @var GridWidget
-     */
-    protected $grid;
 
     /**
      * @var array
@@ -22,6 +16,11 @@ class ColumnSelector extends AbstractTool
         Grid\Column::NAME_SELECTOR,
         Grid\Column::NAME_ACTION,
     ];
+
+    /**
+     * @var GridWidget
+     */
+    protected $grid;
 
     /**
      * Create a new Export button instance.
@@ -34,17 +33,15 @@ class ColumnSelector extends AbstractTool
     }
 
     /**
-     * @inheritDoc
+     * Ignore a column to display in column selector.
      *
-     * @return string
+     * @param string|array $name
      */
-    public function render()
+    public static function ignore($name)
     {
-        if (!$this->grid->showColumnSelector()) {
-            return '';
-        }
-
+        static::$ignoredColumns = array_merge(static::$ignoredColumns, (array) $name);
     }
+
 
     /**
      * @return Collection
@@ -72,15 +69,5 @@ class ColumnSelector extends AbstractTool
     protected function isColumnIgnored($name)
     {
         return in_array($name, static::$ignoredColumns);
-    }
-
-    /**
-     * Ignore a column to display in column selector.
-     *
-     * @param string|array $name
-     */
-    public static function ignore($name)
-    {
-        static::$ignoredColumns = array_merge(static::$ignoredColumns, (array) $name);
     }
 }

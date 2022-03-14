@@ -4,21 +4,18 @@ namespace Poppy\MgrApp\Classes\Grid\Concerns;
 
 use Illuminate\Support\Collection;
 use Poppy\MgrApp\Classes\Grid\Column\Column;
-use Poppy\MgrApp\Classes\Grid\Tools\ColumnSelector;
 use function collect;
 
 trait CanHidesColumns
 {
     /**
-     * Default columns be hidden.
-     *
+     * 默认隐藏列名称
      * @var array
      */
-    public $hiddenColumns = [];
+    public array $hiddenColumns = [];
 
     /**
-     * Setting default shown columns on grid.
-     *
+     * 设置默认可见的列
      * @param array|string $columns
      *
      * @return $this
@@ -37,8 +34,7 @@ trait CanHidesColumns
     }
 
     /**
-     * Get all visible column instances.
-     *
+     * 可见的列实例
      * @return Column[]|Collection
      */
     public function visibleColumns(): Collection
@@ -49,16 +45,13 @@ trait CanHidesColumns
             return $this->columns;
         }
 
-        array_push($visible);
-
         return $this->columns->filter(function (Column $column) use ($visible) {
             return in_array($column->name, $visible);
         });
     }
 
     /**
-     * Get all visible column names.
-     *
+     * 可见的列名称
      * @return array
      */
     public function visibleColumnNames(): array
@@ -69,38 +62,37 @@ trait CanHidesColumns
             return $this->columnNames;
         }
 
-        array_push($visible);
-
         return collect($this->columnNames)->filter(function ($column) use ($visible) {
             return in_array($column, $visible);
         })->toArray();
     }
 
     /**
-     * Get default visible column names.
-     *
+     * 默认可见列名称
      * @return array
      */
     public function getDefaultVisibleColumnNames(): array
     {
-        return array_values(
-            array_diff(
-                $this->columnNames,
-                $this->hiddenColumns
-            )
-        );
+        return array_values(array_diff(
+            $this->columnNames,
+            $this->hiddenColumns
+        ));
     }
 
     /**
-     * Get visible columns from request query.
-     *
+     * 获取请求中的查询列, 如果有请求查询, 则返回, 否则返回非隐藏列
      * @return array
      */
-    protected function getVisibleColumnsFromQuery()
+    protected function getVisibleColumnsFromQuery(): array
     {
-        $columns = explode(',', request(ColumnSelector::SELECT_COLUMN_NAME));
+        $columns = explode(',', request(Column::NAME_COLS));
 
-        return array_filter($columns) ?:
-            array_values(array_diff($this->columnNames, $this->hiddenColumns));
+        $all = array_filter($columns) ?: $this->getDefaultVisibleColumnNames();
+
+        // 默认加入主键列
+        if ($this->getPkName() && !in_array($this->getPkName(), $all)) {
+            $all[] = $this->getPkName();
+        }
+        return $all;
     }
 }

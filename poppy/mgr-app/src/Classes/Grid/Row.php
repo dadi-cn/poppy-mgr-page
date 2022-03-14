@@ -7,144 +7,71 @@ use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Arr;
-use Poppy\MgrApp\Classes\Grid\Column\Column;
 
 class Row
 {
     /**
-     * Row number.
-     *
-     * @var
+     * 行号
+     * @var int
      */
-    public $number;
+    public int $number;
 
     /**
-     * Row data.
-     *
-     * @var
-     */
-    protected $data;
-
-    /**
-     * Attributes of row.
-     *
+     * 行数据
      * @var array
      */
-    protected $attributes = [];
+    protected array $data;
 
     /**
+     * 主键名称
      * @var string
      */
-    protected $keyName;
+    protected string $pkName;
 
     /**
-     * Constructor.
-     *
-     * @param $number
-     * @param $data
+     * 创建 Row
+     * @param int    $number  索引
+     * @param array  $data    模型中查询出来的数据
+     * @param string $pk_name 查询出来的主键
      */
-    public function __construct($number, $data, $key_name)
+    public function __construct(int $number, array $data, string $pk_name)
     {
-        $this->data    = $data;
-        $this->number  = $number;
-        $this->keyName = $key_name;
+        $this->data   = $data;
+        $this->number = $number;
+        $this->pkName = $pk_name;
     }
 
     /**
-     * Get the value of the model's primary key.
-     *
+     * 获取主键的值
      * @return mixed
      */
     public function getKey()
     {
-        return Arr::get($this->data, $this->keyName);
+        return Arr::get($this->data, $this->pkName);
     }
 
     /**
-     * Get attributes in html format.
-     *
-     * @return string
+     * 获取当前行的值
+     * @return array
      */
-    public function getRowAttributes()
-    {
-        return $this->formatHtmlAttribute($this->attributes);
-    }
-
-    /**
-     * Get column attributes.
-     *
-     * @param string $column
-     *
-     * @return string
-     */
-    public function getColumnAttributes($column)
-    {
-        if ($attributes = Column::getAttributes($column, $this->getKey())) {
-            return $this->formatHtmlAttribute($attributes);
-        }
-
-        return '';
-    }
-
-    /**
-     * Set attributes.
-     *
-     * @param array $attributes
-     */
-    public function setAttributes(array $attributes)
-    {
-        $this->attributes = $attributes;
-    }
-
-    /**
-     * Set style of the row.
-     *
-     * @param array|string $style
-     */
-    public function style($style)
-    {
-        if (is_array($style)) {
-            $style = implode(';', array_map(function ($key, $val) {
-                return "$key:$val";
-            }, array_keys($style), array_values($style)));
-        }
-
-        if (is_string($style)) {
-            $this->attributes['style'] = $style;
-        }
-    }
-
-    /**
-     * Get data of this row.
-     *
-     * @return mixed
-     */
-    public function model()
+    public function model(): array
     {
         return $this->data;
     }
 
-    /**
-     * Getter.
-     *
-     * @param mixed $attr
-     *
-     * @return mixed
-     */
+
     public function __get($attr)
     {
-        return Arr::get($this->data, $attr);
+        return Arr::get($this->data, $attr, '');
     }
 
     /**
-     * Get or set value of column in this row.
-     *
+     * 设置或者获取当前列的值
      * @param string $name
      * @param mixed  $value
-     *
-     * @return $this|mixed
+     * @return string|self
      */
-    public function column($name, $value = null)
+    public function column(string $name, $value = null)
     {
         if (is_null($value)) {
             $column = Arr::get($this->data, $name);
@@ -162,13 +89,11 @@ class Row
     }
 
     /**
-     * Output column value.
-     *
+     * 输出列的值
      * @param mixed $value
-     *
-     * @return mixed|string
+     * @return string
      */
-    protected function output($value)
+    protected function output($value): string
     {
         if ($value instanceof Renderable) {
             $value = $value->render();
@@ -183,26 +108,9 @@ class Row
         }
 
         if (!is_null($value) && !is_scalar($value)) {
-            return sprintf('<pre>%s</pre>', var_export($value, true));
+            return sprintf('%s', var_export($value, true));
         }
 
         return $value;
-    }
-
-    /**
-     * Format attributes to html.
-     *
-     * @param array $attributes
-     *
-     * @return string
-     */
-    private function formatHtmlAttribute($attributes = [])
-    {
-        $attrArr = [];
-        foreach ($attributes as $name => $val) {
-            $attrArr[] = "$name=\"$val\"";
-        }
-
-        return implode(' ', $attrArr);
     }
 }

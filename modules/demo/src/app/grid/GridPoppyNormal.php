@@ -16,7 +16,6 @@ class GridPoppyNormal extends GridBase
     public function columns()
     {
         // 自定义样式
-        $this->column('id');
         $this->column('title', '标题')->width(150)->ellipsis();
         $this->column('file', '链接')->link()->width(160)->ellipsis();
         $this->column('image')->image();

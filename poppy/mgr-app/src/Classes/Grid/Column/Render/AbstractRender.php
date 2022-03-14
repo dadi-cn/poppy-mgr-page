@@ -86,18 +86,9 @@ abstract class AbstractRender
      */
     public function getKey()
     {
-        return $this->row->{$this->grid->getKeyName()};
+        return $this->row->{$this->grid->getPkName()};
     }
 
-    /**
-     * Get url path of current resource.
-     *
-     * @return string
-     */
-    public function getResource()
-    {
-        return $this->grid->resource();
-    }
 
     /**
      * 渲染方法
