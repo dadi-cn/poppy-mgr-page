@@ -47,6 +47,6 @@ class GridPoppyFilterA extends GridBase
             0 => '未删除',
             1 => '已删除'
         ]);
-        $filter->action();
+        $filter->action(4, true);
     }
 }

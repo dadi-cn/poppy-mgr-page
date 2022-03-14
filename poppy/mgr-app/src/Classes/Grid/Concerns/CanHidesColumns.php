@@ -4,7 +4,6 @@ namespace Poppy\MgrApp\Classes\Grid\Concerns;
 
 use Illuminate\Support\Collection;
 use Poppy\MgrApp\Classes\Grid\Column\Column;
-use function collect;
 
 trait CanHidesColumns
 {
@@ -39,7 +38,7 @@ trait CanHidesColumns
      */
     public function visibleColumns(): Collection
     {
-        $visible = $this->getVisibleColumnsFromQuery();
+        $visible = $this->getVisibleColumnsName();
 
         if (empty($visible)) {
             return $this->columns;
@@ -51,30 +50,17 @@ trait CanHidesColumns
     }
 
     /**
-     * 可见的列名称
-     * @return array
-     */
-    public function visibleColumnNames(): array
-    {
-        $visible = $this->getVisibleColumnsFromQuery();
-
-        if (empty($visible)) {
-            return $this->columnNames;
-        }
-
-        return collect($this->columnNames)->filter(function ($column) use ($visible) {
-            return in_array($column, $visible);
-        })->toArray();
-    }
-
-    /**
      * 默认可见列名称
      * @return array
      */
     public function getDefaultVisibleColumnNames(): array
     {
+        $columnNames = $this->columns->map(function (Column $column) {
+            return $column->name;
+        })->toArray();
+
         return array_values(array_diff(
-            $this->columnNames,
+            $columnNames,
             $this->hiddenColumns
         ));
     }
@@ -83,7 +69,7 @@ trait CanHidesColumns
      * 获取请求中的查询列, 如果有请求查询, 则返回, 否则返回非隐藏列
      * @return array
      */
-    protected function getVisibleColumnsFromQuery(): array
+    public function getVisibleColumnsName(): array
     {
         $columns = explode(',', request(Column::NAME_COLS));
 
@@ -91,7 +77,7 @@ trait CanHidesColumns
 
         // 默认加入主键列
         if ($this->getPkName() && !in_array($this->getPkName(), $all)) {
-            $all[] = $this->getPkName();
+            array_unshift($all, $this->getPkName());
         }
         return $all;
     }

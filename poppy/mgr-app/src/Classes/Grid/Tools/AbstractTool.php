@@ -2,7 +2,6 @@
 
 namespace Poppy\MgrApp\Classes\Grid\Tools;
 
-use Illuminate\Contracts\Support\Renderable;
 use Poppy\MgrApp\Classes\Widgets\GridWidget;
 
 abstract class AbstractTool

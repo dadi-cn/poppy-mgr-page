@@ -5,6 +5,7 @@ namespace Poppy\MgrApp\Classes\Grid;
 use Closure;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -24,7 +25,7 @@ class Model
     /**
      * Eloquent model instance of the grid model.
      *
-     * @var EloquentModel
+     * @var EloquentModel | Builder |QueryBuilder
      */
     protected $model;
 
@@ -405,6 +406,7 @@ class Model
             $this->model = call_user_func_array([$this->model, $query['method']], $query['arguments']);
         });
 
+
         if ($this->model instanceof Collection) {
             return $this->model;
         }
@@ -413,7 +415,7 @@ class Model
             return $this->model->getCollection();
         }
 
-        throw new ApplicationException('Grid query error');
+        throw new ApplicationException('当前查询方式不支持非指定数据查询');
     }
 
 
@@ -431,13 +433,15 @@ class Model
             return $query['method'] == 'paginate';
         });
 
-        // 组合分页条件
-        $query = [
-            'method'    => 'paginate',
-            'arguments' => $this->resolvePagesize($paginate),
-        ];
+        if ($this->usePaginate) {
+            // 组合分页条件
+            $query = [
+                'method'    => 'paginate',
+                'arguments' => $this->resolvePagesize($paginate),
+            ];
 
-        $this->queries->push($query);
+            $this->queries->push($query);
+        }
     }
 
     /**

@@ -31,6 +31,9 @@ use function collect;
 use function input;
 use function request;
 
+/**
+ * @property-read string $title 标题
+ */
 class GridWidget
 {
     use PoppyTrait;
@@ -92,7 +95,7 @@ class GridWidget
      * 数据行
      * @var Collection
      */
-    protected $rows;
+    protected Collection $rows;
 
     /**
      * 所有行的回调
@@ -149,6 +152,12 @@ class GridWidget
         $this->initialize();
 
         $this->callInitCallbacks();
+    }
+
+
+    public function __get($attr)
+    {
+        return $this->{$attr} ?? '';
     }
 
     /**
@@ -216,6 +225,12 @@ class GridWidget
     public function rows(Closure $callable = null)
     {
         $this->rowsCallback = $callable;
+    }
+
+
+    public function getRows(): Collection
+    {
+        return $this->rows;
     }
 
     /**
@@ -287,6 +302,22 @@ class GridWidget
     }
 
     /**
+     * 创建表行, 根据模型查询出来的数据组合返回的数据
+     * @param array $data 所有查询出来的数据
+     * @return void
+     */
+    public function buildRows(array $data)
+    {
+        $this->rows = collect($data)->map(function ($model, $number) use ($data) {
+            return new Row($number, $model, $this->pkName);
+        });
+
+        if ($this->rowsCallback) {
+            $this->rows->map($this->rowsCallback);
+        }
+    }
+
+    /**
      * Initialize.
      */
     protected function initialize()
@@ -351,22 +382,6 @@ class GridWidget
         //        $this->applySelectorQuery();
 
         return $this->applyFilter();
-    }
-
-    /**
-     * 创建表行, 根据模型查询出来的数据组合返回的数据
-     * @param array $data 所有查询出来的数据
-     * @return void
-     */
-    protected function buildRows(array $data)
-    {
-        $this->rows = collect($data)->map(function ($model, $number) use ($data) {
-            return new Row($number, $model, $this->pkName);
-        });
-
-        if ($this->rowsCallback) {
-            $this->rows->map($this->rowsCallback);
-        }
     }
 
     /**
@@ -450,18 +465,17 @@ class GridWidget
         Column::setOriginalGridModels($collection);
 
         $data = $collection->toArray();
-        $this->columns->map(function (Column $column) use (&$data) {
+        $this->visibleColumns()->map(function (Column $column) use (&$data) {
             $data = $column->fill($data);
-
-            $this->columnNames[] = $column->name;
         });
 
         $this->buildRows($data);
 
         $rows = [];
         foreach ($this->rows as $row) {
+            /** @var Row $row */
             $item = [];
-            foreach ($this->visibleColumnNames() as $name) {
+            foreach ($this->getVisibleColumnsName() as $name) {
                 $item[$this->convertFieldName($name)] = $row->column($name);
             }
             $rows[] = $item;

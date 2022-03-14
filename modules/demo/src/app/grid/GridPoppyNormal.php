@@ -3,12 +3,15 @@
 namespace Demo\App\Grid;
 
 use Poppy\Framework\Exceptions\ApplicationException;
+use Poppy\MgrApp\Classes\Grid\Column\Column;
 use Poppy\MgrApp\Classes\Grid\Column\Render\ActionsRender;
 use Poppy\MgrApp\Classes\Widgets\FilterWidget;
 use Poppy\MgrApp\Http\Grid\GridBase;
 
 class GridPoppyNormal extends GridBase
 {
+    public string $title = '查询标题';
+
     /**
      * @inheritDoc
      * @throws ApplicationException
@@ -23,7 +26,7 @@ class GridPoppyNormal extends GridBase
             return data_get($this, 'image');
         })->download();
         $this->column('pam.id', 'UserName')->width(100);
-        $this->column('action', '操作')->displayUsing(ActionsRender::class, [function (ActionsRender $actions) {
+        $this->column(Column::NAME_ACTION, '操作')->displayUsing(ActionsRender::class, [function (ActionsRender $actions) {
             $actions->request('错误', route('demo:api.mgr_app.grid_request', ['error']));
             $actions->request('成功', route('demo:api.mgr_app.grid_request', ['success']));
             $actions->request('确认', route('demo:api.mgr_app.grid_request', ['success']))->confirm();

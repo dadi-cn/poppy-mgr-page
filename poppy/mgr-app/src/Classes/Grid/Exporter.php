@@ -11,20 +11,24 @@ use Poppy\MgrApp\Classes\Widgets\GridWidget;
  */
 class Exporter
 {
+    public const TYPE_CSV   = 'csv';
+
     /**
      * Export scope constants.
      */
-    const SCOPE_ALL    = 'all';        // 所有数据, 看需要是否返回, All 会比较敏感, 不建议开启
-    const SCOPE_PAGE   = 'page';       // 查询当前页数据,使用分页, 使用查询条件
-    const SCOPE_QUERY  = 'query';      // 查询条件下所有数据
-    const SCOPE_SELECT = 'select';     // 根据 PK, 返回所有的查询数据
+    public const SCOPE_ALL    = 'all';        // 所有数据, 看需要是否返回, All 会比较敏感, 不建议开启
+    public const SCOPE_PAGE   = 'page';       // 查询当前页数据,使用分页, 使用查询条件
+    public const SCOPE_QUERY  = 'query';      // 查询条件下所有数据
+    public const SCOPE_SELECT = 'select';     // 根据 PK, 返回所有的查询数据
 
     /**
      * Available exporter drivers.
      *
      * @var array
      */
-    protected static array $drivers = [];
+    protected static array $drivers = [
+        self::TYPE_CSV   => CsvExporter::class,
+    ];
 
     /**
      * @var GridWidget

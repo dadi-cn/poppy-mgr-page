@@ -91,9 +91,9 @@ class Row
     /**
      * 输出列的值
      * @param mixed $value
-     * @return string
+     * @return ?string
      */
-    protected function output($value): string
+    protected function output($value): ?string
     {
         if ($value instanceof Renderable) {
             $value = $value->render();

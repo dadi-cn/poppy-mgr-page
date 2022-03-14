@@ -24,6 +24,8 @@ use function request;
 
 /**
  * 列展示以及渲染, 当前的目的是使用前端方式渲染, 而不是依靠于 v-html 或者是后端生成
+ * @property-read string $name  当前列的名称
+ * @property-read string $label 标签
  * @method $this image($server = '', $width = 200, $height = 200)
  * @method $this link($href = '', $target = '_blank')
  * @method $this download($server = '')
@@ -32,8 +34,9 @@ class Column implements Structable
 {
     use HasHeader, UseColumn;
 
-    public const NAME_BATCH = '_batch';    // 批量选择 / 导出的主键约定, pk 会和搜索冲突
-    public const NAME_COLS  = '_cols';     // 支持用户选择进行查询的列定义
+    public const NAME_BATCH  = '_batch';      // 批量选择 / 导出的主键约定, pk 会和搜索冲突
+    public const NAME_COLS   = '_cols';       // 支持用户选择进行查询的列定义
+    public const NAME_ACTION = '_action';     // 用于定义列操作, 可以在导出时候移除
 
     /**
      * Displayer for grid column.
@@ -83,11 +86,10 @@ class Column implements Structable
     protected string $type = 'text';
 
     /**
-     * Name of column.
-     *
+     * 列名称
      * @var string
      */
-    protected $name;
+    protected string $name;
 
     /**
      * Label of column.
@@ -583,8 +585,7 @@ class Column implements Structable
     }
 
     /**
-     * Fill all data to every column.
-     *
+     * 为列填充数据
      * @param array $data
      *
      * @return mixed

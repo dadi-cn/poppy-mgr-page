@@ -4,15 +4,11 @@ namespace Poppy\MgrApp\Classes\Grid\Exporters;
 
 use Closure;
 use Exception;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Poppy\MgrApp\Classes\Contracts\Exportable;
 use Poppy\MgrApp\Classes\Grid\Column\Column;
 use Poppy\MgrApp\Classes\Grid\Exporter;
 use Poppy\MgrApp\Classes\Widgets\GridWidget;
-use function collect;
-use function request;
 
 /**
  * Exporter 类
@@ -22,55 +18,27 @@ abstract class AbstractExporter implements Exportable
     /**
      * @var GridWidget
      */
-    protected $grid;
+    protected GridWidget $grid;
 
     /**
      * @var int
      */
-    protected $page;
+    protected int $page = 1;
+
+    /**
+     * 文件名称
+     * @var string
+     */
+    protected string $fileName = '';
 
     /**
      * Create a new exporter instance.
      *
      * @param GridWidget $grid
      */
-    public function __construct(GridWidget $grid = null)
+    public function __construct(GridWidget $grid)
     {
         $this->grid = $grid;
-    }
-
-    /**
-     * Set grid for exporter.
-     *
-     * @param GridWidget $grid
-     *
-     * @return $this
-     */
-    public function setGrid(GridWidget $grid)
-    {
-        $this->grid = $grid;
-
-        return $this;
-    }
-
-    /**
-     * Get table of grid.
-     *
-     * @return string
-     */
-    public function getTable(): string
-    {
-        return $this->grid->model()->eloquent()->getTable();
-    }
-
-    /**
-     * 获取数据
-     * @return Collection
-     * @throws Exception
-     */
-    public function getData(): Collection
-    {
-        return $this->grid->getFilter()->execute();
     }
 
     /**
@@ -85,39 +53,6 @@ abstract class AbstractExporter implements Exportable
         return $this->grid->getFilter()->chunk($callback, $count);
     }
 
-    /**
-     * @return Collection
-     * @throws Exception
-     */
-    public function getCollection()
-    {
-        return collect($this->getData());
-    }
-
-    /**
-     * @return Builder|Model
-     */
-    public function getQuery()
-    {
-        $model = $this->grid->model();
-
-        $queryBuilder = $model->getQueryBuilder();
-
-        // Export data of giving page number.
-        if ($this->page) {
-            $keyName = $this->grid->getPkName();
-            $perPage = request(GridWidget::PAGESIZE_NAME, $model->getPagesize());
-
-            $scope = (clone $queryBuilder)
-                ->select([$keyName])
-                ->setEagerLoads([])
-                ->forPage($this->page, $perPage)->get();
-
-            $queryBuilder->whereIn($keyName, $scope->pluck($keyName));
-        }
-
-        return $queryBuilder;
-    }
 
     /**
      * 为模型设置查询配置
@@ -127,12 +62,15 @@ abstract class AbstractExporter implements Exportable
     public function withScope(string $scope = 'page'): self
     {
         if ($scope == Exporter::SCOPE_ALL || $scope === Exporter::SCOPE_QUERY) {
+            $this->grid->model()->usePaginate(false);
+            $this->fileName = $this->title() . '-' . ($scope === 'all' ? '全部' : '查询结果');
             return $this;
         }
 
         if ($scope == Exporter::SCOPE_PAGE) {
             $this->grid->model()->usePaginate(true);
-            $this->page = input('page');
+            $this->page     = input('page', 1);
+            $this->fileName = $this->title() . "-第{$this->page}页";
         }
 
         if ($scope == Exporter::SCOPE_SELECT) {
@@ -140,6 +78,8 @@ abstract class AbstractExporter implements Exportable
             if (is_string($selected)) {
                 $selected = explode(',', $selected);
             }
+            $count          = count($selected);
+            $this->fileName = $this->title() . "-已选择({$count})";
             $this->grid->model()->whereIn($this->grid->getPkName(), $selected);
         }
         return $this;
@@ -149,4 +89,13 @@ abstract class AbstractExporter implements Exportable
      * @inheritDoc
      */
     abstract public function export();
+
+    private function title(): string
+    {
+        if (!$this->grid->title) {
+            return $this->grid->model()->eloquent()->getTable();
+        } else {
+            return $this->grid->title;
+        }
+    }
 }
