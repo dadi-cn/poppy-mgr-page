@@ -47,10 +47,10 @@
         "xingwenge/canal_php": "^1.0",
         "mlocati/ip-lib": "^1.16",
         "sentry/sentry-laravel": "^2.8",
-        "guzzlehttp/guzzle": "^7.3"
+        "guzzlehttp/guzzle": "^7.3",
+        "itsgoingd/clockwork": "^5.1"
     },
     "require-dev": {
-        "itsgoingd/clockwork": "~5.0",
         "barryvdh/laravel-ide-helper": "2.*",
         "doctrine/dbal": "^2.6"
     },
@@ -95,7 +95,8 @@
             "Poppy\\CanalEs\\": "poppy/canal-es/src/",
             "Poppy\\CanalEs\\Tests\\": "poppy/canal-es/tests/",
             "Php\\Tests\\": "modules/php/tests",
-            "Misc\\Tests\\": "modules/misc/tests"
+            "Misc\\Tests\\": "modules/misc/tests",
+            "Op\\Tests\\": "modules/op/tests"
         },
         "files": [
             "poppy/framework/src/Support/functions.php",

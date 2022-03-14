@@ -160,6 +160,21 @@ final class FilterWidget implements Structable
         return $this->model->addConditions($conditions)->buildData();
     }
 
+    /**
+     * @param Closure $callback
+     * @param int     $count
+     * @return bool|Collection
+     * @throws Exception
+     */
+    public function chunk(Closure $callback, int $count = 100)
+    {
+        $conditions = array_merge(
+            $this->conditions(),
+            $this->scopeConditions()
+        );
+
+        return $this->model->addConditions($conditions)->chunk($callback, $count);
+    }
 
     /**
      * 返回结构
@@ -187,10 +202,20 @@ final class FilterWidget implements Structable
      * @param bool $export 是否允许导出
      * @return void
      */
-    public function action(int $width = 3, bool $export = false)
+    public function action(int $width = 4, bool $export = false)
     {
         $this->actionWidth  = $width;
         $this->enableExport = $export;
+    }
+
+
+    /**
+     * 是否启用了导出
+     * @return bool
+     */
+    public function getEnableExport(): bool
+    {
+        return $this->enableExport;
     }
 
 

@@ -4,9 +4,17 @@ namespace Poppy\MgrApp\Classes\Grid\Filter\Render;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
+use Poppy\MgrApp\Classes\Grid\Filter\Presenter\DateTime;
 
 class BetweenDate extends AbstractFilterItem
 {
+
+    public function __construct($column = '', string $label = '')
+    {
+        parent::__construct($column, $label);
+        $this->setPresenter(new DateTime());
+    }
+
     /**
      * Get condition of this filter.
      *
@@ -22,13 +30,14 @@ class BetweenDate extends AbstractFilterItem
 
         $this->value = Arr::get($inputs, $this->column);
 
-        $value = array_filter($this->value, function ($val) {
-            return $val !== '';
-        });
-
         if (!$this->value) {
             return null;
         }
+
+        \Log::debug($this->value);
+        $value = array_filter($this->value, function ($val) {
+            return $val !== '';
+        });
 
         $start = $value['start'];
         $end   = $value['end'];

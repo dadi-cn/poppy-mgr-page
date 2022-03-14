@@ -2,15 +2,21 @@
 
 namespace Poppy\MgrApp\Classes\Grid\Exporters;
 
+use Closure;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Poppy\MgrApp\Classes\Contracts\Exportable;
 use Poppy\MgrApp\Classes\Grid\Exporter;
 use Poppy\MgrApp\Classes\Widgets\GridWidget;
 use function collect;
 use function request;
 
-abstract class AbstractExporter implements ExporterInterface
+/**
+ * Exporter 类
+ */
+abstract class AbstractExporter implements Exportable
 {
     /**
      * @var GridWidget
@@ -25,13 +31,11 @@ abstract class AbstractExporter implements ExporterInterface
     /**
      * Create a new exporter instance.
      *
-     * @param $grid
+     * @param GridWidget $grid
      */
     public function __construct(GridWidget $grid = null)
     {
-        if ($grid) {
-            $this->setGrid($grid);
-        }
+        $this->grid = $grid;
     }
 
     /**
@@ -53,36 +57,36 @@ abstract class AbstractExporter implements ExporterInterface
      *
      * @return string
      */
-    public function getTable()
+    public function getTable(): string
     {
         return $this->grid->model()->eloquent()->getTable();
     }
 
     /**
-     * Get data with export query.
-     *
-     * @param bool $toArray
-     *
-     * @return array|Collection|mixed
+     * 获取数据
+     * @return Collection
+     * @throws Exception
      */
-    public function getData()
+    public function getData(): Collection
     {
         return $this->grid->getFilter()->execute();
     }
 
     /**
-     * @param callable $callback
-     * @param int      $count
-     *
-     * @return bool
+     * 数据分块
+     * @param Closure $callback
+     * @param int     $count
+     * @return bool|Collection
+     * @throws Exception
      */
-    public function chunk(callable $callback, $count = 100)
+    public function chunk(Closure $callback, int $count = 100)
     {
         return $this->grid->getFilter()->chunk($callback, $count);
     }
 
     /**
      * @return Collection
+     * @throws Exception
      */
     public function getCollection()
     {
@@ -94,14 +98,14 @@ abstract class AbstractExporter implements ExporterInterface
      */
     public function getQuery()
     {
-        $model = $this->grid->getFilter()->getModel();
+        $model = $this->grid->model();
 
         $queryBuilder = $model->getQueryBuilder();
 
         // Export data of giving page number.
         if ($this->page) {
             $keyName = $this->grid->getKeyName();
-            $perPage = request($model->getPerPageName(), $model->getPerPage());
+            $perPage = request(GridWidget::PAGESIZE_NAME, $model->getPagesize());
 
             $scope = (clone $queryBuilder)
                 ->select([$keyName])
@@ -115,30 +119,28 @@ abstract class AbstractExporter implements ExporterInterface
     }
 
     /**
-     * Export data with scope.
-     *
+     * 为模型设置查询配置
      * @param string $scope
-     *
      * @return $this
      */
-    public function withScope($scope)
+    public function withScope(string $scope = 'page'): self
     {
-        if ($scope == Exporter::SCOPE_ALL) {
+        if ($scope == Exporter::SCOPE_ALL || $scope === Exporter::SCOPE_QUERY) {
             return $this;
         }
 
-        [$scope, $args] = explode(':', $scope);
-
-        if ($scope == Exporter::SCOPE_CURRENT_PAGE) {
+        if ($scope == Exporter::SCOPE_PAGE) {
             $this->grid->model()->usePaginate(true);
-            $this->page = $args ?: 1;
+            $this->page = input('page');
         }
 
-        if ($scope == Exporter::SCOPE_SELECTED_ROWS) {
-            $selected = explode(',', $args);
+        if ($scope == Exporter::SCOPE_SELECT) {
+            $selected = input($this->grid->getKeyName());
+            if (is_string($selected)) {
+                $selected = explode(',', $selected);
+            }
             $this->grid->model()->whereIn($this->grid->getKeyName(), $selected);
         }
-
         return $this;
     }
 

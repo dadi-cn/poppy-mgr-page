@@ -17,7 +17,7 @@ use Poppy\MgrApp\Classes\Grid\Concerns\CanHidesColumns;
 use Poppy\MgrApp\Classes\Grid\Concerns\HasExport;
 use Poppy\MgrApp\Classes\Grid\Concerns\HasFilter;
 use Poppy\MgrApp\Classes\Grid\Concerns\HasPaginator;
-use Poppy\MgrApp\Classes\Grid\Concerns\HasSelector;
+use Poppy\MgrApp\Classes\Grid\Concerns\HasSelection;
 use Poppy\MgrApp\Classes\Grid\Concerns\HasTotalRow;
 use Poppy\MgrApp\Classes\Grid\Model;
 use Poppy\MgrApp\Classes\Grid\Row;
@@ -40,7 +40,7 @@ class GridWidget
         HasExport,
         HasFilter,
         HasTotalRow,
-        HasSelector,
+        HasSelection,
         HasPaginator,
         CanHidesColumns;
 
@@ -132,9 +132,8 @@ class GridWidget
      *
      * @var array
      */
-    protected $options = [
-        'show_tools'    => true,
-        'show_exporter' => false
+    protected array $options = [
+        'show_tools' => true
     ];
 
     /**
@@ -166,8 +165,6 @@ class GridWidget
         $this->keyName = $model->getKeyName();
 
         $this->initialize();
-
-        $this->queryExport();
 
         $this->callInitCallbacks();
     }
@@ -232,16 +229,6 @@ class GridWidget
         return $this->keyName;
     }
 
-    /**
-     * 进行分页
-     * @param int $pagesize
-     * @return void
-     */
-    public function setPagesize(int $pagesize = 15)
-    {
-        $this->pagesize = $pagesize;
-        $this->model()->setPagesize($pagesize);
-    }
 
     /**
      * Get the grid paginator.
@@ -312,7 +299,8 @@ class GridWidget
     public function resp()
     {
         if ($this->queryHas('export')) {
-            $this->queryExport(true);
+            $type = $this->queryAfter('export');
+            $this->queryExport($type);
         }
 
         if ($this->queryHas('edit')) {
@@ -448,6 +436,18 @@ class GridWidget
         collect($this->visibleColumns())->each(function (Column $column) use (&$columns) {
             $columns[] = $column->struct();
         });
+
+        // if batchAction => selection True
+        // if exportable => selection True
+        // if selection & !pk => Selection Disable
+        // 支持批处理, 开启选择器
+        if (count($this->batchActions->struct())) {
+            $this->enableSelection();
+        }
+        if ($this->filter->getEnableExport()) {
+            $this->enableSelection();
+        }
+
         return [
             'type'    => 'grid',
             'url'     => $this->pyRequest()->url(),
@@ -457,6 +457,7 @@ class GridWidget
             'scope'   => $this->getFilter()->getCurrentScope() ? $this->getFilter()->getCurrentScope()->value : '',
             'options' => [
                 'page_sizes' => $this->pagesizeOptions,
+                'selection'  => $this->selectionEnable,
             ],
             'cols'    => $columns,
             'pk'      => $this->model()->getOriginalModel()->getKeyName(),

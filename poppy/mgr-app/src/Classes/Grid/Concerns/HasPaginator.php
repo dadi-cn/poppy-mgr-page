@@ -18,4 +18,16 @@ trait HasPaginator
      * @var int
      */
     protected int $pagesize = 15;
+
+
+    /**
+     * 进行分页
+     * @param int $pagesize
+     * @return void
+     */
+    public function setPagesize(int $pagesize = 15)
+    {
+        $this->pagesize = $pagesize;
+        $this->model()->setPagesize($pagesize);
+    }
 }

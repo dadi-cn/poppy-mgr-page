@@ -18,13 +18,7 @@ class CsvExporter extends AbstractExporter
     {
         $filename = $this->getTable() . '.csv';
 
-        $headers = [
-            'Content-Encoding'    => 'UTF-8',
-            'Content-Type'        => 'text/csv;charset=UTF-8',
-            'Content-Disposition' => "attachment; filename=\"$filename\"",
-        ];
-
-        response()->stream(function () {
+        return response()->stream(function () {
             $handle = fopen('php://output', 'w');
 
             $titles = [];
@@ -44,14 +38,16 @@ class CsvExporter extends AbstractExporter
 
             // Close the output stream
             fclose($handle);
-        }, 200, $headers)->send();
-
-        exit;
+        }, 200, [
+            'Content-Encoding'    => 'UTF-8',
+            'Content-Type'        => 'text/csv;charset=UTF-8',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+        ])->send();
     }
 
     /**
+     * 获取 Header, 从记录中获取 Header
      * @param Collection $records
-     *
      * @return array
      */
     public function getHeaderRowFromRecords(Collection $records): array
@@ -59,7 +55,6 @@ class CsvExporter extends AbstractExporter
         $titles = collect(Arr::dot($records->first()->toArray()))->keys()->map(
             function ($key) {
                 $key = str_replace('.', ' ', $key);
-
                 return Str::ucfirst($key);
             }
         );
@@ -68,11 +63,11 @@ class CsvExporter extends AbstractExporter
     }
 
     /**
+     * 获得格式化的数据
      * @param Model $record
-     *
      * @return array
      */
-    public function getFormattedRecord(Model $record)
+    public function getFormattedRecord(Model $record): array
     {
         return Arr::dot($record->getAttributes());
     }

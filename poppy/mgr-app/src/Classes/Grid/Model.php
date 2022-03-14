@@ -60,18 +60,16 @@ class Model
     protected $pagesize = 20;
 
     /**
-     * If the model use pagination.
-     *
+     * 使用分页
      * @var bool
      */
-    protected $usePaginate = true;
+    protected bool $usePaginate = true;
 
     /**
-     * Collection callback.
-     *
-     * @var Closure
+     * 对查询出来的数据集合进行回调, 参数是查询的所有数据
+     * @var ?Closure
      */
-    protected $collectionCallback;
+    protected ?Closure $collectionCallback = null;
 
     /**
      * @var GridWidget
@@ -126,11 +124,10 @@ class Model
     }
 
     /**
-     * Enable or disable pagination.
-     *
+     * 启用或者禁用分页
      * @param bool $use
      */
-    public function usePaginate($use = true)
+    public function usePaginate(bool $use = true)
     {
         $this->usePaginate = $use;
     }
@@ -140,7 +137,7 @@ class Model
      *
      * @return int
      */
-    public function getPagesize()
+    public function getPagesize(): int
     {
         return $this->pagesize;
     }
@@ -208,7 +205,7 @@ class Model
     }
 
     /**
-     * Build.
+     * 组建数据
      * @throws Exception
      */
     public function buildData(): Collection
@@ -224,11 +221,12 @@ class Model
     }
 
     /**
-     * @param callable $callback
-     * @param int      $count
+     * @param Closure $callback
+     * @param int     $count
+     * @return Collection|bool
      * @throws Exception
      */
-    public function chunk($callback, $count = 100)
+    public function chunk(Closure $callback, int $count = 100)
     {
         if ($this->usePaginate) {
             return $this->buildData()->chunk($count)->each($callback);
@@ -420,21 +418,23 @@ class Model
 
 
     /**
-     * Set the grid paginate.
-     *
+     * 设置分页
      * @return void
      */
     protected function setPaginate()
     {
+        // [paginate, [15]]
         $paginate = $this->findQueryByMethod('paginate');
 
+        // 从集合中删除分页方法
         $this->queries = $this->queries->reject(function ($query) {
             return $query['method'] == 'paginate';
         });
 
+        // 组合分页条件
         $query = [
             'method'    => 'paginate',
-            'arguments' => $this->resolvePerPage($paginate),
+            'arguments' => $this->resolvePagesize($paginate),
         ];
 
         $this->queries->push($query);
@@ -444,10 +444,9 @@ class Model
      * Resolve perPage for pagination.
      *
      * @param array|null $paginate
-     *
      * @return array
      */
-    protected function resolvePerPage($paginate)
+    protected function resolvePagesize($paginate)
     {
         if ($pagesize = request(GridWidget::PAGESIZE_NAME)) {
             if (is_array($paginate)) {
@@ -468,12 +467,12 @@ class Model
 
     /**
      * 通过方法名称查找组合模型的条件
-     * @param $method
+     * @param string $method
      * @return array
      *              method : paginate
      *              arguments  : [15]
      */
-    protected function findQueryByMethod($method): ?array
+    protected function findQueryByMethod(string $method): ?array
     {
         return $this->queries->first(function ($query) use ($method) {
             return $query['method'] == $method;

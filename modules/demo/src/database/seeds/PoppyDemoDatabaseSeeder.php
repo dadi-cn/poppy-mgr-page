@@ -14,6 +14,6 @@ class PoppyDemoDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        factory(PoppyDemo::class, 20)->create();
+        factory(PoppyDemo::class, 500)->create();
     }
 }

@@ -1,12 +1,11 @@
 <?php
 
-namespace Poppy\MgrApp\Classes\Grid\Exporters;
+namespace Poppy\MgrApp\Classes\Contracts;
 
-interface ExporterInterface
+interface Exportable
 {
     /**
      * Export data from grid.
-     *
      * @return mixed
      */
     public function export();

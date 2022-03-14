@@ -5,7 +5,6 @@ namespace Poppy\MgrApp\Classes\Grid\Concerns;
 use Illuminate\Support\Collection;
 use Poppy\MgrApp\Classes\Grid\Column\Column;
 use Poppy\MgrApp\Classes\Grid\Tools\ColumnSelector;
-use Poppy\MgrApp\Classes\Widgets\GridWidget;
 use function collect;
 
 trait CanHidesColumns
@@ -18,26 +17,6 @@ trait CanHidesColumns
     public $hiddenColumns = [];
 
     /**
-     * Remove column selector on grid.
-     *
-     * @param bool $disable
-     *
-     * @return GridWidget|mixed
-     */
-    public function disableColumnSelector(bool $disable = true): bool
-    {
-        return $this->option('show_column_selector', !$disable);
-    }
-
-    /**
-     * @return bool
-     */
-    public function showColumnSelector(): bool
-    {
-        return $this->option('show_column_selector');
-    }
-
-    /**
      * Setting default shown columns on grid.
      *
      * @param array|string $columns
@@ -48,8 +27,7 @@ trait CanHidesColumns
     {
         if (func_num_args()) {
             $columns = (array) $columns;
-        }
-        else {
+        } else {
             $columns = func_get_args();
         }
 
