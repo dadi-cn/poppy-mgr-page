@@ -9,13 +9,14 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use InvalidArgumentException;
 use Poppy\Framework\Helper\UtilHelper;
 use Poppy\MgrApp\Classes\Contracts\Structable;
-use Poppy\MgrApp\Classes\Grid\Column\Render\AbstractRender;
+use Poppy\MgrApp\Classes\Grid\Column\Render\ActionsRender;
 use Poppy\MgrApp\Classes\Grid\Column\Render\DownloadRender;
+use Poppy\MgrApp\Classes\Grid\Column\Render\HtmlRender;
 use Poppy\MgrApp\Classes\Grid\Column\Render\ImageRender;
 use Poppy\MgrApp\Classes\Grid\Column\Render\LinkRender;
+use Poppy\MgrApp\Classes\Grid\Column\Render\Render;
 use Poppy\MgrApp\Classes\Grid\Model;
 use Poppy\MgrApp\Classes\Traits\UseColumn;
 use Poppy\MgrApp\Classes\Widgets\GridWidget;
@@ -25,9 +26,9 @@ use function request;
  * 列展示以及渲染, 当前的目的是使用前端方式渲染, 而不是依靠于 v-html 或者是后端生成
  * @property-read string $name    当前列的名称
  * @property-read string $label   标签
- * @method $this image($server = '', $width = 200, $height = 200)
- * @method $this link($href = '', $target = '_blank')
- * @method $this download($server = '')
+ * @method Column image($server = '', $width = 200, $height = 200)
+ * @method Column link($href = '', $target = '_blank')
+ * @method Column download($server = '')
  */
 class Column implements Structable
 {
@@ -43,6 +44,7 @@ class Column implements Structable
      * @var array
      */
     public static array $renderers = [
+        'html'     => HtmlRender::class,
         'image'    => ImageRender::class,
         'link'     => LinkRender::class,
         'download' => DownloadRender::class,
@@ -72,13 +74,6 @@ class Column implements Structable
      */
     protected $grid;
 
-
-    /**
-     * 默认以文本方式渲染
-     * @var string
-     */
-    protected string $type = 'text';
-
     /**
      * 列名称
      * @var string
@@ -98,20 +93,6 @@ class Column implements Structable
      * @var mixed
      */
     protected $original;
-
-
-    /**
-     * 渲染展示项目
-     * @var array
-     */
-    protected array $display = [];
-
-    /**
-     * Attributes of column.
-     *
-     * @var array
-     */
-    protected $attributes = [];
 
     /**
      * Relation name.
@@ -138,7 +119,7 @@ class Column implements Structable
     protected bool $sortable = false;
 
     /**
-     * @var bool 是否进行隐藏展示
+     * @var bool 是否进行文字隐藏展示
      */
     protected bool $ellipsis = false;
 
@@ -149,9 +130,10 @@ class Column implements Structable
     protected bool $copyable = false;
 
     /**
+     * todo 可搜索的
      * @var bool
      */
-    protected $searchable = false;
+    protected bool $searchable = false;
 
     /**
      * 定义宽度
@@ -166,15 +148,22 @@ class Column implements Structable
     protected string $align = '';
 
     /**
-     * @var bool 是否可编辑
-     */
-    private $editable = false;
-
-    /**
-     * 列定位
+     * 渲染类型
      * @var string
      */
-    private $fixed = '';
+    private string $type = 'text';
+
+    /**
+     * todo 可编辑的
+     * @var bool
+     */
+    private bool $editable = false;
+
+    /**
+     * 列固定
+     * @var string
+     */
+    private string $fixed = '';
 
     /**
      * 最小宽度
@@ -241,7 +230,7 @@ class Column implements Structable
     }
 
     /**
-     * 渲染为 Datetime 时间
+     * 定义快捷样式
      * @return $this
      */
     public function quickIcon($num = 3, $fixed = true): self
@@ -360,12 +349,17 @@ class Column implements Structable
         return $this;
     }
 
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
     public function struct(): array
     {
         $defines = [
-            'field'    => $this->convertFieldName($this->name),
-            'label'    => $this->label,
-            'type'     => $this->type,
+            'field' => $this->convertFieldName($this->name),
+            'label' => $this->label,
+            'type'  => $this->type,
         ];
 
         if ($this->sortable) {
@@ -409,8 +403,14 @@ class Column implements Structable
         $model->where($this->name, request($this->name));
     }
 
+    public function html(Closure $closure): self
+    {
+        $this->type = 'html';
+        return $this->display($closure);
+    }
+
     /**
-     * 添加显示回调
+     * 定义回调
      * @param Closure $callback
      * @return $this
      */
@@ -420,38 +420,28 @@ class Column implements Structable
         return $this;
     }
 
+
     /**
-     * Display using display abstract.
-     *
-     * @param string $abstract
-     * @param array  $arguments
+     * 调用 Actions 预览定义的操作
      * @return $this
      */
-    public function displayUsing(string $abstract, array $arguments = []): self
+    public function actions(Closure $closure): self
     {
-        // 当前类型
-        $type       = Str::kebab(Str::afterLast($abstract, '\\'));
-        $type       = Str::before($type, '-render');
-        $this->type = $type;
-
-        // 赋值
-        $grid   = $this->grid;
         $column = $this;
-
-        return $this->display(function ($value) use ($grid, $column, $abstract, $arguments) {
-            /** @var AbstractRender $displayer */
-            $displayer = new $abstract($value, $grid, $column, $this);
-            return $displayer->render(...$arguments);
+        return $this->display(function ($value) use ($column, $closure) {
+            $render = new ActionsRender($value, $this);
+            $column->setType('actions');
+            return $render->render($closure);
         });
     }
 
     /**
-     * 替换输出, 并指定默认值, 可以用于状态值替换, 使用KV
+     * 使用KV进行替换输出, 并可以指定默认值
      * @param array  $values
      * @param string $default
      * @return $this
      */
-    public function using(array $values, string $default = ''): self
+    public function usingKv(array $values, string $default = ''): self
     {
         return $this->display(function ($value) use ($values, $default) {
             if (is_null($value)) {
@@ -472,19 +462,6 @@ class Column implements Structable
         return $this;
     }
 
-    /**
-     * Add column to total-row.
-     *
-     * @param null $display
-     *
-     * @return $this
-     */
-    public function totalRow($display = null)
-    {
-        $this->grid->addTotalRow($this->name, $display);
-
-        return $this;
-    }
 
     /**
      * 显示为友好的文件大小
@@ -543,34 +520,6 @@ class Column implements Structable
     {
         return $this->display(function ($value) use ($format) {
             return date($format, strtotime($value));
-        });
-    }
-
-
-    /**
-     * Display column using a grid row action.
-     *
-     * @param string $action
-     *
-     * @return $this
-     */
-    public function action($action): self
-    {
-        if (!is_subclass_of($action, RowAction::class)) {
-            throw new InvalidArgumentException("Action class [$action] must be sub-class of [Poppy\MgrApp\Actions\GridAction]");
-        }
-
-        $grid = $this->grid;
-
-        return $this->display(function ($_, $column) use ($action, $grid) {
-            /** @var RowAction $action */
-            $action = new $action();
-
-            return $action
-                ->asColumn()
-                ->setGrid($grid)
-                ->setColumn($column)
-                ->setRow($this);
         });
     }
 
@@ -646,8 +595,7 @@ class Column implements Structable
     }
 
     /**
-     * Define a column globally.
-     *
+     * 定义全局列渲染
      * @param string $name
      * @param mixed  $definition
      */
@@ -763,18 +711,16 @@ class Column implements Structable
     }
 
     /**
-     * If current column is a defined column.
-     *
+     * 当前列是否在全局定义中
      * @return bool
      */
-    protected function isDefinedColumn()
+    protected function isDefinedColumn(): bool
     {
         return array_key_exists($this->name, static::$defined);
     }
 
     /**
-     * Use a defined column.
-     *
+     * 使用全局列定义
      * @throws Exception
      */
     protected function useDefinedColumn()
@@ -786,22 +732,20 @@ class Column implements Structable
 
         if ($class instanceof Closure) {
             $this->display($class);
-
             return;
         }
 
-        if (!class_exists($class) || !is_subclass_of($class, AbstractRender::class)) {
+        if (!class_exists($class) || !is_subclass_of($class, Render::class)) {
             throw new Exception("Invalid column definition [$class]");
         }
 
-        $grid   = $this->grid;
         $column = $this;
 
-        $this->display(function ($value) use ($grid, $column, $class) {
-            /** @var AbstractRender $definition */
-            $definition = new $class($value, $grid, $column, $this);
-
-            return $definition->render();
+        $this->display(function ($value) use ($column, $class) {
+            /** @var Render $render */
+            $render       = new $class($value, $this);
+            $column->type = $render->getType();
+            return $render->render();
         });
     }
 
@@ -847,12 +791,12 @@ class Column implements Structable
     /**
      * Call Builtin displayer.
      *
-     * @param string $abstract
-     * @param array  $arguments
+     * @param string|Closure $abstract
+     * @param array          $arguments
      *
      * @return $this
      */
-    protected function callBuiltinDisplayer(string $abstract, array $arguments): self
+    protected function callBuiltinDisplayer($abstract, array $arguments): self
     {
         if ($abstract instanceof Closure) {
             return $this->display(function ($value) use ($abstract, $arguments) {
@@ -860,18 +804,16 @@ class Column implements Structable
             });
         }
 
-        if (class_exists($abstract) && is_subclass_of($abstract, AbstractRender::class)) {
-            $grid   = $this->grid;
+        if (class_exists($abstract) && is_subclass_of($abstract, Render::class)) {
             $column = $this;
 
-            return $this->display(function ($value) use ($abstract, $grid, $column, $arguments) {
-                /** @var AbstractRender $displayer */
-                $displayer = new $abstract($value, $grid, $column, $this);
-
-                return $displayer->render(...$arguments);
+            return $this->display(function ($value) use ($abstract, $column, $arguments) {
+                /** @var Render $render */
+                $render       = new $abstract($value, $this);
+                $column->type = $render->getType();
+                return $render->render(...$arguments);
             });
         }
-
         return $this;
     }
 }

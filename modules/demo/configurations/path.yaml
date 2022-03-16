@@ -117,6 +117,9 @@ backend :
             title : Quick
             path : grid/demo:api.mgr_app.grid/quick
           -
+            title : Display
+            path : grid/demo:api.mgr_app.grid/display
+          -
             title : QuickActions
             path : grid/demo:api.mgr_app.grid/quick-actions
           -

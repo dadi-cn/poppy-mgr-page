@@ -30,7 +30,7 @@ class GridPamAccount extends GridBase
         $this->column('login_times', "登录次数")->width(90, true)->align('center');
         $this->column('created_at', "操作时间")->width(170, true);
         $pam = $this->pam;
-        $this->column('action', '操作')->displayUsing(ActionsRender::class, [function (ActionsRender $actions) use ($pam) {
+        $this->action(function (ActionsRender $actions) use ($pam) {
             $row = $actions->getRow();
             $actions->default(['plain', 'circle', 'only']);
             $actions->page('修改密码', route('py-mgr-app:api-backend.pam.password', [data_get($row, 'id')]), 'form')->icon('Key');
@@ -41,7 +41,7 @@ class GridPamAccount extends GridBase
                 $actions->page('启用', route_url('py-mgr-app:api-backend.pam.enable', [data_get($row, 'id')]), 'form')->icon('Select')->success();
             }
             $actions->page("编辑", route_url('py-mgr-app:api-backend.pam.establish', [data_get($row, 'id')]), 'form')->icon('Edit');
-        }])->width(150, true)->fixed();
+        })->width(150, true)->fixed();
     }
 
     /**

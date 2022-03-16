@@ -23,7 +23,7 @@ class GridPamRole extends GridBase
         $pam = $this->pam;
         $this->column('id', "ID")->sortable()->width(80);
         $this->column('title', "名称");
-        $this->column('action', '操作')->displayUsing(ActionsRender::class, [function (ActionsRender $actions) use ($pam) {
+        $this->action(function (ActionsRender $actions) use ($pam) {
             $row = $actions->getRow();
             $actions->default(['plain', 'circle', 'only']);
             $title = data_get($row, 'title');
@@ -38,7 +38,7 @@ class GridPamRole extends GridBase
                 $actions->request('删除', route('py-mgr-app:api-backend.role.delete', [data_get($row, 'id')]))->icon('Close')->danger()
                     ->confirm("确认删除角色 `{$title}`?");
             }
-        }])->width(150, true)->fixed();
+        })->width(150, true)->fixed();
     }
 
     /**

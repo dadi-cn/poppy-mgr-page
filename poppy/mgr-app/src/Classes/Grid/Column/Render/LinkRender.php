@@ -9,8 +9,10 @@ use Illuminate\Support\Fluent;
 /**
  * 将字段渲染为链接
  */
-class LinkRender extends AbstractRender
+class LinkRender extends Render
 {
+
+    protected string $type = 'link';
 
     public function render($callback = '', $target = '_blank'): Jsonable
     {

@@ -28,7 +28,7 @@ class GridQuickActions extends GridBase
                 return '散开';
             }
         });
-        $this->column('action', '操作')->displayUsing(ActionsRender::class, [function (ActionsRender $actions) {
+        $this->action(function (ActionsRender $actions) {
             $row = $actions->getRow();
             $actions->request('错误', route('demo:api.mgr_app.grid_request', ['error']));
             $actions->request('成功', route('demo:api.mgr_app.grid_request', ['success']));
@@ -38,7 +38,7 @@ class GridQuickActions extends GridBase
             $actions->request('Primary', route('demo:api.mgr_app.grid_request', ['success']))->primary();
             $actions->request('Plain', route('demo:api.mgr_app.grid_request', ['success']))->primary()->plain();
             $actions->page('页面', route('demo:api.mgr_app.grid_form', ['detail']), 'form');
-        }]);
+        });
     }
 
 

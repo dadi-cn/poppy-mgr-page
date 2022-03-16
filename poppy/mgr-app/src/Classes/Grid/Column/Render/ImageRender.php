@@ -8,8 +8,11 @@ use Illuminate\Support\Str;
 use function collect;
 use function url;
 
-class ImageRender extends AbstractRender
+class ImageRender extends Render
 {
+
+    protected string $type = 'image';
+
     public function render($server = '', $width = 60, $height = 60, $suffix = ''): Jsonable
     {
         if ($this->value instanceof Arrayable) {

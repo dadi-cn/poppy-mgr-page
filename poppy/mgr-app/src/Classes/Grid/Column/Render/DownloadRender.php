@@ -10,8 +10,11 @@ use function url;
 /**
  * 将文件渲染为可下载的
  */
-class DownloadRender extends AbstractRender
+class DownloadRender extends Render
 {
+
+    protected string $type = 'download';
+
     public function render($server = ''): Jsonable
     {
         if ($this->value instanceof Arrayable) {

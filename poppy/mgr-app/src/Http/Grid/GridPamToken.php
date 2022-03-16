@@ -22,12 +22,12 @@ class GridPamToken extends GridBase
         $this->column('device_id', "设备ID")->width(320, false);
         $this->column('login_ip', "登录IP");
         $this->column('expired_at', "过期时间")->width(170, true);
-        $this->column('action', '操作')->displayUsing(ActionsRender::class, [function (ActionsRender $actions) {
+        $this->action(function (ActionsRender $actions) {
             $row = $actions->getRow();
             $actions->default(['plain', 'circle', 'only']);
             $actions->request('禁用IP', route('py-mgr-app:api-backend.pam.ban', [data_get($row, 'id'), 'ip']))->icon('MapLocation');
             $actions->request('禁用设备', route('py-mgr-app:api-backend.pam.ban', [data_get($row, 'id'), 'device']))->icon('Cellphone');
             $actions->request("删除", route_url('py-mgr-app:api-backend.pam.delete_token', [data_get($row, 'id')]))->icon('Close')->danger();
-        }])->width(150, true)->fixed();
+        })->width(150, true)->fixed();
     }
 }

@@ -8,11 +8,12 @@ use Illuminate\Support\Fluent;
 use Poppy\MgrApp\Classes\Action\Action;
 use Poppy\MgrApp\Classes\Traits\UseActions;
 
-class ActionsRender extends AbstractRender
+class ActionsRender extends Render
 {
 
     use UseActions;
 
+    protected string $type = 'actions';
 
     /**
      * @inheritDoc
@@ -20,6 +21,7 @@ class ActionsRender extends AbstractRender
     public function render($callback = null): Jsonable
     {
         if ($callback instanceof Closure) {
+            // 绑定当前对象到 Closure, 并且将当前对象作为参数传入
             $callback->call($this, $this);
         }
 
@@ -32,7 +34,8 @@ class ActionsRender extends AbstractRender
         }
 
         $params = [
-            'items' => $actions
+            'items' => $actions,
+            'type'  => 'actions'
         ];
         if ($this->style) {
             $params['style'] = $this->style;

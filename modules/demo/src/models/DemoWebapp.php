@@ -67,4 +67,18 @@ class DemoWebapp extends Model
     {
         return $this->hasOne(DemoUser::class, 'id', 'account_id');
     }
+
+
+    public static function kvStatus($key = null)
+    {
+        $defs = [
+            1 => '未发布',
+            2 => '草稿',
+            5 => '待审核',
+            3 => '已发布',
+            4 => '已删除',
+        ];
+        return kv($defs, $key);
+    }
+
 }

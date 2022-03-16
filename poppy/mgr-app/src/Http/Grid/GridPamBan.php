@@ -28,11 +28,11 @@ class GridPamBan extends GridBase
         })->width(100, true)->align('center');
         $this->column('value', "限制值");
         $this->column('note', '备注');
-        $this->column('action', '操作')->displayUsing(ActionsRender::class, [function (ActionsRender $actions) {
+        $this->action(function (ActionsRender $actions) {
             $row = $actions->getRow();
             $actions->default(['only', 'circle', 'plain']);
             $actions->request("删除", route_url('py-mgr-app:api-backend.ban.delete', [data_get($row, 'id')]))->icon('Close')->danger();
-        }])->width(60, true);
+        })->width(60, true);
     }
 
     public function filter(FilterWidget $filter)

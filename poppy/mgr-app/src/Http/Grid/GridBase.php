@@ -17,7 +17,6 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\MgrApp\Classes\Grid\Column\Column;
-use Poppy\MgrApp\Classes\Grid\Column\Render\ActionsRender;
 use Poppy\MgrApp\Classes\Grid\Tools\Actions;
 use Poppy\MgrApp\Classes\Widgets\FilterWidget;
 use Poppy\MgrApp\Classes\Widgets\GridWidget;
@@ -93,7 +92,7 @@ abstract class GridBase implements GridContract
      */
     public function action(Closure $closure, string $title = '操作'): Column
     {
-        return $this->column(Column::NAME_ACTION, $title)->displayUsing(ActionsRender::class, [$closure]);
+        return $this->column(Column::NAME_ACTION, $title)->actions($closure);
     }
 
     /**
