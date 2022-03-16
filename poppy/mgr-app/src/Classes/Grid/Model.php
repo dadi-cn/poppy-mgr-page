@@ -259,15 +259,6 @@ class Model
         return $this;
     }
 
-    /**
-     * Get table of the model.
-     *
-     * @return string
-     */
-    public function getTable()
-    {
-        return $this->model->getTable();
-    }
 
     /**
      * @return Builder|EloquentModel
@@ -401,6 +392,7 @@ class Model
         $this->setSort();
 
         $this->setPaginate();
+
 
         $this->queries->unique()->each(function ($query) {
             $this->model = call_user_func_array([$this->model, $query['method']], $query['arguments']);

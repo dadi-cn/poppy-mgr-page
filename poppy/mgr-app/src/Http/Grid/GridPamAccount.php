@@ -5,7 +5,7 @@ namespace Poppy\MgrApp\Http\Grid;
 use Illuminate\Support\Str;
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\MgrApp\Classes\Grid\Column\Render\ActionsRender;
-use Poppy\MgrApp\Classes\Grid\Filter\Render\Scope;
+use Poppy\MgrApp\Classes\Grid\Filter\Query\Scope;
 use Poppy\MgrApp\Classes\Grid\Tools\Actions;
 use Poppy\MgrApp\Classes\Widgets\FilterWidget;
 use Poppy\System\Models\PamAccount;

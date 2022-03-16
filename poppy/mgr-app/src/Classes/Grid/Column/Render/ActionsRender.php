@@ -13,24 +13,6 @@ class ActionsRender extends AbstractRender
 
     use UseActions;
 
-    /**
-     * 样式
-     * @var string
-     */
-    private string $style = '';
-
-    /**
-     * @var int
-     */
-    private int $length = 5;
-
-
-    public function dropdown($length = 5): self
-    {
-        $this->style  = 'dropdown';
-        $this->length = $length;
-        return $this;
-    }
 
     /**
      * @inheritDoc
@@ -55,7 +37,8 @@ class ActionsRender extends AbstractRender
         if ($this->style) {
             $params['style'] = $this->style;
             if ($this->style === 'dropdown') {
-                $params['length'] = $this->length;
+                $params['length']        = $this->length;
+                $params['dropdown-icon'] = $this->dropdownIcon;
             }
         }
 

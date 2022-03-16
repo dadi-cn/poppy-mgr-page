@@ -10,26 +10,21 @@ use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\MgrApp\Classes\Contracts\Structable;
 use Poppy\MgrApp\Classes\Form\FormItem;
 use Poppy\MgrApp\Classes\Grid\Filter\FilterDef;
-use Poppy\MgrApp\Classes\Grid\Filter\Presenter\Between as BetweenPresenter;
-use Poppy\MgrApp\Classes\Grid\Filter\Presenter\DateTime;
-use Poppy\MgrApp\Classes\Grid\Filter\Render\Between;
-use Poppy\MgrApp\Classes\Grid\Filter\Render\BetweenDate;
-use Poppy\MgrApp\Classes\Grid\Filter\Render\Date;
-use Poppy\MgrApp\Classes\Grid\Filter\Render\EndsWith;
-use Poppy\MgrApp\Classes\Grid\Filter\Render\Equal;
-use Poppy\MgrApp\Classes\Grid\Filter\Render\FilterItem;
-use Poppy\MgrApp\Classes\Grid\Filter\Render\Group;
-use Poppy\MgrApp\Classes\Grid\Filter\Render\Gt;
-use Poppy\MgrApp\Classes\Grid\Filter\Render\In;
-use Poppy\MgrApp\Classes\Grid\Filter\Render\Like;
-use Poppy\MgrApp\Classes\Grid\Filter\Render\Lt;
-use Poppy\MgrApp\Classes\Grid\Filter\Render\Month;
-use Poppy\MgrApp\Classes\Grid\Filter\Render\NotEqual;
-use Poppy\MgrApp\Classes\Grid\Filter\Render\NotIn;
-use Poppy\MgrApp\Classes\Grid\Filter\Render\Scope;
-use Poppy\MgrApp\Classes\Grid\Filter\Render\StartsWith;
-use Poppy\MgrApp\Classes\Grid\Filter\Render\Where;
-use Poppy\MgrApp\Classes\Grid\Filter\Render\Year;
+use Poppy\MgrApp\Classes\Grid\Filter\Query\Between;
+use Poppy\MgrApp\Classes\Grid\Filter\Query\EndsWith;
+use Poppy\MgrApp\Classes\Grid\Filter\Query\Equal;
+use Poppy\MgrApp\Classes\Grid\Filter\Query\FilterItem;
+use Poppy\MgrApp\Classes\Grid\Filter\Query\Gt;
+use Poppy\MgrApp\Classes\Grid\Filter\Query\Gte;
+use Poppy\MgrApp\Classes\Grid\Filter\Query\In;
+use Poppy\MgrApp\Classes\Grid\Filter\Query\Like;
+use Poppy\MgrApp\Classes\Grid\Filter\Query\Lt;
+use Poppy\MgrApp\Classes\Grid\Filter\Query\Lte;
+use Poppy\MgrApp\Classes\Grid\Filter\Query\NotEqual;
+use Poppy\MgrApp\Classes\Grid\Filter\Query\NotIn;
+use Poppy\MgrApp\Classes\Grid\Filter\Query\Scope;
+use Poppy\MgrApp\Classes\Grid\Filter\Query\StartsWith;
+use Poppy\MgrApp\Classes\Grid\Filter\Query\Where;
 use Poppy\MgrApp\Classes\Grid\Model;
 use ReflectionException;
 
@@ -41,15 +36,12 @@ use ReflectionException;
  * @method StartsWith startsWith($column, $label = '') 前半部分匹配
  * @method EndsWith endsWith($column, $label = '') 后半部分匹配
  * @method Gt gt($column, $label = '') 大于
+ * @method Gte gte($column, $label = '') 大于等于
  * @method Lt lt($column, $label = '') 小于
+ * @method Lte lte($column, $label = '') 小于
  * @method In in($column, $label = '') 包含
  * @method NotIn notIn($column, $label = '') 不包含
  * @method Between between($column, $label = '') 介于...
- * @method BetweenDate betweenDate($column, $label = '') 介于日期之间
- * @method Date date($column, $label = '') 日期
- * @method Month month($column, $label = '') 月份
- * @method Year year($column, $label = '') 年度
- * @method Group group($column, $label = '', $builder = null) 分组
  */
 final class FilterWidget implements Structable
 {
@@ -76,6 +68,7 @@ final class FilterWidget implements Structable
      * @var Collection
      */
     private Collection $scopes;
+
 
     public function __construct(Model $model)
     {
@@ -127,18 +120,6 @@ final class FilterWidget implements Structable
         $filter = FilterDef::create($method, $name, $label);
         if (is_null($filter)) {
             throw new ApplicationException("Filter `${method}` not exists");
-        }
-        if ($filter instanceof Between || $filter instanceof BetweenDate) {
-            $filter->setPresenter(new BetweenPresenter());
-        }
-        if ($filter instanceof Date) {
-            $filter->setPresenter((new DateTime())->date());
-        }
-        if ($filter instanceof Month) {
-            $filter->setPresenter((new DateTime())->month());
-        }
-        if ($filter instanceof Year) {
-            $filter->setPresenter((new DateTime())->year());
         }
         return tap($filter, function ($field) {
             $this->addItem($field);
@@ -244,6 +225,7 @@ final class FilterWidget implements Structable
 
         $conditions = [];
         foreach ($this->items as $filter) {
+            /** @var FilterItem $filter */
             $conditions[] = $filter->condition($params);
         }
 

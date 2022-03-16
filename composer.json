@@ -52,7 +52,8 @@
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "2.*",
-        "doctrine/dbal": "^2.6"
+        "doctrine/dbal": "^2.6",
+        "kitloong/laravel-migrations-generator": "^5.2"
     },
     "autoload": {
         "psr-4": {

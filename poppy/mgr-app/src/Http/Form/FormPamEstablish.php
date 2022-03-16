@@ -4,7 +4,7 @@ namespace Poppy\MgrApp\Http\Form;
 
 use Poppy\Framework\Classes\Resp;
 use Poppy\Framework\Validation\Rule;
-use Poppy\MgrApp\Classes\Grid\Filter\Render\Scope;
+use Poppy\MgrApp\Classes\Grid\Filter\Query\Scope;
 use Poppy\MgrApp\Classes\Widgets\FormWidget;
 use Poppy\System\Action\Pam;
 use Poppy\System\Models\PamAccount;

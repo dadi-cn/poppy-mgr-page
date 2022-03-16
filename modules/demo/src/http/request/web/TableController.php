@@ -6,7 +6,7 @@ use Demo\Http\Lists\ListPoppyDemo;
 use Demo\Http\Lists\ListPoppyEditable;
 use Demo\Http\Lists\ListPoppyIndex;
 use Demo\Http\Lists\ListPoppyUser;
-use Demo\Models\PoppyDemo;
+use Demo\Models\DemoWebapp;
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\System\Classes\Grid;
 use Poppy\System\Classes\Widgets\TableWidget;
@@ -47,7 +47,7 @@ class TableController extends WebController
     public function demo($type)
     {
         // 第一列显示id字段，并将这一列设置为可排序列
-        $grid = new Grid(new PoppyDemo());
+        $grid = new Grid(new DemoWebapp());
         $grid->setTitle('Title');
         if ($type === 'demo') {
             $grid->setLists(ListPoppyDemo::class);

@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Closure;
 use Exception;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Database\Eloquent\Model as BaseModel;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -24,8 +23,8 @@ use function request;
 
 /**
  * 列展示以及渲染, 当前的目的是使用前端方式渲染, 而不是依靠于 v-html 或者是后端生成
- * @property-read string $name  当前列的名称
- * @property-read string $label 标签
+ * @property-read string $name    当前列的名称
+ * @property-read string $label   标签
  * @method $this image($server = '', $width = 200, $height = 200)
  * @method $this link($href = '', $target = '_blank')
  * @method $this download($server = '')
@@ -67,11 +66,6 @@ class Column implements Structable
      * @var array
      */
     protected static $rowAttributes = [];
-
-    /**
-     * @var Model
-     */
-    protected static $model;
 
     /**
      * @var GridWidget
@@ -149,6 +143,12 @@ class Column implements Structable
     protected bool $ellipsis = false;
 
     /**
+     * 可复制的
+     * @var bool
+     */
+    protected bool $copyable = false;
+
+    /**
      * @var bool
      */
     protected $searchable = false;
@@ -200,8 +200,6 @@ class Column implements Structable
     public function setGrid(GridWidget $grid)
     {
         $this->grid = $grid;
-
-        $this->setModel($grid->model()->eloquent());
     }
 
     public function editable(): self
@@ -211,15 +209,49 @@ class Column implements Structable
     }
 
     /**
-     * Set model for column.
-     *
-     * @param $model
+     * 渲染为ID
+     * @return $this
      */
-    public function setModel($model)
+    public function quickId($large = false): self
     {
-        if (is_null(static::$model) && ($model instanceof BaseModel)) {
-            static::$model = $model->newInstance();
+        $width = $large ? 110 : 90;
+        $this->width($width, true)->align('center');
+        return $this;
+    }
+
+    /**
+     * 渲染为标题, 默认显示 15个汉字, large 模式显示 20个汉字左右
+     * @return $this
+     */
+    public function quickTitle($large = false): self
+    {
+        $width = $large ? 320 : 250;
+        $this->ellipsis()->width($width, true)->copyable();
+        return $this;
+    }
+
+    /**
+     * 渲染为 Datetime 时间
+     * @return $this
+     */
+    public function quickDatetime(): self
+    {
+        $this->width(170, true)->align('center');
+        return $this;
+    }
+
+    /**
+     * 渲染为 Datetime 时间
+     * @return $this
+     */
+    public function quickIcon($num = 3, $fixed = true): self
+    {
+        $width = 16 + $num * 44;
+        $this->width($width, true)->align('center');
+        if ($fixed) {
+            $this->fixed();
         }
+        return $this;
     }
 
     /**
@@ -267,6 +299,16 @@ class Column implements Structable
     public function ellipsis(): self
     {
         $this->ellipsis = true;
+        return $this;
+    }
+
+    /**
+     * 可复制
+     * @return Column
+     */
+    public function copyable(): self
+    {
+        $this->copyable = true;
         return $this;
     }
 
@@ -324,10 +366,17 @@ class Column implements Structable
             'field'    => $this->convertFieldName($this->name),
             'label'    => $this->label,
             'type'     => $this->type,
-            'sortable' => $this->sortable,
-            'ellipsis' => $this->ellipsis,
         ];
 
+        if ($this->sortable) {
+            $defines += ['sortable' => 'custom'];
+        }
+        if ($this->copyable) {
+            $defines += ['copyable' => $this->copyable];
+        }
+        if ($this->ellipsis) {
+            $defines += ['ellipsis' => $this->ellipsis];
+        }
         if ($this->width) {
             $defines += ['width' => $this->width];
         }
@@ -361,16 +410,13 @@ class Column implements Structable
     }
 
     /**
-     * Add a display callback.
-     *
+     * 添加显示回调
      * @param Closure $callback
-     *
      * @return $this
      */
-    public function display(Closure $callback)
+    public function display(Closure $callback): self
     {
         $this->displayCallbacks[] = $callback;
-
         return $this;
     }
 
@@ -395,7 +441,6 @@ class Column implements Structable
         return $this->display(function ($value) use ($grid, $column, $abstract, $arguments) {
             /** @var AbstractRender $displayer */
             $displayer = new $abstract($value, $grid, $column, $this);
-
             return $displayer->render(...$arguments);
         });
     }
@@ -406,7 +451,7 @@ class Column implements Structable
      * @param string $default
      * @return $this
      */
-    public function using(array $values, $default = ''): self
+    public function using(array $values, string $default = ''): self
     {
         return $this->display(function ($value) use ($values, $default) {
             if (is_null($value)) {
@@ -470,24 +515,6 @@ class Column implements Structable
     }
 
     /**
-     * Display field as a loading icon.
-     *
-     * @param array $values
-     * @param array $others
-     *
-     * @return $this
-     */
-    public function loading($values = [], $others = [])
-    {
-        return $this->display(function ($value) use ($values, $others) {
-            if (in_array($value, $values)) {
-                return '<i class="fa fa-refresh fa-spin text-info"></i>';
-            }
-            return Arr::get($others, $value, $value);
-        });
-    }
-
-    /**
      * Return a human readable format time.
      *
      * @param null $locale
@@ -519,22 +546,6 @@ class Column implements Structable
         });
     }
 
-    /**
-     * Display column as boolean , `✓` for true, and `✗` for false.
-     *
-     * @param array $map
-     * @param bool  $default
-     *
-     * @return $this
-     */
-    public function bool(array $map = [], $default = false): self
-    {
-        return $this->display(function ($value) use ($map, $default) {
-            $bool = empty($map) ? boolval($value) : Arr::get($map, $value, $default);
-
-            return $bool ? '<i class="fa fa-check text-success"></i>' : '<i class="fa fa-close text-danger"></i>';
-        });
-    }
 
     /**
      * Display column using a grid row action.
@@ -563,34 +574,14 @@ class Column implements Structable
         });
     }
 
-    /**
-     * Add a `dot` before column text.
-     *
-     * @param array  $options
-     * @param string $default
-     *
-     * @return $this
-     */
-    public function dot($options = [], $default = ''): self
-    {
-        return $this->prefix(function ($_, $original) use ($options, $default) {
-            if (is_null($original)) {
-                $style = $default;
-            } else {
-                $style = Arr::get($options, $original);
-            }
-
-            return "<span class=\"label-{$style}\" style='width: 8px;height: 8px;padding: 0;border-radius: 50%;display: inline-block;'></span>";
-        }, '&nbsp;&nbsp;');
-    }
 
     /**
      * 为列填充数据
      * @param array $data
-     *
-     * @return mixed
+     * @return array
+     * @throws Exception
      */
-    public function fill(array $data)
+    public function fill(array $data): array
     {
         foreach ($data as $key => &$row) {
             $this->original = $value = Arr::get($row, $this->name);

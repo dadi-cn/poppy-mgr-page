@@ -2,6 +2,7 @@
 
 namespace Poppy\MgrApp\Http\Grid;
 
+use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -16,6 +17,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\MgrApp\Classes\Grid\Column\Column;
+use Poppy\MgrApp\Classes\Grid\Column\Render\ActionsRender;
 use Poppy\MgrApp\Classes\Grid\Tools\Actions;
 use Poppy\MgrApp\Classes\Widgets\FilterWidget;
 use Poppy\MgrApp\Classes\Widgets\GridWidget;
@@ -39,15 +41,14 @@ abstract class GridBase implements GridContract
     /**
      * @var GridWidget
      */
-    protected $grid;
+    protected GridWidget $grid;
 
 
     /**
-     * Collection of all grid columns.
-     *
+     * 列定义
      * @var Collection
      */
-    protected $columns;
+    protected Collection $columns;
 
     /**
      * @var PamAccount
@@ -63,8 +64,7 @@ abstract class GridBase implements GridContract
 
 
     /**
-     * Add a column to Grid.
-     *
+     * 添加列到 Grid
      * @param string $name
      * @param string $label
      *
@@ -85,8 +85,19 @@ abstract class GridBase implements GridContract
     }
 
     /**
-     * Dynamically add columns to the grid view.
-     *
+     * 添加列操作
+     * @param Closure $closure
+     * @param string  $title
+     * @return Column
+     * @throws ApplicationException
+     */
+    public function action(Closure $closure, string $title = '操作'): Column
+    {
+        return $this->column(Column::NAME_ACTION, $title)->displayUsing(ActionsRender::class, [$closure]);
+    }
+
+    /**
+     * 动态添加列到 View
      * @param string $method
      * @param array  $parameters
      *
@@ -144,14 +155,13 @@ abstract class GridBase implements GridContract
     }
 
     /**
-     * Add a relation column to grid.
-     *
+     * 添加关系列
      * @param string $name
      * @param string $label
      * @return $this|bool|Column
      * @throws ApplicationException
      */
-    protected function addRelationColumn($name, $label = '')
+    protected function addRelationColumn(string $name, string $label = ''): Column
     {
         [$relation, $column] = explode('.', $name);
 
@@ -170,14 +180,12 @@ abstract class GridBase implements GridContract
     }
 
     /**
-     * Add a json type column to grid.
-     *
+     * 添加 Json 类型列
      * @param string $name
      * @param string $label
-     *
      * @return Column
      */
-    protected function addJsonColumn($name, $label = '')
+    protected function addJsonColumn(string $name, string $label = ''): Column
     {
         $column = substr($name, strrpos($name, '->') + 2);
 
@@ -187,36 +195,15 @@ abstract class GridBase implements GridContract
     }
 
     /**
-     * Prepend column to grid.
-     *
+     * 添加列
      * @param string $column
      * @param string $label
-     *
      * @return Column
      */
-    protected function prependColumn($column = '', $label = '')
+    protected function addColumn(string $column = '', string $label = ''): Column
     {
         $column = new Column($column, $label);
         $column->setGrid($this->grid);
-
-        return tap($column, function ($value) {
-            $this->columns->prepend($value);
-        });
-    }
-
-    /**
-     * Add column to grid.
-     *
-     * @param string $column
-     * @param string $label
-     *
-     * @return Column
-     */
-    protected function addColumn($column = '', $label = '')
-    {
-        $column = new Column($column, $label);
-        $column->setGrid($this->grid);
-
         return tap($column, function ($value) {
             $this->columns->push($value);
         });

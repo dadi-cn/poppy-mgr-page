@@ -22,6 +22,25 @@ trait UseActions
 
 
     /**
+     * 样式
+     * @var string
+     */
+    protected string $style = '';
+
+    /**
+     * @var int
+     */
+    protected int $length = 5;
+
+
+    /**
+     * 下拉菜单使用 icon
+     * @var bool
+     */
+    protected bool $dropdownIcon = false;
+
+
+    /**
      * Append an action.
      *
      * @param array|Action $action
@@ -39,6 +58,16 @@ trait UseActions
     }
 
     /**
+     * 快捷ICON
+     * @return $this
+     */
+    public function styleIcon(): self
+    {
+        $this->default(['plain', 'circle', 'only']);
+        return $this;
+    }
+
+    /**
      * 设置默认样式, 该样式需是可以调用的 Action 方法
      * @param array $style
      * @return $this
@@ -46,6 +75,18 @@ trait UseActions
     public function default(array $style = []): self
     {
         $this->defaultStyle = $style;
+        return $this;
+    }
+
+
+    public function styleDropdown($length = 5, $icon = false): self
+    {
+        $this->style  = 'dropdown';
+        $this->length = $length;
+        if ($icon) {
+            $this->dropdownIcon = $icon;
+        }
+
         return $this;
     }
 

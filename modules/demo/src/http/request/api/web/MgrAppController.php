@@ -3,7 +3,7 @@
 namespace Demo\Http\Request\Api\Web;
 
 use Demo\App\Forms\FormGridPoppyEstablish;
-use Demo\Models\PoppyDemo;
+use Demo\Models\DemoWebapp;
 use Illuminate\Support\Str;
 use Poppy\Framework\Classes\Resp;
 use Poppy\MgrApp\Classes\Widgets\FormWidget;
@@ -38,9 +38,26 @@ class MgrAppController extends WebApiController
     public function grid($type)
     {
         // 第一列显示id字段，并将这一列设置为可排序列
-        $grid = new GridWidget(new PoppyDemo());
+        $grid = new GridWidget(new DemoWebapp());
         $grid->setTitle('Title');
-        $classname = '\Demo\App\Grid\GridPoppy' . Str::studly($type);
+        $classname = '\Demo\App\Grid\Grid' . Str::studly($type);
+        $grid->setLists($classname);
+        return $grid->resp();
+    }
+
+
+    /**
+     * @api                    {get} api/demo/filter/:auto   [Demo]Filter
+     * @apiVersion             1.0.0
+     * @apiName                Filter
+     * @apiGroup               MgrApp
+     */
+    public function filter($type)
+    {
+        // 第一列显示id字段，并将这一列设置为可排序列
+        $grid = new GridWidget(new DemoWebapp());
+        $grid->setTitle('Title');
+        $classname = '\Demo\App\Filter\Filter' . Str::studly($type);
         $grid->setLists($classname);
         return $grid->resp();
     }
