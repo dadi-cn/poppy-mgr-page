@@ -5,12 +5,12 @@ namespace Poppy\MgrApp\Classes\Grid;
 use Closure;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -54,11 +54,10 @@ class Model
     protected $data = [];
 
     /*
-     * 20 items per page as default.
-     *
+     * 15 items per page as default.
      * @var int
      */
-    protected $pagesize = 20;
+    protected $pagesize = 15;
 
     /**
      * 使用分页
