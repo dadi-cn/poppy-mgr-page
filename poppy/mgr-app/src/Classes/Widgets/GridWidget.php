@@ -2,7 +2,6 @@
 
 namespace Poppy\MgrApp\Classes\Widgets;
 
-use Closure;
 use Eloquent;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -21,7 +20,6 @@ use Poppy\MgrApp\Classes\Grid\Concerns\HasPaginator;
 use Poppy\MgrApp\Classes\Grid\Concerns\HasSelection;
 use Poppy\MgrApp\Classes\Grid\Concerns\HasTotalRow;
 use Poppy\MgrApp\Classes\Grid\Model;
-use Poppy\MgrApp\Classes\Grid\Row;
 use Poppy\MgrApp\Classes\Grid\Tools\Actions;
 use Poppy\MgrApp\Classes\Traits\UseColumn;
 use Poppy\MgrApp\Classes\Traits\UseWidgetUtil;
@@ -29,7 +27,6 @@ use Poppy\MgrApp\Http\Grid\GridBase;
 use Throwable;
 use function collect;
 use function input;
-use function request;
 
 /**
  * @property-read string $title 标题
@@ -92,18 +89,6 @@ class GridWidget
     protected Collection $columns;
 
     /**
-     * 数据行
-     * @var Collection
-     */
-    protected Collection $rows;
-
-    /**
-     * 所有行的回调
-     * @var ?Closure
-     */
-    protected ?Closure $rowsCallback = null;
-
-    /**
      * All variables in grid view.
      *
      * @var array
@@ -116,10 +101,6 @@ class GridWidget
      */
     protected string $pkName = 'id';
 
-    /**
-     * @var array|callable[]
-     */
-    protected array $renderingCallbacks = [];
 
     /**
      * 右上角快捷操作
@@ -150,8 +131,6 @@ class GridWidget
         $this->pkName = $model->getKeyName();
 
         $this->initialize();
-
-        $this->callInitCallbacks();
     }
 
 
@@ -208,30 +187,9 @@ class GridWidget
      */
     public function paginator()
     {
-        $this->paginator = $this->model()->eloquent();
-
-        if ($this->paginator instanceof LengthAwarePaginator) {
-            $this->paginator->appends(request()->all());
-        }
-        return $this->paginator;
+        return $this->model()->eloquent();
     }
 
-
-    /**
-     * Set grid row callback function.
-     *
-     * @param Closure|null $callable
-     */
-    public function rows(Closure $callable = null)
-    {
-        $this->rowsCallback = $callable;
-    }
-
-
-    public function getRows(): Collection
-    {
-        return $this->rows;
-    }
 
     /**
      * 设置标题
@@ -241,20 +199,6 @@ class GridWidget
     public function setTitle(string $title): self
     {
         $this->title = $title;
-        return $this;
-    }
-
-    /**
-     * Set rendering callback.
-     *
-     * @param callable $callback
-     *
-     * @return $this
-     */
-    public function rendering(callable $callback): self
-    {
-        $this->renderingCallbacks[] = $callback;
-
         return $this;
     }
 
@@ -278,7 +222,6 @@ class GridWidget
         $resp = [];
         if ($this->queryHas('data')) {
             $resp = array_merge($resp, $this->queryData());
-            $this->callRenderingCallback();
         }
         if ($this->queryHas('struct')) {
             $resp = array_merge($resp, $this->queryStruct());
@@ -291,31 +234,7 @@ class GridWidget
         return Resp::success(input('_query') ?: '', $resp);
     }
 
-    /**
-     * Initialize with user pre-defined default disables and exporter, etc.
-     *
-     * @param Closure|null $callback
-     */
-    public static function init(Closure $callback = null)
-    {
-        static::$initCallbacks[] = $callback;
-    }
 
-    /**
-     * 创建表行, 根据模型查询出来的数据组合返回的数据
-     * @param array $data 所有查询出来的数据
-     * @return void
-     */
-    public function buildRows(array $data)
-    {
-        $this->rows = collect($data)->map(function ($model, $number) use ($data) {
-            return new Row($number, $model, $this->pkName);
-        });
-
-        if ($this->rowsCallback) {
-            $this->rows->map($this->rowsCallback);
-        }
-    }
 
     /**
      * Initialize.
@@ -323,24 +242,9 @@ class GridWidget
     protected function initialize()
     {
         $this->columns = Collection::make();
-        $this->rows    = Collection::make();
         $this->initFilter();
         $this->quickActions = (new Actions())->default(['primary', 'plain']);
         $this->batchActions = (new Actions())->default(['info', 'plain']);
-    }
-
-    /**
-     * Call the initialization closure array in sequence.
-     */
-    protected function callInitCallbacks()
-    {
-        if (empty(static::$initCallbacks)) {
-            return;
-        }
-
-        foreach (static::$initCallbacks as $callback) {
-            call_user_func($callback, $this);
-        }
     }
 
     /**
@@ -384,17 +288,6 @@ class GridWidget
         return $this->applyFilter();
     }
 
-    /**
-     * Call callbacks before render.
-     *
-     * @return void
-     */
-    protected function callRenderingCallback()
-    {
-        foreach ($this->renderingCallbacks as $callback) {
-            call_user_func($callback, $this);
-        }
-    }
 
     private function queryStruct(): array
     {
@@ -462,24 +355,16 @@ class GridWidget
         // 获取模型数据
         $collection = $this->applyQuery();
 
-        Column::setOriginalGridModels($collection);
-
-        $data = $collection->toArray();
-        $this->visibleColumns()->map(function (Column $column) use (&$data) {
-            $data = $column->fill($data);
+        $rows = $collection->map(function ($row) {
+            $newRow = collect();
+            $this->visibleColumns()->each(function (Column $column) use ($row, $newRow) {
+                $newRow->put(
+                    $this->convertFieldName($column->name),
+                    $column->fillVal($row)
+                );
+            });
+            return $newRow->toArray();
         });
-
-        $this->buildRows($data);
-
-        $rows = [];
-        foreach ($this->rows as $row) {
-            /** @var Row $row */
-            $item = [];
-            foreach ($this->getVisibleColumnsName() as $name) {
-                $item[$this->convertFieldName($name)] = $row->column($name);
-            }
-            $rows[] = $item;
-        }
 
         $paginator = $this->paginator();
 

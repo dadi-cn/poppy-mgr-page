@@ -57,7 +57,7 @@ class RouteServiceProvider extends \Poppy\Framework\Application\RouteServiceProv
     {
         Route::group([
             'prefix'     => 'api/backend/aliyun-oss',
-            'middleware' => 'mgr-backend-auth',
+            'middleware' => 'mgr-auth',
         ], function () {
             require_once __DIR__ . '/Routes/api-backend.php';
         });

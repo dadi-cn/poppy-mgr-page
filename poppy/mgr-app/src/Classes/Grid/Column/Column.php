@@ -7,7 +7,6 @@ use Closure;
 use Exception;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Poppy\Framework\Helper\UtilHelper;
 use Poppy\MgrApp\Classes\Contracts\Structable;
@@ -56,13 +55,6 @@ class Column implements Structable
      * @var array
      */
     public static $defined = [];
-
-    /**
-     * Original grid data.
-     *
-     * @var Collection
-     */
-    protected static $originalGridModels;
 
     /**
      * @var array
@@ -523,31 +515,20 @@ class Column implements Structable
         });
     }
 
-
     /**
-     * 为列填充数据
-     * @param array $data
-     * @return array
      * @throws Exception
      */
-    public function fill(array $data): array
+    public function fillVal($row)
     {
-        foreach ($data as $key => &$row) {
-            $this->original = $value = Arr::get($row, $this->name);
-
-            Arr::set($row, $this->name, $value);
-
-            if ($this->isDefinedColumn()) {
-                $this->useDefinedColumn();
-            }
-
-            if ($this->hasDisplayCallbacks()) {
-                $value = $this->callDisplayCallbacks($this->original, $key);
-                Arr::set($row, $this->name, $value);
-            }
+        $this->original = $value = Arr::get($row, $this->name);
+        if ($this->isDefinedColumn()) {
+            $this->useDefinedColumn();
         }
 
-        return $data;
+        if ($this->hasDisplayCallbacks()) {
+            $value = $this->callDisplayCallbacks($this->original, $row);
+        }
+        return $value;
     }
 
     /**
@@ -604,15 +585,6 @@ class Column implements Structable
         static::$defined[$name] = $definition;
     }
 
-    /**
-     * 设置列的原始数据
-     *
-     * @param Collection $collection
-     */
-    public static function setOriginalGridModels(Collection $collection)
-    {
-        static::$originalGridModels = $collection;
-    }
 
     /**
      * Get column attributes.
@@ -676,38 +648,23 @@ class Column implements Structable
      *
      * @return mixed
      */
-    protected function callDisplayCallbacks($value, $key)
+    protected function callDisplayCallbacks($value, $row)
     {
         foreach ($this->displayCallbacks as $callback) {
             $previous = $value;
 
-            $callback = $this->bindOriginalRowModel($callback, $key);
+            $callback = $callback->bindTo($row);
             $value    = call_user_func_array($callback, [$value, $this]);
 
             if (($value instanceof static) &&
                 ($last = array_pop($this->displayCallbacks))
             ) {
-                $last  = $this->bindOriginalRowModel($last, $key);
+                $last  = $last->bindTo($row);
                 $value = call_user_func($last, $previous);
             }
         }
 
         return $value;
-    }
-
-    /**
-     * Set original grid data to column.
-     *
-     * @param Closure $callback
-     * @param int     $key
-     *
-     * @return Closure
-     */
-    protected function bindOriginalRowModel(Closure $callback, $key)
-    {
-        $rowModel = static::$originalGridModels[$key];
-
-        return $callback->bindTo($rowModel);
     }
 
     /**

@@ -5,12 +5,13 @@ namespace Poppy\MgrApp\Classes\Grid\Exporters;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Poppy\MgrApp\Classes\Grid\Column\Column;
-use Poppy\MgrApp\Classes\Grid\Row;
+use Poppy\MgrApp\Classes\Traits\UseColumn;
 use function collect;
 use function response;
 
 class CsvExporter extends AbstractExporter
 {
+    use UseColumn;
     /**
      * @inheritDoc
      */
@@ -78,24 +79,15 @@ class CsvExporter extends AbstractExporter
      */
     private function getFormattedRecords(Collection $data): array
     {
-        Column::setOriginalGridModels($data);
-
-        $data = $data->toArray();
-        $this->grid->visibleColumns()->map(function (Column $column) use (&$data) {
-            $data = $column->fill($data);
-        });
-
-        $this->grid->buildRows($data);
-
-        $rows = [];
-        foreach ($this->grid->getRows() as $row) {
-            /** @var Row $row */
-            $item = [];
-            foreach ($this->grid->getVisibleColumnsName() as $name) {
-                $item[] = $row->column($name);
-            }
-            $rows[] = $item;
-        }
-        return $rows;
+        return $data->map(function ($row) {
+            $newRow = collect();
+            $this->grid->visibleColumns()->each(function (Column $column) use ($row, $newRow) {
+                $newRow->put(
+                    $this->convertFieldName($column->name),
+                    $column->fillVal($row)
+                );
+            });
+            return $newRow->toArray();
+        })->toArray();
     }
 }

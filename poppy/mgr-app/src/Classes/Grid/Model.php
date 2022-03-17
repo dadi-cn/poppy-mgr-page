@@ -583,18 +583,4 @@ class Model
 
         throw new Exception('Related sortable only support `HasOne` and `BelongsTo` relation.');
     }
-
-    /**
-     * Don't snake case attributes.
-     *
-     * @param EloquentModel $model
-     *
-     * @return void
-     */
-    protected static function doNotSnakeAttributes(EloquentModel $model)
-    {
-        $class = get_class($model);
-
-        $class::$snakeAttributes = false;
-    }
 }
