@@ -7,6 +7,7 @@ use Closure;
 use Exception;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Poppy\Framework\Helper\UtilHelper;
 use Poppy\MgrApp\Classes\Contracts\Structable;
@@ -17,22 +18,22 @@ use Poppy\MgrApp\Classes\Grid\Column\Render\ImageRender;
 use Poppy\MgrApp\Classes\Grid\Column\Render\LinkRender;
 use Poppy\MgrApp\Classes\Grid\Column\Render\Render;
 use Poppy\MgrApp\Classes\Grid\Query\QueryModel;
-use Poppy\MgrApp\Classes\Traits\UseColumn;
 use function request;
 
 /**
  * 列展示以及渲染, 当前的目的是使用前端方式渲染, 而不是依靠于 v-html 或者是后端生成
  * @property-read string $name        当前列的名称
  * @property-read string $relation    当前关系
+ * @property-read bool $relationMany  是否是一对多关系
  * @property-read string $label       标签
- * @property-read bool   $hide        是否默认隐藏
+ * @property-read bool $hide        是否默认隐藏
  * @method Column image($server = '', $width = 200, $height = 200)
  * @method Column link($href = '', $target = '_blank')
  * @method Column download($server = '')
  */
 class Column implements Structable
 {
-    use HasHeader, UseColumn;
+    use HasHeader;
 
     public const NAME_ACTION = '_action';     // 用于定义列操作, 可以在导出时候移除
 
@@ -55,10 +56,6 @@ class Column implements Structable
      */
     public static $defined = [];
 
-    /**
-     * @var array
-     */
-    protected static $rowAttributes = [];
 
     /**
      * 是否隐藏当前列(用于默认状态下的服务端列返回)
@@ -77,7 +74,7 @@ class Column implements Structable
      *
      * @var string
      */
-    protected $label;
+    protected string $label = '';
 
     /**
      * Original value of column.
@@ -93,8 +90,7 @@ class Column implements Structable
     protected string $relation = '';
 
     /**
-     * Relation column.
-     *
+     * 关系列
      * @var string
      */
     protected $relationColumn;
@@ -163,6 +159,12 @@ class Column implements Structable
     private int $minWidth = 150;
 
     /**
+     * 是否是 一对多 关系
+     * @var bool
+     */
+    private bool $relationMany = false;
+
+    /**
      * @param string $name
      * @param string $label
      */
@@ -228,7 +230,7 @@ class Column implements Structable
     /**
      * 设置列宽度, 单个按钮 最优宽度 60(图标), 每个按钮增加 45 宽度
      * Datetime 最优宽度 170
-     * @param int  $width 宽度
+     * @param int $width 宽度
      * @param bool $fixed 是否是固定宽度
      * @return $this
      */
@@ -296,8 +298,7 @@ class Column implements Structable
     }
 
     /**
-     * Set column filter.
-     *
+     * 列搜索工具
      * @param null $builder
      *
      * @return $this
@@ -350,7 +351,7 @@ class Column implements Structable
     public function struct(): array
     {
         $defines = [
-            'field' => $this->convertFieldName($this->name),
+            'field' => $this->name,
             'label' => $this->label,
             'type'  => $this->type,
         ];
@@ -430,7 +431,7 @@ class Column implements Structable
 
     /**
      * 使用KV进行替换输出, 并可以指定默认值
-     * @param array  $values
+     * @param array $values
      * @param string $default
      * @return $this
      */
@@ -521,13 +522,23 @@ class Column implements Structable
      */
     public function fillVal($row)
     {
-        $this->original = $value = Arr::get($row, $this->name);
+        if ($this->relationMany) {
+            [$relation, $field] = explode(':', $this->name);
+            $relations = data_get($row, $relation);
+            if ($relations instanceof Collection) {
+                $value = $relations->pluck($field);
+            } else {
+                $value = $relations;
+            }
+        } else {
+            $value = Arr::get($row, $this->name);
+        }
         if ($this->isDefinedColumn()) {
             $this->useDefinedColumn();
         }
 
         if ($this->hasDisplayCallbacks()) {
-            $value = $this->callDisplayCallbacks($this->original, $row);
+            $value = $this->callDisplayCallbacks($value, $row);
         }
         return $value;
     }
@@ -538,7 +549,7 @@ class Column implements Structable
      * Allow fluent calls on the Column object.
      *
      * @param string $method
-     * @param array  $arguments
+     * @param array $arguments
      *
      * @return $this
      */
@@ -579,7 +590,7 @@ class Column implements Structable
     /**
      * 定义全局列渲染
      * @param string $name
-     * @param mixed  $definition
+     * @param mixed $definition
      */
     public static function define($name, $definition)
     {
@@ -588,33 +599,17 @@ class Column implements Structable
 
 
     /**
-     * Get column attributes.
-     *
-     * @param string $name
-     *
-     * @return mixed
-     */
-    public static function getAttributes($name, $key = null)
-    {
-        $rowAttributes = [];
-
-        if ($key && Arr::has(static::$rowAttributes, "{$name}.{$key}")) {
-            $rowAttributes = Arr::get(static::$rowAttributes, "{$name}.{$key}", []);
-        }
-
-        return $rowAttributes;
-    }
-
-    /**
      * 设置 Relation
      * @param string $relation
      * @param string $field
+     * @param bool $many
      * @return $this
      */
-    public function setRelation(string $relation, string $field): self
+    public function setRelation(string $relation, string $field, bool $many = false): self
     {
         $this->relation       = $relation;
         $this->relationColumn = $field;
+        $this->relationMany   = $many;
         return $this;
     }
 
@@ -642,8 +637,7 @@ class Column implements Structable
      * Call all of the "display" callbacks column.
      *
      * @param mixed $value
-     * @param int   $key
-     *
+     * @param $row
      * @return mixed
      */
     protected function callDisplayCallbacks($value, $row)
@@ -708,7 +702,7 @@ class Column implements Structable
      * Find a displayer to display column.
      *
      * @param string $method
-     * @param array  $arguments
+     * @param array $arguments
      *
      * @return $this
      */
@@ -725,7 +719,7 @@ class Column implements Structable
      * Call Illuminate/Support displayer.
      *
      * @param string $method
-     * @param array  $arguments
+     * @param array $arguments
      * @return $this
      */
     protected function callSupportDisplayer(string $method, array $arguments): self
@@ -747,7 +741,7 @@ class Column implements Structable
      * Call Builtin displayer.
      *
      * @param string|Closure $abstract
-     * @param array          $arguments
+     * @param array $arguments
      *
      * @return $this
      */

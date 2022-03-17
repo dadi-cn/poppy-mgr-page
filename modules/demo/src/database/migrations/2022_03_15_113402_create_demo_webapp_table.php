@@ -32,6 +32,7 @@ class CreateDemoWebappTable extends Migration
             $table->string('title')->nullable();
             $table->string('description')->nullable();
             $table->string('note')->nullable();
+            $table->string('setting', 255)->nullable();
             $table->text('content')->nullable();
 
             /* 用户

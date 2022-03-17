@@ -4,8 +4,8 @@ namespace Poppy\MgrApp\Classes\Contracts;
 
 use Closure;
 use Illuminate\Support\Collection;
-use Poppy\MgrApp\Classes\Grid\Column\Column;
 use Poppy\MgrApp\Classes\Widgets\FilterWidget;
+use Poppy\MgrApp\Classes\Widgets\TableWidget;
 
 interface Query
 {
@@ -21,7 +21,7 @@ interface Query
     /**
      * 批量返回数据
      * @param Closure $closure
-     * @param int     $amount
+     * @param int $amount
      * @return mixed
      */
     public function chunk(Closure $closure, int $amount = 100);
@@ -37,9 +37,10 @@ interface Query
     /**
      * 数据预处理
      * @param FilterWidget $filter
+     * @param TableWidget $table
      * @return $this
      */
-    public function prepare(FilterWidget $filter): self;
+    public function prepare(FilterWidget $filter, TableWidget $table): self;
 
     /**
      * 对当前查询条件进行编辑
@@ -55,12 +56,4 @@ interface Query
 
 
     public function pkName();
-
-
-    /**
-     * 验证并返回定义列
-     * @param Collection|Column[] $columns
-     * @return Collection
-     */
-    public function validate(Collection $columns): Collection;
 }

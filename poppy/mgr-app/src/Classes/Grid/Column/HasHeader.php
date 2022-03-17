@@ -76,8 +76,7 @@ trait HasHeader
     }
 
     /**
-     * Add a filter to column header.
-     *
+     * 添加搜索到列 Header
      * @return $this
      */
     protected function addFilter($type = null, $formal = null)

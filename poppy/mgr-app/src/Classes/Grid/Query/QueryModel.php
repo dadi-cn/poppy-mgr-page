@@ -90,12 +90,6 @@ class QueryModel implements Query
     protected array $eagerLoads = [];
 
     /**
-     * 默认主键的名称
-     * @var string
-     */
-    protected string $pkName = 'id';
-
-    /**
      * 分页总长度
      * @var int
      */
@@ -230,15 +224,15 @@ class QueryModel implements Query
     }
 
     /**
-     * @param Closure $callback
+     * @param Closure $closure
      * @param int $count
      * @return Collection|bool
      * @throws Exception
      */
-    public function chunk(Closure $callback, int $count = 100)
+    public function chunk(Closure $closure, int $count = 100)
     {
         if ($this->usePaginate) {
-            return $this->buildData()->chunk($count)->each($callback);
+            return $this->buildData()->chunk($count)->each($closure);
         }
 
         $this->setSort();
@@ -249,7 +243,7 @@ class QueryModel implements Query
             $this->model = $this->model->{$query['method']}(...$query['arguments']);
         });
 
-        return $this->model->chunk($count, $callback);
+        return $this->model->chunk($count, $closure);
     }
 
     /**
@@ -305,11 +299,14 @@ class QueryModel implements Query
     /**
      * 查询条件预取
      * @param FilterWidget $filter
+     * @param TableWidget $table
      * @return $this
+     * @throws ApplicationException
      */
-    public function prepare(FilterWidget $filter): self
+    public function prepare(FilterWidget $filter, TableWidget $table): self
     {
         $this->addConditions($filter->conditions());
+        $this->prepareTable($table);
         return $this;
     }
 
@@ -328,7 +325,6 @@ class QueryModel implements Query
 
         return $this;
     }
-
 
     /**
      * @param mixed $id
@@ -395,59 +391,13 @@ class QueryModel implements Query
         return $this->origin->getKeyName();
     }
 
-
-    /**
-     * todo 进行 relation 验证 / Model 独享 / 多列验证
-     * @param Collection|Column[] $columns
-     * @return void
-     */
-    public function validate(Collection $columns): Collection
-    {
-        // mutator | json 可以使用 data_get 从对象中获取数据
-        return $columns->map(function (Column $column) {
-            $method = $column->relation;
-            if (!$method) {
-                return $column;
-            }
-            if (!method_exists($this->model, $method)) {
-                $class = get_class($this->model);
-                throw new ApplicationException("Call to undefined relationship [{$method}] on model [{$class}].");
-            }
-            // relation
-
-            if (!($relation = $this->model->$method()) instanceof Relation) {
-                return $column;
-            }
-
-            if ($relation instanceof HasOne ||
-                $relation instanceof BelongsTo ||
-                $relation instanceof MorphOne
-            ) {
-
-                $this->with($method);
-                return $column;
-            }
-
-            if ($relation instanceof HasMany
-                || $relation instanceof BelongsToMany
-                || $relation instanceof MorphToMany
-                || $relation instanceof HasManyThrough
-            ) {
-                $this->with($method);
-                $column->setName($method);
-                return $column;
-            }
-            return $column;
-        });
-    }
-
     /**
      * @param array $ids
      * @return mixed
      */
     public function useIds(array $ids = []): self
     {
-        $this->model->whereIn($this->pkName(), $ids);
+        $this->whereIn($this->pkName(), $ids);
         return $this;
     }
 
@@ -504,7 +454,7 @@ class QueryModel implements Query
     }
 
     /**
-     * Resolve perPage for pagination.
+     * Resolve pagesize for pagination.
      *
      * @param array|null $paginate
      * @return array
@@ -566,7 +516,6 @@ class QueryModel implements Query
             }
             $this->sort = json_decode($sortEncode, true);
         }
-
 
         if (empty($this->sort['column']) || empty($this->sort['type'])) {
             return;
@@ -660,5 +609,50 @@ class QueryModel implements Query
         }
 
         throw new Exception('Related sortable only support `HasOne` and `BelongsTo` relation.');
+    }
+
+    /**
+     * 检查定义并加入 with 查询
+     * @param TableWidget $table
+     * @throws ApplicationException
+     */
+    private function prepareTable(TableWidget $table)
+    {
+        // 验证添加 relation
+        // mutator | json 可以使用 data_get 从对象中获取数据
+        $table->columns->each(function (Column $column) {
+            $method = $column->relation;
+            if (!$method) {
+                return;
+            }
+            $class = get_class($this->model);
+            if (!method_exists($this->model, $method)) {
+                throw new ApplicationException("Call to undefined relationship [{$method}] on model [{$class}].");
+            }
+            // relation
+
+            if (!($relation = $this->model->$method()) instanceof Relation) {
+                return;
+            }
+
+            if ($relation instanceof HasOne ||
+                $relation instanceof BelongsTo ||
+                $relation instanceof MorphOne
+            ) {
+                if (!$column->relationMany) {
+                    $this->with($method);
+                } else {
+                    throw new ApplicationException("Relationship [{$method}] on model [{$class}] is Many.");
+                }
+            }
+
+            if ($relation instanceof HasMany || $relation instanceof HasManyThrough || $relation instanceof BelongsToMany) {
+                if ($column->relationMany) {
+                    $this->with($method);
+                } else {
+                    throw new ApplicationException("Relationship [{$method}] on model [{$class}] is One To One.");
+                }
+            }
+        });
     }
 }

@@ -13,3 +13,4 @@ $factory->define(DemoUser::class, function (Faker $faker) {
         'nickname' => $faker->name(),
     ];
 });
+

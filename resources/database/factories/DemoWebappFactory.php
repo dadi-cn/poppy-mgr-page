@@ -87,6 +87,13 @@ $factory->define(DemoWebapp::class, function (Faker $faker) {
         'link'       => $faker->url,
 
 
+        /* Cast
+         * ---------------------------------------- */
+        'setting'    => json_encode([
+            'is_open' => $faker->randomElement(['Y', 'N']),
+            'blog'    => $faker->randomElement(['weibo', 'twitter', 'fb', 'github']),
+        ]),
+
         /* 连表
          * ---------------------------------------- */
         'account_id' => rand(1, 50),

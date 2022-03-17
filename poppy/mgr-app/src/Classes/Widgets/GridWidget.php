@@ -17,7 +17,6 @@ use Poppy\MgrApp\Classes\Grid\Exporter;
 use Poppy\MgrApp\Classes\Grid\Exporters\AbstractExporter;
 use Poppy\MgrApp\Classes\Grid\Query\QueryFactory;
 use Poppy\MgrApp\Classes\Grid\Tools\Actions;
-use Poppy\MgrApp\Classes\Traits\UseColumn;
 use Poppy\MgrApp\Classes\Traits\UseWidgetUtil;
 use Poppy\MgrApp\Http\Grid\GridBase;
 use Throwable;
@@ -30,7 +29,6 @@ use function input;
 class GridWidget
 {
     use PoppyTrait;
-    use UseColumn;
     use UseWidgetUtil;
 
     /**
@@ -101,11 +99,6 @@ class GridWidget
         return $this;
     }
 
-    public function __get($attr)
-    {
-        return $this->{$attr} ?? '';
-    }
-
     /**
      * 获取模型
      * @return Query
@@ -128,12 +121,15 @@ class GridWidget
         /** @var GridBase $List */
         $List = new $grid_class();
 
-
         /* 设置标题和描述
          * ---------------------------------------- */
         $this->title = $List->title;
         $List->columns();
-        $this->table->setColumns($this->query->validate($List->table->columns));
+        $this->table = $List->table;
+        // 为请求添加默认列
+        if ($this->query->pkName()) {
+            $this->table->add($this->query->pkName(), '', true);
+        }
         $List->quickActions($this->quickActions);
         $List->filter($this->filter);
         $List->batchActions($this->batchActions);
@@ -180,6 +176,11 @@ class GridWidget
         }
 
         return Resp::success(input('_query') ?: '', $resp);
+    }
+
+    public function __get($attr)
+    {
+        return $this->{$attr} ?? '';
     }
 
     /**
@@ -267,14 +268,15 @@ class GridWidget
     private function queryData(): array
     {
         // 获取模型数据
-        $collection = $this->query->prepare($this->filter)->buildData();
+        $collection = $this->query->prepare($this->filter, $this->table)->buildData();
 
 
         $rows = $collection->map(function ($row) {
             $newRow = collect();
             $this->table->visibleCols()->each(function (Column $column) use ($row, $newRow) {
                 $newRow->put(
-                    $this->convertFieldName($column->name),
+                    $column->name,
+//                    $this->convertFieldName($column->name),
                     $column->fillVal($row)
                 );
             });

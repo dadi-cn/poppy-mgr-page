@@ -14,8 +14,6 @@ use Poppy\MgrApp\Classes\Grid\Column\Column;
  */
 final class TableWidget
 {
-
-
     public const NAME_BATCH  = '_batch';         // 批量选择 / 导出的主键约定, pk 会和搜索冲突
     public const NAME_COLS   = '_cols';          // 支持用户选择进行查询的列定义
     public const NAME_ACTION = '_action';        // 用于定义列操作, 可以在导出时候移除
@@ -55,19 +53,30 @@ final class TableWidget
     }
 
     /**
-     * 添加列到组件
+     * 添加列到组件, 最后的 name 形式是 name 或者 relation.name
      * @param string $name
      * @param string $label
      * @return Column
      */
-    public function add(string $name, string $label = '')
+    public function add(string $name, string $label = ''): Column
     {
+        // relation 读取
         if (Str::contains($name, '.')) {
-            return $this->addRelationColumn($name, $label);
+            [$relation, $column] = explode('.', $name);
+            return $this->addColumn($name, $label)->setRelation($relation, $column);
         }
 
+        // 多条的 relation, 适用于评论, 关联等信息
+        if (Str::contains($name, ':')) {
+            [$relation, $column] = explode(':', $name);
+            return $this->addColumn($name, $label)->setRelation($relation, $column, true);
+        }
+
+        // Json 读取
         if (Str::contains($name, '->')) {
-            return $this->addJsonColumn($name, $label);
+            $column = Str::after($name, '->');
+            $name   = str_replace('->', '.', $name);
+            return $this->addColumn($name, $label ?: ucfirst($column));
         }
 
         return $this->addColumn($name, $label);
@@ -82,17 +91,6 @@ final class TableWidget
     public function action(Closure $closure, string $title = '操作'): Column
     {
         return $this->add(self::NAME_ACTION, $title)->actions($closure);
-    }
-
-    /**
-     * 设置列
-     * @param Collection $cols
-     * @return TableWidget
-     */
-    public function setColumns(Collection $cols): self
-    {
-        $this->columns = $cols;
-        return $this;
     }
 
     /**
@@ -158,43 +156,23 @@ final class TableWidget
     }
 
     /**
-     * 添加关系列
-     * @param string $name
-     * @param string $label
-     * @return $this|bool|Column
-     */
-    private function addRelationColumn(string $name, string $label = ''): Column
-    {
-        [$relation, $column] = explode('.', $name);
-
-        $name = Str::snake($relation) . '.' . $column;
-
-        return $this->addColumn($name, $label)->setRelation($relation, $column);
-    }
-
-    /**
-     * 添加 Json 类型列
-     * @param string $name
-     * @param string $label
-     * @return Column
-     */
-    private function addJsonColumn(string $name, string $label = ''): Column
-    {
-        $column = Str::after($name, '->');
-
-        $name = str_replace('->', '.', $name);
-
-        return $this->addColumn($name, $label ?: ucfirst($column));
-    }
-
-    /**
      * 添加列
+     * todo 是否进行同列添加
      * @param string $column
      * @param string $label
      * @return Column
      */
     private function addColumn(string $column = '', string $label = ''): Column
     {
+
+        // 如果有已存在, 不进行 Column 添加
+        $colObj = $this->columns->first(function (Column $col) use ($column) {
+            return $col->name === $column;
+        });
+        if ($colObj) {
+            return $colObj;
+        }
+
         $column = new Column($column, $label);
         return tap($column, function ($value) {
             $this->columns->push($value);

@@ -125,6 +125,12 @@ backend :
           -
             title : BatchAction
             path : grid/demo:api.mgr_app.grid/batch-actions
+          -
+            title : Id Default
+            path : grid/demo:api.mgr_app.grid/id-default
+          -
+            title : Relation
+            path : grid/demo:api.mgr_app.grid/relation
       -
         title : Table
         children :

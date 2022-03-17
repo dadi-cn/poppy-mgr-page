@@ -5,13 +5,11 @@ namespace Poppy\MgrApp\Classes\Grid\Exporters;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Poppy\MgrApp\Classes\Grid\Column\Column;
-use Poppy\MgrApp\Classes\Traits\UseColumn;
 use function collect;
 use function response;
 
 class CsvExporter extends AbstractExporter
 {
-    use UseColumn;
 
     /**
      * @inheritDoc
@@ -56,12 +54,12 @@ class CsvExporter extends AbstractExporter
     private function getHeaderRow(): array
     {
         $titles = collect();
-        collect($this->column->visibleColsName())->each(function ($name) use ($titles) {
+        collect($this->table->visibleColsName())->each(function ($name) use ($titles) {
             if ($name === Column::NAME_ACTION) {
                 return;
             }
             /** @var Column $column */
-            $column = $this->column->visibleCols()->first(function (Column $column) use ($name) {
+            $column = $this->table->visibleCols()->first(function (Column $column) use ($name) {
                 return $column->name === $name;
             });
 
@@ -82,14 +80,11 @@ class CsvExporter extends AbstractExporter
     {
         return $data->map(function ($row) {
             $newRow = collect();
-            $this->column->visibleCols()->each(function (Column $column) use ($row, $newRow) {
+            $this->table->visibleCols()->each(function (Column $column) use ($row, $newRow) {
                 if ($column->name === Column::NAME_ACTION) {
                     return;
                 }
-                $newRow->put(
-                    $this->convertFieldName($column->name),
-                    $column->fillVal($row)
-                );
+                $newRow->push($column->fillVal($row));
             });
             return $newRow->toArray();
         })->toArray();
