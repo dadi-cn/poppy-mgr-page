@@ -1,14 +1,18 @@
 <?php
 
-namespace Poppy\MgrApp\Classes\Grid;
+namespace Poppy\MgrApp\Classes\Grid\Query;
 
 use Closure;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -16,11 +20,14 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Poppy\Framework\Exceptions\ApplicationException;
+use Poppy\MgrApp\Classes\Contracts\Query;
+use Poppy\MgrApp\Classes\Grid\Column\Column;
+use Poppy\MgrApp\Classes\Widgets\FilterWidget;
 use Poppy\MgrApp\Classes\Widgets\GridWidget;
 use function collect;
 use function request;
 
-class Model
+class Model implements Query
 {
     /**
      * Eloquent model instance of the grid model.
@@ -32,7 +39,7 @@ class Model
     /**
      * @var EloquentModel
      */
-    protected $originalModel;
+    protected $origin;
 
     /**
      * Array of queries of the eloquent model.
@@ -72,11 +79,6 @@ class Model
     protected ?Closure $collectionCallback = null;
 
     /**
-     * @var GridWidget
-     */
-    protected $grid;
-
-    /**
      * @var Relation
      */
     protected $relation;
@@ -87,22 +89,29 @@ class Model
     protected $eagerLoads = [];
 
     /**
+     * 默认主键的名称
+     * @var string
+     */
+    protected string $pkName = 'id';
+
+    /**
+     * 分页总长度
+     * @var int
+     */
+    private int $total = 0;
+
+    /**
      * Create a new grid model instance.
      *
-     * @param EloquentModel   $model
-     * @param GridWidget|null $grid
+     * @param EloquentModel $model
      */
-    public function __construct(EloquentModel $model, GridWidget $grid = null)
+    public function __construct(EloquentModel $model)
     {
         $this->model = $model;
 
-        $this->originalModel = $model;
-
-        $this->grid = $grid;
+        $this->origin = $model;
 
         $this->queries = collect();
-
-        //        static::doNotSnakeAttributes($this->model);
     }
 
     /**
@@ -110,7 +119,7 @@ class Model
      */
     public function getOriginalModel()
     {
-        return $this->originalModel;
+        return $this->origin;
     }
 
     /**
@@ -270,7 +279,7 @@ class Model
 
         $this->setSort();
 
-        $queryBuilder = $this->originalModel;
+        $queryBuilder = $this->origin;
 
         $this->queries->reject(function ($query) {
             return in_array($query['method'], ['get', 'paginate']);
@@ -294,6 +303,17 @@ class Model
     }
 
     /**
+     * 查询条件预取
+     * @param FilterWidget $filter
+     * @return $this
+     */
+    public function prepare(FilterWidget $filter): self
+    {
+        $this->addConditions($filter->conditions());
+        return $this;
+    }
+
+    /**
      * 调用查询方法并把参数放入到查询条件中
      * @param string $method
      * @param array  $arguments
@@ -313,26 +333,24 @@ class Model
     /**
      * @param mixed  $id
      * @param string $field
-     * @param string $value
+     * @param mixed  $value
      * @return bool
      */
-    public function edit($id, string $field, string $value): bool
+    public function edit($id, string $field, $value): bool
     {
-        $pk = $this->originalModel->getKeyName();
+        $pk = $this->origin->getKeyName();
         if (!$pk) {
             return false;
         }
-        $this->originalModel->where($pk, $id)->update([
+        $this->origin->where($pk, $id)->update([
             $field => $value,
         ]);
         return true;
     }
 
     /**
-     * Set the relationships that should be eager loaded.
-     *
+     * 设置渴望加载的关系数据
      * @param mixed $relations
-     *
      * @return $this|Model
      */
     public function with($relations)
@@ -364,18 +382,63 @@ class Model
         return $this->__call('with', (array) $relations);
     }
 
-    /**
-     * @param $key
-     *
-     * @return mixed
-     */
-    public function __get($key)
+    public function total(): int
     {
-        $data = $this->buildData();
+        return $this->total;
+    }
 
-        if (array_key_exists($key, $data)) {
-            return $data[$key];
-        }
+    /**
+     * @return string
+     */
+    public function pkName(): string
+    {
+        return $this->origin->getKeyName();
+    }
+
+
+    /**
+     * todo 进行 relation 验证 / Model 独享 / 多列验证
+     * @param Collection|Column[] $columns
+     * @return void
+     */
+    public function validate(Collection $columns): Collection
+    {
+        // mutator | json 可以使用 data_get 从对象中获取数据
+        return $columns->map(function (Column $column) {
+            $method = $column->relation;
+            if (!$method) {
+                return $column;
+            }
+            if (!method_exists($this->model, $method)) {
+                $class = get_class($this->model);
+                throw new ApplicationException("Call to undefined relationship [{$method}] on model [{$class}].");
+            }
+            // relation
+
+            if (!($relation = $this->model->$method()) instanceof Relation) {
+                return $column;
+            }
+
+            if ($relation instanceof HasOne ||
+                $relation instanceof BelongsTo ||
+                $relation instanceof MorphOne
+            ) {
+
+                $this->with($method);
+                return $column;
+            }
+
+            if ($relation instanceof HasMany
+                || $relation instanceof BelongsToMany
+                || $relation instanceof MorphToMany
+                || $relation instanceof HasManyThrough
+            ) {
+                $this->with($method);
+                $column->setName($method);
+                return $column;
+            }
+            return $column;
+        });
     }
 
     /**
@@ -392,23 +455,18 @@ class Model
 
         $this->setPaginate();
 
-
+        // 这里存在分页, 默认则返回
         $this->queries->unique()->each(function ($query) {
             $this->model = call_user_func_array([$this->model, $query['method']], $query['arguments']);
         });
 
-
-        if ($this->model instanceof Collection) {
-            return $this->model;
-        }
-
         if ($this->model instanceof LengthAwarePaginator) {
+            $this->total = $this->model->total();
             return $this->model->getCollection();
         }
 
         throw new ApplicationException('当前查询方式不支持非指定数据查询');
     }
-
 
     /**
      * 设置分页
@@ -582,5 +640,15 @@ class Model
         }
 
         throw new Exception('Related sortable only support `HasOne` and `BelongsTo` relation.');
+    }
+
+    /**
+     * @param array $ids
+     * @return mixed
+     */
+    public function useIds(array $ids = []):self
+    {
+        $this->model->whereIn($this->pkName(), $ids);
+        return $this;
     }
 }

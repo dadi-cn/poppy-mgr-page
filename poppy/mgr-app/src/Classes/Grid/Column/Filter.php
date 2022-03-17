@@ -3,7 +3,7 @@
 namespace Poppy\MgrApp\Classes\Grid\Column;
 
 use Illuminate\Support\Arr;
-use Poppy\MgrApp\Classes\Grid\Model;
+use Poppy\MgrApp\Classes\Grid\Query\Model;
 use function request;
 
 class Filter

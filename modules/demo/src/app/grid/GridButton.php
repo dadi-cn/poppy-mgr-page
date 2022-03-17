@@ -13,7 +13,6 @@ class GridButton extends GridBase
 {
     /**
      * @inheritDoc
-     * @throws ApplicationException
      */
     public function columns()
     {

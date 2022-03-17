@@ -4,22 +4,20 @@ namespace Poppy\MgrApp\Classes\Grid\Exporters;
 
 use Closure;
 use Exception;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Poppy\MgrApp\Classes\Contracts\Exportable;
+use Poppy\MgrApp\Classes\Contracts\Query;
 use Poppy\MgrApp\Classes\Grid\Column\Column;
 use Poppy\MgrApp\Classes\Grid\Exporter;
-use Poppy\MgrApp\Classes\Widgets\GridWidget;
+use Poppy\MgrApp\Classes\Widgets\TableWidget;
+use Poppy\MgrApp\Classes\Widgets\FilterWidget;
 
 /**
  * Exporter 类
  */
 abstract class AbstractExporter implements Exportable
 {
-    /**
-     * @var GridWidget
-     */
-    protected GridWidget $grid;
-
     /**
      * @var int
      */
@@ -31,14 +29,25 @@ abstract class AbstractExporter implements Exportable
      */
     protected string $fileName = '';
 
+
+    protected string $title = '';
+
+
+    protected Query $model;
+
+    protected FilterWidget $filter;
+
+    protected TableWidget $column;
+
     /**
-     * Create a new exporter instance.
-     *
-     * @param GridWidget $grid
+     * 扩展新实例
      */
-    public function __construct(GridWidget $grid)
+    public function __construct(Query $model, FilterWidget $filterWidget, TableWidget $columnWidget, $title)
     {
-        $this->grid = $grid;
+        $this->model  = $model;
+        $this->filter = $filterWidget;
+        $this->column = $columnWidget;
+        $this->title  = $title;
     }
 
     /**
@@ -50,7 +59,7 @@ abstract class AbstractExporter implements Exportable
      */
     public function chunk(Closure $callback, int $count = 100)
     {
-        return $this->grid->getFilter()->chunk($callback, $count);
+        return $this->model->prepare($this->filter)->chunk($callback, $count);
     }
 
 
@@ -62,13 +71,13 @@ abstract class AbstractExporter implements Exportable
     public function withScope(string $scope = 'page'): self
     {
         if ($scope == Exporter::SCOPE_ALL || $scope === Exporter::SCOPE_QUERY) {
-            $this->grid->model()->usePaginate(false);
+            $this->model->usePaginate(false);
             $this->fileName = $this->title() . '-' . ($scope === 'all' ? '全部' : '查询结果');
             return $this;
         }
 
         if ($scope == Exporter::SCOPE_PAGE) {
-            $this->grid->model()->usePaginate(true);
+            $this->model->usePaginate(true);
             $this->page     = input('page', 1);
             $this->fileName = $this->title() . "-第{$this->page}页";
         }
@@ -80,7 +89,7 @@ abstract class AbstractExporter implements Exportable
             }
             $count          = count($selected);
             $this->fileName = $this->title() . "-已选择({$count})";
-            $this->grid->model()->whereIn($this->grid->getPkName(), $selected);
+            $this->model->useIds($selected);
         }
         return $this;
     }
@@ -92,10 +101,10 @@ abstract class AbstractExporter implements Exportable
 
     private function title(): string
     {
-        if (!$this->grid->title) {
-            return $this->grid->model()->eloquent()->getTable();
+        if (!$this->title) {
+            return Carbon::now()->format('Y-m-d H:i');
         } else {
-            return $this->grid->title;
+            return $this->title;
         }
     }
 }

@@ -13,7 +13,6 @@ class FilterGt extends GridBase
 
     /**
      * @inheritDoc
-     * @throws ApplicationException
      */
     public function columns()
     {

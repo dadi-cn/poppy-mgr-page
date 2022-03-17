@@ -17,7 +17,6 @@ class GridQuick extends GridBase
 
     /**
      * @inheritDoc
-     * @throws ApplicationException
      */
     public function columns()
     {

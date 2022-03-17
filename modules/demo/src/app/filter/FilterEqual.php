@@ -13,7 +13,6 @@ class FilterEqual extends GridBase
 
     /**
      * @inheritDoc
-     * @throws ApplicationException
      */
     public function columns()
     {

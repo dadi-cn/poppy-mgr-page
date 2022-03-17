@@ -4,7 +4,6 @@
 namespace Demo\App\Grid;
 
 use Demo\Models\DemoWebapp;
-use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\MgrApp\Classes\Grid\Column\Render\ActionsRender;
 use Poppy\MgrApp\Http\Grid\GridBase;
 
@@ -18,7 +17,6 @@ class GridDisplay extends GridBase
 
     /**
      * @inheritDoc
-     * @throws ApplicationException
      */
     public function columns()
     {
@@ -27,7 +25,7 @@ class GridDisplay extends GridBase
         $this->column('title-large', 'QuickTitleLarge')->display(function () {
             return $this->title;
         })->quickTitle(true);
-        $this->column('color', 'QuickTitleLarge')->display(function () {
+        $this->column('color', 'QuickTitleLarge')->html(function () {
             return "<div style='{$this->style}'>$this->title</div>";
         })->quickTitle(true);
         $this->column('post_at', 'QuickDatetime')->quickDatetime();

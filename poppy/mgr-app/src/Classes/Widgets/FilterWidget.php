@@ -3,7 +3,6 @@
 namespace Poppy\MgrApp\Classes\Widgets;
 
 use Closure;
-use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Poppy\Framework\Exceptions\ApplicationException;
@@ -25,7 +24,6 @@ use Poppy\MgrApp\Classes\Grid\Filter\Query\NotIn;
 use Poppy\MgrApp\Classes\Grid\Filter\Query\Scope;
 use Poppy\MgrApp\Classes\Grid\Filter\Query\StartsWith;
 use Poppy\MgrApp\Classes\Grid\Filter\Query\Where;
-use Poppy\MgrApp\Classes\Grid\Model;
 use ReflectionException;
 
 /**
@@ -52,12 +50,6 @@ final class FilterWidget implements Structable
      */
     protected Collection $items;
 
-    /**
-     * 当前的模型
-     * @var Model
-     */
-    protected $model;
-
 
     private int $actionWidth = 4;
 
@@ -70,11 +62,9 @@ final class FilterWidget implements Structable
     private Collection $scopes;
 
 
-    public function __construct(Model $model)
+    public function __construct()
     {
         $this->items = collect();
-        $this->model = $model;
-
         $this->scopes = new Collection();
     }
 
@@ -126,36 +116,19 @@ final class FilterWidget implements Structable
         });
     }
 
-    /**
-     * Execute the filter with conditions.
-     *
-     * @return Collection
-     * @throws Exception
-     */
-    public function execute(): Collection
-    {
-        $conditions = array_merge(
-            $this->conditions(),
-            $this->scopeConditions()
-        );
-        return $this->model->addConditions($conditions)->buildData();
-    }
 
     /**
-     * @param Closure $callback
-     * @param int     $count
-     * @return bool|Collection
-     * @throws Exception
+     * 查询条件
+     * @return array
      */
-    public function chunk(Closure $callback, int $count = 100)
+    public function conditions(): array
     {
-        $conditions = array_merge(
-            $this->conditions(),
+        return array_merge(
+            $this->filterConditions(),
             $this->scopeConditions()
         );
-
-        return $this->model->addConditions($conditions)->chunk($callback, $count);
     }
+
 
     /**
      * 返回结构
@@ -205,7 +178,7 @@ final class FilterWidget implements Structable
      *
      * @return array
      */
-    public function conditions(): array
+    public function filterConditions(): array
     {
         $inputs = Arr::dot(request()->all());
 

@@ -2,7 +2,7 @@
 
 namespace Demo\Http\Request\Api\Web;
 
-use Poppy\MgrApp\Classes\Widgets\TableWidget;
+use Poppy\MgrApp\Classes\Widgets\SimpleTableWidget;
 use Poppy\System\Http\Request\ApiV1\Web\WebApiController;
 
 class TableController extends WebApiController
@@ -24,7 +24,7 @@ class TableController extends WebApiController
             [4, 'xet@yahoo.com', 'William Koss', 'Becker-Raynor'],
             [5, 'ipsa.aut@gmail.com', 'Ms. Antonietta Kozey Jr.', 'woso'],
         ];
-        $form    = new TableWidget($headers, $rows);
+        $form    = new SimpleTableWidget($headers, $rows);
         $form->setTitle('简单Table');
         return $form->resp();
     }

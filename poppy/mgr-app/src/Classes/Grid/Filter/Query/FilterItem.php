@@ -4,7 +4,6 @@ namespace Poppy\MgrApp\Classes\Grid\Filter\Query;
 
 use Closure;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Poppy\Framework\Helper\StrHelper;
 use Poppy\MgrApp\Classes\Contracts\Structable;
@@ -16,10 +15,6 @@ use Poppy\MgrApp\Classes\Contracts\Structable;
  */
 abstract class FilterItem implements Structable
 {
-    /**
-     * @var Collection
-     */
-    public $group;
 
     protected int $width = 4;
 

@@ -2,16 +2,18 @@
 
 namespace Poppy\MgrApp\Classes\Grid;
 
+use Poppy\MgrApp\Classes\Contracts\Query;
 use Poppy\MgrApp\Classes\Grid\Exporters\AbstractExporter;
 use Poppy\MgrApp\Classes\Grid\Exporters\CsvExporter;
-use Poppy\MgrApp\Classes\Widgets\GridWidget;
+use Poppy\MgrApp\Classes\Widgets\TableWidget;
+use Poppy\MgrApp\Classes\Widgets\FilterWidget;
 
 /**
  * 导出工具
  */
 class Exporter
 {
-    public const TYPE_CSV   = 'csv';
+    public const TYPE_CSV = 'csv';
 
     /**
      * Export scope constants.
@@ -27,22 +29,31 @@ class Exporter
      * @var array
      */
     protected static array $drivers = [
-        self::TYPE_CSV   => CsvExporter::class,
+        self::TYPE_CSV => CsvExporter::class,
     ];
 
+
+    protected Query $model;
+
+    protected FilterWidget $filter;
+
+    protected TableWidget $column;
+
     /**
-     * @var GridWidget
+     * @var string
      */
-    protected GridWidget $grid;
+    private string $title;
 
     /**
      * 扩展新实例
-     * @param GridWidget $grid
      */
-    public function __construct(GridWidget $grid)
+    public function __construct(Query $model, FilterWidget $filterWidget, TableWidget $columnWidget, $title = '')
     {
-        $this->grid = $grid;
-        $this->grid->model()->usePaginate(false);
+        $this->model  = $model;
+        $this->filter = $filterWidget;
+        $this->column = $columnWidget;
+        $this->title  = $title;
+        $this->model->usePaginate(false);
     }
 
     /**
@@ -67,7 +78,7 @@ class Exporter
             return $this->getDefaultExporter();
         }
 
-        return new static::$drivers[$driver]($this->grid);
+        return new static::$drivers[$driver]($this->model, $this->filter, $this->column, $this->title);
     }
 
     /**
@@ -76,6 +87,6 @@ class Exporter
      */
     public function getDefaultExporter(): CsvExporter
     {
-        return new CsvExporter($this->grid);
+        return new CsvExporter($this->model, $this->filter, $this->column, $this->title);
     }
 }

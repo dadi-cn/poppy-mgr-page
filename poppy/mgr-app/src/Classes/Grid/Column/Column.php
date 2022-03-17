@@ -16,15 +16,16 @@ use Poppy\MgrApp\Classes\Grid\Column\Render\HtmlRender;
 use Poppy\MgrApp\Classes\Grid\Column\Render\ImageRender;
 use Poppy\MgrApp\Classes\Grid\Column\Render\LinkRender;
 use Poppy\MgrApp\Classes\Grid\Column\Render\Render;
-use Poppy\MgrApp\Classes\Grid\Model;
+use Poppy\MgrApp\Classes\Grid\Query\Model;
 use Poppy\MgrApp\Classes\Traits\UseColumn;
-use Poppy\MgrApp\Classes\Widgets\GridWidget;
 use function request;
 
 /**
  * 列展示以及渲染, 当前的目的是使用前端方式渲染, 而不是依靠于 v-html 或者是后端生成
- * @property-read string $name    当前列的名称
- * @property-read string $label   标签
+ * @property-read string $name        当前列的名称
+ * @property-read string $relation    当前关系
+ * @property-read string $label       标签
+ * @property-read bool   $hide        是否默认隐藏
  * @method Column image($server = '', $width = 200, $height = 200)
  * @method Column link($href = '', $target = '_blank')
  * @method Column download($server = '')
@@ -62,9 +63,10 @@ class Column implements Structable
     protected static $rowAttributes = [];
 
     /**
-     * @var GridWidget
+     * 是否隐藏当前列(用于默认状态下的服务端列返回)
+     * @var bool
      */
-    protected $grid;
+    protected bool $hide = false;
 
     /**
      * 列名称
@@ -87,11 +89,10 @@ class Column implements Structable
     protected $original;
 
     /**
-     * Relation name.
-     *
-     * @var bool
+     * Relation 的名称
+     * @var string
      */
-    protected $relation = false;
+    protected string $relation = '';
 
     /**
      * Relation column.
@@ -173,15 +174,6 @@ class Column implements Structable
         $this->label = $label ?: ucfirst($name);
     }
 
-    /**
-     * Set grid instance for column.
-     *
-     * @param GridWidget $grid
-     */
-    public function setGrid(GridWidget $grid)
-    {
-        $this->grid = $grid;
-    }
 
     public function editable(): self
     {
@@ -346,6 +338,17 @@ class Column implements Structable
         $this->type = $type;
     }
 
+    /**
+     * 设置 Name 值
+     * @param $name
+     * @return $this
+     */
+    public function setName($name): self
+    {
+        $this->name = $name;
+        return $this;
+    }
+
     public function struct(): array
     {
         $defines = [
@@ -445,12 +448,12 @@ class Column implements Structable
     }
 
     /**
-     * 当前列存在, 但是数据暂时隐藏掉
+     * 是否在默认状态下显示当前列, 可通过设定进行展示
      * @return $this
      */
     public function hide(): self
     {
-        $this->grid->hideColumns($this->name);
+        $this->hide = true;
         return $this;
     }
 
@@ -605,6 +608,19 @@ class Column implements Structable
     }
 
     /**
+     * 设置 Relation
+     * @param string $relation
+     * @param string $field
+     * @return $this
+     */
+    public function setRelation(string $relation, string $field): self
+    {
+        $this->relation       = $relation;
+        $this->relationColumn = $field;
+        return $this;
+    }
+
+    /**
      * If this column is relation column.
      *
      * @return bool
@@ -612,22 +628,6 @@ class Column implements Structable
     protected function isRelation()
     {
         return (bool) $this->relation;
-    }
-
-    /**
-     * Set relation.
-     *
-     * @param string $relation
-     * @param string $relationColumn
-     *
-     * @return $this
-     */
-    public function setRelation($relation, $relationColumn = null)
-    {
-        $this->relation       = $relation;
-        $this->relationColumn = $relationColumn;
-
-        return $this;
     }
 
     /**

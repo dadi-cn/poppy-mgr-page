@@ -13,7 +13,6 @@ class GridButtonIconDropdown extends GridBase
 {
     /**
      * @inheritDoc
-     * @throws ApplicationException
      */
     public function columns()
     {

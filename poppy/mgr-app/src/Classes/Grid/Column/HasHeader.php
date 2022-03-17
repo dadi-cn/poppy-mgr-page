@@ -4,7 +4,7 @@ namespace Poppy\MgrApp\Classes\Grid\Column;
 
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Renderable;
-use Poppy\MgrApp\Classes\Grid\Model;
+use Poppy\MgrApp\Classes\Grid\Query\Model;
 use function collect;
 use function request;
 

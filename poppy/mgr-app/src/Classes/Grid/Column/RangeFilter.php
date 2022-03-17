@@ -2,7 +2,7 @@
 
 namespace Poppy\MgrApp\Classes\Grid\Column;
 
-use Poppy\MgrApp\Classes\Grid\Model;
+use Poppy\MgrApp\Classes\Grid\Query\Model;
 
 class RangeFilter extends Filter
 {

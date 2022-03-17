@@ -2,7 +2,6 @@
 
 namespace Demo\App\Grid;
 
-use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\MgrApp\Classes\Grid\Column\Render\ActionsRender;
 use Poppy\MgrApp\Classes\Grid\Filter\Query\Scope;
 use Poppy\MgrApp\Classes\Grid\Tools\Actions;
@@ -16,7 +15,6 @@ class GridQuickActions extends GridBase
 {
     /**
      * @inheritDoc
-     * @throws ApplicationException
      */
     public function columns()
     {

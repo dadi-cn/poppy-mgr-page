@@ -13,7 +13,6 @@ class FilterNotIn extends GridBase
 
     /**
      * @inheritDoc
-     * @throws ApplicationException
      */
     public function columns()
     {

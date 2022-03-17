@@ -12,6 +12,7 @@ use function response;
 class CsvExporter extends AbstractExporter
 {
     use UseColumn;
+
     /**
      * @inheritDoc
      */
@@ -55,12 +56,12 @@ class CsvExporter extends AbstractExporter
     private function getHeaderRow(): array
     {
         $titles = collect();
-        collect($this->grid->getVisibleColumnsName())->each(function ($name) use ($titles) {
+        collect($this->column->visibleColsName())->each(function ($name) use ($titles) {
             if ($name === Column::NAME_ACTION) {
                 return;
             }
             /** @var Column $column */
-            $column = $this->grid->visibleColumns()->first(function (Column $column) use ($name) {
+            $column = $this->column->visibleCols()->first(function (Column $column) use ($name) {
                 return $column->name === $name;
             });
 
@@ -81,7 +82,10 @@ class CsvExporter extends AbstractExporter
     {
         return $data->map(function ($row) {
             $newRow = collect();
-            $this->grid->visibleColumns()->each(function (Column $column) use ($row, $newRow) {
+            $this->column->visibleCols()->each(function (Column $column) use ($row, $newRow) {
+                if ($column->name === Column::NAME_ACTION) {
+                    return;
+                }
                 $newRow->put(
                     $this->convertFieldName($column->name),
                     $column->fillVal($row)

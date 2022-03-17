@@ -4,22 +4,18 @@ namespace Poppy\MgrApp\Classes\Widgets;
 
 use Eloquent;
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
 use Poppy\Framework\Classes\Resp;
 use Poppy\Framework\Classes\Traits\PoppyTrait;
 use Poppy\Framework\Exceptions\ApplicationException;
+use Poppy\MgrApp\Classes\Contracts\Query;
 use Poppy\MgrApp\Classes\Grid\Column\Column;
-use Poppy\MgrApp\Classes\Grid\Concerns\CanHidesColumns;
-use Poppy\MgrApp\Classes\Grid\Concerns\HasExport;
-use Poppy\MgrApp\Classes\Grid\Concerns\HasFilter;
-use Poppy\MgrApp\Classes\Grid\Concerns\HasPaginator;
-use Poppy\MgrApp\Classes\Grid\Concerns\HasSelection;
-use Poppy\MgrApp\Classes\Grid\Concerns\HasTotalRow;
-use Poppy\MgrApp\Classes\Grid\Model;
+use Poppy\MgrApp\Classes\Grid\Exporter;
+use Poppy\MgrApp\Classes\Grid\Exporters\AbstractExporter;
+use Poppy\MgrApp\Classes\Grid\Query\QueryFactory;
 use Poppy\MgrApp\Classes\Grid\Tools\Actions;
 use Poppy\MgrApp\Classes\Traits\UseColumn;
 use Poppy\MgrApp\Classes\Traits\UseWidgetUtil;
@@ -36,13 +32,6 @@ class GridWidget
     use PoppyTrait;
     use UseColumn;
     use UseWidgetUtil;
-    use
-        HasExport,
-        HasFilter,
-        HasTotalRow,
-        HasSelection,
-        HasPaginator,
-        CanHidesColumns;
 
     /**
      * 排序标识
@@ -54,53 +43,30 @@ class GridWidget
      */
     public const PAGESIZE_NAME = 'pagesize';
 
+    /**
+     * @var FilterWidget
+     */
+    protected FilterWidget $filter;
 
     /**
-     * Initialization closure array.
+     * Export driver.
      *
-     * @var []Closure
+     * @var string
      */
-    protected static $initCallbacks = [];
-
-    /**
-     * All column names of the grid.
-     *
-     * @var array
-     */
-    public array $columnNames = [];
-
-    /**
-     * 分页工具
-     * @var LengthAwarePaginator|null
-     */
-    protected ?LengthAwarePaginator $paginator = null;
+    protected string $exporter = 'csv';
 
     /**
      * 列表模型实例
      *
-     * @var Model
+     * @var Query
      */
-    protected $model;
+    protected Query $query;
 
     /**
-     * 所有列的定义
-     * @var Collection
+     * 列组件
+     * @var TableWidget
      */
-    protected Collection $columns;
-
-    /**
-     * All variables in grid view.
-     *
-     * @var array
-     */
-    protected $variables = [];
-
-    /**
-     * 默认主键的名称
-     * @var string
-     */
-    protected string $pkName = 'id';
-
+    protected TableWidget $table;
 
     /**
      * 右上角快捷操作
@@ -123,16 +89,27 @@ class GridWidget
     /**
      * Create a new grid instance.
      *
-     * @param \Illuminate\Database\Eloquent\Model|Eloquent $model
+     * @param Model|Eloquent $model
      */
     public function __construct($model)
     {
-        $this->model  = new Model($model, $this);
-        $this->pkName = $model->getKeyName();
-
-        $this->initialize();
+        $this->query        = QueryFactory::create($model);
+        $this->filter       = new FilterWidget();
+        $this->quickActions = (new Actions())->default(['primary', 'plain']);
+        $this->batchActions = (new Actions())->default(['info', 'plain']);
+        $this->table        = new TableWidget();
     }
 
+    /**
+     * 设置 Grid 的导出方式, 支持 csv, excel , 并可以通过 Extend 进行自定义
+     * @param $exporter
+     * @return $this
+     */
+    public function exporter($exporter): self
+    {
+        $this->exporter = $exporter;
+        return $this;
+    }
 
     public function __get($attr)
     {
@@ -141,11 +118,11 @@ class GridWidget
 
     /**
      * 获取模型
-     * @return Model
+     * @return Query
      */
-    public function model(): Model
+    public function model(): Query
     {
-        return $this->model;
+        return $this->query;
     }
 
     /**
@@ -159,37 +136,18 @@ class GridWidget
         }
 
         /** @var GridBase $List */
-        $List = new $grid_class($this);
+        $List = new $grid_class();
 
 
         /* 设置标题和描述
          * ---------------------------------------- */
         $this->title = $List->title;
         $List->columns();
+        $this->table->setColumns($this->query->validate($List->table->columns));
         $List->quickActions($this->quickActions);
-        $this->columns = $List->getColumns();
         $List->filter($this->filter);
         $List->batchActions($this->batchActions);
     }
-
-    /**
-     * 获取模型的主键
-     * @return string
-     */
-    public function getPkName(): string
-    {
-        return $this->pkName;
-    }
-
-
-    /**
-     * 获取分页工具
-     */
-    public function paginator()
-    {
-        return $this->model()->eloquent();
-    }
-
 
     /**
      * 设置标题
@@ -234,65 +192,35 @@ class GridWidget
         return Resp::success(input('_query') ?: '', $resp);
     }
 
-
-
     /**
-     * Initialize.
+     * 导出请求
+     * @param string $scope
      */
-    protected function initialize()
+    protected function queryExport(string $scope = 'page')
     {
-        $this->columns = Collection::make();
-        $this->initFilter();
-        $this->quickActions = (new Actions())->default(['primary', 'plain']);
-        $this->batchActions = (new Actions())->default(['info', 'plain']);
+        // clear output buffer.
+        if (ob_get_length()) {
+            ob_end_clean();
+        }
+
+        $this->query->usePaginate(false);
+
+        $this->getExporter($scope)->export();
     }
 
     /**
-     * Apply column filter to grid query.
-     *
-     * @return void
+     * @param string $scope
+     * @return AbstractExporter
      */
-    protected function applyColumnFilter()
+    protected function getExporter(string $scope): AbstractExporter
     {
-        $this->columns->each(function (Column $column) {
-            $column->bindFilterQuery($this->model());
-        });
+        return (new Exporter($this->query, $this->filter, $this->table, $this->title))->resolve($this->exporter)->withScope($scope);
     }
-
-    /**
-     * Apply column search to grid query.
-     *
-     * @return void
-     */
-    protected function applyColumnSearch()
-    {
-        $this->columns->each(function (Column $column) {
-            $column->bindSearchQuery($this->model());
-        });
-    }
-
-    /**
-     * @return Collection
-     * @throws Exception
-     */
-    protected function applyQuery(): Collection
-    {
-        //        $this->applyQuickSearch();
-        //
-        //        $this->applyColumnFilter();
-        //
-        //        $this->applyColumnSearch();
-        //
-        //        $this->applySelectorQuery();
-
-        return $this->applyFilter();
-    }
-
 
     private function queryStruct(): array
     {
         $columns = [];
-        collect($this->visibleColumns())->each(function (Column $column) use (&$columns) {
+        $this->table->visibleCols()->each(function (Column $column) use (&$columns) {
             $columns[] = $column->struct();
         });
 
@@ -301,10 +229,10 @@ class GridWidget
         // if selection & !pk => Selection Disable
         // 支持批处理, 开启选择器
         if (count($this->batchActions->struct())) {
-            $this->enableSelection();
+            $this->table->enableSelection();
         }
         if ($this->filter->getEnableExport()) {
-            $this->enableSelection();
+            $this->table->enableSelection();
         }
 
         return [
@@ -312,23 +240,19 @@ class GridWidget
             'url'     => $this->pyRequest()->url(),
             'title'   => $this->title ?: '-',
             'batch'   => $this->batchActions->struct(),
-            'scopes'  => $this->getFilter()->getScopesStruct(),
-            'scope'   => $this->getFilter()->getCurrentScope() ? $this->getFilter()->getCurrentScope()->value : '',
+            'scopes'  => $this->filter->getScopesStruct(),
+            'scope'   => $this->filter->getCurrentScope() ? $this->filter->getCurrentScope()->value : '',
             'options' => [
-                'page_sizes' => $this->pagesizeOptions,
-                'selection'  => $this->selectionEnable,
+                'page_sizes' => $this->table->pagesizeOptions,
+                'selection'  => $this->table->enableSelection,
             ],
             'cols'    => $columns,
-            'pk'      => $this->model()->getOriginalModel()->getKeyName(),
+            'pk'      => $this->query->pkName(),
         ];
     }
 
     private function queryFilter(): array
     {
-        $columns = [];
-        collect($this->visibleColumns())->each(function (Column $column) use (&$columns) {
-            $columns[] = $column->struct();
-        });
         return [
             'actions' => $this->quickActions->struct(),
             'filter'  => $this->filter->struct(),
@@ -340,7 +264,7 @@ class GridWidget
         $pk    = input('_pk');
         $field = input('_field');
         $value = input('_value');
-        if (!$this->model->edit($pk, $field, $value)) {
+        if (!$this->query->edit($pk, $field, $value)) {
             return Resp::error('修改失败');
         }
         return Resp::success('修改成功');
@@ -353,11 +277,12 @@ class GridWidget
     private function queryData(): array
     {
         // 获取模型数据
-        $collection = $this->applyQuery();
+        $collection = $this->query->prepare($this->filter)->buildData();
+
 
         $rows = $collection->map(function ($row) {
             $newRow = collect();
-            $this->visibleColumns()->each(function (Column $column) use ($row, $newRow) {
+            $this->table->visibleCols()->each(function (Column $column) use ($row, $newRow) {
                 $newRow->put(
                     $this->convertFieldName($column->name),
                     $column->fillVal($row)
@@ -366,11 +291,9 @@ class GridWidget
             return $newRow->toArray();
         });
 
-        $paginator = $this->paginator();
-
         return [
-            'list'  => $rows,
-            'total' => $paginator->total(),
+            'list'  => $rows->toArray(),
+            'total' => $this->query->total(),
         ];
     }
 }
