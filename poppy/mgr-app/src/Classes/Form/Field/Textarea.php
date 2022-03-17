@@ -28,7 +28,7 @@ class Textarea extends FormItem
      * @param $type
      * @return Textarea
      */
-    public function resize($type):self
+    public function resize($type): self
     {
         if (!in_array($type, ['none', 'both', 'horizontal', 'vertical'])) {
             $type = 'none';
@@ -49,11 +49,9 @@ class Textarea extends FormItem
         if (count($args) === 1) {
             if (is_bool($args[0])) {
                 $this->setAttribute('autosize', $args[0]);
-            }
-            elseif (is_array($args[0])) {
+            } elseif (is_array($args[0])) {
                 $this->setAttribute('autosize', $args[0]);
-            }
-            elseif (is_numeric($args[0])) {
+            } elseif (is_numeric($args[0])) {
                 $this->setAttribute('autosize', [
                     'minRows' => ((int) $args[0]) ?: 1,
                 ]);

@@ -34,16 +34,6 @@ class GridWidget
     use UseWidgetUtil;
 
     /**
-     * 排序标识
-     */
-    public const SORT_NAME = '_sort';
-
-    /**
-     * 分页标识
-     */
-    public const PAGESIZE_NAME = 'pagesize';
-
-    /**
      * @var FilterWidget
      */
     protected FilterWidget $filter;

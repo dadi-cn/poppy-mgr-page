@@ -2,7 +2,7 @@
 
 namespace Poppy\MgrApp\Classes\Grid\Column;
 
-use Poppy\MgrApp\Classes\Grid\Query\Model;
+use Poppy\MgrApp\Classes\Grid\Query\QueryModel;
 
 class RangeFilter extends Filter
 {
@@ -24,10 +24,10 @@ class RangeFilter extends Filter
     /**
      * Add a binding to the query.
      *
-     * @param mixed $value
-     * @param Model $model
+     * @param mixed      $value
+     * @param QueryModel $model
      */
-    public function addBinding($value, Model $model)
+    public function addBinding($value, QueryModel $model)
     {
         $value = array_filter((array) $value);
 

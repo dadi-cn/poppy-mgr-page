@@ -83,7 +83,7 @@ abstract class AbstractExporter implements Exportable
         }
 
         if ($scope == Exporter::SCOPE_SELECT) {
-            $selected = input(Column::NAME_BATCH);
+            $selected = input(TableWidget::NAME_BATCH);
             if (is_string($selected)) {
                 $selected = explode(',', $selected);
             }

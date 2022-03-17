@@ -10,15 +10,16 @@ use Poppy\MgrApp\Classes\Grid\Column\Column;
 /**
  * @property bool $enableSelection 是否启用选择项
  * @property array $pagesizeOptions 分页选项
- * @property Collection|Column[] $columns 所有的列数据
+ * @property Collection|Column[] $columns         所有的列数据
  */
 final class TableWidget
 {
 
 
-    public const NAME_BATCH  = '_batch';      // 批量选择 / 导出的主键约定, pk 会和搜索冲突
-    public const NAME_COLS   = '_cols';       // 支持用户选择进行查询的列定义
-    public const NAME_ACTION = '_action';     // 用于定义列操作, 可以在导出时候移除
+    public const NAME_BATCH  = '_batch';         // 批量选择 / 导出的主键约定, pk 会和搜索冲突
+    public const NAME_COLS   = '_cols';          // 支持用户选择进行查询的列定义
+    public const NAME_ACTION = '_action';        // 用于定义列操作, 可以在导出时候移除
+    public const NAME_SORT   = '_sort';          // 排序操作
 
     /**
      * 是否开启选择器
@@ -75,7 +76,7 @@ final class TableWidget
     /**
      * 添加列操作
      * @param Closure $closure
-     * @param string  $title
+     * @param string $title
      * @return Column
      */
     public function action(Closure $closure, string $title = '操作'): Column

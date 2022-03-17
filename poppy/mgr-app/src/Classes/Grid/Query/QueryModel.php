@@ -5,7 +5,7 @@ namespace Poppy\MgrApp\Classes\Grid\Query;
 use Closure;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model as EloquentModel;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -20,33 +20,39 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Poppy\Framework\Exceptions\ApplicationException;
+use Poppy\Framework\Helper\UtilHelper;
 use Poppy\MgrApp\Classes\Contracts\Query;
 use Poppy\MgrApp\Classes\Grid\Column\Column;
 use Poppy\MgrApp\Classes\Widgets\FilterWidget;
-use Poppy\MgrApp\Classes\Widgets\GridWidget;
+use Poppy\MgrApp\Classes\Widgets\TableWidget;
 use function collect;
 use function request;
 
-class Model implements Query
+class QueryModel implements Query
 {
+
+    public const  NAME_PAGESIZE = 'pagesize';       // 页数
+    private const OBJECT_MASK   = '--wb--';
+
+
     /**
      * Eloquent model instance of the grid model.
      *
-     * @var EloquentModel | Builder |QueryBuilder
+     * @var Model | Builder |QueryBuilder
      */
     protected $model;
 
     /**
-     * @var EloquentModel
+     * @var Model
      */
-    protected $origin;
+    protected Model $origin;
 
     /**
      * Array of queries of the eloquent model.
      *
      * @var Collection
      */
-    protected $queries;
+    protected Collection $queries;
 
     /**
      * Sort parameters of the model.
@@ -54,11 +60,6 @@ class Model implements Query
      * @var array
      */
     protected $sort;
-
-    /**
-     * @var array
-     */
-    protected $data = [];
 
     /*
      * 15 items per page as default.
@@ -86,7 +87,7 @@ class Model implements Query
     /**
      * @var array
      */
-    protected $eagerLoads = [];
+    protected array $eagerLoads = [];
 
     /**
      * 默认主键的名称
@@ -103,9 +104,9 @@ class Model implements Query
     /**
      * Create a new grid model instance.
      *
-     * @param EloquentModel $model
+     * @param Model $model
      */
-    public function __construct(EloquentModel $model)
+    public function __construct(Model $model)
     {
         $this->model = $model;
 
@@ -115,7 +116,7 @@ class Model implements Query
     }
 
     /**
-     * @return EloquentModel
+     * @return Model
      */
     public function getOriginalModel()
     {
@@ -125,7 +126,7 @@ class Model implements Query
     /**
      * Get the eloquent model of the grid model.
      *
-     * @return EloquentModel
+     * @return Model
      */
     public function eloquent()
     {
@@ -225,13 +226,12 @@ class Model implements Query
             $collection = call_user_func($this->collectionCallback, $collection);
         }
 
-        $this->data = $collection;
-        return $this->data;
+        return $collection;
     }
 
     /**
      * @param Closure $callback
-     * @param int     $count
+     * @param int $count
      * @return Collection|bool
      * @throws Exception
      */
@@ -269,7 +269,7 @@ class Model implements Query
 
 
     /**
-     * @return Builder|EloquentModel
+     * @return Builder|Model
      */
     public function getQueryBuilder()
     {
@@ -316,7 +316,7 @@ class Model implements Query
     /**
      * 调用查询方法并把参数放入到查询条件中
      * @param string $method
-     * @param array  $arguments
+     * @param array $arguments
      * @return $this
      */
     public function __call(string $method, array $arguments)
@@ -331,9 +331,9 @@ class Model implements Query
 
 
     /**
-     * @param mixed  $id
+     * @param mixed $id
      * @param string $field
-     * @param mixed  $value
+     * @param mixed $value
      * @return bool
      */
     public function edit($id, string $field, $value): bool
@@ -351,7 +351,7 @@ class Model implements Query
     /**
      * 设置渴望加载的关系数据
      * @param mixed $relations
-     * @return $this|Model
+     * @return $this|QueryModel
      */
     public function with($relations)
     {
@@ -442,6 +442,16 @@ class Model implements Query
     }
 
     /**
+     * @param array $ids
+     * @return mixed
+     */
+    public function useIds(array $ids = []): self
+    {
+        $this->model->whereIn($this->pkName(), $ids);
+        return $this;
+    }
+
+    /**
      * @return Collection
      * @throws Exception
      */
@@ -501,7 +511,7 @@ class Model implements Query
      */
     protected function resolvePagesize($paginate)
     {
-        if ($pagesize = request(GridWidget::PAGESIZE_NAME)) {
+        if ($pagesize = request(self::NAME_PAGESIZE)) {
             if (is_array($paginate)) {
                 $paginate['arguments'][0] = (int) $pagesize;
 
@@ -543,10 +553,20 @@ class Model implements Query
      */
     protected function setSort()
     {
-        $this->sort = request(GridWidget::SORT_NAME, []);
+        $this->sort = request(TableWidget::NAME_SORT, []);
+
         if (!is_array($this->sort)) {
-            return;
+
+            if (!Str::startsWith($this->sort, self::OBJECT_MASK)) {
+                return;
+            }
+            $sortEncode = base64_decode(Str::after($this->sort, self::OBJECT_MASK));
+            if (!UtilHelper::isJson($sortEncode)) {
+                return;
+            }
+            $this->sort = json_decode($sortEncode, true);
         }
+
 
         if (empty($this->sort['column']) || empty($this->sort['type'])) {
             return;
@@ -640,15 +660,5 @@ class Model implements Query
         }
 
         throw new Exception('Related sortable only support `HasOne` and `BelongsTo` relation.');
-    }
-
-    /**
-     * @param array $ids
-     * @return mixed
-     */
-    public function useIds(array $ids = []):self
-    {
-        $this->model->whereIn($this->pkName(), $ids);
-        return $this;
     }
 }

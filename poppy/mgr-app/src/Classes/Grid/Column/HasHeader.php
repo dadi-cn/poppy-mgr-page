@@ -4,7 +4,7 @@ namespace Poppy\MgrApp\Classes\Grid\Column;
 
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Renderable;
-use Poppy\MgrApp\Classes\Grid\Query\Model;
+use Poppy\MgrApp\Classes\Grid\Query\QueryModel;
 use function collect;
 use function request;
 
@@ -41,9 +41,9 @@ trait HasHeader
     /**
      * Add a binding based on filter to the model query.
      *
-     * @param Model $model
+     * @param QueryModel $model
      */
-    public function bindFilterQuery(Model $model)
+    public function bindFilterQuery(QueryModel $model)
     {
         if ($this->filter) {
             $this->filter->addBinding(request($this->name), $model);

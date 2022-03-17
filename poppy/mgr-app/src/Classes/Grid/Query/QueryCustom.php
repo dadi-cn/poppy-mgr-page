@@ -5,7 +5,7 @@ namespace Poppy\MgrApp\Classes\Grid\Query;
 use Closure;
 use Poppy\MgrApp\Classes\Contracts\Query;
 
-class Custom implements Query
+class QueryCustom implements Query
 {
 
     /**

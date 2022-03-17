@@ -2,7 +2,7 @@
 
 namespace Poppy\MgrApp\Classes\Grid\Column;
 
-use Poppy\MgrApp\Classes\Grid\Query\Model;
+use Poppy\MgrApp\Classes\Grid\Query\QueryModel;
 
 class CheckFilter extends Filter
 {
@@ -24,10 +24,10 @@ class CheckFilter extends Filter
     /**
      * Add a binding to the query.
      *
-     * @param array $value
-     * @param Model $model
+     * @param array      $value
+     * @param QueryModel $model
      */
-    public function addBinding($value, Model $model)
+    public function addBinding($value, QueryModel $model)
     {
         if (empty($value)) {
             return;

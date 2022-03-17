@@ -2,7 +2,6 @@
 
 namespace Demo\App\Grid;
 
-use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\MgrApp\Classes\Grid\Column\Render\ActionsRender;
 use Poppy\MgrApp\Http\Grid\GridBase;
 

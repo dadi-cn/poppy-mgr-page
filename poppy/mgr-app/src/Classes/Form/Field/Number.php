@@ -37,8 +37,8 @@ class Number extends FormItem
     }
 
     /**
-     * @param int|float $step     计数器步长
-     * @param bool      $strictly 是否只能输入 step 的倍数
+     * @param int|float $step 计数器步长
+     * @param bool $strictly 是否只能输入 step 的倍数
      * @return $this
      */
     public function step($step, bool $strictly = false): self

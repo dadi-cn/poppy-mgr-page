@@ -14,7 +14,7 @@ class QueryFactory
     public static function create($model = null): Query
     {
         if ($model) {
-            return new Model($model);
+            return new QueryModel($model);
         }
         // TODO: Implement get() method.
     }

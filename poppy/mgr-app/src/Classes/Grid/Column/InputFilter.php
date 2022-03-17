@@ -2,7 +2,7 @@
 
 namespace Poppy\MgrApp\Classes\Grid\Column;
 
-use Poppy\MgrApp\Classes\Grid\Query\Model;
+use Poppy\MgrApp\Classes\Grid\Query\QueryModel;
 
 class InputFilter extends Filter
 {
@@ -24,10 +24,10 @@ class InputFilter extends Filter
     /**
      * Add a binding to the query.
      *
-     * @param string     $value
-     * @param Model|null $model
+     * @param string          $value
+     * @param QueryModel|null $model
      */
-    public function addBinding($value, Model $model)
+    public function addBinding($value, QueryModel $model)
     {
         if (empty($value)) {
             return;

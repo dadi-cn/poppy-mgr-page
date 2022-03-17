@@ -36,62 +36,74 @@ class FieldDef
      * @var array
      */
     public static $fieldAlias = [];
+
     /**
      * Eloquent model of the form.
      *
      * @var Model
      */
     protected $model;
+
     /**
      * @var Validator
      */
     protected $validator;
+
     /**
      * @var Builder
      */
     protected $builder;
+
     /**
      * Data for save to current model from input.
      *
      * @var array
      */
     protected $updates = [];
+
     /**
      * Data for save to model's relations from input.
      *
      * @var array
      */
     protected $relations = [];
+
     /**
      * Input data.
      *
      * @var array
      */
     protected $inputs = [];
+
     /**
      * @var Layout
      */
     protected $layout;
+
     /**
      * Ignored saving fields.
      *
      * @var array
      */
     protected $ignored = [];
+
     /**
      * @var Form\Tab
      */
     protected $tab = null;
+
     /**
      * @var bool
      */
     protected $isSoftDeletes = false;
+
     /**
      * Collected field assets.
      *
      * @var array
      */
     protected static $collectedAssets = [];
+
     /**
      * Initialization closure array.
      *
@@ -103,7 +115,7 @@ class FieldDef
      * Create a new form instance.
      *
      * @param          $model
-     * @param Closure  $callback
+     * @param Closure $callback
      */
     public function __construct($model, Closure $callback = null)
     {
@@ -176,7 +188,7 @@ class FieldDef
     /**
      * Use tab to split form.
      *
-     * @param string  $title
+     * @param string $title
      * @param Closure $content
      *
      * @return $this
@@ -298,7 +310,7 @@ class FieldDef
     /**
      * Handle update.
      *
-     * @param int  $id
+     * @param int $id
      * @param null $data
      *
      * @return bool|ResponseFactory|JsonResponse|RedirectResponse|\Illuminate\Http\Response|mixed|null|Response
@@ -378,7 +390,7 @@ class FieldDef
     /**
      * Add a fieldset to form.
      *
-     * @param string  $title
+     * @param string $title
      * @param Closure $setCallback
      *
      * @return Field\Fieldset
@@ -446,8 +458,7 @@ class FieldDef
                 ) {
                     $relations[] = $relation;
                 }
-            }
-            elseif (method_exists($this->model, $column) &&
+            } elseif (method_exists($this->model, $column) &&
                 !method_exists(Model::class, $column)
             ) {
                 $relations[] = $column;
@@ -701,7 +712,7 @@ class FieldDef
      * Get or set input data.
      *
      * @param string $key
-     * @param null   $value
+     * @param null $value
      *
      * @return array|mixed
      */
@@ -717,7 +728,7 @@ class FieldDef
     /**
      * Add a new layout column.
      *
-     * @param int     $width
+     * @param int $width
      * @param Closure $closure
      *
      * @return $this
@@ -747,7 +758,7 @@ class FieldDef
      * Setter.
      *
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return array
      */
@@ -760,7 +771,7 @@ class FieldDef
      * Generate a Field object and add to form builder if Field exists.
      *
      * @param string $method
-     * @param array  $arguments
+     * @param array $arguments
      *
      * @return FormItem
      */
@@ -789,8 +800,8 @@ class FieldDef
 
     /**
      * 创建表单条目
-     * @param string $type  字段类型
-     * @param string $name  表单字段Name
+     * @param string $type 字段类型
+     * @param string $name 表单字段Name
      * @param string $label 标签
      * @return FormItem|null
      */
@@ -931,7 +942,7 @@ class FieldDef
      * Remove files in record.
      *
      * @param Model $model
-     * @param bool  $forceDelete
+     * @param bool $forceDelete
      */
     protected function deleteFiles(Model $model, $forceDelete = false)
     {
@@ -1096,16 +1107,13 @@ class FieldDef
         if (request('after-save') == 1) {
             // continue editing
             $url = rtrim($resourcesPath, '/') . "/{$key}/edit";
-        }
-        elseif (request('after-save') == 2) {
+        } elseif (request('after-save') == 2) {
             // continue creating
             $url = rtrim($resourcesPath, '/') . '/create';
-        }
-        elseif (request('after-save') == 3) {
+        } elseif (request('after-save') == 3) {
             // view resource
             $url = rtrim($resourcesPath, '/') . "/{$key}";
-        }
-        else {
+        } else {
             $url = request(Builder::PREVIOUS_URL_KEY) ?: $resourcesPath;
         }
 
@@ -1129,7 +1137,7 @@ class FieldDef
     /**
      * Handle updates for single column.
      *
-     * @param int   $id
+     * @param int $id
      * @param array $data
      *
      * @return array|ResponseFactory|\Illuminate\Http\Response|Response
@@ -1218,7 +1226,7 @@ class FieldDef
     /**
      * Handle orderable update.
      *
-     * @param int   $id
+     * @param int $id
      * @param array $input
      *
      * @return bool
@@ -1357,7 +1365,7 @@ class FieldDef
      * Prepare input data for update.
      *
      * @param array $updates
-     * @param bool  $oneToOneRelation If column is one-to-one relation.
+     * @param bool $oneToOneRelation If column is one-to-one relation.
      *
      * @return array
      */
@@ -1386,8 +1394,7 @@ class FieldDef
                 foreach ($columns as $name => $column) {
                     Arr::set($prepared, $column, $value[$name]);
                 }
-            }
-            elseif (is_string($columns)) {
+            } elseif (is_string($columns)) {
                 Arr::set($prepared, $columns, $value);
             }
         }
@@ -1397,7 +1404,7 @@ class FieldDef
 
     /**
      * @param string|array $columns
-     * @param bool         $containsDot
+     * @param bool $containsDot
      *
      * @return bool
      */
@@ -1467,7 +1474,7 @@ class FieldDef
     }
 
     /**
-     * @param array        $data
+     * @param array $data
      * @param string|array $columns
      *
      * @return array|mixed

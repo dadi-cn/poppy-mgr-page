@@ -10,7 +10,8 @@ class Date extends FormItem
 
     use UsePlaceholder;
 
-    protected string $type   = 'date';
+    protected string $type = 'date';
+
     protected string $format = 'YYYY-MM-DD';
 
     public function __construct(string $name, string $label)

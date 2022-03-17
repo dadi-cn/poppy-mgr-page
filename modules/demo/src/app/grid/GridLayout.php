@@ -18,7 +18,7 @@ class GridLayout extends GridBase
     public function columns()
     {
         // 自定义样式
-        $this->column('id', 'ID')->quickId();
+        $this->column('id', 'ID')->quickId()->sortable();
         $this->column('title', '标题')->quickTitle();
         $this->column('user.nickname', 'Nickname(联合查询)')->quickTitle();
         $this->column('created_at')->quickDatetime();

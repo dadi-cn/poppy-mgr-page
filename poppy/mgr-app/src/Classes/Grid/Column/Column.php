@@ -16,7 +16,7 @@ use Poppy\MgrApp\Classes\Grid\Column\Render\HtmlRender;
 use Poppy\MgrApp\Classes\Grid\Column\Render\ImageRender;
 use Poppy\MgrApp\Classes\Grid\Column\Render\LinkRender;
 use Poppy\MgrApp\Classes\Grid\Column\Render\Render;
-use Poppy\MgrApp\Classes\Grid\Query\Model;
+use Poppy\MgrApp\Classes\Grid\Query\QueryModel;
 use Poppy\MgrApp\Classes\Traits\UseColumn;
 use function request;
 
@@ -34,8 +34,6 @@ class Column implements Structable
 {
     use HasHeader, UseColumn;
 
-    public const NAME_BATCH  = '_batch';      // 批量选择 / 导出的主键约定, pk 会和搜索冲突
-    public const NAME_COLS   = '_cols';       // 支持用户选择进行查询的列定义
     public const NAME_ACTION = '_action';     // 用于定义列操作, 可以在导出时候移除
 
     /**
@@ -387,9 +385,9 @@ class Column implements Structable
     /**
      * Bind search query to grid model.
      *
-     * @param Model $model
+     * @param QueryModel $model
      */
-    public function bindSearchQuery(Model $model)
+    public function bindSearchQuery(QueryModel $model)
     {
         if (!$this->searchable || !request()->has($this->name)) {
             return;

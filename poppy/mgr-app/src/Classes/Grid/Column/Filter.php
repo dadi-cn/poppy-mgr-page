@@ -3,7 +3,7 @@
 namespace Poppy\MgrApp\Classes\Grid\Column;
 
 use Illuminate\Support\Arr;
-use Poppy\MgrApp\Classes\Grid\Query\Model;
+use Poppy\MgrApp\Classes\Grid\Query\QueryModel;
 use function request;
 
 class Filter
@@ -70,10 +70,10 @@ class Filter
     /**
      * Add a query binding.
      *
-     * @param mixed $value
-     * @param Model $model
+     * @param mixed      $value
+     * @param QueryModel $model
      */
-    public function addBinding($value, Model $model)
+    public function addBinding($value, QueryModel $model)
     {
         //
     }
