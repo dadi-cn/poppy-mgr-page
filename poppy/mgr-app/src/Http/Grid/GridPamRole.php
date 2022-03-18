@@ -2,10 +2,10 @@
 
 namespace Poppy\MgrApp\Http\Grid;
 
-use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\MgrApp\Classes\Grid\Column\Render\ActionsRender;
 use Poppy\MgrApp\Classes\Grid\Tools\Actions;
 use Poppy\MgrApp\Classes\Widgets\FilterWidget;
+use Poppy\MgrApp\Classes\Widgets\TableWidget;
 use Poppy\System\Models\PamAccount;
 use Poppy\System\Models\PamRole;
 
@@ -16,14 +16,13 @@ class GridPamRole extends GridBase
 
     /**
      * @inheritDoc
-     * @throws ApplicationException
      */
-    public function columns()
+    public function table(TableWidget $table)
     {
         $pam = $this->pam;
-        $this->column('id', "ID")->sortable()->width(80);
-        $this->column('title', "名称");
-        $this->action(function (ActionsRender $actions) use ($pam) {
+        $table->add('id', "ID")->sortable()->width(80);
+        $table->add('title', "名称");
+        $table->action(function (ActionsRender $actions) use ($pam) {
             $row = $actions->getRow();
             $actions->default(['plain', 'circle', 'only']);
             $title = data_get($row, 'title');
@@ -52,11 +51,10 @@ class GridPamRole extends GridBase
         foreach ($types as $t => $v) {
             $filter->scope($t, $v)->where('type', $t);
         }
-
     }
 
 
-    public function quickActions(Actions $actions)
+    public function quick(Actions $actions)
     {
         $pam = $this->pam;
         if ($pam->can('create', PamRole::class)) {

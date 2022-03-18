@@ -5,6 +5,7 @@ namespace Demo\App\Filter;
 use Demo\Models\DemoUser;
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\MgrApp\Classes\Widgets\FilterWidget;
+use Poppy\MgrApp\Classes\Widgets\TableWidget;
 use Poppy\MgrApp\Http\Grid\GridBase;
 
 class FilterEqual extends GridBase
@@ -14,16 +15,16 @@ class FilterEqual extends GridBase
     /**
      * @inheritDoc
      */
-    public function columns()
+    public function table(TableWidget $table)
     {
-        $this->column('id', 'ID')->quickId();
-        $this->column('user.nickname', '昵称')->quickTitle()->align('center');
-        $this->column('title', '标题')->quickTitle();
-        $this->column('birth_at', '出生时间')->quickDatetime();
-        $this->column('post_at', '发布时间')->quickDatetime();
-        $this->column('created_at', '创建时间')->quickDatetime();
-        $this->column('modify_at', '修改时间')->quickDatetime();
-        $this->column('is_open', '启用')->display(function () {
+        $table->add('id', 'ID')->quickId();
+        $table->add('user.nickname', '昵称')->quickTitle()->align('center');
+        $table->add('title', '标题')->quickTitle();
+        $table->add('birth_at', '出生时间')->quickDatetime();
+        $table->add('post_at', '发布时间')->quickDatetime();
+        $table->add('created_at', '创建时间')->quickDatetime();
+        $table->add('modify_at', '修改时间')->quickDatetime();
+        $table->add('is_open', '启用')->display(function () {
             return data_get($this, 'is_open') ? '启用' : '禁用';
         });
     }

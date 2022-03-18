@@ -2,8 +2,8 @@
 
 namespace Poppy\MgrApp\Http\Grid;
 
-use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\MgrApp\Classes\Grid\Column\Render\ActionsRender;
+use Poppy\MgrApp\Classes\Widgets\TableWidget;
 
 class GridPamToken extends GridBase
 {
@@ -12,17 +12,16 @@ class GridPamToken extends GridBase
 
     /**
      * @inheritDoc
-     * @throws ApplicationException
      */
-    public function columns()
+    public function table(TableWidget $table)
     {
-        $this->column('id', "ID")->sortable()->width(90, true)->align('center');
-        $this->column('account_id', "用户ID")->width(90, true)->align('center');
-        $this->column('device_type', "设备类型");
-        $this->column('device_id', "设备ID")->width(320, false);
-        $this->column('login_ip', "登录IP");
-        $this->column('expired_at', "过期时间")->width(170, true);
-        $this->action(function (ActionsRender $actions) {
+        $table->add('id', "ID")->sortable()->width(90, true)->align('center');
+        $table->add('account_id', "用户ID")->width(90, true)->align('center');
+        $table->add('device_type', "设备类型");
+        $table->add('device_id', "设备ID")->width(320, false);
+        $table->add('login_ip', "登录IP");
+        $table->add('expired_at', "过期时间")->width(170, true);
+        $table->action(function (ActionsRender $actions) {
             $row = $actions->getRow();
             $actions->default(['plain', 'circle', 'only']);
             $actions->request('禁用IP', route('py-mgr-app:api-backend.pam.ban', [data_get($row, 'id'), 'ip']))->icon('MapLocation');

@@ -60,13 +60,13 @@ class GridWidget
      * 右上角快捷操作
      * @var Actions
      */
-    private Actions $quickActions;
+    private Actions $quick;
 
     /**
      * 左下角快捷操作
      * @var Actions
      */
-    private Actions $batchActions;
+    private Actions $batch;
 
     /**
      * 标题
@@ -78,14 +78,15 @@ class GridWidget
      * Create a new grid instance.
      *
      * @param Model|Eloquent $model
+     * @throws ApplicationException
      */
     public function __construct($model)
     {
-        $this->query        = QueryFactory::create($model);
-        $this->filter       = new FilterWidget();
-        $this->quickActions = (new Actions())->default(['primary', 'plain']);
-        $this->batchActions = (new Actions())->default(['info', 'plain']);
-        $this->table        = new TableWidget();
+        $this->query  = QueryFactory::create($model);
+        $this->filter = new FilterWidget();
+        $this->quick  = (new Actions())->default(['primary', 'plain']);
+        $this->batch  = (new Actions())->default(['info', 'plain']);
+        $this->table  = new TableWidget();
     }
 
     /**
@@ -124,15 +125,14 @@ class GridWidget
         /* 设置标题和描述
          * ---------------------------------------- */
         $this->title = $List->title;
-        $List->columns();
-        $this->table = $List->table;
+        $List->table($this->table);
         // 为请求添加默认列
-        if ($this->query->pkName()) {
-            $this->table->add($this->query->pkName(), '', true);
+        if ($this->query->getPrimaryKey()) {
+            $this->table->add($this->query->getPrimaryKey());
         }
-        $List->quickActions($this->quickActions);
+        $List->quick($this->quick);
         $List->filter($this->filter);
-        $List->batchActions($this->batchActions);
+        $List->batch($this->batch);
     }
 
     /**
@@ -219,7 +219,7 @@ class GridWidget
         // if exportable => selection True
         // if selection & !pk => Selection Disable
         // 支持批处理, 开启选择器
-        if (count($this->batchActions->struct())) {
+        if (count($this->batch->struct())) {
             $this->table->enableSelection();
         }
         if ($this->filter->getEnableExport()) {
@@ -230,7 +230,7 @@ class GridWidget
             'type'    => 'grid',
             'url'     => $this->pyRequest()->url(),
             'title'   => $this->title ?: '-',
-            'batch'   => $this->batchActions->struct(),
+            'batch'   => $this->batch->struct(),
             'scopes'  => $this->filter->getScopesStruct(),
             'scope'   => $this->filter->getCurrentScope() ? $this->filter->getCurrentScope()->value : '',
             'options' => [
@@ -238,14 +238,14 @@ class GridWidget
                 'selection'  => $this->table->enableSelection,
             ],
             'cols'    => $columns,
-            'pk'      => $this->query->pkName(),
+            'pk'      => $this->query->getPrimaryKey(),
         ];
     }
 
     private function queryFilter(): array
     {
         return [
-            'actions' => $this->quickActions->struct(),
+            'actions' => $this->quick->struct(),
             'filter'  => $this->filter->struct(),
         ];
     }
@@ -268,7 +268,7 @@ class GridWidget
     private function queryData(): array
     {
         // 获取模型数据
-        $collection = $this->query->prepare($this->filter, $this->table)->buildData();
+        $collection = $this->query->prepare($this->filter, $this->table)->get();
 
 
         $rows = $collection->map(function ($row) {
@@ -276,7 +276,6 @@ class GridWidget
             $this->table->visibleCols()->each(function (Column $column) use ($row, $newRow) {
                 $newRow->put(
                     $column->name,
-//                    $this->convertFieldName($column->name),
                     $column->fillVal($row)
                 );
             });

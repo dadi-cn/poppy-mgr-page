@@ -88,7 +88,7 @@ abstract class AbstractExporter implements Exportable
             }
             $count          = count($selected);
             $this->fileName = $this->title() . "-已选择({$count})";
-            $this->query->useIds($selected);
+            $this->query->usePrimaryKey($selected);
         }
         return $this;
     }

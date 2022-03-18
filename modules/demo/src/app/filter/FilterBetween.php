@@ -3,8 +3,8 @@
 
 namespace Demo\App\Filter;
 
-use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\MgrApp\Classes\Widgets\FilterWidget;
+use Poppy\MgrApp\Classes\Widgets\TableWidget;
 use Poppy\MgrApp\Http\Grid\GridBase;
 
 /**
@@ -19,16 +19,16 @@ class FilterBetween extends GridBase
     /**
      * @inheritDoc
      */
-    public function columns()
+    public function table(TableWidget $table)
     {
-        $this->column('id', 'ID')->quickId()->sortable();
-        $this->column('title', '状态[1-5]')->quickTitle();
-        $this->column('status', '状态[1-5]')->quickId();
-        $this->column('account_id', 'UID[1-50]')->quickId(true);
-        $this->column('post_at', '发布时间')->quickDatetime();
-        $this->column('delete_at', '删除时间')->quickDatetime();
-        $this->column('modify_at', '修改时间');
-        $this->column('rename_at', '命名时间');
+        $table->add('id', 'ID')->quickId()->sortable();
+        $table->add('title', '状态[1-5]')->quickTitle();
+        $table->add('status', '状态[1-5]')->quickId();
+        $table->add('account_id', 'UID[1-50]')->quickId(true);
+        $table->add('post_at', '发布时间')->quickDatetime();
+        $table->add('delete_at', '删除时间')->quickDatetime();
+        $table->add('modify_at', '修改时间');
+        $table->add('rename_at', '命名时间');
     }
 
     /**

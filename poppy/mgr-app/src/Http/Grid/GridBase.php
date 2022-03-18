@@ -2,20 +2,16 @@
 
 namespace Poppy\MgrApp\Http\Grid;
 
-use Closure;
-use Poppy\MgrApp\Classes\Grid\Column\Column;
 use Poppy\MgrApp\Classes\Grid\Tools\Actions;
 use Poppy\MgrApp\Classes\Widgets\FilterWidget;
 use Poppy\MgrApp\Classes\Widgets\TableWidget;
 use Poppy\System\Models\PamAccount;
 
 /**
- * @property-read string      $title     标题
- * @property-read TableWidget $table     表格组件
+ * @property-read string $title     标题
  */
-abstract class GridBase implements GridContract
+abstract class GridBase
 {
-
     /**
      * 标题
      * @var string
@@ -24,55 +20,49 @@ abstract class GridBase implements GridContract
 
 
     /**
-     * 列组件
-     * @var TableWidget
-     */
-    protected TableWidget $table;
-
-    /**
      * @var PamAccount
      */
     protected $pam;
 
     public function __construct()
     {
-        $this->pam   = app('auth')->user();
-        $this->table = new TableWidget();
+        $this->pam = app('auth')->user();
     }
 
 
     /**
-     * 添加列到组件
-     * @param string $name
-     * @param string $label
-     * @return Column
+     * 表格定义
+     * @param TableWidget $table
+     * @return void
      */
-    public function column(string $name, string $label = ''): Column
+    public function table(TableWidget $table)
     {
-        return $this->table->add($name, $label);
     }
 
     /**
-     * 添加列操作
-     * @param Closure $closure
-     * @param string  $title
-     * @return Column
+     * 搜索项
+     * @param FilterWidget $filter
+     * @return void
      */
-    public function action(Closure $closure, string $title = '操作'): Column
-    {
-        return $this->table->action($closure, $title);
-    }
-
-
     public function filter(FilterWidget $filter)
     {
     }
 
-    public function quickActions(Actions $actions)
+    /**
+     * 快捷操作栏
+     * @param Actions $actions
+     * @return void
+     */
+    public function quick(Actions $actions)
     {
     }
 
-    public function batchActions(Actions $actions)
+    /**
+     * 批量操作
+     * @param Actions $actions
+     * @return void
+     */
+    public function batch(Actions $actions)
     {
     }
 

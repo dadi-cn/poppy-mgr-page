@@ -4,6 +4,7 @@ namespace Demo\App\Filter;
 
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\MgrApp\Classes\Widgets\FilterWidget;
+use Poppy\MgrApp\Classes\Widgets\TableWidget;
 use Poppy\MgrApp\Http\Grid\GridBase;
 
 class FilterLike extends GridBase
@@ -13,12 +14,12 @@ class FilterLike extends GridBase
     /**
      * @inheritDoc
      */
-    public function columns()
+    public function table(TableWidget $table)
     {
-        $this->column('id', 'ID')->quickId();
-        $this->column('title', '标题')->quickTitle();
-        $this->column('description', '描述')->quickTitle();
-        $this->column('note', '备注(末尾匹配)')->ellipsis();
+        $table->add('id', 'ID')->quickId();
+        $table->add('title', '标题')->quickTitle();
+        $table->add('description', '描述')->quickTitle();
+        $table->add('note', '备注(末尾匹配)')->ellipsis();
     }
 
 

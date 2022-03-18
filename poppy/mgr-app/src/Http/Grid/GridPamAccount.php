@@ -3,11 +3,11 @@
 namespace Poppy\MgrApp\Http\Grid;
 
 use Illuminate\Support\Str;
-use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\MgrApp\Classes\Grid\Column\Render\ActionsRender;
 use Poppy\MgrApp\Classes\Grid\Filter\Query\Scope;
 use Poppy\MgrApp\Classes\Grid\Tools\Actions;
 use Poppy\MgrApp\Classes\Widgets\FilterWidget;
+use Poppy\MgrApp\Classes\Widgets\TableWidget;
 use Poppy\System\Models\PamAccount;
 use Poppy\System\Models\PamRole;
 use Poppy\System\Models\PamRoleAccount;
@@ -19,18 +19,17 @@ class GridPamAccount extends GridBase
 
     /**
      * @inheritDoc
-     * @throws ApplicationException
      */
-    public function columns()
+    public function table(TableWidget $table)
     {
-        $this->column('id', "ID")->sortable()->width(90, true)->align('center');
-        $this->column('username', "用户名");
-        $this->column('mobile', "手机号");
-        $this->column('email', "邮箱");
-        $this->column('login_times', "登录次数")->width(90, true)->align('center');
-        $this->column('created_at', "操作时间")->width(170, true);
+        $table->add('id', "ID")->sortable()->width(90, true)->align('center');
+        $table->add('username', "用户名");
+        $table->add('mobile', "手机号");
+        $table->add('email', "邮箱");
+        $table->add('login_times', "登录次数")->width(90, true)->align('center');
+        $table->add('created_at', "操作时间")->width(170, true);
         $pam = $this->pam;
-        $this->action(function (ActionsRender $actions) use ($pam) {
+        $table->action(function (ActionsRender $actions) use ($pam) {
             $row = $actions->getRow();
             $actions->default(['plain', 'circle', 'only']);
             $actions->page('修改密码', route('py-mgr-app:api-backend.pam.password', [data_get($row, 'id')]), 'form')->icon('Key');
@@ -66,16 +65,16 @@ class GridPamAccount extends GridBase
                 $passport = '86-' . $passport;
             }
             $query->where($type, $passport);
-        }, '手机/用户名/邮箱', 'passport')->width(4);
+        }, '手机/用户名/邮箱', 'passport')->asText('手机/用户名/邮箱');
         $filter->where(function ($query) {
             $roleId      = data_get($this, 'input');
             $account_ids = PamRoleAccount::where('role_id', $roleId)->pluck('account_id');
             $query->whereIn('id', $account_ids);
-        }, '用户角色', 'role_id')->select($roles);
+        }, '用户角色', 'role_id')->asSelect($roles, '选择角色');
     }
 
 
-    public function quickActions(Actions $actions)
+    public function quick(Actions $actions)
     {
         $actions->page('新增账号', route_url('py-mgr-app:api-backend.pam.establish'), 'form')->icon('CirclePlus');
     }

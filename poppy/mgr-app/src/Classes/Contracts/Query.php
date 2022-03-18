@@ -10,13 +10,17 @@ use Poppy\MgrApp\Classes\Widgets\TableWidget;
 interface Query
 {
 
-    public function useIds(array $ids = []): self;
-
     /**
      * 获取查询数据
      */
-    public function buildData(): Collection;
+    public function get(): Collection;
 
+
+    /**
+     * 设置回调
+     * @param Closure|null $callback
+     */
+    public function collection(Closure $callback = null): self;
 
     /**
      * 批量返回数据
@@ -52,8 +56,23 @@ interface Query
     public function edit($id, string $field, $value): bool;
 
 
-    public function usePaginate();
+    /**
+     * 是否使用分页使用分页
+     * @param bool $paginate
+     * @return mixed
+     */
+    public function usePaginate(bool $paginate = false);
 
+    /**
+     * 使用主键, 用于导出时候选择导出
+     * @param array $ids
+     * @return $this
+     */
+    public function usePrimaryKey(array $ids = []): self;
 
-    public function pkName();
+    /**
+     * 获取主键
+     * @return mixed
+     */
+    public function getPrimaryKey();
 }

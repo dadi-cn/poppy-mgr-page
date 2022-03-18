@@ -17,8 +17,6 @@ use Poppy\MgrApp\Classes\Grid\Column\Render\HtmlRender;
 use Poppy\MgrApp\Classes\Grid\Column\Render\ImageRender;
 use Poppy\MgrApp\Classes\Grid\Column\Render\LinkRender;
 use Poppy\MgrApp\Classes\Grid\Column\Render\Render;
-use Poppy\MgrApp\Classes\Grid\Query\QueryModel;
-use function request;
 
 /**
  * 列展示以及渲染, 当前的目的是使用前端方式渲染, 而不是依靠于 v-html 或者是后端生成
@@ -38,7 +36,7 @@ class Column implements Structable
     public const NAME_ACTION = '_action';     // 用于定义列操作, 可以在导出时候移除
 
     /**
-     * Displayer for grid column.
+     * renders for grid column.
      *
      * @var array
      */
@@ -93,12 +91,12 @@ class Column implements Structable
      * 关系列
      * @var string
      */
-    protected $relationColumn;
+    protected string $relationColumn = '';
 
     /**
      * @var []Closure
      */
-    protected $displayCallbacks = [];
+    protected $renderCallbacks = [];
 
     /**
      * @var bool 是否启用排序
@@ -314,21 +312,9 @@ class Column implements Structable
      *
      * @return $this
      */
-    public function searchable()
+    public function searchable(): self
     {
         $this->searchable = true;
-
-        $name  = $this->name;
-        $query = request()->query();
-
-        $this->prefix(function ($_, $original) use ($name, $query) {
-            Arr::set($query, $name, $original);
-
-            $url = request()->fullUrlWithQuery($query);
-
-            return "<a href=\"{$url}\"><i class=\"fa fa-search\"></i></a>";
-        }, '&nbsp;&nbsp;');
-
         return $this;
     }
 
@@ -383,20 +369,6 @@ class Column implements Structable
         return $defines;
     }
 
-    /**
-     * Bind search query to grid model.
-     *
-     * @param QueryModel $model
-     */
-    public function bindSearchQuery(QueryModel $model)
-    {
-        if (!$this->searchable || !request()->has($this->name)) {
-            return;
-        }
-
-        $model->where($this->name, request($this->name));
-    }
-
     public function html(Closure $closure): self
     {
         $this->type = 'html';
@@ -410,7 +382,7 @@ class Column implements Structable
      */
     public function display(Closure $callback): self
     {
-        $this->displayCallbacks[] = $callback;
+        $this->renderCallbacks[] = $callback;
         return $this;
     }
 
@@ -532,19 +504,22 @@ class Column implements Structable
             }
         } else {
             $value = Arr::get($row, $this->name);
+            if ($value instanceof Carbon) {
+                $value = $value->toDateTimeString();
+            }
         }
         if ($this->isDefinedColumn()) {
             $this->useDefinedColumn();
         }
 
-        if ($this->hasDisplayCallbacks()) {
+        if ($this->hasRenderCallbacks()) {
             $value = $this->callDisplayCallbacks($value, $row);
         }
         return $value;
     }
 
     /**
-     * Passes through all unknown calls to builtin displayer or supported displayer.
+     * Passes through all unknown calls to builtin renders or supported render.
      *
      * Allow fluent calls on the Column object.
      *
@@ -553,7 +528,7 @@ class Column implements Structable
      *
      * @return $this
      */
-    public function __call($method, $arguments)
+    public function __call(string $method, array $arguments)
     {
         if ($this->isRelation() && !$this->relationColumn) {
             $this->name  = "{$this->relation}.$method";
@@ -563,7 +538,7 @@ class Column implements Structable
 
             return $this;
         }
-        return $this->resolveDisplayer($method, $arguments);
+        return $this->resolveRender($method, $arguments);
     }
 
     /**
@@ -577,14 +552,14 @@ class Column implements Structable
     }
 
     /**
-     * Extend column displayer.
+     * Extend column render.
      *
      * @param $name
-     * @param $displayer
+     * @param $render
      */
-    public static function extend($name, $displayer)
+    public static function extend($name, $render)
     {
-        static::$renderers[$name] = $displayer;
+        static::$renderers[$name] = $render;
     }
 
     /**
@@ -628,9 +603,9 @@ class Column implements Structable
      *
      * @return bool
      */
-    protected function hasDisplayCallbacks()
+    protected function hasRenderCallbacks()
     {
-        return !empty($this->displayCallbacks);
+        return !empty($this->renderCallbacks);
     }
 
     /**
@@ -642,14 +617,14 @@ class Column implements Structable
      */
     protected function callDisplayCallbacks($value, $row)
     {
-        foreach ($this->displayCallbacks as $callback) {
+        foreach ($this->renderCallbacks as $callback) {
             $previous = $value;
 
             $callback = $callback->bindTo($row);
             $value    = call_user_func_array($callback, [$value, $this]);
 
             if (($value instanceof static) &&
-                ($last = array_pop($this->displayCallbacks))
+                ($last = array_pop($this->renderCallbacks))
             ) {
                 $last  = $last->bindTo($row);
                 $value = call_user_func($last, $previous);
@@ -675,7 +650,7 @@ class Column implements Structable
     protected function useDefinedColumn()
     {
         // clear all display callbacks.
-        $this->displayCallbacks = [];
+        $this->renderCallbacks = [];
 
         $class = static::$defined[$this->name];
 
@@ -699,30 +674,30 @@ class Column implements Structable
     }
 
     /**
-     * Find a displayer to display column.
+     * Find a render to display column.
      *
      * @param string $method
      * @param array $arguments
      *
      * @return $this
      */
-    protected function resolveDisplayer(string $method, array $arguments): self
+    protected function resolveRender(string $method, array $arguments): self
     {
         $this->type = $method;
         if (array_key_exists($method, static::$renderers)) {
-            return $this->callBuiltinDisplayer(static::$renderers[$method], $arguments);
+            return $this->callBuiltinRender(static::$renderers[$method], $arguments);
         }
-        return $this->callSupportDisplayer($method, $arguments);
+        return $this->callSupportRender($method, $arguments);
     }
 
     /**
-     * Call Illuminate/Support displayer.
+     * Call Illuminate/Support.
      *
      * @param string $method
      * @param array $arguments
      * @return $this
      */
-    protected function callSupportDisplayer(string $method, array $arguments): self
+    protected function callSupportRender(string $method, array $arguments): self
     {
         return $this->display(function ($value) use ($method, $arguments) {
             if (is_array($value) || $value instanceof Arrayable) {
@@ -738,14 +713,14 @@ class Column implements Structable
     }
 
     /**
-     * Call Builtin displayer.
+     * Call Builtin.
      *
      * @param string|Closure $abstract
      * @param array $arguments
      *
      * @return $this
      */
-    protected function callBuiltinDisplayer($abstract, array $arguments): self
+    protected function callBuiltinRender($abstract, array $arguments): self
     {
         if ($abstract instanceof Closure) {
             return $this->display(function ($value) use ($abstract, $arguments) {

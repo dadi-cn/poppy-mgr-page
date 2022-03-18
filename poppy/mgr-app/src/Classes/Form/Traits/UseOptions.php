@@ -11,7 +11,7 @@ trait UseOptions
     /**
      * Set options.
      *
-     * @param array|callable|string $options
+     * @param array|callable|string|Arrayable $options
      * @return $this
      */
     public function options($options = []): self

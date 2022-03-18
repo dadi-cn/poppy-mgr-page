@@ -6,6 +6,7 @@ use Poppy\MgrApp\Classes\Grid\Column\Render\ActionsRender;
 use Poppy\MgrApp\Classes\Grid\Filter\Query\Scope;
 use Poppy\MgrApp\Classes\Grid\Tools\Actions;
 use Poppy\MgrApp\Classes\Widgets\FilterWidget;
+use Poppy\MgrApp\Classes\Widgets\TableWidget;
 use Poppy\MgrApp\Http\Grid\GridBase;
 
 /**
@@ -16,17 +17,17 @@ class GridQuickActions extends GridBase
     /**
      * @inheritDoc
      */
-    public function columns()
+    public function table(TableWidget $table)
     {
-        $this->column('id');
-        $this->column('type', 'TYPE')->display(function () {
+        $table->add('id');
+        $table->add('type', 'TYPE')->display(function () {
             if (data_get($this, 'id') % 2 === 0) {
                 return '分组';
             } else {
                 return '散开';
             }
         });
-        $this->action(function (ActionsRender $actions) {
+        $table->action(function (ActionsRender $actions) {
             $row = $actions->getRow();
             $actions->request('错误', route('demo:api.mgr_app.grid_request', ['error']));
             $actions->request('成功', route('demo:api.mgr_app.grid_request', ['success']));
@@ -48,7 +49,7 @@ class GridQuickActions extends GridBase
         $filter->like('username', 'username');
     }
 
-    public function quickActions(Actions $actions)
+    public function quick(Actions $actions)
     {
         $scope = input(Scope::QUERY_NAME);
         $actions->page('新建', 'abc', 'form');

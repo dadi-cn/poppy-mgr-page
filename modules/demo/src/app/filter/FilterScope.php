@@ -5,6 +5,7 @@ namespace Demo\App\Filter;
 
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\MgrApp\Classes\Widgets\FilterWidget;
+use Poppy\MgrApp\Classes\Widgets\TableWidget;
 use Poppy\MgrApp\Http\Grid\GridBase;
 
 /**
@@ -19,11 +20,11 @@ class FilterScope extends GridBase
     /**
      * @inheritDoc
      */
-    public function columns()
+    public function table(TableWidget $table)
     {
-        $this->column('id', 'ID')->width(150)->sortable();
-        $this->column('title', '标题')->width(200)->ellipsis();
-        $this->column('status', '状态')->display(function () {
+        $table->add('id', 'ID')->width(150)->sortable();
+        $table->add('title', '标题')->width(200)->ellipsis();
+        $table->add('status', '状态')->display(function () {
             $defs = [
                 1 => '未发布',
                 2 => '草稿',
@@ -33,7 +34,7 @@ class FilterScope extends GridBase
             ];
             return $defs[data_get($this, 'status')] ?? '-';
         });
-        $this->column('birth_at', '发布时间');
+        $table->add('birth_at', '发布时间');
     }
 
     /**

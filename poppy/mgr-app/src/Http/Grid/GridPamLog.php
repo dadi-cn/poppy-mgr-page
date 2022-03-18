@@ -2,8 +2,8 @@
 
 namespace Poppy\MgrApp\Http\Grid;
 
-use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\MgrApp\Classes\Widgets\FilterWidget;
+use Poppy\MgrApp\Classes\Widgets\TableWidget;
 
 /**
  * 列表 PamLog
@@ -14,23 +14,22 @@ class GridPamLog extends GridBase
     public string $title = '登录日志';
 
     /**
-     * @throws ApplicationException
      */
-    public function columns()
+    public function table(TableWidget $table)
     {
-        $this->column('id', "ID")->sortable()->width(80);
-        $this->column('pam.username', "用户名");
-        $this->column('created_at', "操作时间");
-        $this->column('ip', "IP地址");
-        $this->column('type', "状态");
-        $this->column('area_text', "说明");
+        $table->add('id', "ID")->sortable()->width(80);
+        $table->add('pam.username', "用户名");
+        $table->add('created_at', "操作时间");
+        $table->add('ip', "IP地址");
+        $table->add('type', "状态");
+        $table->add('area_text', "说明");
     }
 
 
     public function filter(FilterWidget $filter)
     {
-        $filter->equal('account_id', '用户ID');
-        $filter->equal('ip', 'IP地址');
+        $filter->equal('account_id', '用户ID')->asText('用户ID');
+        $filter->equal('ip', 'IP地址')->asText('用户IP');
         $filter->like('area_text', '登录地区');
     }
 }

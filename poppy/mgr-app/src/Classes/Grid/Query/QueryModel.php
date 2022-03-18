@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -21,19 +20,14 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\Framework\Helper\UtilHelper;
-use Poppy\MgrApp\Classes\Contracts\Query;
 use Poppy\MgrApp\Classes\Grid\Column\Column;
 use Poppy\MgrApp\Classes\Widgets\FilterWidget;
 use Poppy\MgrApp\Classes\Widgets\TableWidget;
 use function collect;
 use function request;
 
-class QueryModel implements Query
+class QueryModel extends Query
 {
-
-    public const  NAME_PAGESIZE = 'pagesize';       // 页数
-    private const OBJECT_MASK   = '--wb--';
-
 
     /**
      * Eloquent model instance of the grid model.
@@ -57,43 +51,20 @@ class QueryModel implements Query
     /**
      * Sort parameters of the model.
      *
-     * @var array
+     * @var array|string
      */
     protected $sort;
 
-    /*
-     * 15 items per page as default.
-     * @var int
-     */
-    protected $pagesize = 15;
 
     /**
-     * 使用分页
-     * @var bool
+     * @var ?Relation
      */
-    protected bool $usePaginate = true;
-
-    /**
-     * 对查询出来的数据集合进行回调, 参数是查询的所有数据
-     * @var ?Closure
-     */
-    protected ?Closure $collectionCallback = null;
-
-    /**
-     * @var Relation
-     */
-    protected $relation;
+    protected ?Relation $relation = null;
 
     /**
      * @var array
      */
     protected array $eagerLoads = [];
-
-    /**
-     * 分页总长度
-     * @var int
-     */
-    private int $total = 0;
 
     /**
      * Create a new grid model instance.
@@ -110,111 +81,21 @@ class QueryModel implements Query
     }
 
     /**
-     * @return Model
-     */
-    public function getOriginalModel()
-    {
-        return $this->origin;
-    }
-
-    /**
-     * Get the eloquent model of the grid model.
-     *
-     * @return Model
-     */
-    public function eloquent()
-    {
-        return $this->model;
-    }
-
-    /**
      * 启用或者禁用分页
-     * @param bool $use
+     * @param bool $paginate
      */
-    public function usePaginate(bool $use = true)
+    public function usePaginate(bool $paginate = true)
     {
-        $this->usePaginate = $use;
-    }
-
-    /**
-     * Get per-page number.
-     *
-     * @return int
-     */
-    public function getPagesize(): int
-    {
-        return $this->pagesize;
-    }
-
-    /**
-     * 设置分页数量
-     * @param int $pagesize
-     * @return $this
-     */
-    public function setPagesize(int $pagesize): self
-    {
-        $this->pagesize = $pagesize;
-        $this->__call('paginate', [$pagesize]);
-        return $this;
-    }
-
-    /**
-     * @return Relation
-     */
-    public function getRelation()
-    {
-        return $this->relation;
-    }
-
-    /**
-     * @param Relation $relation
-     *
-     * @return $this
-     */
-    public function setRelation(Relation $relation)
-    {
-        $this->relation = $relation;
-
-        return $this;
-    }
-
-    /**
-     * Get constraints.
-     *
-     * @return array|bool
-     */
-    public function getConstraints()
-    {
-        if ($this->relation instanceof HasMany) {
-            return [
-                $this->relation->getForeignKeyName() => $this->relation->getParentKey(),
-            ];
-        }
-
-        return false;
-    }
-
-    /**
-     * Set collection callback.
-     *
-     * @param Closure|null $callback
-     *
-     * @return $this
-     */
-    public function collection(Closure $callback = null)
-    {
-        $this->collectionCallback = $callback;
-
-        return $this;
+        $this->usePaginate = $paginate;
     }
 
     /**
      * 组建数据
      * @throws Exception
      */
-    public function buildData(): Collection
+    public function get(): Collection
     {
-        $collection = $this->get();
+        $collection = $this->fetchData();
 
         if ($this->collectionCallback) {
             $collection = call_user_func($this->collectionCallback, $collection);
@@ -225,14 +106,14 @@ class QueryModel implements Query
 
     /**
      * @param Closure $closure
-     * @param int $count
+     * @param int $amount
      * @return Collection|bool
      * @throws Exception
      */
-    public function chunk(Closure $closure, int $count = 100)
+    public function chunk(Closure $closure, int $amount = 100)
     {
         if ($this->usePaginate) {
-            return $this->buildData()->chunk($count)->each($closure);
+            return $this->get()->chunk($amount)->each($closure);
         }
 
         $this->setSort();
@@ -243,57 +124,7 @@ class QueryModel implements Query
             $this->model = $this->model->{$query['method']}(...$query['arguments']);
         });
 
-        return $this->model->chunk($count, $closure);
-    }
-
-    /**
-     * 添加条件到 Model
-     * @param array $conditions
-     * @return $this
-     */
-    public function addConditions(array $conditions): self
-    {
-        foreach ($conditions as $condition) {
-            // [$this, where][title, like, '%我%']
-            call_user_func_array([$this, key($condition)], current($condition));
-        }
-
-        return $this;
-    }
-
-
-    /**
-     * @return Builder|Model
-     */
-    public function getQueryBuilder()
-    {
-        if ($this->relation) {
-            return $this->relation->getQuery();
-        }
-
-        $this->setSort();
-
-        $queryBuilder = $this->origin;
-
-        $this->queries->reject(function ($query) {
-            return in_array($query['method'], ['get', 'paginate']);
-        })->each(function ($query) use (&$queryBuilder) {
-            $queryBuilder = $queryBuilder->{$query['method']}(...$query['arguments']);
-        });
-
-        return $queryBuilder;
-    }
-
-    /**
-     * Reset orderBy query.
-     *
-     * @return void
-     */
-    public function resetOrderBy()
-    {
-        $this->queries = $this->queries->reject(function ($query) {
-            return $query['method'] == 'orderBy' || $query['method'] == 'orderByDesc';
-        });
+        return $this->model->chunk($amount, $closure);
     }
 
     /**
@@ -305,24 +136,7 @@ class QueryModel implements Query
      */
     public function prepare(FilterWidget $filter, TableWidget $table): self
     {
-        $this->addConditions($filter->conditions());
-        $this->prepareTable($table);
-        return $this;
-    }
-
-    /**
-     * 调用查询方法并把参数放入到查询条件中
-     * @param string $method
-     * @param array $arguments
-     * @return $this
-     */
-    public function __call(string $method, array $arguments)
-    {
-        $this->queries->push([
-            'method'    => $method,
-            'arguments' => $arguments,
-        ]);
-
+        $this->addConditions($filter->conditions())->prepareTable($table);
         return $this;
     }
 
@@ -344,40 +158,6 @@ class QueryModel implements Query
         return true;
     }
 
-    /**
-     * 设置渴望加载的关系数据
-     * @param mixed $relations
-     * @return $this|QueryModel
-     */
-    public function with($relations)
-    {
-        if (is_array($relations)) {
-            if (Arr::isAssoc($relations)) {
-                $relations = array_keys($relations);
-            }
-
-            $this->eagerLoads = array_merge($this->eagerLoads, $relations);
-        }
-
-        if (is_string($relations)) {
-            if (Str::contains($relations, '.')) {
-                $relations = explode('.', $relations)[0];
-            }
-
-            if (Str::contains($relations, ':')) {
-                $relations = explode(':', $relations)[0];
-            }
-
-            if (in_array($relations, $this->eagerLoads)) {
-                return $this;
-            }
-
-            $this->eagerLoads[] = $relations;
-        }
-
-        return $this->__call('with', (array) $relations);
-    }
-
     public function total(): int
     {
         return $this->total;
@@ -386,7 +166,7 @@ class QueryModel implements Query
     /**
      * @return string
      */
-    public function pkName(): string
+    public function getPrimaryKey(): string
     {
         return $this->origin->getKeyName();
     }
@@ -395,9 +175,24 @@ class QueryModel implements Query
      * @param array $ids
      * @return mixed
      */
-    public function useIds(array $ids = []): self
+    public function usePrimaryKey(array $ids = []): self
     {
-        $this->whereIn($this->pkName(), $ids);
+        $this->__call('whereIn', [$this->getPrimaryKey(), $ids]);
+        return $this;
+    }
+
+    /**
+     * 调用查询方法并把参数放入到查询条件中
+     * @param string $method
+     * @param array $arguments
+     * @return $this
+     */
+    public function __call(string $method, array $arguments)
+    {
+        $this->queries->push([
+            'method'    => $method,
+            'arguments' => $arguments,
+        ]);
         return $this;
     }
 
@@ -405,7 +200,7 @@ class QueryModel implements Query
      * @return Collection
      * @throws Exception
      */
-    protected function get()
+    protected function fetchData()
     {
         if ($this->relation) {
             $this->model = $this->relation->getQuery();
@@ -541,8 +336,9 @@ class QueryModel implements Query
      * @param string $column
      *
      * @return void
+     * @throws Exception
      */
-    protected function setRelationSort($column)
+    protected function setRelationSort(string $column)
     {
         [$relationName, $relationColumn] = explode('.', $column);
 
@@ -580,11 +376,11 @@ class QueryModel implements Query
      *
      * @param Relation $relation
      *
-     * @return array
+     * @return ?array
      * @throws Exception
      *
      */
-    protected function joinParameters(Relation $relation)
+    protected function joinParameters(Relation $relation): ?array
     {
         $relatedTable = $relation->getRelated()->getTable();
 
@@ -609,6 +405,67 @@ class QueryModel implements Query
         }
 
         throw new Exception('Related sortable only support `HasOne` and `BelongsTo` relation.');
+    }
+
+    /**
+     * Reset orderBy query.
+     *
+     * @return void
+     */
+    private function resetOrderBy()
+    {
+        $this->queries = $this->queries->reject(function ($query) {
+            return $query['method'] == 'orderBy' || $query['method'] == 'orderByDesc';
+        });
+    }
+
+    /**
+     * 添加条件到 Model
+     * @param array $conditions
+     * @return $this
+     */
+    private function addConditions(array $conditions): self
+    {
+        foreach ($conditions as $condition) {
+            // [$this, where][title, like, '%我%']
+            call_user_func_array([$this, key($condition)], current($condition));
+        }
+
+        return $this;
+    }
+
+    /**
+     * 设置渴望加载的关系数据
+     * @param mixed $relations
+     * @return $this
+     */
+    private function with($relations)
+    {
+        if (is_array($relations)) {
+            if (Arr::isAssoc($relations)) {
+                $relations = array_keys($relations);
+            }
+
+            $this->eagerLoads = array_merge($this->eagerLoads, $relations);
+        }
+
+        if (is_string($relations)) {
+            if (Str::contains($relations, '.')) {
+                $relations = explode('.', $relations)[0];
+            }
+
+            if (Str::contains($relations, ':')) {
+                $relations = explode(':', $relations)[0];
+            }
+
+            if (in_array($relations, $this->eagerLoads)) {
+                return $this;
+            }
+
+            $this->eagerLoads[] = $relations;
+        }
+
+        return $this->__call('with', (array) $relations);
     }
 
     /**

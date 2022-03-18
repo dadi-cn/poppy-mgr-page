@@ -2,10 +2,10 @@
 
 namespace Poppy\MgrApp\Http\Grid;
 
-use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\MgrApp\Classes\Grid\Column\Render\ActionsRender;
 use Poppy\MgrApp\Classes\Grid\Tools\Actions;
 use Poppy\MgrApp\Classes\Widgets\FilterWidget;
+use Poppy\MgrApp\Classes\Widgets\TableWidget;
 use Poppy\System\Classes\Grid\Filter;
 use Poppy\System\Models\PamAccount;
 use Poppy\System\Models\PamBan;
@@ -18,17 +18,16 @@ class GridPamBan extends GridBase
 
     /**
      * @inheritDoc
-     * @throws ApplicationException
      */
-    public function columns()
+    public function table(TableWidget $table)
     {
-        $this->column('id', "ID")->sortable()->width(90, true)->align('center');
-        $this->column('type', "类型")->display(function ($type) {
+        $table->add('id', "ID")->sortable()->width(90, true)->align('center');
+        $table->add('type', "类型")->display(function ($type) {
             return PamBan::kvType($type);
         })->width(100, true)->align('center');
-        $this->column('value', "限制值");
-        $this->column('note', '备注');
-        $this->action(function (ActionsRender $actions) {
+        $table->add('value', "限制值");
+        $table->add('note', '备注');
+        $table->action(function (ActionsRender $actions) {
             $row = $actions->getRow();
             $actions->default(['only', 'circle', 'plain']);
             $actions->request("删除", route_url('py-mgr-app:api-backend.ban.delete', [data_get($row, 'id')]))->icon('Close')->danger();
@@ -43,7 +42,7 @@ class GridPamBan extends GridBase
         }
     }
 
-    public function quickActions(Actions $actions)
+    public function quick(Actions $actions)
     {
         $type = input(Filter\Scope::QUERY_NAME, PamAccount::TYPE_USER);
 

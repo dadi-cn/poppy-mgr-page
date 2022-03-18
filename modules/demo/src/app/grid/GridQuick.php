@@ -5,6 +5,7 @@ namespace Demo\App\Grid;
 
 use Demo\Models\DemoWebapp;
 use Poppy\Framework\Exceptions\ApplicationException;
+use Poppy\MgrApp\Classes\Widgets\TableWidget;
 use Poppy\MgrApp\Http\Grid\GridBase;
 
 /**
@@ -18,18 +19,18 @@ class GridQuick extends GridBase
     /**
      * @inheritDoc
      */
-    public function columns()
+    public function table(TableWidget $table)
     {
-        $this->column('id', 'QuickId')->quickId();
-        $this->column('title', 'QuickTitle')->quickTitle();
-        $this->column('title-large', 'QuickTitleLarge')->display(function () {
+        $table->add('id', 'QuickId')->quickId();
+        $table->add('title', 'QuickTitle')->quickTitle();
+        $table->add('title-large', 'QuickTitleLarge')->display(function () {
             return $this->title;
         })->quickTitle(true);
-        $this->column('color', '显示 Html 样式')->quickTitle(true)->html(function () {
+        $table->add('color', '显示 Html 样式')->quickTitle(true)->html(function () {
             return "<div style='{$this->style}'>$this->title</div>";
         });
-        $this->column('link', '链接')->link()->ellipsis();
-        $this->column('pdf', 'Pdf')->download();
-        $this->column('post_at', 'QuickDatetime')->quickDatetime();
+        $table->add('link', '链接')->link()->ellipsis();
+        $table->add('pdf', 'Pdf')->download();
+        $table->add('post_at', 'QuickDatetime')->quickDatetime();
     }
 }

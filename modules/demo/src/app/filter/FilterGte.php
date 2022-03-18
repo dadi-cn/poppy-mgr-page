@@ -5,6 +5,7 @@ namespace Demo\App\Filter;
 use Demo\Models\DemoUser;
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\MgrApp\Classes\Widgets\FilterWidget;
+use Poppy\MgrApp\Classes\Widgets\TableWidget;
 use Poppy\MgrApp\Http\Grid\GridBase;
 
 class FilterGte extends GridBase
@@ -14,15 +15,15 @@ class FilterGte extends GridBase
     /**
      * @inheritDoc
      */
-    public function columns()
+    public function table(TableWidget $table)
     {
-        $this->column('id', 'ID')->quickId();
-        $this->column('user.id', 'UID')->quickId(true)->align('center');
-        $this->column('title', '标题')->quickTitle();
-        $this->column('birth_at', '出生时间')->quickDatetime()->sortable();
-        $this->column('post_at', '发布时间')->quickDatetime()->sortable();
-        $this->column('created_at', '创建时间')->quickDatetime();
-        $this->column('modify_at', '修改时间')->quickDatetime();
+        $table->add('id', 'ID')->quickId();
+        $table->add('user.id', 'UID')->quickId(true)->align('center');
+        $table->add('title', '标题')->quickTitle();
+        $table->add('birth_at', '出生时间')->quickDatetime()->sortable();
+        $table->add('post_at', '发布时间')->quickDatetime()->sortable();
+        $table->add('created_at', '创建时间')->quickDatetime();
+        $table->add('modify_at', '修改时间')->quickDatetime();
     }
 
 

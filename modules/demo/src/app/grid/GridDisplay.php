@@ -5,6 +5,7 @@ namespace Demo\App\Grid;
 
 use Demo\Models\DemoWebapp;
 use Poppy\MgrApp\Classes\Grid\Column\Render\ActionsRender;
+use Poppy\MgrApp\Classes\Widgets\TableWidget;
 use Poppy\MgrApp\Http\Grid\GridBase;
 
 /**
@@ -18,18 +19,18 @@ class GridDisplay extends GridBase
     /**
      * @inheritDoc
      */
-    public function columns()
+    public function table(TableWidget $table)
     {
-        $this->column('id', 'QuickId')->quickId();
-        $this->column('status', 'Status')->usingKv(DemoWebapp::kvStatus());
-        $this->column('title-large', 'QuickTitleLarge')->display(function () {
+        $table->add('id', 'QuickId')->quickId();
+        $table->add('status', 'Status')->usingKv(DemoWebapp::kvStatus());
+        $table->add('title-large', 'QuickTitleLarge')->display(function () {
             return $this->title;
         })->quickTitle(true);
-        $this->column('color', 'QuickTitleLarge')->html(function () {
+        $table->add('color', 'QuickTitleLarge')->html(function () {
             return "<div style='{$this->style}'>$this->title</div>";
         })->quickTitle(true);
-        $this->column('post_at', 'QuickDatetime')->quickDatetime();
-        $this->action(function (ActionsRender $actions) {
+        $table->add('post_at', 'QuickDatetime')->quickDatetime();
+        $table->action(function (ActionsRender $actions) {
             $actions->request('错误', route('demo:api.mgr_app.grid_request', ['error']));
         });
     }

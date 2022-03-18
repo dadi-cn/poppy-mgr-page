@@ -3,6 +3,7 @@
 namespace Demo\App\Grid;
 
 use Poppy\MgrApp\Classes\Grid\Tools\Actions;
+use Poppy\MgrApp\Classes\Widgets\TableWidget;
 use Poppy\MgrApp\Http\Grid\GridBase;
 
 class GridIdDefault extends GridBase
@@ -12,15 +13,15 @@ class GridIdDefault extends GridBase
     /**
      * @inheritDoc
      */
-    public function columns()
+    public function table(TableWidget $table)
     {
         // 自定义样式
-        $this->column('title', '标题')->quickTitle();
-        $this->column('user.nickname', 'Nickname(联合查询)')->quickTitle();
-        $this->column('created_at')->quickDatetime();
+        $table->add('title', '标题')->quickTitle();
+        $table->add('user.nickname', 'Nickname(联合查询)')->quickTitle();
+        $table->add('created_at')->quickDatetime();
     }
 
-    public function batchActions(Actions $actions)
+    public function batch(Actions $actions)
     {
         $actions->request('批量操作', route('demo:api.mgr_app.grid_request', ['success']));
     }

@@ -4,6 +4,7 @@ namespace Demo\App\Grid;
 
 use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\MgrApp\Classes\Grid\Column\Render\ActionsRender;
+use Poppy\MgrApp\Classes\Widgets\TableWidget;
 use Poppy\MgrApp\Http\Grid\GridBase;
 
 /**
@@ -14,10 +15,10 @@ class GridButtonDropdown extends GridBase
     /**
      * @inheritDoc
      */
-    public function columns()
+    public function table(TableWidget $table)
     {
-        $this->column('id');
-        $this->action(function (ActionsRender $actions) {
+        $table->add('id');
+        $table->action(function (ActionsRender $actions) {
             $row = $actions->getRow();
             $actions->styleDropdown(3);
             $actions->request('错误', route_url('demo:api.mgr_app.grid_request', ['error'], ['id' => data_get($row, 'id')]));

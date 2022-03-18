@@ -3,6 +3,7 @@
 namespace Demo\App\Grid;
 
 use Poppy\MgrApp\Classes\Grid\Column\Render\ActionsRender;
+use Poppy\MgrApp\Classes\Widgets\TableWidget;
 use Poppy\MgrApp\Http\Grid\GridBase;
 
 /**
@@ -13,11 +14,11 @@ class GridButton extends GridBase
     /**
      * @inheritDoc
      */
-    public function columns()
+    public function table(TableWidget $table)
     {
-        $this->column('id');
-        $this->column('note');
-        $this->action(function (ActionsRender $actions) {
+        $table->add('id');
+        $table->add('note');
+        $table->action(function (ActionsRender $actions) {
             $actions->request('错误', route('demo:api.mgr_app.grid_request', ['error']));
             $actions->request('成功', route('demo:api.mgr_app.grid_request', ['success']));
             $actions->request('确认', route('demo:api.mgr_app.grid_request', ['success']))->confirm();
