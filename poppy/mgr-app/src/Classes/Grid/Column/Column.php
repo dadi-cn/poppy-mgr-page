@@ -609,14 +609,16 @@ class Column implements Structable
     }
 
     /**
-     * Call all of the "display" callbacks column.
-     *
+     * 调用所有的列渲染回调, 因为 row 可能未自定义的 Query 渲染, 所以返回可能是数组, 这里使用 collect 包裹处理
      * @param mixed $value
      * @param $row
      * @return mixed
      */
     protected function callDisplayCallbacks($value, $row)
     {
+        if (is_array($row)) {
+            $row = collect($row);
+        }
         foreach ($this->renderCallbacks as $callback) {
             $previous = $value;
 

@@ -15,6 +15,12 @@ class ActionsRender extends Render
 
     protected string $type = 'actions';
 
+    public function quickIcon(): self
+    {
+        $this->defaultStyle = ['plain', 'only', 'circle'];
+        return $this;
+    }
+
     /**
      * @inheritDoc
      */

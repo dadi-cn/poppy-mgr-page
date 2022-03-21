@@ -45,5 +45,12 @@ class RouteServiceProvider extends \Poppy\Framework\Application\RouteServiceProv
         ], function () {
             require_once __DIR__ . '/Routes/backend.php';
         });
+
+        Route::group([
+            'prefix'     => 'api/backend/py-sensitive-word',
+            'middleware' => 'mgr-auth',
+        ], function () {
+            require_once __DIR__ . '/Routes/api-backend.php';
+        });
     }
 }

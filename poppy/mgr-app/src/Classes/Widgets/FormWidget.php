@@ -145,7 +145,10 @@ abstract class FormWidget
 
     public abstract function handle();
 
-    public abstract function data(): array;
+    public function data(): array
+    {
+        return [];
+    }
 
     /**
      * 表单域标签的宽度，例如 '50px'。 作为 Form 直接子元素的 form-item 会继承该值。 支持 auto
@@ -228,8 +231,8 @@ abstract class FormWidget
 
     /**
      * Generate items and append to form list
-     * @param string $method    类型
-     * @param array  $arguments 传入的参数
+     * @param string $method 类型
+     * @param array $arguments 传入的参数
      *
      * @return FormItem|$this
      * @throws ApplicationException

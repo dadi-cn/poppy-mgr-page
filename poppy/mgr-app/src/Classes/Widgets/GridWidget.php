@@ -11,10 +11,10 @@ use Illuminate\Http\Response;
 use Poppy\Framework\Classes\Resp;
 use Poppy\Framework\Classes\Traits\PoppyTrait;
 use Poppy\Framework\Exceptions\ApplicationException;
-use Poppy\MgrApp\Classes\Contracts\Query;
 use Poppy\MgrApp\Classes\Grid\Column\Column;
 use Poppy\MgrApp\Classes\Grid\Exporter;
 use Poppy\MgrApp\Classes\Grid\Exporters\AbstractExporter;
+use Poppy\MgrApp\Classes\Grid\Query\Query;
 use Poppy\MgrApp\Classes\Grid\Query\QueryFactory;
 use Poppy\MgrApp\Classes\Grid\Tools\Actions;
 use Poppy\MgrApp\Classes\Traits\UseWidgetUtil;
@@ -77,14 +77,14 @@ class GridWidget
     /**
      * Create a new grid instance.
      *
-     * @param Model|Eloquent $model
+     * @param Model|Eloquent|Query|string $model
      * @throws ApplicationException
      */
     public function __construct($model)
     {
         $this->query  = QueryFactory::create($model);
         $this->filter = new FilterWidget();
-        $this->quick  = (new Actions())->default(['primary', 'plain']);
+        $this->quick  = (new Actions())->default(['plain', 'primary']);
         $this->batch  = (new Actions())->default(['info', 'plain']);
         $this->table  = new TableWidget();
     }

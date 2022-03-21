@@ -97,8 +97,9 @@ return [
         'Eloquent' => ['Illuminate\Database\Eloquent\Builder', 'Illuminate\Database\Query\Builder'],
         'Session'  => ['Illuminate\Session\Store'],
 
-        'Model' => [
-            'Illuminate\Database\Eloquent\Builder', 'Illuminate\Database\Query\Builder', 'Illuminate\Database\Eloquent\Model'
+        'Illuminate\Database\Eloquent\Model' => [
+            'Illuminate\Database\Eloquent\Builder',
+            'Illuminate\Database\Query\Builder',
         ],
     ],
 

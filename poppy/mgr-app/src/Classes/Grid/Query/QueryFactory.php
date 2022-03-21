@@ -4,7 +4,6 @@ namespace Poppy\MgrApp\Classes\Grid\Query;
 
 use Illuminate\Database\Eloquent\Model;
 use Poppy\Framework\Exceptions\ApplicationException;
-use Poppy\MgrApp\Classes\Contracts\Query;
 
 class QueryFactory
 {
@@ -20,11 +19,17 @@ class QueryFactory
         if ($model instanceof Model) {
             return new QueryModel($model);
         } else {
-            $obj = new $model;
-            if ($obj instanceof Query) {
-                throw new ApplicationException("Type of {$model} is not subclass of Query");
+            if ($model instanceof Query) {
+                return $model;
             }
-            return new $model;
+            if (is_string($model)) {
+                $obj = new $model;
+                if (!($obj instanceof Query)) {
+                    throw new ApplicationException("Type of {$model} is not subclass of Query");
+                }
+                return $obj;
+            }
+            throw new ApplicationException("Type of {$model} is error of Query");
         }
     }
 }

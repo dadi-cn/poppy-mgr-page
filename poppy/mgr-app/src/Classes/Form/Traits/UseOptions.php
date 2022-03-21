@@ -43,4 +43,14 @@ trait UseOptions
         $this->setAttribute('group', $group);
         return $this;
     }
+
+    /**
+     * 是否选项可搜索
+     * @return $this
+     */
+    public function filterable(): self
+    {
+        $this->setAttribute('filterable', true);
+        return $this;
+    }
 }

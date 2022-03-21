@@ -6,5 +6,8 @@ backend :
     children :
       -
         title : 地区管理
-        path : grid/py-area:backend.content.index
-        permission : 'backend:py-area.main.manage'
+        children :
+          -
+            title : 地区管理
+            path : grid/py-area:api-backend.content.index
+            permission : 'backend:py-area.main.manage'

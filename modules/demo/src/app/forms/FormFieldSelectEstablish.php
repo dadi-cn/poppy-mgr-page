@@ -214,7 +214,6 @@ CODE,
         $this->code('multi-group-code');
 
         $this->tags('tags', '标签:禁用')->options([
-
             'a' => 'A',
             'b' => 'B',
         ]);
@@ -246,5 +245,10 @@ CODE,
             Rule::max(1)
         ]);
         $this->code('tags-group-code');
+
+        $this->select('select-searchable', '可搜索')->options([
+            'a' => 'A',
+            'b' => 'B',
+        ])->filterable();
     }
 }

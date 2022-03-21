@@ -4,60 +4,85 @@ namespace Poppy\MgrApp\Classes\Grid\Query;
 
 use Closure;
 use Illuminate\Support\Collection;
-use Poppy\MgrApp\Classes\Contracts\Query;
+use Poppy\MgrApp\Classes\Grid\Filter\Query\Scope;
 use Poppy\MgrApp\Classes\Widgets\FilterWidget;
 use Poppy\MgrApp\Classes\Widgets\TableWidget;
 
-class QueryCustom implements Query
+class QueryCustom extends Query
 {
 
+    /**
+     * 全局范围
+     * @var Scope|null
+     */
+    protected ?Scope $scope;
+
+    /**
+     * 过滤器
+     * @var FilterWidget
+     */
+    protected FilterWidget $filter;
+
+    /**
+     * 表格
+     * @var TableWidget
+     */
+    protected TableWidget $table;
 
     /**
      * @return Collection
      */
     public function get(): Collection
     {
-        // TODO: Implement get() method.
+        return new Collection();
     }
 
     /**
+     * 对于返回的列表数据进行回调调用
      * @param Closure|null $callback
      * @return $this
      */
     public function collection(Closure $callback = null): Query
     {
-        // TODO: Implement collection() method.
+        return $this;
     }
 
     /**
+     * 用于批量查询
      * @param Closure $closure
      * @param int $amount
-     * @return mixed
+     * @return mixed|bool
      */
     public function chunk(Closure $closure, int $amount = 100)
     {
-        // TODO: Implement chunk() method.
+        return false;
     }
 
     /**
+     * 查询所有数据
      * @return int
      */
     public function total(): int
     {
-        // TODO: Implement total() method.
+        return 0;
     }
 
     /**
+     * 用户筛选查询
      * @param FilterWidget $filter
      * @param TableWidget $table
      * @return $this
      */
     public function prepare(FilterWidget $filter, TableWidget $table): Query
     {
-        // TODO: Implement prepare() method.
+        $this->filter = $filter;
+        $this->table  = $table;
+        $this->scope  = $filter->getCurrentScope();
+        return $this;
     }
 
     /**
+     * 编辑条目
      * @param $id
      * @param string $field
      * @param $value
@@ -65,32 +90,35 @@ class QueryCustom implements Query
      */
     public function edit($id, string $field, $value): bool
     {
-        // TODO: Implement edit() method.
+        return false;
     }
 
     /**
+     * 使用分页
      * @param bool $paginate
      * @return mixed
      */
-    public function usePaginate(bool $paginate = false)
+    public function usePaginate(bool $paginate = false): Query
     {
-        // TODO: Implement usePaginate() method.
+        return $this;
     }
 
     /**
+     * 导出 | 使用主键
      * @param array $ids
      * @return $this
      */
     public function usePrimaryKey(array $ids = []): Query
     {
-        // TODO: Implement usePrimaryKey() method.
+        return $this;
     }
 
     /**
-     * @return mixed
+     * 获取主键
+     * @return string
      */
-    public function getPrimaryKey()
+    public function getPrimaryKey(): string
     {
-        // TODO: Implement getPrimaryKey() method.
+        return '';
     }
 }

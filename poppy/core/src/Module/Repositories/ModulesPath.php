@@ -53,9 +53,11 @@ class ModulesPath extends Repository
                 /* 对 Injection 进行处理
                  * ---------------------------------------- */
                 $reCollection = collect($collect->toArray());
+
                 $collect->each(function ($definition, $key) use ($reCollection) {
 
                     $injection = $definition['injection'] ?? '';
+
                     if (!$injection) {
                         return;
                     }
@@ -73,9 +75,9 @@ class ModulesPath extends Repository
 
     /**
      * 根据用户返回合适的菜单
-     * @param string                              $type               指定用户的类型
-     * @param bool                                $is_full_permission 是否是全部权限
-     * @param null|RbacUserTrait|RbacUserContract $pam                用户
+     * @param string $type 指定用户的类型
+     * @param bool $is_full_permission 是否是全部权限
+     * @param null|RbacUserTrait|RbacUserContract $pam 用户
      * @return Collection
      * @throws PermissionException
      */
@@ -136,8 +138,8 @@ class ModulesPath extends Repository
     }
 
     /**
-     * @param string $type  类型
-     * @param array  $perms perms
+     * @param string $type 类型
+     * @param array $perms perms
      * @return Collection
      */
     public function withType(string $type, array $perms): Collection

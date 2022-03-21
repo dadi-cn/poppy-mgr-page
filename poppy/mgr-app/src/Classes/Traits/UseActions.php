@@ -5,6 +5,7 @@ namespace Poppy\MgrApp\Classes\Traits;
 use Poppy\MgrApp\Classes\Action\Action;
 use Poppy\MgrApp\Classes\Action\PageAction;
 use Poppy\MgrApp\Classes\Action\RequestAction;
+use Poppy\MgrApp\Classes\Action\ProgressAction;
 
 trait UseActions
 {
@@ -122,6 +123,22 @@ trait UseActions
         });
     }
 
+    /**
+     * 返回页面
+     * @param string $title
+     * @param string $url
+     * @return ProgressAction
+     */
+    public function progress(string $title, string $url): ProgressAction
+    {
+        $action = (new ProgressAction($title, $url));
+        $action->icon('WindPower');
+        $action = $this->useDefaultStyle($action);
+        return tap($action, function () use ($action) {
+            $this->add($action);
+        });
+    }
+
 
     /**
      * 调用默认的样式
@@ -133,7 +150,7 @@ trait UseActions
         if (count($this->defaultStyle)) {
             foreach ($this->defaultStyle as $style) {
                 if (is_callable([$action, $style])) {
-                    call_user_func([$action, $style]);
+                    $action = call_user_func([$action, $style]);
                 }
             }
         }

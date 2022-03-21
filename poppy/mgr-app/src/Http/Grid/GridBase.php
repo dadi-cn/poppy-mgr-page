@@ -8,7 +8,7 @@ use Poppy\MgrApp\Classes\Widgets\TableWidget;
 use Poppy\System\Models\PamAccount;
 
 /**
- * @property-read string $title     标题
+ * @property-read string $title    标题
  */
 abstract class GridBase
 {

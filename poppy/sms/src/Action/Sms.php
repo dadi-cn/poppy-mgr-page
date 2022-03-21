@@ -96,7 +96,6 @@ class Sms
         $scope = $input['scope'];
         $type  = $input['type'];
 
-
         $this->templates->offsetSet($scope . ':' . $type, $input);
 
         return $this->save();
