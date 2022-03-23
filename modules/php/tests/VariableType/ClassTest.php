@@ -2,9 +2,6 @@
 
 namespace Php\Tests\VariableType;
 
-/**
- * Copyright (C) Update For IDE
- */
 
 use Php\Classes\VariableType\ClassChainDemo;
 use Poppy\Framework\Application\TestCase;

@@ -43,11 +43,11 @@ class Area
 
     /**
      * 创建需求
-     * @param array    $data 创建数据
+     * @param array $data 创建数据
      *                       string  title       标题
      *                       int     parent_id   父id
      *                       int     top_id      顶级id
-     * @param null|int $id   地区id
+     * @param null|int $id 地区id
      * @return bool
      */
     public function establish(array $data, $id = null): bool
@@ -94,8 +94,7 @@ class Area
                 [$this->areaId]
             );
             $this->area->update($initDb);
-        }
-        else {
+        } else {
             $area       = SysArea::create($initDb);
             $this->area = $area;
         }
@@ -136,7 +135,7 @@ class Area
 
     /**
      * 获取父元素IDs
-     * @param int    $id   地区id
+     * @param int $id 地区id
      * @param string $type 类型
      * @return string|array
      */
@@ -163,8 +162,7 @@ class Area
         $matchKv = $this->matchKv();
         if (!is_array($id)) {
             $ids = [$id];
-        }
-        else {
+        } else {
             $ids = $id;
         }
 
@@ -196,9 +194,8 @@ class Area
 
     /**
      * 修复分类代码的处理
-     * @return Factory|\Illuminate\View\View
      */
-    public function fixHandle()
+    public function fixHandle($view = true)
     {
         $this->fixInit();
         // 重新清理掉缓存
@@ -209,7 +206,7 @@ class Area
         $this->total($Db->count());
         $this->max($Db->max('id'));
         $this->min($Db->min('id'));
-        $this->section(20);
+        $this->section(100);
 
         // ↑↑↑↑↑↑↑↑↑↑↑   获取参数
 
@@ -234,7 +231,11 @@ class Area
             }
         }
 
-        return $this->fixView();
+        if ($view) {
+            return $this->fixView();
+        } else {
+            return $this->fixResp();
+        }
     }
 
     /**
@@ -249,8 +250,7 @@ class Area
             SysArea::where('id', $id)->update([
                 'has_child' => 1,
             ]);
-        }
-        else {
+        } else {
             SysArea::where('id', $id)->update([
                 'has_child' => 0,
             ]);

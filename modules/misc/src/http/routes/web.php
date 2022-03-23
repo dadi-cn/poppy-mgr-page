@@ -15,9 +15,6 @@
     $route->get('home/vue', 'HomeController@vue')
         ->name('misc:web.home.vue');
 
-
-    $route->get('test', 'TestController@index');
-
     $route->get('tag/search', 'TagController@search')
         ->name('misc:web.tag.search');
 

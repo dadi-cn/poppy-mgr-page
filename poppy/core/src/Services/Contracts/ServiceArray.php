@@ -11,11 +11,11 @@ interface ServiceArray
      * key
      * @return string
      */
-    public function key();
+    public function key(): string;
 
     /**
      * 返回的数据
-     * @return mixed
+     * @return array
      */
     public function data();
 }

@@ -38,16 +38,26 @@ return [
         |
         */
         'cross_headers'  => [
-            'x-app', 'sentry-trace',
+            // sentry
+            'sentry-trace',
+            // app
+            'x-app', 'x-app-host', 'x-app-sign',
+            // common software
+            'x-os', 'x-ver', 'x-id',
+            // system
+            'x-sys-name', 'x-sys-version', 'x-sys-device', 'x-sys-cpu',
+            // append
+            'x-k1', 'x-k2', 'x-k3', 'x-k4', 'x-k5',
+            'x-k6', 'x-k7', 'x-k8', 'x-k9', 'x-k10',
         ],
 
         /*
         |--------------------------------------------------------------------------
-        | 接口debug key, 当 _py_sys_secret 和此值相等, 则不进行加密的签名验证
+        | 接口debug key, 当 _py_secret 和此值相等, 则不进行加密的签名验证
         |--------------------------------------------------------------------------
         |
         */
-        'secret'         => env('PY_SYS_SECRET', ''),
+        'secret'         => env('PY_SECRET', ''),
 
         /*
         |--------------------------------------------------------------------------

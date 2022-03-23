@@ -2,10 +2,6 @@
 
 namespace Poppy\Sms\Tests;
 
-/**
- * Copyright (C) Update For IDE
- */
-
 use Illuminate\Support\Str;
 use Poppy\Sms\Action\Sms;
 use Poppy\Sms\Classes\Contracts\SmsContract;

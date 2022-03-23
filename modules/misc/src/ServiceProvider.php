@@ -2,10 +2,6 @@
 
 namespace Misc;
 
-/**
- * Copyright (C) Update For IDE
- */
-
 use Misc\Classes\FormBuilder;
 use Misc\Http\RouteServiceProvider;
 use Poppy\Framework\Exceptions\ModuleNotFoundException;

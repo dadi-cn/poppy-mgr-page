@@ -1,9 +1,5 @@
 <?php
 
-/**
- * Copyright (C) Update For IDE
- */
-
 namespace Poppy\Core;
 
 use Illuminate\Console\Scheduling\Schedule;

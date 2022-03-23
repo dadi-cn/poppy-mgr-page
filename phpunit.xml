@@ -1,38 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
-    bootstrap="storage/bootstrap/autoload.php"
-    cacheResultFile="storage/phpunit/test-results"
-    executionOrder="depends,defects"
-    forceCoversAnnotation="true"
-    beStrictAboutCoversAnnotation="true"
-    beStrictAboutOutputDuringTests="true"
-    beStrictAboutTodoAnnotatedTests="true"
-    backupGlobals="false"
-    backupStaticAttributes="false"
-    stopOnFailure="false"
-    failOnRisky="true"
-    processIsolation="true"
-    failOnWarning="true"
-    colors="true"
-    convertErrorsToExceptions="true"
-    convertNoticesToExceptions="true"
-    convertWarningsToExceptions="true"
-    verbose="true">
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
+         bootstrap="storage/bootstrap/autoload.php"
+         cacheResultFile=".phpunit.cache/test-results"
+         executionOrder="depends,defects"
+         forceCoversAnnotation="true"
+         beStrictAboutCoversAnnotation="true"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutTodoAnnotatedTests="true"
+         convertDeprecationsToExceptions="true"
+         failOnRisky="true"
+         failOnWarning="true"
+         verbose="true">
     <testsuites>
+        <testsuite name="default">
+            <directory>poppy/**/tests</directory>
+        </testsuite>
         <testsuite name="poppy">
-            <directory>./poppy/framework/tests/</directory>
-            <directory>./poppy/system/tests/</directory>
-            <directory>./poppy/sms/tests/</directory>
-            <directory>./poppy/mgr-page/tests/</directory>
-            <directory>./poppy/ext-pinyin/tests/</directory>
-            <directory>./poppy/ext-netease/tests/</directory>
-            <directory>./poppy/ext-ip_store/tests/</directory>
-            <directory>./poppy/ext-alipay/tests/</directory>
-            <directory>./poppy/core/tests/</directory>
-            <directory>./poppy/area/tests/</directory>
-            <directory>./poppy/aliyun-push/tests/</directory>
-            <directory>./poppy/aliyun-oss/tests/</directory>
+            <directory>./poppy/**/tests/</directory>
         </testsuite>
         <testsuite name="poppy-core">
             <directory>./poppy/core/tests/</directory>
@@ -44,15 +29,12 @@
             <directory>./modules/demo/tests/Support</directory>
         </testsuite>
     </testsuites>
-    <!--  2021年04月10日 : 默认不开启
-       <coverage cacheDirectory="storage/phpunit/coverage-cache" processUncoveredFiles="true">
+
+    <coverage cacheDirectory=".phpunit.cache/code-coverage"
+              processUncoveredFiles="true">
         <include>
-            <directory suffix=".php">./poppy/**/src</directory>
-            <directory suffix=".php">./module/**/src</directory>
+            <directory suffix=".php">poppy/**/src</directory>
+            <directory suffix=".php">modules/**/src</directory>
         </include>
-        <report>
-            <html outputDirectory="storage/phpunit/coverage-html" lowUpperBound="50" highLowerBound="90"/>
-        </report>
     </coverage>
-   -->
 </phpunit>

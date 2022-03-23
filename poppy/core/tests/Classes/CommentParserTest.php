@@ -2,10 +2,6 @@
 
 namespace Poppy\Core\Tests\Classes;
 
-/**
- * Copyright (C) Update For IDE
- */
-
 use Poppy\Core\Classes\Inspect\CommentParser;
 use Poppy\Framework\Application\TestCase;
 

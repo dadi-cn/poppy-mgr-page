@@ -2,9 +2,6 @@
 
 namespace Poppy\Core\Rbac;
 
-/**
- * Copyright (C) Update For IDE
- */
 
 use Blade;
 use Illuminate\Support\ServiceProvider;

@@ -2,10 +2,6 @@
 
 namespace Poppy\CanalEs;
 
-/**
- * Copyright (C) Update For IDE
- */
-
 use Poppy\CanalEs\Commands\MonitorCommand;
 use Poppy\CanalEs\Commands\CreateIndexCommand;
 use Poppy\CanalEs\Commands\ImportCommand;

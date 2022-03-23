@@ -4,6 +4,7 @@ namespace Poppy\Area\Models;
 
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Poppy\Area\Classes\PyAreaDef;
 use Poppy\Core\Classes\PyCoreDef;
 use Poppy\Framework\Helper\TreeHelper;
@@ -13,15 +14,14 @@ use Poppy\System\Classes\Traits\FilterTrait;
 /**
  * 地区表
  *
- * @property int    $id
+ * @property int $id
  * @property string $code            编码
  * @property string $title           名称
  * @property string $parent_id       父级
  * @property string $top_parent_id   顶层ID
  * @property string $children        所有的子元素
- * @property int    $has_child       是否有子元素
- * @property int    $level           级别
- * @mixin Eloquent
+ * @property int $has_child       是否有子元素
+ * @property int $level           级别
  * @method static Builder|SysArea filter($input = [], $filter = null)
  * @method static Builder|SysArea pageFilter(PageInfo $pageInfo)
  * @method static Builder|SysArea paginateFilter($perPage = null, $columns = [], $pageName = 'page', $page = null)
@@ -29,9 +29,10 @@ use Poppy\System\Classes\Traits\FilterTrait;
  * @method static Builder|SysArea whereBeginsWith($column, $value, $boolean = 'and')
  * @method static Builder|SysArea whereEndsWith($column, $value, $boolean = 'and')
  * @method static Builder|SysArea whereLike($column, $value, $boolean = 'and')
+ * @mixin Eloquent
  * @url https://github.com/wecatch/china_regions
  */
-class SysArea extends Eloquent
+class SysArea extends Model
 {
     use FilterTrait;
 
@@ -63,6 +64,25 @@ class SysArea extends Eloquent
         });
     }
 
+    public static function cityMgrTree()
+    {
+        return sys_cache('py-area')->remember(PyAreaDef::ckArea('tree-level-2-mgr'), PyCoreDef::MIN_ONE_MONTH * 60, function () {
+            $items       = SysArea::selectRaw("id,title,parent_id")->where('level', '<', 4)->get()->keyBy('id')->toArray();
+            $Tree        = new TreeHelper();
+            $Tree->space = ' ';
+            $Tree->icon  = [' │', ' ├', ' └'];
+            $Tree->init($items, 'id', 'parent_id', 'title');
+            $treeArr = $Tree->getTreeArray(0);
+            $options = [];
+            foreach ($treeArr as $key => $value) {
+                $options[] = [
+                    'label' => $value,
+                    'value' => (string) $key
+                ];
+            }
+            return $options;
+        });
+    }
 
     /**
      * 城市的KV

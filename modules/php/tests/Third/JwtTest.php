@@ -2,10 +2,6 @@
 
 namespace Php\Tests\Third;
 
-/**
- * Copyright (C) Update For IDE
- */
-
 use Carbon\Carbon;
 use Poppy\System\Models\PamAccount;
 use Poppy\System\Tests\Base\SystemTestCase;

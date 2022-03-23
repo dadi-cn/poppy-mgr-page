@@ -43,7 +43,8 @@ class ServiceProvider extends PoppyServiceProvider
      */
     public function register()
     {
-
+        $this->app->register(Http\MiddlewareServiceProvider::class);
+        $this->app->register(Http\RouteServiceProvider::class);
     }
 
     public function provides(): array

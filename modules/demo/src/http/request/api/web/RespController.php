@@ -2,10 +2,10 @@
 
 namespace Demo\Http\Request\Api\Web;
 
-use Poppy\Framework\Application\ApiController;
+use Poppy\Framework\Application\Controller;
 use Poppy\Framework\Classes\Resp;
 
-class RespController extends ApiController
+class RespController extends Controller
 {
 
     /**
@@ -22,7 +22,14 @@ class RespController extends ApiController
      */
     public function success()
     {
-        return Resp::success('返回成功的信息');
+        $location = input('location');
+        $append   = [];
+        if ($location) {
+            // 使用 meta 方式立即跳转, 返回状态码是 200
+            $append['_location'] = $location;
+            $append['_time']     = false;
+        }
+        return Resp::success('返回成功的信息', $append);
     }
 
     /**
@@ -66,9 +73,9 @@ class RespController extends ApiController
     public function header()
     {
         return Resp::success('访问成功', [
-            'x-app-id'      => x_app('id'),
-            'x-app-os'      => x_app('os'),
-            'x-app-version' => x_app('version'),
+            'x-app-id'      => x_header('app-id'),
+            'x-app-os'      => x_header('app-os'),
+            'x-app-version' => x_header('app-version'),
         ]);
     }
 }

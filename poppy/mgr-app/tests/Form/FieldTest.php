@@ -2,9 +2,9 @@
 
 namespace Poppy\MgrApp\Tests\Form;
 
-use Poppy\MgrApp\Form\Field\Number;
-use Poppy\MgrApp\Form\Field\Text;
-use Poppy\MgrApp\Widgets\FormWidget;
+use Poppy\MgrApp\Classes\Form\Field\Number;
+use Poppy\MgrApp\Classes\Form\Field\Text;
+use Poppy\MgrApp\Classes\Widgets\FormWidget;
 use Poppy\System\Tests\Base\SystemTestCase;
 
 /**

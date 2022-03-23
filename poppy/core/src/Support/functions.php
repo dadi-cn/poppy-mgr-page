@@ -77,7 +77,6 @@ if (!function_exists('sys_hook')) {
      * @param string $id
      * @param array  $params
      * @return mixed
-     * @throws ApplicationException
      */
     function sys_hook(string $id, array $params = [])
     {

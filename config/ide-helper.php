@@ -96,6 +96,11 @@ return [
     'extra' => [
         'Eloquent' => ['Illuminate\Database\Eloquent\Builder', 'Illuminate\Database\Query\Builder'],
         'Session'  => ['Illuminate\Session\Store'],
+
+        'Illuminate\Database\Eloquent\Model' => [
+            'Illuminate\Database\Eloquent\Builder',
+            'Illuminate\Database\Query\Builder',
+        ],
     ],
 
     'magic' => [],

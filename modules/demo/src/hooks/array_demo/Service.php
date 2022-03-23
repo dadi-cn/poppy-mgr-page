@@ -16,7 +16,7 @@ class Service implements ServiceArray
     }
 
 
-    public function data()
+    public function data():array
     {
         return [];
     }

@@ -1,10 +1,6 @@
 <?php
 
-namespace Poppy\Demo\Tests\Support;
-
-/**
- * Copyright (C) Update For IDE
- */
+namespace Demo\Tests\Support;
 
 use Poppy\Framework\Application\TestCase;
 use Poppy\System\Models\PamAccount;

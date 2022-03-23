@@ -14,7 +14,7 @@ class SendTypeAliyun implements ServiceArray
         return 'aliyun';
     }
 
-    public function data()
+    public function data():array
     {
         return [
             'title'    => '阿里云',

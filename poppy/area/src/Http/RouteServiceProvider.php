@@ -2,9 +2,6 @@
 
 namespace Poppy\Area\Http;
 
-/**
- * Copyright (C) Update For IDE
- */
 
 use Route;
 
@@ -35,6 +32,8 @@ class RouteServiceProvider extends \Poppy\Framework\Application\RouteServiceProv
         $this->mapWebRoutes();
 
         $this->mapApiRoutes();
+
+        $this->mapBackendRoutes();
     }
 
     /**
@@ -65,6 +64,21 @@ class RouteServiceProvider extends \Poppy\Framework\Application\RouteServiceProv
             'prefix'     => 'api_v1/area',
         ], function () {
             require_once __DIR__ . '/Routes/api_v1.php';
+        });
+    }
+
+    /**
+     * Define the "web" routes for the module.
+     * These routes all receive session state, CSRF protection, etc.
+     * @return void
+     */
+    protected function mapBackendRoutes(): void
+    {
+        Route::group([
+            'prefix'     => 'api/backend/py-area',
+            'middleware' => 'mgr-auth',
+        ], function () {
+            require_once __DIR__ . '/Routes/api-backend.php';
         });
     }
 }

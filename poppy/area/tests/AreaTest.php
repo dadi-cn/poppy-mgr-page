@@ -2,9 +2,6 @@
 
 namespace Poppy\Area\Tests;
 
-/**
- * Copyright (C) Update For IDE
- */
 
 use Poppy\Area\Models\SysArea;
 use Poppy\System\Tests\Base\SystemTestCase;

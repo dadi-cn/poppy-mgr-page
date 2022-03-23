@@ -2,10 +2,6 @@
 
 namespace Poppy\Sms\Http;
 
-/**
- * Copyright (C) Update For IDE
- */
-
 use Route;
 
 class RouteServiceProvider extends \Poppy\Framework\Application\RouteServiceProvider
@@ -31,6 +27,14 @@ class RouteServiceProvider extends \Poppy\Framework\Application\RouteServiceProv
             'middleware' => 'backend-auth',
         ], function () {
             require_once __DIR__ . '/Routes/backend.php';
+        });
+
+
+        Route::group([
+            'prefix'     => 'api/backend/py-sms',
+            'middleware' => 'mgr-auth',
+        ], function () {
+            require_once __DIR__ . '/Routes/api-backend.php';
         });
     }
 }

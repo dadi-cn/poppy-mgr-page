@@ -2,14 +2,13 @@
 
 namespace Misc\Models;
 
-use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  *
- * @mixin Eloquent
  */
-class InvQuestionUserlog extends Eloquent
+class InvQuestionUserlog extends Model
 {
 	protected $connection = 'mysql-inv';
 

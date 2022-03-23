@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Poppy\AliyunPush\Services;
 
@@ -14,7 +14,7 @@ class SettingAliyunPush implements ServiceArray
         return 'poppy.aliyun-push';
     }
 
-    public function data()
+    public function data(): array
     {
         return [
             'title' => '阿里云推送',

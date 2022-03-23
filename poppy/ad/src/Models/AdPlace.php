@@ -3,7 +3,6 @@
 namespace Poppy\Ad\Models;
 
 use Carbon\Carbon;
-use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -30,9 +29,8 @@ use Poppy\System\Models\SysConfig;
  * @method static Builder|AdPlace whereBeginsWith($column, $value, $boolean = 'and')
  * @method static Builder|AdPlace whereEndsWith($column, $value, $boolean = 'and')
  * @method static Builder|AdPlace whereLike($column, $value, $boolean = 'and')
- * @mixin Eloquent
  */
-class AdPlace extends Eloquent
+class AdPlace extends Model
 {
     use FilterTrait;
 

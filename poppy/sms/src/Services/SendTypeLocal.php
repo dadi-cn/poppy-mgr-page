@@ -13,7 +13,7 @@ class SendTypeLocal implements ServiceArray
         return 'local';
     }
 
-    public function data()
+    public function data():array
     {
         return [
             'title'    => '本地',

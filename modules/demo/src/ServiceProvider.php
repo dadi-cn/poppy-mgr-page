@@ -2,10 +2,6 @@
 
 namespace Demo;
 
-/**
- * Copyright (C) Update For IDE
- */
-
 use Demo\Http\RouteServiceProvider;
 use Demo\Listeners\PassportVerify\PassportVerifyListener;
 use Poppy\Framework\Exceptions\ModuleNotFoundException;

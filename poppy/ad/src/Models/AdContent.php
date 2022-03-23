@@ -3,8 +3,8 @@
 namespace Poppy\Ad\Models;
 
 use Carbon\Carbon;
-use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Poppy\Framework\Http\Pagination\PageInfo;
 use Poppy\System\Classes\Traits\FilterTrait;
 
@@ -41,9 +41,8 @@ use Poppy\System\Classes\Traits\FilterTrait;
  * @method static Builder|AdContent whereBeginsWith($column, $value, $boolean = 'and')
  * @method static Builder|AdContent whereEndsWith($column, $value, $boolean = 'and')
  * @method static Builder|AdContent whereLike($column, $value, $boolean = 'and')
- * @mixin Eloquent
  */
-class AdContent extends Eloquent
+class AdContent extends Model
 {
     use FilterTrait;
 

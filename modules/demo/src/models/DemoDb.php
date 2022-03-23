@@ -2,9 +2,9 @@
 
 namespace Demo\Models;
 
-use Eloquent;
+use Illuminate\Database\Eloquent\Model;
 
-class DemoDb extends Eloquent
+class DemoDb extends Model
 {
     protected $table = 'demo_db';
 

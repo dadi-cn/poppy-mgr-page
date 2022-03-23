@@ -2,8 +2,8 @@
 
 namespace Misc\Models;
 
-use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * \Site\Models\CsdnUser
@@ -15,9 +15,8 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static Builder|CsdnUser newModelQuery()
  * @method static Builder|CsdnUser newQuery()
  * @method static Builder|CsdnUser query()
- * @mixin Eloquent
  */
-class CsdnUser extends Eloquent
+class CsdnUser extends Model
 {
 	protected $connection = 'mysql-csdn';
 

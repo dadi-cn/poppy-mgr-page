@@ -2,9 +2,6 @@
 
 namespace Php\Tests\Laravel;
 
-/**
- * Copyright (C) Update For IDE
- */
 
 use Poppy\Framework\Application\TestCase;
 
@@ -21,5 +18,6 @@ class CacheTest extends TestCase
             return '*';
         });
         app('cache')->tags('poppy-core')->flush();
+        $this->assertNull(app('cache')->tags('poppy-core')->get('module-php:test-cache-set'));
     }
 }

@@ -36,6 +36,12 @@ class ModuleTest extends TestCase
         $this->assertTrue($menus instanceof ModulesMenu);
     }
 
+    public function testPath()
+    {
+        $menus = $this->coreModule()->path();
+        $this->assertTrue($menus->count() > 0);
+    }
+
     public function testModules()
     {
         $repo = $this->coreModule()->modules();

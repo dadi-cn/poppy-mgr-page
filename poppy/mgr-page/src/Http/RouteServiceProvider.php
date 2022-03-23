@@ -2,10 +2,6 @@
 
 namespace Poppy\MgrPage\Http;
 
-/**
- * Copyright (C) Update For IDE
- */
-
 use Illuminate\Routing\Router;
 use Route;
 
@@ -66,7 +62,7 @@ class RouteServiceProvider extends \Poppy\Framework\Application\RouteServiceProv
             $router->get('/', 'Poppy\MgrPage\Http\Request\Develop\CpController@index')
                 ->middleware('develop-auth')
                 ->name('py-mgr-page:develop.cp.cp');
-            $router->any('api/json/{type?}', 'ApiController@json')
+            $router->any('api/json/{type?}', 'Poppy\MgrPage\Http\Request\Develop\ApiController@json')
                 ->name('py-mgr-page:develop.api.json');
         });
         Route::group([

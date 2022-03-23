@@ -19,6 +19,7 @@ use Poppy\Framework\Exceptions\ApplicationException;
 use Poppy\Framework\Helper\ArrayHelper;
 use Poppy\Framework\Helper\FileHelper;
 use Poppy\Framework\Helper\StrHelper;
+use Poppy\Framework\Helper\UtilHelper;
 use Poppy\System\Classes\Contracts\ApiSignContract;
 use Session;
 use Throwable;
@@ -83,7 +84,7 @@ class ApiController extends DevelopController
         // 添加代签名
         $certificate = $definition['sign_certificate'] ?? [];
         array_unshift($certificate, [
-            'name'        => '_py_sys_secret',
+            'name'        => '_py_secret',
             'title'       => '代签名',
             'description' => '存在代签名字串之后可不用进行签名计算即可通过接口验证',
             'type'        => 'String',
@@ -149,6 +150,20 @@ class ApiController extends DevelopController
                 $success = [];
             }
             $data['token'] = $tokenGet('dev#' . $type . '#token');
+
+            $headerSet = function ($key) use ($type) {
+                $headers = '';
+                if (Session::has($key)) {
+                    $headerStr = Session::get($key);
+                    if (UtilHelper::isJson($headerStr)) {
+                        $headers = $headerStr;
+                    }
+                    \View::share('headers', $headers);
+                }
+
+                return $headers;
+            };
+            $data['headers'] = $headerSet("dev#${type}#headers");
 
             // user
             $user  = [];
